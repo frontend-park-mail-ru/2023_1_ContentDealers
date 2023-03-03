@@ -1,4 +1,4 @@
-console.log('In main.js')
+console.log('In mainVideo.js')
 
 const href = document.querySelector('[data-section="/about"]');
 

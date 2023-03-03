@@ -1,6 +1,4 @@
-export { headerActionsHtml };
-
-const headerActionsHtml =
+export const headerActionsHtml =
     `
         {{#each this}}
         <li class="headerTop__action">
@@ -10,3 +8,4 @@ const headerActionsHtml =
         </li>
         {{/each}}
     `;
+

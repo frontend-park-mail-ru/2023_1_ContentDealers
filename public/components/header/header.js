@@ -2,6 +2,7 @@ import { headerHtml } from './headerTemplate.hbs.js';
 import { headerActionsHtml } from "./headerActionsTemplate.hbs.js";
 
 import { GradientButton } from "../gradientButton/gradientButton.js";
+// import { List } from "../list/list.js";
 
 export class Header {
     #parent
@@ -39,6 +40,7 @@ export class Header {
         const template = Handlebars.compile(headerActionsHtml);
         this.findHeaderActions.innerHTML = template(this.items);
     }
+
 
     renderButton() { // Mb private?
         const button = this.#parent.querySelector('.headerTop__button');

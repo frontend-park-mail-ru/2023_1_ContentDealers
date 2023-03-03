@@ -1,6 +1,4 @@
-export { gradientButtonHtml };
-
-const gradientButtonHtml =
+export const gradientButtonHtml =
     `
         <button class="{{ cssClass }}">
             <span>{{ text }}</span>

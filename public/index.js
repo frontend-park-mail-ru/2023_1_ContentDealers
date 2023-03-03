@@ -1,4 +1,9 @@
 import { Header } from "./components/header/header.js";
+import { Carousel } from "./components/carousel/carousel.js";
+import { CategoriesList } from "./components/categories/categoriesList.js";
+import { Subscription } from "./components/subscription/subscription.js";
+import { MainVideo } from "./components/mainVideo/mainVideo.js";
+import {Category} from "./components/category/category.js";
 
 const headerActions = {
     main: {
@@ -26,10 +31,131 @@ const headerData = {
     profileIcon: '/profile/profile.jpg',
 }
 
+const mainVideos = {
+    images: [
+            '/test-images/test1.jpg',
+            '/test-images/test2.jpg',
+            '/test-images/test3.jpg',
+            '/test-images/test4.jpg',
+            '/test-images/test5.jpg',
+            ]
+}
+
+const categoriesInfo = {
+    cat1: {
+        name: 'cat1cat1cat1',
+        href: '/cat1',
+        src: '/categories/clapperboard.svg' // Icon
+    },
+    cat2: {
+        name: 'cat1cat1cat2',
+        href: '/cat2',
+        src: '/categories/clapperboard.svg' // Icon
+    },
+    cat3: {
+        name: 'cat1cat1cat3',
+        href: '/cat3',
+        src: '/categories/clapperboard.svg' // Icon
+    },
+    cat4: {
+        name: 'cat1cat1cat4',
+        href: '/cat4',
+        src: '/categories/clapperboard.svg' // Icon
+    },
+    cat5: {
+        name: 'cat1cat1cat5',
+        href: '/cat5',
+        src: '/categories/clapperboard.svg' // Icon
+    },
+    cat6: {
+        name: 'cat1cat1cat6',
+        href: '/cat6',
+        src: '/categories/clapperboard.svg' // Icon
+    },
+    cat7: {
+        name: 'cat1cat1cat7',
+        href: '/cat7',
+        src: '/categories/clapperboard.svg' // Icon
+    },
+    cat8: {
+        name: 'cat1cat1cat8',
+        href: '/cat8',
+        src: '/categories/clapperboard.svg' // Icon
+    },
+    cat9: {
+        name: 'cat1cat1cat9',
+        href: '/cat9',
+        src: '/categories/clapperboard.svg' // Icon
+    },
+    cat10: {
+        name: 'cat1cat1cat10',
+        href: '/cat10',
+        src: '/categories/clapperboard.svg' // Icon
+    },
+}
+
+const subscriptionInfo = {
+    backgroundImage: '/images/subscription.png',
+    name: 'Подписка Оптимум',
+    text: 'Смотрите кино, сериалы, мультфильмы и спорт',
+    price: '399₽/месяц',
+}
+
+const dataForTrillers = {
+    film1: {
+        href: '/triller1',
+        src: '/categories/trillers/c1.jpg' // Image
+    },
+    film2: {
+        href: '/triller2',
+        src: '/categories/trillers/c2.jpg' // Image
+    },
+    film3: {
+        href: '/triller3',
+        src: '/categories/trillers/c3.jpg' // Image
+    },
+    film4: {
+        href: '/triller4',
+        src: '/categories/trillers/c4.jpg' // Image
+    },
+    film5: {
+        href: '/triller5',
+        src: '/categories/trillers/c5.jpg' // Image
+    },
+    film6: {
+        href: '/triller6',
+        src: '/categories/trillers/c6.jpg' // Image
+    },
+    film7: {
+        href: '/triller7',
+        src: '/categories/trillers/c7.jpg' // Image
+    },
+    film8: {
+        href: '/triller8',
+        src: '/categories/trillers/c8.jpg' // Image
+    },
+    film9: {
+        href: '/triller9',
+        src: '/categories/trillers/c9.jpg' // Image
+    },
+    film10: {
+        href: '/triller10',
+        src: '/categories/trillers/c10.jpg' // Image
+    },
+    film11: {
+        href: '/triller11',
+        src: '/categories/trillers/c11.jpg' // Image
+    },
+    film12: {
+        href: '/triller12',
+        src: '/categories/trillers/c12.jpg' // Image
+    },
+}
+
 const root = document.getElementById('root');
 
 function renderHeader(parent) {
-    console.log("Hello from index");
+    console.log("Hello renderHeader");
 
     const header = document.createElement('header');
     header.classList.add('headerTop');
@@ -39,11 +165,57 @@ function renderHeader(parent) {
     headerContent.render();
 
     parent.prepend(header);
+}
 
-    // const header = new Header(parent);
-    // header.config = headerData;
-    // createLink('/header/header.css');
-    // header.render();
+function renderMain(parent) {
+    console.log("Hello renderMain");
+
+    const main = document.createElement('main');
+    main.classList.add('main');
+    parent.appendChild(main);
+
+    // One article
+    const newVideosArticle = document.createElement('article');
+    newVideosArticle.classList.add('news');
+    const newVideosBlock = new Carousel(newVideosArticle);
+    newVideosBlock.config = mainVideos;
+    newVideosBlock.render();
+
+    // Second
+    const categoriesArticle = document.createElement('article');
+    categoriesArticle.classList.add('categories');
+    const categoriesBlock = new CategoriesList(categoriesArticle);
+    categoriesBlock.config = categoriesInfo;
+    categoriesBlock.render();
+
+    // Third
+    const subscriptionArticle = document.createElement('article');
+    subscriptionArticle.classList.add('subscription');
+    const subscriptionBlock = new Subscription(subscriptionArticle);
+    subscriptionBlock.config = subscriptionInfo;
+    subscriptionBlock.render();
+
+    // Fourth
+    const mainVideoArticle = document.createElement('article');
+    mainVideoArticle.classList.add('main-video');
+    const mainVideoBlock = new MainVideo(mainVideoArticle);
+    mainVideoBlock.config = '';
+    mainVideoBlock.render();
+
+    // Five
+    const  trillerCategoryArticle = document.createElement('article');
+    trillerCategoryArticle.classList.add('category');
+    const trillerCategoryBlock = new Category(trillerCategoryArticle);
+    trillerCategoryBlock.config = dataForTrillers;
+    trillerCategoryBlock.render()
+
+
+
+    main.appendChild(newVideosArticle);
+    main.appendChild(categoriesArticle);
+    main.appendChild(subscriptionArticle);
+    main.appendChild(mainVideoArticle);
+    main.appendChild(trillerCategoryArticle);
 }
 
 function createLink(href) {
@@ -54,9 +226,10 @@ function createLink(href) {
     head.appendChild(link);
 }
 
-// const testDiv = document.createElement('div');
+
+// Renders
 renderHeader(root);
-// console.log(testDiv);
+renderMain(root);
 
 
 
@@ -96,83 +269,3 @@ renderHeader(root);
 //
 // const headerSearch = document.querySelector('.headerTop__search__icon');
 // addHeaderSearchIconSvg(headerSearch);
-
-
-// const config = {
-//     main: {
-//         name: 'Главная',
-//         href: '/',
-//         render: renderMain,
-//         key: '/',
-//
-//     },
-//     catalog: {
-//         name: 'Каталог',
-//         href: '/catalog',
-//         render: renderCatalog,
-//         key: 'catalog',
-//     },
-//     shop: {
-//         name: 'Магазин',
-//         href: '/shop',
-//         render: renderShop,
-//         key: 'shop',
-//     }
-// };
-
-// function renderMain(parent) {
-//     const headerNav =
-//         `
-//             <header class="headerTop">
-//                 <nav class="headerTop__nav">
-//                     <a href="" class="headerTop__logo__icon">
-//                         <img src="/logo/logo.svg">
-//                     </a>
-//
-//                     <ul class="headerTop__actions">
-//                         <li class="headerTop__action active">
-//                             <a href="#">
-//                                 Главная
-//                             </a>
-//                         </li>
-//                         <li class="headerTop__action">
-//                             <a href="#">
-//                                 Каталог
-//                             </a>
-//                         </li>
-//                         <li class="headerTop__action">
-//                             <a href="#">
-//                                 Магазин
-//                             </a>
-//                         </li>
-//                     </ul>
-//
-//                     <div class="headerTop__right">
-//                         <div class="headerTop__search">
-//                             <a href="#" class="headerTop__search__icon">
-//                                 <img src="/svg-icons/search.svg">
-//                             </a>
-//                         </div>
-//                         <div class="headerTop__verticalSpacer"></div>
-//                         <div class="headerTop__button">
-//                             <button class="button__subscription">
-//                                 <span>Купить подписку</span>
-//                             </button>
-//                         </div>
-//
-//                         <div class="headerTop__verticalSpacer"></div>
-//
-//                         <a href="" class="headerTop__profile">
-//                             <img src="/profile/profile.jpg" class="headerTop__profile__image">
-//                         </a>
-//                     </div>
-//                 </nav>
-//             </header>
-//         `;
-//
-//     Ajax.get({
-//         url: '/',
-//         callback: ()
-//     });
-// }
-

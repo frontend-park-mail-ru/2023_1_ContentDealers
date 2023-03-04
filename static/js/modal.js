@@ -3,6 +3,7 @@ import { RecModal } from "../../components/recoveryModal/recModal.js";
 import { RegModal } from "../../components/registrationModal/regModal.js";
 import { ModalWindow } from '../../components/modalWindow/modalWindow.js';
 import { validateEmail } from './verification.js';
+import { ajax } from "./ajax.js";
 
 const modalWindow = (function createModal() {
     const authEvents = [
@@ -38,9 +39,11 @@ const modalWindow = (function createModal() {
         }
     ];
     
-    const inputErrors = {
+    const errors = {
         email: 'email введен в неверном формате',
-        password: 'пароли не совпадают'
+        password: 'пароли не совпадают',
+        wrongData: 'введены неверные данные',
+        userExist: 'пользователь с такими данными уже существует',
     };
 
     const MODAL_WINDOW_TYPES = {
@@ -49,7 +52,7 @@ const modalWindow = (function createModal() {
         recovery: 'rec',
     };
 
-    let currentType = MODAL_WINDOW_TYPES.authentification;
+    let currentType = null;
 
     const divForModal = document.createElement('div');
 
@@ -63,26 +66,34 @@ const modalWindow = (function createModal() {
 
     const modal = divForModal.firstElementChild;
     const form = modal.querySelector('form');
+    const additionalInfo = modal.querySelector('#additionalInfo');
 
     const ANIMATION_SPEED = 200;
     let isClosing = false;
 
     function openModal() {
         if (!isClosing) {
-            const authModal = new AuthModal(form);
-            authModal.config = '';
-            authModal.render();
-
-            modal.classList.add('open');
-            modal.querySelector('#emailID').focus();
-            modal.querySelector('#inputError').style.display = 'none';
-
+            processAuthentication();
             attachCloseButton();
-            
-            for (const event of authEvents) {
-                modal.querySelector(event.id).addEventListener('click', event.func);
-            }
         }
+    }
+
+    function processAuthentication() {
+        additionalInfo.style.display = 'none';
+
+        const authModal = new AuthModal(form);
+        authModal.config = '';
+        authModal.render();
+
+        modal.classList.add('open');
+        modal.querySelector('#emailID').focus();
+        additionalInfo.style.display = 'none';
+
+        for (const event of authEvents) {
+            modal.querySelector(event.id).addEventListener('click', event.func);
+        }
+
+        currentType = MODAL_WINDOW_TYPES.authentification;
     }
 
     function closeModal() {
@@ -132,34 +143,44 @@ const modalWindow = (function createModal() {
             closeModal();
         } else {
             const email = modal.querySelector('#emailID');
+            let btn = null;
 
             if (currentType === MODAL_WINDOW_TYPES.authentification) {
                 const password = modal.querySelector('#passwordID');
 
                 if (event.target === email || event.target === password) {
+                    btn = modal.querySelector('#submitAuth');
                     if (email.value !== '' && password.value !== '') {
-                        modal.querySelector('#submitAuth').removeAttribute('disabled');
+                        btn.removeAttribute('disabled');
+                        btn.style.opacity = '100';
                     } else {
-                        modal.querySelector('#submitAuth').setAttribute('disabled', true);
+                        btn.setAttribute('disabled', true);
+                        btn.style.opacity = '.5'
                     }
                 }
             } else if (currentType === MODAL_WINDOW_TYPES.recovery) {
                 if (event.target === email) {
+                    btn = modal.querySelector('#submitRec');
                     if (email.value !== '') {
-                        modal.querySelector('#submitRec').removeAttribute('disabled');
+                        btn.removeAttribute('disabled');
+                        btn.style.opacity = '100';
                     } else {
-                        modal.querySelector('#submitRec').setAttribute('disabled', true);
+                        btn.setAttribute('disabled', true);
+                        btn.style.opacity = '.5';
                     }
                 }
             } else if (currentType === MODAL_WINDOW_TYPES.registration) {
                 const password = modal.querySelector('#passwordID');
                 const repeatedPassword = modal.querySelector('#repeatedPasswordID');
+                btn = modal.querySelector('#submitReg');
 
                 if (event.target === email || event.target === password || event.target === repeatedPassword) {
                     if (email.value !== '' && password.value !== '' && repeatedPassword.value !== '') {
-                        modal.querySelector('#submitReg').removeAttribute('disabled');
+                        btn.removeAttribute('disabled');
+                        btn.style.opacity = '100';
                     } else {
-                        modal.querySelector('#submitReg').setAttribute('disabled', true);
+                        btn.setAttribute('disabled', true);
+                        btn.style.opacity = '.5';
                     }
                 }
             }
@@ -183,13 +204,11 @@ const modalWindow = (function createModal() {
     }
 
     function showError(msg) {
-        const errorElement = modal.querySelector('#inputError');
-        errorElement.style.display = '';
-        errorElement.textContent = msg;
-        errorElement.removeAttribute('hide');
-        errorElement.style.color = 'red';
+        additionalInfo.style.display = '';
+        additionalInfo.textContent = msg;
+        additionalInfo.removeAttribute('hide');
+        additionalInfo.style.color = 'red';
     }
-
 
     function submitAuthForm(event) {
         event.preventDefault();
@@ -198,9 +217,28 @@ const modalWindow = (function createModal() {
         const password = modal.querySelector('#passwordID');
 
         if (validateEmail(email.value)) {
-            // request
+            ajax({
+                url: 'http://89.208.199.170/api/signin',
+                body: JSON.stringify({ email: email.value, password: password.value }),
+                callback: (data) => {
+                    switch (data.status) {
+                        case 200:
+                            closeModal();
+                            break;
+                        case 403:
+                            console.log('Request with credentionals');
+                            break;
+                        case 400:
+                        case 404:
+                            showError(errors.wrongData);
+                            break;
+                        case 500:
+                            console.log('Server error');
+                    }
+                }
+            })
         } else {
-            showError(inputErrors.email);
+            showError(errors.email);
         }
         
     }
@@ -209,9 +247,7 @@ const modalWindow = (function createModal() {
         for (const event of authEvents) {
             modal.querySelector(event.id).remove('click', event.func);
         }
-        modal.querySelector('#inputError').style.display = 'none';
-
-        currentType = MODAL_WINDOW_TYPES.recovery;
+        additionalInfo.style.display = 'none';
 
         const recModal = new RecModal(form);
         recModal.config = '';
@@ -222,6 +258,8 @@ const modalWindow = (function createModal() {
         for (const event of recEvents) {
             modal.querySelector(event.id).addEventListener('click', event.func);
         }
+
+        currentType = MODAL_WINDOW_TYPES.recovery;
     }
 
     function submitRecForm(event) {
@@ -232,7 +270,7 @@ const modalWindow = (function createModal() {
         if (validateEmail(email.value)) {
             // request
         } else {
-            showError(inputErrors.email);
+            showError(errors.email);
         }
     }
 
@@ -240,7 +278,7 @@ const modalWindow = (function createModal() {
         for (const event of authEvents) {
             modal.querySelector(event.id).remove('click', event.func);
         }
-        modal.querySelector('#inputError').style.display = 'none';
+        additionalInfo.style.display = 'none';
 
         currentType = MODAL_WINDOW_TYPES.registration;
 
@@ -263,11 +301,41 @@ const modalWindow = (function createModal() {
         const repeatedPassword = modal.querySelector('#repeatedPasswordID');
 
         if (password.value !== repeatedPassword.value) {
-            showError(inputErrors.password);
+            showError(errors.password);
         } else if (!validateEmail(email.value)) {
-            showError(inputErrors.email);
+            showError(errors.email);
         } else {
-            // request
+            ajax({
+                url: 'http://89.208.199.170/api/signup',
+                body: JSON.stringify({ email: email.value, password: password.value }),
+                callback: (data) => {
+                    switch (data.status) {
+                        case 201:
+                            additionalInfo.style.display = '';
+                            additionalInfo.textContent = 'успешный вход';
+                            additionalInfo.removeAttribute('hide');
+                            additionalInfo.style.color = 'green';
+
+                            for (const event of regEvents) {
+                                modal.querySelector(event.id).remove('click', event.func);
+                            }
+
+                            setTimeout(() => {
+                                processAuthentication();
+                            }, 1000);
+                            break;
+                        case 403:
+                            console.log('Request with credentials');
+                            break;
+                        case 400:
+                        case 404:
+                            showError(errors.email);
+                            break;
+                        case 500:
+                            console.log('Server');
+                    }
+                }
+            })
         }
     }
 

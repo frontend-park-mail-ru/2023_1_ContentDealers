@@ -13,7 +13,7 @@ export const modalWindowHtml =
                     <div class="modalBodyContent">
                         <h3> {{ header }} </h3>
                         <p>Чтобы начать пользоваться серависом Filmium</p>
-                        <p id="inputError"></p>
+                        <p id="additionalInfo"></p>
                         <form id="form">
 
                         </form>

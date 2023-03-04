@@ -5,11 +5,11 @@ export const mainVideoHtml =
             <div class="main-video-content">
                 <div class="main-video-video">
                     <div class="video">
-                        <img src="/test-images/test3.jpg">
+                        <img src="media/previews/007.jpg">
                     </div>
                     <div class="mute">
                         <button class="button-mute">
-                            <img src="/svg-icons/backward-step.svg">
+                            <img src="img/svg-icons/backward-step.svg">
                         </button>
                     </div>
                 </div>
@@ -17,7 +17,7 @@ export const mainVideoHtml =
                     <div class="top">
                         <div class="info">
                             <div class="name">
-                                <img src="/images/1.png">
+                                <img src="media/images/1.png">
                             </div>
                             <div class="data">
                                 <div class="rating">8.0</div>
@@ -30,13 +30,13 @@ export const mainVideoHtml =
                         </div>
                         <div class="actions">
                             <button class="action">
-                                <img src="/svg-icons/bookmark-regular.svg">
+                                <img src="img/svg-icons/bookmark-regular.svg">
                             </button>
                             <button class="action">
-                                <img src="/svg-icons/backward-step.svg">
+                                <img src="img/svg-icons/backward-step.svg">
                             </button>
                             <button class="action">
-                                <img src="/svg-icons/forward-step.svg">
+                                <img src="img/svg-icons/forward-step.svg">
                             </button>
                         </div>
                     </div>

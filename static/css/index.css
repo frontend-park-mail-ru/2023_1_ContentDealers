@@ -1,13 +1,5 @@
 #root {
     background-color: #000;
-    /*display: grid;*/
-
-    /*grid-template-areas:*/
-    /*"header"*/
-    /*"content";*/
-
-    /*grid-template-rows: 1fr;*/
-    /*grid-template-columns: 1fr;*/
 }
 
 * {
@@ -137,7 +129,8 @@
 }
 
 
-/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
+
 .main {
     padding: 48px 0;
 }
@@ -148,36 +141,6 @@
     justify-content: center;
 
 }
-
-/*.carousel {*/
-/*    width: 100%;*/
-/*    overflow: hidden;*/
-/*    white-space: nowrap;*/
-/*}*/
-
-/*.carousel ul {*/
-/*    display: inline-block;*/
-/*    list-style: none;*/
-/*    padding: 0;*/
-/*    margin: 0;*/
-/*    transition: transform 0.4s ease-in-out;*/
-/*    transform: translateX(-40%);*/
-/*}*/
-
-/*.carousel li {*/
-/*    display: inline-block;*/
-/*    width: 60%;*/
-/*    text-align: center;*/
-/*    padding: 10px;*/
-/*    background-color: #f2f2f2;*/
-/*    margin-right: -100%;*/
-/*    transform: translateX(100%);*/
-/*    transition: transform 0.4s ease-in-out;*/
-/*}*/
-
-/*.carousel:hover li {*/
-/*    transform: translateX(20%);*/
-/*}*/
 
 .carousel {
     color: #fff;
@@ -403,7 +366,8 @@
 }
 
 
-/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
+
 .main-video {
     overflow: hidden;
     margin-top: 16px;
@@ -557,7 +521,6 @@
     text-align: center;
     width: fit-content;
     overflow: hidden;
-    /*background: transparent;*/
     pointer-events: none;
     color: hsla(0,0%,100%,.96);
     margin-right: 4px;
@@ -628,7 +591,9 @@
     width: 15px
 }
 
-/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
+
+
 .category {
     overflow: hidden;
     margin-top: 16px;

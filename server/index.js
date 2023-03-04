@@ -11,12 +11,12 @@ app.engine('handlebars', engine({
     handlebars: handlebars
 }));
 
-// Set the public directory and paths
-app.use(express.static(path.resolve(__dirname, '..', 'public')));
-app.use(express.static(path.resolve(__dirname, '..', 'public/components')));
+// Set the static directory and paths
+app.use(express.static(path.join(__dirname, '..', '/static')));
 
 // Serve media files from the "media" directory
-app.use(express.static(path.resolve(__dirname, 'media')));
+// app.use(express.static(path.resolve(__dirname, '..', 'media'))); // with media in path
+app.use(express.static(path.resolve(__dirname, '..'))); // without media in path
 
 
 const SEVER_PORT = 3000;
@@ -24,7 +24,7 @@ const SEVER_PORT = 3000;
 
 // GET route for the root URL
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
 

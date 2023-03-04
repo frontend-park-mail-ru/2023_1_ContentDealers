@@ -17,19 +17,27 @@ export class Category {
         this.#config = config;
     }
 
+    get movies() {
+        return this.#config.movies;
+    }
+
     get findCategoryList() {
         return this.#parent.querySelector('.category__container__items');
     }
 
     render() {
         const template = Handlebars.compile(categoryHtml);
-        this.#parent.innerHTML = template(this.#config);
+        this.#parent.innerHTML = template(this.#config); // TODO : update and render only with title data
 
         this.renderItems();
     }
 
     renderItems() {
         const template = Handlebars.compile(categoryItemHtml);
-        this.findCategoryList.innerHTML = template(this.#config);
+
+        const movies = this.movies;
+        console.log(movies);
+
+        this.findCategoryList.innerHTML = template({ movies });
     }
 }

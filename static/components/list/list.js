@@ -12,7 +12,6 @@ export class List {
         // this.#classListLi = classListLi;
     }
 
-
     render() {
         const template = Handlebars.compile(listHtml);
         this.#parent.innerHTML = template(this.#config);

@@ -2,7 +2,6 @@ import { headerHtml } from './headerTemplate.hbs.js';
 import { headerActionsHtml } from "./headerActionsTemplate.hbs.js";
 
 import { GradientButton } from "../gradientButton/gradientButton.js";
-// import { List } from "../list/list.js";
 
 export class Header {
     #parent
@@ -24,25 +23,24 @@ export class Header {
         return Object.values(this.#config.headerActions);
     }
 
-    get findHeaderActions() {
+    get findList() {
         return this.#parent.querySelector('.headerTop__actions');
     }
 
     render() {
         const template = Handlebars.compile(headerHtml);
         this.#parent.innerHTML = template(this.#config);
-
-        this.renderActions();
-        this.renderButton();
+        this.#renderActions();
+        this.#renderButton();
     }
 
-    renderActions() { // Mb private?
+    #renderActions() {
         const template = Handlebars.compile(headerActionsHtml);
-        this.findHeaderActions.innerHTML = template(this.items);
+        this.findList.innerHTML = template(this.items);
     }
 
 
-    renderButton() { // Mb private?
+    #renderButton() {
         const button = this.#parent.querySelector('.headerTop__button');
         const gradientButton = new GradientButton(button);
         gradientButton.config = {

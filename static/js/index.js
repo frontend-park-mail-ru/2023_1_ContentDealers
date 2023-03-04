@@ -5,6 +5,9 @@ import { Subscription } from "../components/subscription/subscription.js";
 import { MainVideo } from "../components/mainVideo/mainVideo.js";
 import { Category } from "../components/category/category.js";
 
+import { modalWindow } from './modal.js'
+
+// Hardcode data, which server does not distribute //
 const headerActions = {
     main: {
         name: 'Главная',
@@ -101,11 +104,18 @@ const subscriptionInfo = {
     price: '399₽/месяц',
 }
 
+const headerUrlRenderMap = {
+    '/':            renderMainPage,
+    '/catalog':     renderCatalogPage,
+    '/store':       renderStorePage,
+    '/my-movies':   renderMyMoviesPage,
+};
+
+
+// Root //
 const root = document.getElementById('root');
 
 function renderHeader(parent) {
-    console.log("Hello renderHeader");
-
     const header = document.createElement('header');
     header.classList.add('headerTop');
 
@@ -114,21 +124,39 @@ function renderHeader(parent) {
     headerContent.render();
 
     parent.prepend(header);
+
+    return header;
 }
 
-function renderMain(parent) {
-    console.log("Hello renderMain");
-
+function createMainContainer(parent) {
     const main = document.createElement('main');
     main.classList.add('main');
     parent.appendChild(main);
 
-    const mainContent = {
-        items: [
-            { className: 'news', config: mainVideos },
+    return main;
+}
 
-        ]
-    };
+// Renders for pages //
+function renderMainPage(parent) {
+    // const mainContent = {
+    //     items: [
+    //         { className: 'news', config: mainVideos },
+    //         { className: 'categories', config: categoriesInfo },
+    //         { className: 'subscription', config: subscriptionInfo },
+    //         { className: 'main-video', config: '' }
+    //     ]
+    // };
+
+    // mainContent.items.forEach(({className, object, config}) => {
+    //     const article = document.createElement('article');
+    //     article.classList.add(className);
+    //
+    //     const block = new Carousel(article);
+    //     block.config = config;
+    //     block.render();
+    //
+    //     parent.appendChild(article);
+    // });
 
     // One article
     const newVideosArticle = document.createElement('article');
@@ -163,29 +191,135 @@ function renderMain(parent) {
     main.appendChild(categoriesArticle);
     main.appendChild(subscriptionArticle);
     main.appendChild(mainVideoArticle);
+
+
+    fetch('http://89.208.199.170/api/selections')
+        .then(response => response.json())
+        .then(data => {
+            data.body['movie_selections'].forEach(selection => {
+                console.log(selection)
+
+                const  categoryArticle = document.createElement('article');
+                categoryArticle.classList.add('category');
+
+                const categoryBlock = new Category(categoryArticle);
+                categoryBlock.config = selection;
+                categoryBlock.render();
+
+                parent.appendChild(categoryArticle);
+            })
+        })
+        .catch(error => {
+            console.error('Problem with the fetch operation:', error);
+        });
+
+    return parent;
 }
 
-// Renders
-renderHeader(root);
-renderMain(root);
+function renderCatalogPage(parent) {
+    parent.innerHTML = `
+        <span style="color: white">Nice, this is catalog page</span>
+    `;
+
+    return parent;
+}
+
+function renderStorePage(parent) {
+    parent.innerHTML = `
+        <span style="color: white">Nice, this is store page</span>
+    `;
+
+    return parent;
+}
+
+function renderMyMoviesPage(parent) {
+    parent.innerHTML = `
+        <span style="color: white">Nice, this is my-movies page</span>
+    `;
+
+    return parent;
+}
 
 
-fetch('http://89.208.199.170/api/selections')
-    .then(response => response.json())
-    .then((data) => {
-        const main = document.querySelector('.main');
-        console.log(main);
+// fetch('http://89.208.199.170/api/signin', {
+//     method: 'POST',
+//     body: JSON.stringify({email: 'sasha@mail.ru', password: '12345'}),
+// })
+//     .then(data => {
+//         if (data.status === 200) {
+//             fetch('http://89.208.199.170/api/profile', {
+//                 credentials: 'include',
+//             })
+//                 .then(response => response.json())
+//                 .then(data => {
+//                     console.log(data)
+//                     switch (data.status) {
+//                         case 200:
+//                             // If user data
+//                             console.log(data.body['user'].email);
+//                             // render one template
+//                             break;
+//                         default:
+//                             // If not user data
+//                             console.log('Error');
+//                         // render another template
+//                     }
+//                 })
+//                 .catch(error => { const mute = error });
+//         }
+//     });
 
-        data.body['movie_selections'].forEach(selection => {
-            console.log(selection)
+// fetch('http://89.208.199.170/api/profile')
+//     .then(response => response.json())
+//     .then(data => {
+//         console.log(data)
+//         switch (data.status) {
+//             case 200:
+//                 // If user data
+//                 console.log(data.body['user'].email);
+//                 // render one template
+//                 break;
+//             default:
+//                 // If not user data
+//                 console.log('Error');
+//                 // render another template
+//         }
+//     })
+//     .catch(error => { const mute = error });
 
-            const  categoryArticle = document.createElement('article');
-            categoryArticle.classList.add('category');
 
-            const categoryBlock = new Category(categoryArticle);
-            categoryBlock.config = selection;
-            categoryBlock.render();
+// Rendering //
+const header = renderHeader(root); // Render header //
+const main = createMainContainer(root); // Render tag main //
+renderMainPage(main); // Render MainPage to tag main //
 
-            main.appendChild(categoryArticle);
-        })
+
+// Wait DOM load
+document.addEventListener('DOMContentLoaded', () => {
+    // Attach a single event listener to the header element using event delegation
+    header.addEventListener('click', (event) => {
+        if (event.target.tagName === 'A') {
+            event.preventDefault();
+
+            const href = event.target.getAttribute('href');
+            console.log(href);
+
+            if (event.target.classList.contains('active')) {
+                return;
+            }
+
+            const render = headerUrlRenderMap[href]; // Look up the render for the current path in the map
+            render(main); // Update the content of the page
+
+            const activeLink = header.querySelector('.active');
+            if (activeLink) {
+                activeLink.classList.remove('active');
+            }
+
+            event.target.parentElement.classList.add('active');
+        }
     });
+});
+
+const button = document.querySelector('.button__subscription');
+button.addEventListener('click', modalWindow.open);

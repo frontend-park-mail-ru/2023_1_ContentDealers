@@ -8,4 +8,3 @@ export const headerActionsHtml =
         </li>
         {{/each}}
     `;
-

@@ -25,27 +25,18 @@ export class CategoriesList {
         return
     }
 
-    get findCarouselItems() {
+    get findList() {
         return this.#parent.querySelector('.carousel__right__ul');
     }
 
     render() {
         const template = Handlebars.compile(categoriesListHtml);
-        this.#parent.innerHTML = template(this.#config); // Nothing to render in this template and another
-
-        this.renderItems();
-        // const template = Handlebars.compile(carouselHtml);
-        // this.#parent.innerHTML = template(this.#config);
-        //
-        // this.renderItems();
+        this.#parent.innerHTML = template('');
+        this.#renderItems();
     }
 
-    renderItems() {
-        // const template = Handlebars.compile(carouselItemsHtml);
-        // this.findCarouselItems.innerHTML = template(this.config.images);
+    #renderItems() {
         const template = Handlebars.compile(categoriesListItemHtml);
-        console.log(this.items);
-        console.log(this.findCarouselItems);
-        this.findCarouselItems.innerHTML = template(this.items);
+        this.findList.innerHTML = template(this.items);
     }
 }

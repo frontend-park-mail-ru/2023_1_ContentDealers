@@ -133,6 +133,7 @@
 
 .main {
     padding: 48px 0;
+    min-height: 100vh;
 }
 
 .news {
@@ -477,7 +478,6 @@
 }
 
 .main-video-inscription .top {
-    margin-top: 0;
     max-width: 37%;
     display: block;
 }

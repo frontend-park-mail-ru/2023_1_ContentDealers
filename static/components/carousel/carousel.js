@@ -5,10 +5,6 @@ export class Carousel {
     #parent
     #config
 
-    // #chevrons = { // Mb render ?
-    //     chevronLeft: '/svg-icons/chevron/chevron-left.svg',
-    //     chevronRight: '/svg-icons/chevron/chevron-right.svg',
-    // };
     constructor(parent) {
         this.#parent = parent;
     }
@@ -21,19 +17,18 @@ export class Carousel {
         this.#config = config;
     }
 
-    get findCarouselItems() {
+    get findList() {
         return this.#parent.querySelector('.carousel__ul');
     }
 
     render() {
         const template = Handlebars.compile(carouselHtml);
         this.#parent.innerHTML = template(this.#config);
-
-        this.renderItems();
+        this.#renderItems();
     }
 
-    renderItems() {
+    #renderItems() {
         const template = Handlebars.compile(carouselItemsHtml);
-        this.findCarouselItems.innerHTML = template(this.#config.images);
+        this.findList.innerHTML = template(this.#config.images);
     }
 }

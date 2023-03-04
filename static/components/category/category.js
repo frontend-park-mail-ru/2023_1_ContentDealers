@@ -21,23 +21,19 @@ export class Category {
         return this.#config.movies;
     }
 
-    get findCategoryList() {
+    get findList() {
         return this.#parent.querySelector('.category__container__items');
     }
 
     render() {
         const template = Handlebars.compile(categoryHtml);
         this.#parent.innerHTML = template(this.#config); // TODO : update and render only with title data
-
-        this.renderItems();
+        this.#renderItems();
     }
 
-    renderItems() {
+    #renderItems() {
         const template = Handlebars.compile(categoryItemHtml);
-
         const movies = this.movies;
-        console.log(movies);
-
-        this.findCategoryList.innerHTML = template({ movies });
+        this.findList.innerHTML = template({ movies });
     }
 }

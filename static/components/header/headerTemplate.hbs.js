@@ -20,16 +20,18 @@ export const headerHtml =
 
                 <div class="headerTop__verticalSpacer"></div>
 
-                {{#if isAuth}}
-                <a href="" class="headerTop__profile">
-                    <img src="{{ profileIcon }}" class="profile" id="profile">
-                </a>
-                {{else}}
-                <a href="#" class="headerTop__sign-in" id="sign-in">
-                    <img src="static/img/svg-icons/circle-user.svg" class="sign-in">
-                    Войти
-                </a>
-                {{/if}}
+                <div class="userProfile">
+<!--                    {{#if isAuth}}-->
+<!--                    <a href="" class="headerTop__profile">-->
+<!--                        <img src="{{ profileIcon }}" class="profile" id="profile">-->
+<!--                    </a>-->
+<!--                    {{else}}-->
+<!--                    <a href="#" class="headerTop__sign-in" id="sign-in">-->
+<!--                        <img src="static/img/svg-icons/circle-user.svg" class="sign-in">-->
+<!--                        Войти-->
+<!--                    </a>-->
+<!--                    {{/if}}-->
+                </div>
             </div>
         </nav>
     `;

@@ -8,6 +8,14 @@ import { Category } from "../components/category/category.js";
 // Root //
 const root = document.getElementById('root');
 
+export const headerObject = new Header(); // TODO
+
+// UPLs
+const URLs = {
+    PROFILE_URL: 'http://89.208.199.170/api/profile',
+    SELECTIONS_URL: 'http://89.208.199.170/api/selections',
+}
+
 function renderHeader(parent, main) {
     // Mb move some to header.js template ?
     const headerActions = {
@@ -33,7 +41,6 @@ function renderHeader(parent, main) {
         headerActions,
         searchIcon: 'static/img/svg-icons/search.svg',
         profileIcon: 'static/img/profile/profile.jpg',
-        isAuth: false,
     }
     const headerUrlRenderMap = {
         '/':            renderMainPage,
@@ -42,27 +49,9 @@ function renderHeader(parent, main) {
         '/my-movies':   renderMyMoviesPage,
     };
 
-    // fetch //
-    // fetch('http://89.208.199.170/api/profile')
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         console.log(data)
-    //         switch (data.status) {
-    //             case 200:
-    //                 // If user data
-    //                 headerData.isAuth = true;
-    //                 headerData.email = data.body['user'].email;
-    //                 break;
-    //             default:
-    //                 // If not user data
-    //                 headerData.isAuth = false;
-    //                 headerData.email = '';
-    //         }
-    //     })
-    //     .catch(error => { const mute = error });
-
     // Render //
-    const headerObject = new Header(main);
+    // const headerObject = new Header(main);
+    headerObject.main = main;
     headerObject.config = headerData;
     const header = headerObject.render();
 
@@ -189,7 +178,7 @@ function renderMainPage(parent) {
     parent.appendChild(mainVideoArticle);
 
 
-    fetch('http://89.208.199.170/api/selections')
+    fetch(URLs.SELECTIONS_URL)
         .then(response => response.json())
         .then(data => {
             data.body['movie_selections'].forEach(selection => {
@@ -246,7 +235,7 @@ function InitialState() {
 // Rendering //
 InitialState();
 
-function deleteModal() {
-    const authModal = document.querySelector('.authModal');
-    authModal.parentElement.remove();
-}
+const button = document.querySelector('.button__subscription');
+button.addEventListener('click', (event) => {
+    headerObject.renderUserProfile();
+});

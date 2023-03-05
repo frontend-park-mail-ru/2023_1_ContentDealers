@@ -3,7 +3,9 @@ import { RecModal } from "../components/recoveryModal/recModal.js";
 import { RegModal } from "../components/registrationModal/regModal.js";
 import { ModalWindow } from '../components/modalWindow/modalWindow.js';
 import { validateEmail } from './verification.js';
-import { ajax } from './ajax.js';
+import { ajax } from "./ajax.js";
+
+import { headerObject } from "./index.js";
 
 export const modalWindow = (function createModal() {
     const authEvents = [
@@ -46,6 +48,11 @@ export const modalWindow = (function createModal() {
         userExist: 'пользователь с такими данными уже существует',
     };
 
+    const urlForRequest = {
+        signin: 'http://89.208.199.170/api/signin',
+        signup: 'http://89.208.199.170/api/signup',
+    }
+
     const MODAL_WINDOW_TYPES = {
         authentification: 'auth',
         registration: 'reg',
@@ -54,25 +61,29 @@ export const modalWindow = (function createModal() {
 
     let currentType = null;
 
-    const divForModal = document.createElement('div');
+    let divForModal = null;
 
-    document.body.appendChild(divForModal);  
-
-    const modalWindow = new ModalWindow(divForModal);
-    modalWindow.config = {
-        header: 'Войдите или зарегистрируйтесь',
-    };
-    modalWindow.render();
-
-    const modal = divForModal.firstElementChild;
-    const form = modal.querySelector('form');
-    const additionalInfo = modal.querySelector('#additionalInfo');
+    let modal = null;
+    let form = null;
+    let additionalInfo = null;
 
     const ANIMATION_SPEED = 200;
     let isClosing = false;
 
     function openModal() {
         if (!isClosing) {
+            divForModal = document.createElement('div');
+            document.body.prepend(divForModal);
+            const modalWindow = new ModalWindow(divForModal);
+            modalWindow.config = {
+                header: 'Войдите или зарегистрируйтесь',
+            };
+            modalWindow.render();
+
+            modal = divForModal.firstElementChild;
+            form = modal.querySelector('form');
+            additionalInfo = modal.querySelector('#additionalInfo');
+
             processAuthentication();
             attachCloseButton();
         }
@@ -85,7 +96,6 @@ export const modalWindow = (function createModal() {
         authModal.config = '';
         authModal.render();
 
-        modal.classList.add('open');
         modal.querySelector('#emailID').focus();
         additionalInfo.style.display = 'none';
 
@@ -94,6 +104,7 @@ export const modalWindow = (function createModal() {
         }
 
         currentType = MODAL_WINDOW_TYPES.authentification;
+        modal.classList.add('open');
     }
 
     function closeModal() {
@@ -103,6 +114,7 @@ export const modalWindow = (function createModal() {
         setTimeout(() => {
             modal.classList.remove('hide');
             isClosing = false;
+            divForModal.remove();
         }, ANIMATION_SPEED);
 
         detachCloseButton();
@@ -124,10 +136,6 @@ export const modalWindow = (function createModal() {
         }
 
         currentType = MODAL_WINDOW_TYPES.authentification;
-    }
-
-    function deleteModal() {
-        divForModal.remove();
     }
 
     function attachCloseButton() {
@@ -222,13 +230,14 @@ export const modalWindow = (function createModal() {
 
         if (validateEmail(email.value)) {
             ajax({
-                url: 'http://89.208.199.170/api/signin',
+                url: urlForRequest.signin,
                 body: JSON.stringify({ email: email.value, password: password.value }),
                 callback: (data) => {
                     switch (data.status) {
                         case 200:
+                            headerObject.config.isAuth = true;
+                            headerObject.renderUserProfile();
                             closeModal();
-                            deleteModal();
                             break;
                         case 403:
                             console.log('Request with credentionals');
@@ -311,7 +320,7 @@ export const modalWindow = (function createModal() {
             showError(errors.email);
         } else {
             ajax({
-                url: 'http://89.208.199.170/api/signup',
+                url: urlForRequest.signup,
                 body: JSON.stringify({ email: email.value, password: password.value }),
                 callback: (data) => {
                     switch (data.status) {

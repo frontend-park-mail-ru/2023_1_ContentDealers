@@ -4,11 +4,16 @@ import { headerActionsHtml } from "./headerActionsTemplate.hbs.js";
 import { GradientButton } from "../gradientButton/gradientButton.js";
 
 import { modalWindow } from '../../js/modal.js'
+import { profileHtml } from "./profileTemplate.hbs.js";
+import { signinHtml } from "./signinTemplate.hbs.js";
 
 export class Header {
     #main
     #header
     #config
+    #email
+
+    #testBool
 
     constructor(main) {
         const header = document.createElement('header');
@@ -28,6 +33,10 @@ export class Header {
 
     get main() {
         return this.#main;
+    }
+
+    set main(main) {
+        this.#main = main;
     }
 
     get header() {
@@ -54,6 +63,14 @@ export class Header {
         return this.#header.querySelector('#profile');
     }
 
+    get findUserProfile() {
+        return this.#header.querySelector('.userProfile');
+    }
+
+    get findLogout() {
+        return this.#header.querySelector('.logout');
+    }
+
     #renderActions() {
         const template = Handlebars.compile(headerActionsHtml);
         return template(this.items)
@@ -77,13 +94,48 @@ export class Header {
         this.findList.innerHTML = this.#renderActions();
         this.findButton.innerHTML = this.#renderButton();
 
-        if (this.#config.isAuth === false) {
-            this.#addSignInListener();
-        } else {
-            this.#addProfileListener();
-        }
+        // if (this.#config.isAuth === false) {
+        //     this.#addSignInListener();
+        // } else {
+        //     this.#addProfileListener();
+        // }
+        this.renderUserProfile();
 
         return this.#header;
+    }
+
+    renderUserProfile() {
+        fetch('http://89.208.199.170/api/profile')
+            .then(response => response.json())
+            .then(data => {
+                console.log('In fetch', data)
+                switch (data.status) {
+                    case 200:
+                        // If user data
+                        this.#config.isAuth = true;
+                        this.#email = data.body['user'].email;
+                        console.log('In fetch 200',  this.#config.isAuth, this.#email)
+                        break;
+                    default:
+                        // If not user data
+                        this.#config.isAuth = false;
+                        this.#email = '';
+                        console.log('In fetch not 200',  this.#config.isAuth, this.#email)
+                }
+            }).then(() => {
+                if (this.#config.isAuth === true) {
+                    console.log('We auth')
+                    const template = Handlebars.compile(profileHtml);
+                    this.findUserProfile.innerHTML = template(this.#config);
+                    this.#addProfileListener();
+                    this.#addLogoutListener();
+                } else {
+                    console.log('We not auth')
+                    const template = Handlebars.compile(signinHtml);
+                    this.findUserProfile.innerHTML = template(this.#config);
+                    this.#addSignInListener();
+                }
+            }).catch(error => { const mute = error });
     }
 
     addActionListeners(urlRenderMap) {
@@ -114,16 +166,32 @@ export class Header {
     }
 
     #addSignInListener() {
-        this.findSignIn.addEventListener('click', (event) => {
+        this.findSignIn?.addEventListener('click', (event) => {
             event.preventDefault();
-            modalWindow.open();
+            modalWindow.open(this);
         });
     }
 
     #addProfileListener() {
         this.findProfile?.addEventListener('click', (event) => {
             event.preventDefault();
-            alert('Привет' + this.#config.email);
+            alert('Привет ' + this.#email);
+        });
+    }
+
+    #addLogoutListener() {
+        this.findLogout?.addEventListener('click', (event) => {
+            event.preventDefault();
+            fetch('http://89.208.199.170/api/logout', {
+                method: 'POST',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 200) {
+                        this.#config.isAuth = false;
+                        this.renderUserProfile();
+                    }
+                });
         });
     }
 }

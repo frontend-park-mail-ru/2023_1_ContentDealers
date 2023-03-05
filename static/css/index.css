@@ -114,6 +114,13 @@
     background-image: radial-gradient(circle 200px at 50px 40px, #5d0ef5, #321069 40.62%, #321069 100%);
 }
 
+.userProfile {
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .headerTop__profile {
 
 }

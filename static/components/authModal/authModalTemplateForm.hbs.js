@@ -1,9 +1,9 @@
 export const authModalHtmlForm = 
     `<div class="emailInputField">
-        <input id="emailID" class="inputArea" type="text" maxlength="320" placeholder="email" value="">
+        <input id="emailID" class="inputArea" type="text" maxlength="320" placeholder="почта" value="">
     </div>
     <div class="passwordInputField">
-        <input id="passwordID" class="inputArea" type="password" maxlength="320" placeholder="Пароль" value="">
+        <input id="passwordID" class="inputArea" type="password" maxlength="320" placeholder="пароль" value="">
     </div>
     <div class="auxiliaryTools">
         <label><input type="checkbox" id="passwordCheckbox"> Показать пароль</label>

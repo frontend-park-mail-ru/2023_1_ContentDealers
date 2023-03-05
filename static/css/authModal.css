@@ -94,7 +94,7 @@ a {
 
 .modalBodyContent {
     height: 100%;
-    padding: 20px 15px;
+    padding: 20px 60px;
     background-color: #101011;
 }
 
@@ -130,6 +130,9 @@ a {
     position: relative;
 }
 
+.submitRegForm {
+    margin-top: 20px;
+}
 
 .auxiliaryTools {
     margin-bottom: 15px;

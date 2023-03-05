@@ -1,10 +1,10 @@
-import { subscriptionHtml } from "./subscriptionTemplate.hbs.js";
+import { subscriptionHtml } from './subscriptionTemplate.hbs.js';
 
-import { GradientButton } from "../gradientButton/gradientButton.js";
+import { GradientButton } from '../gradientButton/gradientButton.js';
 
 export class Subscription {
-    #parent
-    #config
+    #parent;
+    #config;
 
     constructor(parent) {
         this.#parent = parent;
@@ -32,23 +32,17 @@ export class Subscription {
     #renderButtons() {
         const buttons = this.findButtons;
 
-        const buttonsInfo = {
-            buttonSubscription: {
-                text: 'Оформить подписку',
-                cssClass: 'button__subscription',
-            },
-            buttonDetails: {
-                text: 'Подробнее',
-                cssClass: 'button__details',
-            }
-        };
+        const buttonsInfo = [
+            { text: 'Оформить подписку',    cssClass: 'button__subscription' },
+            { text: 'Подробнее',            cssClass: 'button__details' }
+        ];
 
-        Object.entries(buttonsInfo).map(([key, value]) => {
-            const div = document.createElement('div');
-            const button = new GradientButton(div);
+        buttonsInfo.forEach(value => {
+            const tmpDiv = document.createElement('div');
+            const button = new GradientButton();
             button.config = value;
-            button.render();
-            buttons.appendChild(div);
+            tmpDiv.innerHTML = button.render();
+            buttons.appendChild(tmpDiv);
         });
     }
 }

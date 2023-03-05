@@ -1,8 +1,8 @@
-import { mainVideoHtml } from "./mainVideoTemplate.hbs.js";
+import { mainVideoHtml } from './mainVideoTemplate.hbs.js';
 
 export class MainVideo {
-    #parent
-    #config
+    #parent;
+    #config;
 
     constructor(parent) {
         this.#parent = parent;

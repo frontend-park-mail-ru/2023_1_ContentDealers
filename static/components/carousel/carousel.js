@@ -1,9 +1,9 @@
-import { carouselHtml } from "./carouselTemplate.hbs.js";
-import { carouselItemsHtml } from "./carouselItemsTemplate.hbs.js";
+import { carouselHtml } from './carouselTemplate.hbs.js';
+import { carouselItemsHtml } from './carouselItemsTemplate.hbs.js';
 
 export class Carousel {
-    #parent
-    #config
+    #parent;
+    #config;
 
     constructor(parent) {
         this.#parent = parent;

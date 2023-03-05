@@ -1,4 +1,4 @@
-export const authModalHtmlForm = 
+export const authModalHtmlForm =
     `<div class="emailInputField">
         <input id="emailID" class="inputArea" type="text" maxlength="320" placeholder="почта" value="">
     </div>

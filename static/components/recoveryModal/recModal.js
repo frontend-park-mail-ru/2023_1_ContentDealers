@@ -1,9 +1,9 @@
-import { recModalHtmlForm } from "./recModalTemplateForm.hbs.js";
+import { recModalHtmlForm } from './recModalTemplateForm.hbs.js';
 
 export class RecModal {
-    #parent
+    #parent;
 
-    #config
+    #config;
 
     constructor(parent) {
         this.#parent = parent;
@@ -21,4 +21,4 @@ export class RecModal {
         const template = Handlebars.compile(recModalHtmlForm);
         this.#parent.innerHTML = template(this.#config);
     }
-};
+}

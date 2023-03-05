@@ -13,9 +13,8 @@ export const ajax = (function () {
         })
             .then(response => response.json())
             .then(callback)
+            .catch(console.error);
     }
-
-
 
     return function post({ url, body, callback }) {
         _ajax({
@@ -24,5 +23,5 @@ export const ajax = (function () {
             body,
             callback
         });
-    }
+    };
 })();

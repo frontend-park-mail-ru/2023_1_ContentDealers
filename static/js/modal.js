@@ -3,9 +3,9 @@ import { RecModal } from "../components/recoveryModal/recModal.js";
 import { RegModal } from "../components/registrationModal/regModal.js";
 import { ModalWindow } from '../components/modalWindow/modalWindow.js';
 import { validateEmail } from './verification.js';
-import { ajax } from "./ajax.js";
+import { ajax } from './ajax.js';
 
-const modalWindow = (function createModal() {
+export const modalWindow = (function createModal() {
     const authEvents = [
         {
             id: '#passwordCheckbox',
@@ -126,6 +126,10 @@ const modalWindow = (function createModal() {
         currentType = MODAL_WINDOW_TYPES.authentification;
     }
 
+    function deleteModal() {
+        divForModal.remove();
+    }
+
     function attachCloseButton() {
         modal.querySelector('.closeBtn').addEventListener('click', closeModal);
         document.addEventListener('keyup', handleKey);
@@ -224,6 +228,7 @@ const modalWindow = (function createModal() {
                     switch (data.status) {
                         case 200:
                             closeModal();
+                            deleteModal();
                             break;
                         case 403:
                             console.log('Request with credentionals');
@@ -345,5 +350,3 @@ const modalWindow = (function createModal() {
         }
     }
 })();
-
-export { modalWindow };

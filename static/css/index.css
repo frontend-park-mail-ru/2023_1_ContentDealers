@@ -118,10 +118,23 @@
 
 }
 
-.headerTop__profile__image {
+.headerTop__profile .profile {
     height: 40px;
     width: 40px;
     border-radius: 50%;
+}
+
+.headerTop__sign-in {
+    color: white;
+    display: inline-flex;
+    align-items: center;
+}
+
+.headerTop__sign-in .sign-in {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    margin-right: 0.5em;
 }
 
 .headerTop__search__icon img {

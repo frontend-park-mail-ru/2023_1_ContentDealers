@@ -9,7 +9,7 @@ export const mainVideoHtml =
                     </div>
                     <div class="mute">
                         <button class="button-mute">
-                            <img src="img/svg-icons/backward-step.svg">
+                            <img src="static/img/svg-icons/backward-step.svg">
                         </button>
                     </div>
                 </div>
@@ -30,13 +30,13 @@ export const mainVideoHtml =
                         </div>
                         <div class="actions">
                             <button class="action">
-                                <img src="img/svg-icons/bookmark-regular.svg">
+                                <img src="static/img/svg-icons/bookmark-regular.svg">
                             </button>
                             <button class="action">
-                                <img src="img/svg-icons/backward-step.svg">
+                                <img src="static/img/svg-icons/backward-step.svg">
                             </button>
                             <button class="action">
-                                <img src="img/svg-icons/forward-step.svg">
+                                <img src="static/img/svg-icons/forward-step.svg">
                             </button>
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-const ajax = (function () {
+export const ajax = (function () {
     const AJAX_METHODS = {
       POST: 'POST',
     };
@@ -26,5 +26,3 @@ const ajax = (function () {
         });
     }
 })();
-
-export { ajax };

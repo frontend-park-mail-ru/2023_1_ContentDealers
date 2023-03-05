@@ -8,8 +8,7 @@ const app = express();
 const SEVER_PORT = 3000;
 const port = process.env.PORT || SEVER_PORT;
 
-app.use(express.static(path.join(__dirname, '..', '/static')));
-// app.use(express.static(path.resolve(__dirname, '..', 'media'))); // with media in path
+// app.use(express.static(path.join(__dirname, '..', '/static')));
 app.use(express.static(path.resolve(__dirname, '..'))); // without media in path
 
 

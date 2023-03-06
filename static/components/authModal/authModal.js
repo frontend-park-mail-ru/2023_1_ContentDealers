@@ -1,9 +1,9 @@
-import { authModalHtmlForm } from "./authModalTemplateForm.hbs.js";
+import { authModalHtmlForm } from './authModalTemplateForm.hbs.js';
 
 export class AuthModal {
-    #parent
+    #parent;
 
-    #config
+    #config;
 
     constructor(parent) {
         this.#parent = parent;
@@ -21,4 +21,4 @@ export class AuthModal {
         const template = Handlebars.compile(authModalHtmlForm);
         this.#parent.innerHTML = template(this.#config);
     }
-};
+}

@@ -1,8 +1,8 @@
-import { listHtml } from "./listTemplate.hbs.js";
+import { listHtml } from './listTemplate.hbs.js';
 
 export class List {
-    #parent
-    #config
+    #parent;
+    #config;
 
     constructor(parent, config) {
         this.#parent = parent;

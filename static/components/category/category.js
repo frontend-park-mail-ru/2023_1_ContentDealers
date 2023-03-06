@@ -1,9 +1,9 @@
-import { categoryHtml } from "./categoryTemplate.hbs.js";
-import { categoryItemHtml } from "./categotyItemTemplate.hbs.js";
+import { categoryHtml } from './categoryTemplate.hbs.js';
+import { categoryItemHtml } from './categotyItemTemplate.hbs.js';
 
 export class Category {
-    #parent
-    #config
+    #parent;
+    #config;
 
     constructor(parent) {
         this.#parent = parent;

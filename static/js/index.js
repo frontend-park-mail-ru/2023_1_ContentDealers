@@ -1,47 +1,24 @@
-import { Header } from "../components/header/header.js";
-import { Carousel } from "../components/carousel/carousel.js";
-import { CategoriesList } from "../components/categories/categoriesList.js";
-import { Subscription } from "../components/subscription/subscription.js";
-import { MainVideo } from "../components/mainVideo/mainVideo.js";
-import { Category } from "../components/category/category.js";
+/*jslint es6: true*/
+
+import { Header } from '../components/header/header.js';
+import { Carousel } from '../components/carousel/carousel.js';
+import { CategoriesList } from '../components/categories/categoriesList.js';
+import { Subscription } from '../components/subscription/subscription.js';
+import { MainVideo } from '../components/mainVideo/mainVideo.js';
+import { Category } from '../components/category/category.js';
 
 // Root //
 const root = document.getElementById('root');
 
-export const headerObject = new Header(); // TODO
+export const headerObject = new Header();
 
 // UPLs
 const URLs = {
     PROFILE_URL: 'http://89.208.199.170/api/profile',
     SELECTIONS_URL: 'http://89.208.199.170/api/selections',
-}
+};
 
 function renderHeader(parent, main) {
-    // Mb move some to header.js template ?
-    const headerActions = {
-        main: {
-            name: 'Главная',
-            href: '/'
-        },
-        catalog: {
-            name: 'Каталог',
-            href: '/catalog'
-        },
-        store: {
-            name: 'Магазин',
-            href: '/store'
-        },
-        movies: {
-            name: 'Моё',
-            href: '/my-movies'
-        }
-    }
-    const headerData = {
-        logoIcon: 'static/img/logo/logo.svg',
-        headerActions,
-        searchIcon: 'static/img/svg-icons/search.svg',
-        profileIcon: 'static/img/profile/profile.jpg',
-    }
     const headerUrlRenderMap = {
         '/':            renderMainPage,
         '/catalog':     renderCatalogPage,
@@ -52,7 +29,7 @@ function renderHeader(parent, main) {
     // Render //
     // const headerObject = new Header(main);
     headerObject.main = main;
-    headerObject.config = headerData;
+    // headerObject.config = headerData;
     const header = headerObject.render();
 
     headerObject.addActionListeners(headerUrlRenderMap);
@@ -71,120 +48,100 @@ function createMainContainer(parent) {
 
 // Renders for pages //
 function renderMainPage(parent) {
-    // Hardcode data // : TODO get fetch
+    // Hardcode data //
     const mainVideos = {
         images: [
-            'media/test-images/test1.jpg',
-            'media/test-images/test2.jpg',
-            'media/test-images/test3.jpg',
-            'media/test-images/test4.jpg',
-            'media/test-images/test5.jpg',
+            'media/previews/avatar.jpg',
+            'media/previews/mad-max.jpg',
+            'media/previews/interstellar.jpg',
+            'media/previews/king-kong.jpg',
+            'media/previews/thor.jpg',
         ]
-    }
+    };
     const categoriesInfo = {
         cat1: {
-            name: 'cat1cat1cat1',
-            href: '/cat1',
+            name: 'Фильмы',
+            href: '/films',
             src: 'static/img/svg-icons/clapperboard.svg' // Icon
         },
         cat2: {
-            name: 'cat1cat1cat2',
-            href: '/cat2',
-            src: 'static/img/svg-icons/clapperboard.svg' // Icon
+            name: 'Сериалы',
+            href: '/serials',
+            src: 'static/img/svg-icons/youtube.svg' // Icon
         },
         cat3: {
-            name: 'cat1cat1cat3',
-            href: '/cat3',
-            src: 'static/img/svg-icons/clapperboard.svg' // Icon
+            name: 'Мультфильмы',
+            href: '/cartoons',
+            src: 'static/img/svg-icons/candy-cane.svg' // Icon
         },
         cat4: {
-            name: 'cat1cat1cat4',
-            href: '/cat4',
-            src: 'static/img/svg-icons/clapperboard.svg' // Icon
+            name: 'Фитнес',
+            href: '/fitness',
+            src: 'static/img/svg-icons/heart-pulse.svg' // Icon
         },
         cat5: {
-            name: 'cat1cat1cat5',
-            href: '/cat5',
-            src: 'static/img/svg-icons/clapperboard.svg' // Icon
+            name: 'Природа',
+            href: '/nature',
+            src: 'static/img/svg-icons/leaf.svg' // Icon
         },
         cat6: {
-            name: 'cat1cat1cat6',
-            href: '/cat6',
-            src: 'static/img/svg-icons/clapperboard.svg' // Icon
+            name: 'Лекции',
+            href: '/lectures',
+            src: 'static/img/svg-icons/graduation-cap.svg' // Icon
         },
         cat7: {
-            name: 'cat1cat1cat7',
-            href: '/cat7',
-            src: 'static/img/svg-icons/clapperboard.svg' // Icon
+            name: 'Кулинария',
+            href: '/cooking',
+            src: 'static/img/svg-icons/utensils.svg' // Icon
         },
         cat8: {
-            name: 'cat1cat1cat8',
-            href: '/cat8',
-            src: 'static/img/svg-icons/clapperboard.svg' // Icon
+            name: 'Программы',
+            href: '/programs',
+            src: 'static/img/svg-icons/newspaper-regular.svg' // Icon
         },
         cat9: {
-            name: 'cat1cat1cat9',
-            href: '/cat9',
-            src: 'static/img/svg-icons/clapperboard.svg' // Icon
+            name: 'Концерты',
+            href: '/concerts',
+            src: 'static/img/svg-icons/music.svg' // Icon
         },
         cat10: {
-            name: 'cat1cat1cat10',
-            href: '/cat10',
-            src: 'static/img/svg-icons/clapperboard.svg' // Icon
+            name: 'Видеокурсы',
+            href: '/video-courses',
+            src: 'static/img/svg-icons/circle-play-regular.svg' // Icon
         },
-    }
+    };
     const subscriptionInfo = {
         backgroundImage: 'static/img/subscription/subscription.png',
         name: 'Подписка Оптимум',
         text: 'Смотрите кино, сериалы, мультфильмы и спорт',
         price: '399₽/месяц',
-    }
+    };
 
-    // Render //
-
-    // One article
-    const newVideosArticle = document.createElement('article');
-    newVideosArticle.classList.add('news');
-    const newVideosBlock = new Carousel(newVideosArticle);
-    newVideosBlock.config = mainVideos;
-    newVideosBlock.render();
-
-    // Second
-    const categoriesArticle = document.createElement('article');
-    categoriesArticle.classList.add('categories');
-    const categoriesBlock = new CategoriesList(categoriesArticle);
-    categoriesBlock.config = categoriesInfo;
-    categoriesBlock.render();
-
-    // Third
-    const subscriptionArticle = document.createElement('article');
-    subscriptionArticle.classList.add('subscription');
-    const subscriptionBlock = new Subscription(subscriptionArticle);
-    subscriptionBlock.config = subscriptionInfo;
-    subscriptionBlock.render();
-
-    // Fourth
-    const mainVideoArticle = document.createElement('article');
-    mainVideoArticle.classList.add('main-video');
-    const mainVideoBlock = new MainVideo(mainVideoArticle);
-    mainVideoBlock.config = '';
-    mainVideoBlock.render();
-
+    // Render articles //
+    const articles = [
+        { className: 'news',            templateType: Carousel,         config: mainVideos },
+        { className: 'categories',      templateType: CategoriesList,   config: categoriesInfo },
+        { className: 'subscription',    templateType: Subscription,     config: subscriptionInfo },
+        { className: 'main-video',      templateType: MainVideo,        config: '' },
+    ];
 
     parent.innerHTML = '';
-    parent.appendChild(newVideosArticle);
-    parent.appendChild(categoriesArticle);
-    parent.appendChild(subscriptionArticle);
-    parent.appendChild(mainVideoArticle);
+    articles.forEach(({className, templateType, config}) => {
+        const article = document.createElement('article');
+        article.classList.add(className);
 
+        const block = new templateType(article);
+        block.config = config;
+        block.render();
+
+        parent.appendChild(article);
+    });
 
     fetch(URLs.SELECTIONS_URL)
         .then(response => response.json())
         .then(data => {
             data.body['movie_selections'].forEach(selection => {
-                console.log(selection)
-
-                const  categoryArticle = document.createElement('article');
+                const categoryArticle = document.createElement('article');
                 categoryArticle.classList.add('category');
 
                 const categoryBlock = new Category(categoryArticle);
@@ -192,7 +149,7 @@ function renderMainPage(parent) {
                 categoryBlock.render();
 
                 parent.appendChild(categoryArticle);
-            })
+            });
         })
         .catch(error => {
             console.error('Problem with the fetch operation:', error);
@@ -231,11 +188,5 @@ function InitialState() {
     renderMainPage(main); // Render MainPage to tag main //
 }
 
-
 // Rendering //
 InitialState();
-
-const button = document.querySelector('.button__subscription');
-button.addEventListener('click', (event) => {
-    headerObject.renderUserProfile();
-});

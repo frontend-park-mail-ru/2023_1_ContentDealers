@@ -5,13 +5,13 @@ export const modalWindowHtml =
             <div class="modalWindow">
                 <div class="modalHeader">
                     <div class="modalHeaderFlex">
-                        <h2>вход или регистрация</h2>
+                        <h2>{{ header }}</h2>
                         <span class="closeBtn">&times;</span>
                     </div>
                 </div>
                 <div class="modalBody">
                     <div class="modalBodyContent">
-                        <h3> {{ header }} </h3>
+                        <h3> Войдите или зарегистрируйтесь </h3>
                         <p>Чтобы начать пользоваться серависом Filmium</p>
                         <p id="additionalInfo"></p>
                         <form id="form">

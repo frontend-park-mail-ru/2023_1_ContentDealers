@@ -1,9 +1,9 @@
-import { categoriesListHtml } from "./categoriesListTemplate.hbs.js";
-import { categoriesListItemHtml } from "./categoriesListItemTemplate.hbs.js";
+import { categoriesListHtml } from './categoriesListTemplate.hbs.js';
+import { categoriesListItemHtml } from './categoriesListItemTemplate.hbs.js';
 
 export class CategoriesList {
-    #parent
-    #config
+    #parent;
+    #config;
 
     constructor(parent) {
         this.#parent = parent;
@@ -21,8 +21,7 @@ export class CategoriesList {
         return Object.entries(this.#config).map(([key, value]) => ({
             key,
             ...value
-        }))
-        return
+        }));
     }
 
     get findList() {

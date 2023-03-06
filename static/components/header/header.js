@@ -1,19 +1,39 @@
 import { headerHtml } from './headerTemplate.hbs.js';
-import { headerActionsHtml } from "./headerActionsTemplate.hbs.js";
+import { headerActionsHtml } from './headerActionsTemplate.hbs.js';
+import { headerUserProfileHtml } from './headerUserProfileTemplate.hbs.js';
 
-import { GradientButton } from "../gradientButton/gradientButton.js";
+import { GradientButton } from '../gradientButton/gradientButton.js';
 
-import { modalWindow } from '../../js/modal.js'
-import { profileHtml } from "./profileTemplate.hbs.js";
-import { signinHtml } from "./signinTemplate.hbs.js";
+import { modalWindow } from '../../js/modal.js';
 
 export class Header {
-    #main
-    #header
-    #config
-    #email
+    #main;
+    #header;
 
-    #testBool
+    #headerActions = {
+        main: {
+            name: 'Главная',
+            href: '/'
+        },
+        catalog: {
+            name: 'Каталог',
+            href: '/catalog'
+        },
+        store: {
+            name: 'Магазин',
+            href: '/store'
+        },
+        movies: {
+            name: 'Моё',
+            href: '/my-movies'
+        }
+    };
+    #headerData = {
+        logoIcon: 'static/img/logo/logo.svg',
+        headerActions: this.#headerActions,
+        searchIcon: 'static/img/svg-icons/search.svg',
+        profileIcon: 'static/img/profile/profile.jpg',
+    };
 
     constructor(main) {
         const header = document.createElement('header');
@@ -21,14 +41,6 @@ export class Header {
 
         this.#main = main;
         this.#header = header;
-    }
-
-    get config() {
-        return this.#config;
-    }
-
-    set config(config) {
-        this.#config = config;
     }
 
     get main() {
@@ -43,39 +55,34 @@ export class Header {
         return this.#header;
     }
 
-    get items() {
-        return Object.values(this.#config.headerActions);
-    }
-
-    get findList() {
+    #findList() {
         return this.#header.querySelector('.headerTop__actions');
     }
 
-    get findButton() {
+    #findButton() {
         return this.#header.querySelector('.headerTop__button');
     }
 
-    get findSignIn() {
+    #findSignIn() {
         return this.#header.querySelector('#sign-in');
     }
 
-    get findProfile() {
+    #findProfile() {
         return this.#header.querySelector('#profile');
     }
 
-    get findUserProfile() {
+    #findUserProfile() {
         return this.#header.querySelector('.userProfile');
     }
 
-    get findLogout() {
+    #findLogout() {
         return this.#header.querySelector('.logout');
     }
 
     #renderActions() {
         const template = Handlebars.compile(headerActionsHtml);
-        return template(this.items)
+        return template(this.#headerActions);
     }
-
 
     #renderButton() {
         const gradientButton = new GradientButton();
@@ -89,98 +96,88 @@ export class Header {
 
     render() {
         const template = Handlebars.compile(headerHtml);
-        this.#header.innerHTML = template(this.#config);
+        this.#header.innerHTML = template(this.#headerData);
 
-        this.findList.innerHTML = this.#renderActions();
-        this.findButton.innerHTML = this.#renderButton();
+        this.#findList().innerHTML = this.#renderActions();
+        this.#findButton().innerHTML = this.#renderButton();
 
-        // if (this.#config.isAuth === false) {
-        //     this.#addSignInListener();
-        // } else {
-        //     this.#addProfileListener();
-        // }
         this.renderUserProfile();
 
         return this.#header;
     }
 
     renderUserProfile() {
+        let isAuth = false;
+        let email = '';
+
         fetch('http://89.208.199.170/api/profile')
             .then(response => response.json())
             .then(data => {
-                console.log('In fetch', data)
                 switch (data.status) {
                     case 200:
-                        // If user data
-                        this.#config.isAuth = true;
-                        this.#email = data.body['user'].email;
-                        console.log('In fetch 200',  this.#config.isAuth, this.#email)
+                        isAuth = true;
+                        email = data.body['user'].email;
                         break;
                     default:
-                        // If not user data
-                        this.#config.isAuth = false;
-                        this.#email = '';
-                        console.log('In fetch not 200',  this.#config.isAuth, this.#email)
                 }
             }).then(() => {
-                if (this.#config.isAuth === true) {
-                    console.log('We auth')
-                    const template = Handlebars.compile(profileHtml);
-                    this.findUserProfile.innerHTML = template(this.#config);
-                    this.#addProfileListener();
+                const template = Handlebars.compile(headerUserProfileHtml);
+
+                this.#findUserProfile().innerHTML = template({ isAuth, email, profileIcon: this.#headerData.profileIcon });
+
+                if (isAuth) {
                     this.#addLogoutListener();
                 } else {
-                    console.log('We not auth')
-                    const template = Handlebars.compile(signinHtml);
-                    this.findUserProfile.innerHTML = template(this.#config);
                     this.#addSignInListener();
                 }
-            }).catch(error => { const mute = error });
+            });
+    }
+
+    #changeActionListener(urlRenderMap, event) {
+        if (event.target.tagName === 'A') {
+            event.preventDefault();
+
+            const href = event.target.getAttribute('href');
+
+            if (event.target.classList.contains('active')) {
+                return;
+            }
+
+            const render = urlRenderMap[href]; // Look up the render for the current path in the map
+            render(this.#main); // Update the content of the page
+
+            const activeLink = this.#header.querySelector('.active');
+            if (activeLink) {
+                activeLink.classList.remove('active');
+            }
+
+            event.target.parentElement.classList.add('active');
+        }
     }
 
     addActionListeners(urlRenderMap) {
-        this.findList.addEventListener('click', (event) => {
-            if (event.target.tagName === 'A') {
-                event.preventDefault();
+        this.#findList().addEventListener('click', (event) => this.#changeActionListener(urlRenderMap, event));
+    }
 
-                console.log("action");
+    removeActionListeners(urlRenderMap) {
+        this.#findList().removeEventListener('click', (event) => this.#changeActionListener(urlRenderMap, event));
+    }
 
-                const href = event.target.getAttribute('href');
-                console.log(href);
-
-                if (event.target.classList.contains('active')) {
-                    return;
-                }
-
-                const render = urlRenderMap[href]; // Look up the render for the current path in the map
-                render(this.#main); // Update the content of the page
-
-                const activeLink = this.#header.querySelector('.active');
-                if (activeLink) {
-                    activeLink.classList.remove('active');
-                }
-
-                event.target.parentElement.classList.add('active');
-            }
-        });
+    #signInListener(event) {
+        event.preventDefault();
+        modalWindow.open(this);
     }
 
     #addSignInListener() {
-        this.findSignIn?.addEventListener('click', (event) => {
-            event.preventDefault();
-            modalWindow.open(this);
-        });
+        this.#findSignIn()?.addEventListener('click', this.#signInListener);
     }
 
-    #addProfileListener() {
-        this.findProfile?.addEventListener('click', (event) => {
-            event.preventDefault();
-            alert('Привет ' + this.#email);
-        });
+    #removeSignInListener() {
+        this.#findSignIn()?.removeEventListener('click', this.#signInListener);
     }
 
     #addLogoutListener() {
-        this.findLogout?.addEventListener('click', (event) => {
+        this.#findLogout()?.addEventListener('click', (event) => {
             event.preventDefault();
             fetch('http://89.208.199.170/api/logout', {
                 method: 'POST',
@@ -188,7 +185,7 @@ export class Header {
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 200) {
-                        this.#config.isAuth = false;
+                        // this.#config.isAuth = false;
                         this.renderUserProfile();
                     }
                 });

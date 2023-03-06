@@ -1,12 +1,7 @@
-import { gradientButtonHtml } from "./gradientButtonTemplate.hbs.js";
+import { gradientButtonHtml } from './gradientButtonTemplate.hbs.js';
 
 export class GradientButton {
-    // #parent
-    #config
-
-    // constructor(parent) {
-    //     this.#parent = parent;
-    // }
+    #config;
 
     get config() {
         return this.#config;
@@ -18,8 +13,6 @@ export class GradientButton {
 
     render() {
         const template = Handlebars.compile(gradientButtonHtml);
-        // this.#parent.innerHTML = template(this.#config);
-
-        return template(this.#config)
+        return template(this.#config);
     }
 }

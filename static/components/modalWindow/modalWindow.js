@@ -1,9 +1,9 @@
-import { modalWindowHtml } from "./modalWindowTemplate.hbs.js";
+import { modalWindowHtml } from './modalWindowTemplate.hbs.js';
 
 export class ModalWindow {
-    #parent
+    #parent;
 
-    #config
+    #config;
 
     constructor(parent) {
         this.#parent = parent;
@@ -21,4 +21,5 @@ export class ModalWindow {
         const template = Handlebars.compile(modalWindowHtml);
         this.#parent.innerHTML = template(this.#config);
     }
-};
+}
+

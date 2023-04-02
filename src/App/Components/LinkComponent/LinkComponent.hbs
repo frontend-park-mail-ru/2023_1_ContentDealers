@@ -1,0 +1,11 @@
+<a href="{{ linkHref }}" class="link js-link {{ linkClass }}">
+    {{#if linkImageSrc}}
+    <span class="link__image {{ linkImageClass }}">
+        <img src="{{ linkImageSrc }}" width="{{ linkImageWidth }}">
+    </span>
+    {{/if}}
+
+    {{#if linkText}}
+        <span class="link__text {{ linkTextClass }}">{{ linkText }}</span>
+    {{/if}}
+</a>

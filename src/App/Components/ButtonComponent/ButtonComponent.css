@@ -1,0 +1,21 @@
+.button {
+    display: flex;
+    align-items: center;
+
+    height: min-content;
+    padding: 10px;
+    color: rgba(255,255,255,.96);
+    background: linear-gradient(26.57deg,#3c1a70 0%,rgba(93,14,245,.83));
+    font-size: 16px;
+    line-height: 20px;
+
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+
+    transition: background-color 0.3s ease-in-out;
+}
+
+.button:hover {
+    background-image: radial-gradient(circle 200px at 50px 40px, #5d0ef5, #321069 40.62%, #321069 100%);
+}

@@ -3,35 +3,46 @@ import IModel from '../../Models/IModel/IModel';
 
 import HeaderView from '../../Views/HeaderView/HeaderView';
 
+import { IUser } from '../../Models/UserModel/UserModel';
+
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 import router from '../../Router/Router';
 
-// @ts-ignore
 /**
  * Котроллер для хэдера
  * @category Header
  * @extends {IController}
  * @param  {HeaderView} view Объект вида компонента хэдер
- * @param  {UserModel} model Объект модели пользователя
  */
 class HeaderController extends IController<HeaderView, IModel> {
     constructor(view: HeaderView) {
         super(view, IModel);
-        this.view.bindClickEvent(this.handleClick.bind(this));
+
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
+        this.view.bindClickEvent(this.handleClick.bind(this));
+
+
         // TODO
-        // EventDispatcher.subscribe('user-changed', (user: IUser) => {
-        //
-        // });
+        EventDispatcher.subscribe('user-changed', (user: IUser) => {
+            if (user) {
+                this.view.changeHeaderProfile('profile', user);
+            }
+        });
 
-        // EventDispatcher.subscribe('redirect-signin', () => {
-        // });
+        EventDispatcher.subscribe('render-signInButton', () => {
+            this.view.changeHeaderProfile('signIn');
+        });
 
-        // EventDispatcher.subscribe('redirect-signup', () => {
-        // });
-    }
+        EventDispatcher.subscribe('render-profileButton', () => {
+            this.view.changeHeaderProfile('profile');
+        });
+
+        EventDispatcher.subscribe('user-changed', (user: IUser) => {
+
+        });
+    };
 
     /**
      * Функция обработки нажатия на хедер
@@ -40,17 +51,36 @@ class HeaderController extends IController<HeaderView, IModel> {
      * @returns {void}
      */
     private handleClick(e: Event): void {
-        console.log('Header clicked!');
-
         e.preventDefault();
         if (this.isMounted) {
+            this.view.hideProfile();
+
             const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
-                console.log(href);
                 router.goToPath(href);
             }
+
+            const target = <HTMLElement>e.target;
+            const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
+
+            switch (action) {
+                case 'profile': {
+                    this.view.toggleProfile();
+                    break;
+                }
+
+                case 'signIn': {
+                    // EventDispatcher.emit('signIn');
+                    break;
+                }
+
+                default:
+                    break;
+            }
+
+            return;
         }
-    }
+    };
 }
 
 export default HeaderController;

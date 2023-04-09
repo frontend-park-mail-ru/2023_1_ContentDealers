@@ -13,7 +13,7 @@ class EventDispatcher {
 
     constructor() {
         this.events = new Map;
-    }
+    };
 
     /**
      * Функция подписки на событие
@@ -28,7 +28,7 @@ class EventDispatcher {
             return;
         }
         callbackList.push(callback);
-    }
+    };
 
     /**
      * Функция отписки от события
@@ -41,6 +41,7 @@ class EventDispatcher {
         if (!callbackList) {
             return;
         }
+
         this.events.set(
             eventName,
             callbackList
@@ -48,7 +49,7 @@ class EventDispatcher {
                     return func !== callback;
                 })
         );
-    }
+    };
 
     /**
      * Функция вызова события
@@ -60,7 +61,7 @@ class EventDispatcher {
         this.events.get(eventName)?.forEach(callback => {
             callback(data);
         });
-    }
-}
+    };
+};
 
 export default new EventDispatcher();

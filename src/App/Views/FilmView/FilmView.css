@@ -1,0 +1,232 @@
+.film {
+    position: relative;
+    aspect-ratio: 2.2 / 1;
+    overflow: visible;
+
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 0 64px;
+}
+
+.film__background {
+    --cover-max-width: 1720px;
+    max-width: var(--cover-max-width);
+    height: fit-content;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    left: 10%;
+}
+
+.film__background::before {
+    left: -1px;
+}
+
+.film__background::before {
+    background: linear-gradient(90deg,
+    rgb(0, 0, 0) 3.31%,
+    rgba(0, 0, 0, 0.99) 7.71%,
+    rgba(0, 0, 0, 0.96) 12.11%,
+    rgba(0, 0, 0, 0.91) 16.51%,
+    rgba(0, 0, 0, 0.85) 20.91%,
+    rgba(0, 0, 0, 0.76) 25.31%,
+    rgba(0, 0, 0, 0.67) 29.71%,
+    rgba(0, 0, 0, 0.55) 34.11%,
+    rgba(0, 0, 0, 0.44) 38.52%,
+    rgba(0, 0, 0, 0.33) 42.92%,
+    rgba(0, 0, 0, 0.23) 47.32%,
+    rgba(0, 0, 0, 0.15) 51.72%,
+    rgba(0, 0, 0, 0.08) 56.12%,
+    rgba(0, 0, 0, 0.03) 60.52%,
+    rgba(0, 0, 0, 0.01) 64.92%,
+    rgba(0, 0, 0, 0) 69.32%);
+}
+
+.film__background::before,
+.film__background::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: -1px;
+    right: 0;
+    z-index: 1;
+}
+
+.film-background__image {
+    display: block;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+}
+
+.film__content {
+    --grid-sides: 72px;
+    --grid-spacing: 16px;
+    --grid-columns: 20;
+    --grid-card-count: 5;
+    --grid-column-width: calc((100% - var(--grid-spacing)*var(--grid-columns))/var(--grid-columns));
+
+    position: absolute;
+
+    z-index: 1;
+
+    width: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-top: 0;
+
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    margin: 0 var(--grid-sides);
+}
+
+.film-content__title {
+    position: relative;
+}
+
+.film-content-title__text {
+    font-size: 36px;
+    line-height: 44px;
+
+    font-family: SansSerif,sans-serif;
+    margin: 0;
+    opacity: .9;
+    color: #fff;
+}
+
+.film-content__info-container {
+    margin-top: 20px;
+
+    font-size: 18px;
+    line-height: 22px;
+
+    font-family: SansSerif,sans-serif;
+}
+
+.film-content__info {
+    color: rgba(255,255,255,.56);
+
+    gap: 12px;
+
+    font-size: 18px;
+    line-height: 22px;
+
+    font-family: SansSerif,sans-serif;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.film-content__rating {
+    background-color: rgba(139,136,146,.32);
+
+    border-radius: 4px;
+    padding: 0 5px;
+
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    text-align: center;
+    width: fit-content;
+    overflow: hidden;
+    pointer-events: none;
+    color: rgba(255,255,255,.96);
+    margin-right: 4px;
+    flex-shrink: 0;
+}
+
+.film-content__rating:not(:last-child) {
+    margin-right: 3px;
+}
+
+.film-content-rating__text {
+    font-size: 15px;
+    line-height: 24px;
+
+    font-family: SansSerif,sans-serif;
+    letter-spacing: .05em;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+.film-content__year,
+.film-content__type,
+.film-content__country,
+.film-content__age-limit {
+    color: rgba(255,255,255,.56);
+
+    font-size: 18px;
+    line-height: 22px;
+
+    font-family: SansSerif,sans-serif;
+}
+
+.film-content__description {
+    margin-top: 8px;
+
+    font-size: 20px;
+    line-height: 26px;
+
+    font-family: SansSerif,sans-serif;
+    margin-bottom: 0;
+    opacity: .9;
+    overflow: hidden;
+    color: #fff;
+}
+
+.film-content__authors {
+    display: block;
+    margin-top: 20px;
+}
+
+.film-content-authors__director,
+.film-content-authors__actors {
+    margin-bottom: 8px;
+
+    font-size: 18px;
+    line-height: 22px;
+
+    color: rgba(255, 255, 255, 0.96);
+    font-family: SansSerif, sans-serif;
+}
+
+.film-content-authors-director__text,
+.film-content-authors-actors__text {
+    display: inline;
+    margin-right: 8px;
+
+    color: rgba(255, 255, 255, 0.56);
+    margin-bottom: 4px;
+}
+
+.film-content-authors-director__name,
+.film-content-authors-actors__name {
+    text-underline-offset: 4px;
+    text-decoration-color: rgba(139, 136, 146, 0.32);
+    color: inherit;
+    white-space: nowrap;
+    transition: text-decoration-color 0.2s ease 0s, -webkit-text-decoration-color 0.2s ease 0s;
+}
+
+.film-content-authors-director__name:hover,
+.film-content-authors-actors__name:hover {
+    text-decoration-color: rgba(255, 255, 255, 0.56);
+}
+
+.film-content__buttons {
+    margin-top: 20px;
+
+    display: flex;
+
+    flex-wrap: nowrap;
+
+    flex-direction: row;
+}

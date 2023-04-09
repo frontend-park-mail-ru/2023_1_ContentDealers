@@ -10,7 +10,7 @@ module.exports = {
     output: {
         filename: 'index_bundle.js',
         path: buildPath,
-        clean: true,
+        // clean: true,
     },
 
     module: {

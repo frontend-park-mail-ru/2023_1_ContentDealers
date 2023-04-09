@@ -10,6 +10,9 @@ const paths = {
     store: '/store',
     myMovie: '/my-movie',
     settings: '/settings',
+    signIn: '/signIn',
+    signUp: '/signUp',
+    person: '/persons/{:id}'
 }
 
 export default paths;

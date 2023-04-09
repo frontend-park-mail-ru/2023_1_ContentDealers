@@ -1,6 +1,7 @@
 .button {
     display: flex;
     align-items: center;
+    justify-content: center;
 
     height: min-content;
     padding: 10px;
@@ -16,6 +17,12 @@
     transition: background-color 0.3s ease-in-out;
 }
 
-.button:hover {
+.button--disabled {
+    background: linear-gradient(26.57deg,#3c1a70 0%,rgba(93,14,245,.83));
+    opacity: .5;
+    cursor: auto;
+}
+
+.button:hover:not(.button--disabled):hover {
     background-image: radial-gradient(circle 200px at 50px 40px, #5d0ef5, #321069 40.62%, #321069 100%);
 }

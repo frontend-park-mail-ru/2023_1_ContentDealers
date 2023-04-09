@@ -29,6 +29,10 @@ class IComponent {
         this.element = element;
     };
 
+    public toHTMLElement(): HTMLElement {
+        return this.element;
+    };
+
     public querySelector(element: string): HTMLElement | null {
         return this.parent.querySelector(element);
     };

@@ -8,6 +8,9 @@ import ListComponent from '../../Components/ListComponent/ListComponent';
 
 import HeaderData from './HeaderViewConfig';
 
+
+import DropdownButtonComponentData from '../../Components/DropdownButtonComponent/DropdownButtonComponentData';
+
 /**
  * Отображение хедера приложения
  * @category Header
@@ -17,45 +20,35 @@ import HeaderData from './HeaderViewConfig';
 class HeaderView extends IView {
     private readonly leftSide: HTMLElement;
     private readonly rightSide: HTMLElement;
-
-    // private actionsList: HeaderListView;
+    private readonly profile: HTMLElement;
     private actionsList: ListComponent;
-
     private currentActiveItem: string | null;
+
     constructor(parent: HTMLElement) {
         super(parent, HeaderTemplate({}), '.js-header-container');
 
         // Initialize fields
         this.leftSide = <HTMLElement>this.element.querySelector('.js-header-container__left');
         this.rightSide = <HTMLElement>this.element.querySelector('.js-header-container__right');
+        this.profile = <HTMLElement>this.element.querySelector('.js-user-profile');
 
         // Render components
-        this.renderLogo();
-        this.renderActionsList();
-        this.renderRightSide();
-        this.renderProfile();
-    };
-
-    private renderLogo(): void {
-        const logo = new HeaderData.leftSide.componentType(this.leftSide, '', '', HeaderData.leftSide.componentData);
-        logo.show();
-    };
-
-    private renderActionsList(): void {
-        this.actionsList = <ListComponent>(new HeaderData.actionsList.componentType(this.leftSide, '', '', HeaderData.actionsList.componentData));
-        this.actionsList.show();
-    };
-
-    private renderRightSide(): void {
-        HeaderData.rightSide.forEach(({ componentType, componentData }) => {
-            const component = new componentType(this.rightSide, '', '', componentData); // TODO: Mb need cast data type
+        HeaderData.leftItems.forEach(({ componentType, componentData}) => {
+            const component = new componentType(this.leftSide, '', '', componentData);
             component.show();
         });
-    };
 
-    private renderProfile(): void {
-        const profile = new HeaderData.profile.componentType(this.rightSide, '', '', HeaderData.profile.componentData);
-        profile.show();
+        this.actionsList = <ListComponent>(new HeaderData.actionsList.componentType(this.leftSide, '', '', HeaderData.actionsList.componentData));
+        this.actionsList.show();
+        this.currentActiveItem = null;
+
+        HeaderData.rightItems.forEach(({ componentType, componentData}) => {
+            const component = new componentType(this.rightSide, '', '', componentData);
+            component.show();
+        });
+
+        this.rightSide.removeChild(this.profile);
+        this.rightSide.appendChild(this.profile);
     };
 
     public changeActiveHeaderListItem(href: string) {
@@ -63,6 +56,36 @@ class HeaderView extends IView {
         listElement.querySelector(`[href="${this.currentActiveItem}"]`)?.parentElement?.classList.remove('active');
         this.currentActiveItem = href;
         listElement.querySelector(`[href="${href}"]`)?.parentElement?.classList.add('active');
+    };
+
+    /**
+     * Функция изменения элемента в хэдере
+     * @param  {string} profileItemName - название элемента
+     * @param  {any} data - Данные, необходимые для отрисовки элемента
+     * @returns {void}
+     */
+    public changeHeaderProfile(profileItemName: string, data?: any): void { // TODO: mb IUser?
+        if (!(profileItemName in HeaderData)) {
+            return;
+        }
+
+        const component = <IComponentDataWithType>HeaderData[profileItemName];
+        this.profile.innerHTML = '';
+
+        if (data?.avatar) {
+            (<DropdownButtonComponentData>component.componentData).avatar = data.avatar;
+        }
+
+        const profileItem = new component.componentType(this.profile, '', '', component.componentData);
+        profileItem.show();
+    };
+
+    public toggleProfile(): void {
+        this.profile.querySelector('.js-dropdown__content')?.classList.toggle('dropdown__content__show');
+    };
+
+    public hideProfile(): void {
+        this.profile.querySelector('.js-dropdown__content')?.classList.remove('dropdown__content__show');
     };
 
     /**

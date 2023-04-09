@@ -1,33 +1,37 @@
 import LinkComponent from '../../Components/LinkComponent/LinkComponent';
 import VerticalSpacerComponent from '../../Components/VerticalSpacerComponent/VerticalSpacerComponent';
 import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
-
 import ListComponent from '../../Components/ListComponent/ListComponent';
-import '../../Components/Css/HeaderActionList/HeaderActionList.css';
-
 import DropdownButtonComponent from '../../Components/DropdownButtonComponent/DropdownButtonComponent';
+
+import '../../Components/Css/HeaderActionList/HeaderActionList.css';
 import '../../Components/Css/HeaderProfileDropdown/HeaderProfileDropdown.css';
+import '../../Components/Css/HeaderSignIn/HeaderSignIn.css';
 
 import IComponentDataWithType from '../../Interfaces/interfaces';
 
 interface IHeaderData {
-    leftSide: IComponentDataWithType;
+    leftItems: IComponentDataWithType[];
     actionsList: IComponentDataWithType;
-    rightSide: IComponentDataWithType[];
+    rightItems: IComponentDataWithType[];
     profile: IComponentDataWithType;
+    signIn: IComponentDataWithType;
+
+    [key: string]: IComponentDataWithType | IComponentDataWithType[];
 };
 
 const HeaderData: IHeaderData = {
-    leftSide: {
-        componentData: {
-            linkHref: '/',
-            linkClass: 'logo',
-            linkImageSrc: '/img/logo/logo.svg',
-            linkImageWidth: '40px',
-
+    leftItems: [
+        {
+            componentData: {
+                linkHref: '/',
+                linkClass: 'logo',
+                linkImageSrc: '/img/logo/logo.svg',
+                linkImageWidth: '40px',
+            },
+            componentType: LinkComponent,
         },
-        componentType: LinkComponent,
-    },
+    ],
     actionsList: {
         componentData: {
             listClass: 'header-container__action-list',
@@ -77,7 +81,7 @@ const HeaderData: IHeaderData = {
         },
         componentType: ListComponent,
     },
-    rightSide: [
+    rightItems: [
         {
             componentData: {
                 linkHref: '#',
@@ -109,6 +113,8 @@ const HeaderData: IHeaderData = {
     ],
     profile: {
         componentData: {
+            dataAction: 'profile',
+            avatar: '/img/profile/profile.jpg',
             items: [
                 {
                     linkHref: '/settings',
@@ -122,7 +128,18 @@ const HeaderData: IHeaderData = {
             ],
         },
         componentType: DropdownButtonComponent,
-    }
+    },
+    signIn: {
+        componentData: {
+            dataAction: 'signIn',
+            linkHref: '/signIn',
+            linkClass: 'header__signIn-link',
+            linkImageSrc: '/img/icons/circle-user.svg',
+            linkImageWidth: '30px',
+            linkText: 'Войти',
+        },
+        componentType: LinkComponent,
+    },
 };
 
 export default HeaderData;

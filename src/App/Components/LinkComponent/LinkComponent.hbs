@@ -1,4 +1,4 @@
-<a href="{{ linkHref }}" class="link js-link {{ linkClass }}">
+<a {{#if id}} id="{{ id }}" {{/if}}href="{{ linkHref }}" class="link js-link {{ linkClass }}" {{#if dataAction}} data-action="{{ dataAction }}" {{/if}}>
     {{#if linkImageSrc}}
     <span class="link__image {{ linkImageClass }}">
         <img src="{{ linkImageSrc }}" width="{{ linkImageWidth }}">

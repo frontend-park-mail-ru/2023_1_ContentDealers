@@ -29,7 +29,7 @@ abstract class IController<tView extends IView, tModel extends IModel> {
      */
     protected isMounted: boolean;
 
-    constructor(view: tView, model: tModel) {
+    protected constructor(view: tView, model: tModel) {
         this.view = view;
         this.model = model;
         this.isMounted = false;
@@ -53,8 +53,11 @@ abstract class IController<tView extends IView, tModel extends IModel> {
      * @return {void}
      */
     public unmountComponent(): void {
+        console.log('unmountComponent')
         if (this.isMounted) {
+            console.log('Before hide')
             this.view.hide();
+            console.log('After hide')
             this.isMounted = false;
         }
     }

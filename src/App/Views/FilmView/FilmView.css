@@ -9,14 +9,14 @@
 }
 
 .film__background {
-    --cover-max-width: 1720px;
+    --cover-max-width: 1300px;
     max-width: var(--cover-max-width);
     height: fit-content;
     position: absolute;
     right: 0;
     top: 0;
 
-    left: 10%;
+    left: 20%;
 }
 
 .film__background::before {
@@ -73,8 +73,8 @@
     z-index: 1;
 
     width: 50%;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 40%;
+    transform: translateY(-40%);
     padding-top: 0;
 
     box-sizing: border-box;

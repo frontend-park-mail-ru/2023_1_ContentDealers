@@ -3,7 +3,7 @@ import IView from '../IView/IView';
 import MainTemplate from './MainView.hbs';
 import './MainView.css';
 
-import { ISelection } from "../../Models/SelectionModel/ISelection";
+import ISelection from '../../Interfaces/ISelection/ISelection';
 
 class MainView extends IView {
     // private selectionContainer: HTMLElement;

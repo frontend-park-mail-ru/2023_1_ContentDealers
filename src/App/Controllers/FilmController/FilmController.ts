@@ -52,7 +52,7 @@ class FilmController extends IController<FilmView, FilmModel> {
 
             this.filmId = null;
         }
-    }
+    };
 
     private handleClick(e: Event): void {
         e.preventDefault();

@@ -36,7 +36,6 @@ class PersonController extends IController<PersonView, PersonModel> {
 
                 this.model.getPerson(this.personId)
                     .then((data) => {
-                        console.log('PersonController data', data);
                         this.view.fillPerson(data);
                     })
                     .catch((error) => {
@@ -44,6 +43,14 @@ class PersonController extends IController<PersonView, PersonModel> {
                         return;
                     });
             }
+        }
+    };
+
+    public unmountComponent(): void {
+        if (this.isMounted) {
+            super.unmountComponent();
+
+            this.personId = null;
         }
     };
 

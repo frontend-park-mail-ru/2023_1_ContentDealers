@@ -1,4 +1,5 @@
 <article class="film">
+    {{#with content}}
     <div class="film__background">
         <img class="film-background__image" src="{{ previewURL }}" alt="">
     </div>
@@ -44,4 +45,5 @@
             </div>
         </div>
     </div>
+    {{/with}}
 </article>

@@ -33,14 +33,10 @@ class MainController extends IController<MainView, { selections: SelectionModel 
     };
 
     private handleClick(e: Event): void {
-        console.log('Main Controller handleClick')
         e.preventDefault();
         if (this.isMounted) {
-            console.log('Click')
             const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
-            console.log('href', href)
             if (href !== undefined && href !== null) {
-                console.log('goToPath')
                 router.goToPath(href);
             }
 

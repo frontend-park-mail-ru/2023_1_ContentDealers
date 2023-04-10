@@ -3,7 +3,7 @@ import IView from '../IView/IView';
 import FilmTemplate from './FilmView.hbs';
 import './FilmView.css';
 
-import { IFilm } from '../../Models/FilmModel/IFilm';
+import IFilm from '../../Interfaces/IFilm/IFilm';
 
 /**
  * Отображение фильма приложения
@@ -13,12 +13,12 @@ import { IFilm } from '../../Models/FilmModel/IFilm';
  */
 class FilmView extends IView {
     constructor(parent: HTMLElement) {
-        super(parent, FilmTemplate({}), 'article');
+        super(parent, FilmTemplate({}), '.film');
     };
 
     public fillFilm(data: IFilm): void {
         console.log('In FilmView', data);
-        this.parent.innerHTML = FilmTemplate(data);
+        this.element.innerHTML = FilmTemplate(data);
     };
 
     // private renderButtons(): void {

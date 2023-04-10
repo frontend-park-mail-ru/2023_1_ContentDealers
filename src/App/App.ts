@@ -135,19 +135,24 @@ class App {
      * @return {void}
      */
     private initRoutes(): void {
-        router.addRule(paths.main, this.handleRedirectToMain.bind(this));
-        router.addRule(paths.catalog, this.handleRedirectToCatalog.bind(this));
-        router.addRule(paths.store, this.handleRedirectToStore.bind(this));
-        router.addRule(paths.myMovie, this.handleRedirectToMyMovie.bind(this));
+        const routes = [
+            { path: paths.main,     handler: this.handleRedirectToMain },
+            { path: paths.catalog,  handler: this.handleRedirectToCatalog },
+            { path: paths.store,    handler: this.handleRedirectToStore },
+            { path: paths.myMovie,  handler: this.handleRedirectToMyMovie },
 
-        router.addRule(paths.signIn, this.handleRedirectToSignIn.bind(this));
-        router.addRule(paths.signUp, this.handleRedirectToSignUp.bind(this));
-        router.addRule(paths.logout, this.handleRedirectToLogout.bind(this));
+            { path: paths.signIn,   handler: this.handleRedirectToSignIn },
+            { path: paths.signUp,   handler: this.handleRedirectToSignUp },
+            { path: paths.logout,   handler: this.handleRedirectToLogout },
+            { path: paths.settings, handler: this.handleRedirectToSettings },
 
-        router.addRule(paths.settings, this.handleRedirectToSettings.bind(this));
+            { path: paths.films,    handler: this.handleRedirectToFilm },
+            { path: paths.persons,  handler: this.handleRedirectToPerson },
+        ];
 
-        router.addRule(paths.films, this.handleRedirectToFilm.bind(this));
-        router.addRule(paths.persons, this.handleRedirectToPerson.bind(this));
+        routes.forEach(({ path, handler }) => {
+            router.addRule(path, handler.bind(this));
+        });
     };
 
 
@@ -273,28 +278,26 @@ class App {
         console.log('handleRedirectToFilm');
         EventDispatcher.emit('unmount-all');
 
-        // mount
-        this.headerController.mountComponent();
-
+        // console.log('data', data)
         if (!data || !data[0]) {
             router.showUnknownPage();
             return;
         }
 
-        console.log(data[0])
+        // console.log(data[0])
         const filmId = data[0];
+
+        // mount
+        this.headerController.mountComponent();
         this.filmController.mountComponent({ id: filmId.toString() });
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
-    }
+    };
 
     private handleRedirectToPerson(data: any): void {
         console.log('handleRedirectToPerson');
         EventDispatcher.emit('unmount-all');
-
-        // mount
-        this.headerController.mountComponent();
 
         if (!data || !data[0]) {
             router.showUnknownPage();
@@ -302,7 +305,10 @@ class App {
         }
 
         const personId = data[0];
-        const person = this.personController.mountComponent({ id: personId.toString() });
+
+        // mount
+        this.headerController.mountComponent();
+        this.personController.mountComponent({ id: personId.toString() });
 
         // states
         this.headerView.changeActiveHeaderListItem('#');

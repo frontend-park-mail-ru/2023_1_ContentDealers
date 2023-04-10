@@ -49,9 +49,7 @@ class Ajax {
     };
 
     public async checkResponseStatus(response: IResponse, conf: IApi) {
-        console.log('checkResponseStatus')
         if (response.status.toString() in conf.statuses.success) {
-            console.log('checkResponseStatus if')
             return Promise.resolve();
         }
 

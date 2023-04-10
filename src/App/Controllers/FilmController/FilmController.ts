@@ -47,11 +47,6 @@ class FilmController extends IController<FilmView, FilmModel> {
     };
 
     public unmountComponent(): void {
-        console.log('Film Controller');
-        console.log('this.isMounted', this.isMounted)
-        console.log('Parent', this.view.parent)
-        console.log('Element', this.view.element)
-
         if (this.isMounted) {
             super.unmountComponent();
 

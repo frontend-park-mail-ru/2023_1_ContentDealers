@@ -30,6 +30,7 @@ class Router {
     };
 
     public goToPath(path: string): void {
+        console.log(path)
         history.pushState({ path: path }, '', path);
         this.route();
     };
@@ -44,7 +45,9 @@ class Router {
             this.nearestNotAuthUrl = path;
         }
 
+        console.log(path)
         const rt = this.routes.find((r) => r.rule === path);
+        console.log('rt', rt)
         if (rt) {
             rt.handler(rt);
         }

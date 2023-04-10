@@ -17,7 +17,7 @@ class FormComponent extends IComponent {
     public links: LinkComponent[];
 
     constructor(parent: HTMLElement, template = '', topElem = '', data?: FormComponentData) {
-        super(parent, FormComponentTemplate({ formId: data?.formId }), '.js-form');
+        super(parent, FormComponentTemplate({ formId: data?.formId, enctype: data?.enctype }), '.js-form');
 
         const formContent = <HTMLElement>this.element.querySelector('.form__content');
         const formFooter = <HTMLElement>this.element.querySelector('.form__footer');
@@ -43,6 +43,12 @@ class FormComponent extends IComponent {
             this.links.push(linkElement);
         });
     };
+
+    // public getData(): { id: string, value: string }[] {
+    //     return this.inputs.map((inputComponent) => {
+    //         return inputComponent.getData();
+    //     });
+    // };
 
     public validateEmptyFields(fields: InputComponent[]): boolean {
         return fields.map(field => {
@@ -110,7 +116,12 @@ class FormComponent extends IComponent {
         return isValid;
     };
 
-    public validateAllFields(): boolean {
+    public validateWithEmpty(): boolean {
+        // return this.validateInputFields() && this.validatePasswordFields();
+        return true;
+    };
+
+    public validateWithoutEmpty(): boolean {
         // return this.validateInputFields() && this.validatePasswordFields();
         return true;
     };
@@ -139,6 +150,14 @@ class FormComponent extends IComponent {
         this.links.forEach((linkComponent) => {
             linkComponent.bindClickEvent(listener);
         });
+    };
+
+    public bindFileClickEvent(listener: any): void {
+        this.findInputComponent('avatar').bindClickEvent(listener);
+    };
+
+    public bindCheckboxClickEvent(listener: any): void {
+        this.findInputComponent('avatar-checkbox').bindClickEvent(listener);
     };
 }
 

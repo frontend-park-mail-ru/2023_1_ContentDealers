@@ -7,6 +7,7 @@ import LinkComponentData from '../LinkComponent/LinkComponentData';
 interface FormComponentData extends IComponentData {
     formId?: string;
     formTitle?: string;
+    enctype?: boolean;
     inputs: InputComponentData[];
     button: ButtonComponentData;
     links?: LinkComponentData[];

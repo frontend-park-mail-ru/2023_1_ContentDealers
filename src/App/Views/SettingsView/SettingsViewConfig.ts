@@ -8,13 +8,15 @@ import FormComponentData from '../../Components/FormComponent/FormComponentData'
 interface ISettingsData {
     title?: string;
     description?: string;
+    formTitle?: string;
     leftMenu: IComponentDataWithType;
     formData: FormComponentData;
 }
 
 const SettingsData: ISettingsData = {
-    title: 'Контакты',
+    title: 'Настройки',
     description: 'Оставьте контактные данные для получения уведомлений от сервиса и взаимодействия со службой поддержки.',
+    formTitle: 'Контакты',
     leftMenu: {
         componentData: {
             listClass: 'settings__left-menu',
@@ -55,7 +57,7 @@ const SettingsData: ISettingsData = {
                             linkImageSrc: '/img/icons/logout.svg',
                             linkImageClass: '',
                             linkImageWidth: 24,
-                            linkText: 'Подписки',
+                            linkText: 'Выйти',
                         },
                     componentType: LinkComponent
                 }
@@ -65,12 +67,23 @@ const SettingsData: ISettingsData = {
     },
     formData: {
         formId: 'settings__form',
+        enctype: true,
         inputs: [
             {
                 inputClass: 'input-field__input--dark',
                 type: 'email',
                 id: 'email',
                 placeholder: 'vasiliy.pupkin@mail.ru',
+            },
+            {
+                type: 'file',
+                id: 'avatar',
+            },
+            {
+                type: 'checkbox',
+                id: 'avatar-checkbox',
+                checkboxText: 'Удалить аватарку?',
+                class: 'input-checkbox'
             },
             {
                 inputClass: 'input-field__input--dark',
@@ -83,12 +96,12 @@ const SettingsData: ISettingsData = {
                 type: 'password',
                 id: 'repeat-password',
                 placeholder: '********',
-            },
+            }
         ],
         button: {
-            id: 'settings-submit-btn',
-            text: 'Войти',
-            className: 'settings-button'
+            id: 'save-submit-btn',
+            text: 'Сохранить',
+            className: 'save-button'
         },
         links: [],
     }

@@ -12,7 +12,9 @@ const paths = {
     settings: '/settings',
     signIn: '/signIn',
     signUp: '/signUp',
-    person: '/persons/{:id}'
+    logout: '/logout',
+    films: '/films/{:id}',
+    persons: '/persons/{:id}',
 }
 
 export default paths;

@@ -45,7 +45,6 @@ class SignInController extends IController<SignInView, UserModel> {
     };
 
     private onSubmit(e: Event): void {
-        console.log('onSubmit')
         e.preventDefault();
         if (this.isMounted) {
             this.view.form.bindInputsEvent(this.onInput.bind(this));
@@ -55,20 +54,16 @@ class SignInController extends IController<SignInView, UserModel> {
                 return;
             }
 
-            console.log('validateFormFields')
             if (!this.validateFormFields()) {
                 return;
             }
 
-            console.log('userSignIn')
             const userSignIn: IUserSignIn = {
                 email: this.view.form.findInputComponent('email').input.value,
                 password: this.view.form.findInputComponent('password').input.value,
             };
-            console.log(userSignIn)
 
             this.model.signInUser(userSignIn).then(() => {
-                console.log('Before goToPath')
                 router.goToPath(paths.main);
             }).catch((errorMsg) => {
                 this.view.form.findInputComponent('password').showErrorMsg(errorMsg);

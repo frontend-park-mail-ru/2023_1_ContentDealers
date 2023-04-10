@@ -21,6 +21,7 @@ class ModalRightView extends IView {
         super(parent, ModalRightTemplate({ title: ModalRightData.title }), '.js-modal__area');
 
         this.modalBody = <HTMLElement>this.element.querySelector('.js-modal__body');
+
         this.currentView = null;
     };
 

@@ -1,5 +1,4 @@
 import IController from '../IController/IController';
-import IModel from '../../Models/IModel/IModel';
 
 import ModalRightView from '../../Views/ModalRightView/ModalRightView';
 
@@ -22,11 +21,11 @@ import { UserModel } from '../../Models/UserModel/UserModel';
  * @param  {HeaderView} view Объект вида компонента правого модального окна
  * @param  {UserModel} model Объект модели пользователя
  */
-class ModalRightController extends IController<ModalRightView, IModel> {
+class ModalRightController extends IController<ModalRightView, UserModel> {
     private currentController: SignInController | SignUpController;
 
-    constructor(view: ModalRightView) {
-        super(view, IModel);
+    constructor(view: ModalRightView, model: UserModel) {
+        super(view, model);
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
@@ -41,7 +40,7 @@ class ModalRightController extends IController<ModalRightView, IModel> {
             this.view.currentView?.hide();
 
             this.view.setSignUpView();
-            this.currentController = new SignUpController(<SignUpView>this.view.currentView, userModel)
+            this.currentController = new SignUpController(<SignUpView>this.view.currentView, userModel);
         });
 
         this.view.bindClickEvent(this.handleClick.bind(this));

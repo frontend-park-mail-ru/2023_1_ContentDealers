@@ -18,6 +18,10 @@ const headersWithUnicode: { [index: string]: string } = {
     'Content-Type': 'application/json;charset=utf-8',
 };
 
+const headersWithUndefined: { [index: string]: undefined } = {
+    'Content-Type': undefined,
+};
+
 const failureDefaultStatuses: { [index: string]: string } = {
     '400': 'Неверный запрос',
     '401': 'No Cookie',
@@ -28,7 +32,7 @@ const failureDefaultStatuses: { [index: string]: string } = {
 interface IApi {
     url: string;
     method: string;
-    headers: { [index: string]: string };
+    headers: { [index: string]: string | undefined };
     statuses: {
         success: { [index: string]: string };
         failure: { [index: string]: string };
@@ -84,6 +88,17 @@ const config: IConfig = {
                 },
             },
         },
+        logout: {
+            url: '/user/logout',
+            method: REQUEST_METHODS.POST,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Успешно',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
         profile: {
             url: '/user/profile',
             method: REQUEST_METHODS.GET,
@@ -109,6 +124,20 @@ const config: IConfig = {
                 },
             },
         },
+        selections: {
+            url: '/selections',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Подборки успешно получены',
+                },
+                failure: {
+                    // '405': 'Неверный HTTP метод',
+                    '500': 'Ошибка сервера',
+                },
+            },
+        },
         person: {
             url: '/persons/{:id}',
             method: REQUEST_METHODS.GET,
@@ -116,6 +145,48 @@ const config: IConfig = {
             statuses: {
                 success: {
                     '200': 'Человек успешно получен',
+                },
+                failure: {
+                    // '405': 'Неверный HTTP метод',
+                    '500': 'Ошибка сервера',
+                },
+            },
+        },
+        update: {
+            url: '/user/update',
+            method: REQUEST_METHODS.POST,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Данные успешно обновлены',
+                },
+                failure: {
+                    // '405': 'Неверный HTTP метод',
+                    '500': 'Ошибка сервера',
+                },
+            },
+        },
+        avatarUpdate: {
+            url: '/user/avatar/update',
+            method: REQUEST_METHODS.POST,
+            headers: headersWithUndefined,
+            statuses: {
+                success: {
+                    '200': 'Данные успешно обновлены',
+                },
+                failure: {
+                    // '405': 'Неверный HTTP метод',
+                    '500': 'Ошибка сервера',
+                },
+            },
+        },
+        avatarDelete: {
+            url: '/user/avatar/delete',
+            method: REQUEST_METHODS.POST,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Данные успешно обновлены',
                 },
                 failure: {
                     // '405': 'Неверный HTTP метод',

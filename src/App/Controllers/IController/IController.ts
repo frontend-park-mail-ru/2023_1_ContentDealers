@@ -53,11 +53,8 @@ abstract class IController<tView extends IView, tModel extends IModel> {
      * @return {void}
      */
     public unmountComponent(): void {
-        console.log('unmountComponent')
         if (this.isMounted) {
-            console.log('Before hide')
             this.view.hide();
-            console.log('After hide')
             this.isMounted = false;
         }
     }

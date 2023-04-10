@@ -41,6 +41,10 @@ class InputComponent extends IComponent {
             input.addEventListener('input', listener.bind(this));
         }
     };
+
+    public bindClickEvent(listener: any): void {
+        this.input.addEventListener('click', listener.bind(this));
+    };
 }
 
 export default InputComponent;

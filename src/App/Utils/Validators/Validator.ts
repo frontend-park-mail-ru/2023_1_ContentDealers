@@ -19,23 +19,15 @@ const validValidator: ValidatorResult = {
     errorMsg:     '',
 };
 
-const emptyValidator: ValidatorResult = {
-    isValid:      false,
-    errorMsg:     'Пустое поле',
-}
-
-// function validateEmptyField(input: { id: string, value: string }): ValidatorResult {
-//     if (input.value === '') {
-//         return emptyValidator;
-//     }
-//
-//     return { isValid: true, errorMsg: '' };
-// };
+// const emptyValidator: ValidatorResult = {
+//     isValid:      false,
+//     errorMsg:     'Пустое поле',
+// }
 
 function validateInput(input: { id: string, value: string }): ValidatorResult {
-    if (input.value === '') {
-        return emptyValidator;
-    }
+    // if (input.value === '') {
+    //     return emptyValidator;
+    // }
 
     const validator = validators.get(input.id);
     if (!validator) {

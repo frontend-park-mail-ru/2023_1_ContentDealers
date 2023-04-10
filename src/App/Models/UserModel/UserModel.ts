@@ -18,8 +18,8 @@ interface IUserSignUp {
 }
 
 interface IUser {
-    // id:         number;
     email:      string;
+    birthDate:  string;
     avatar?:    string;
 }
 
@@ -33,32 +33,26 @@ class UserModel extends IModel {
 
     private parseUser(json: any): IUser {
         return {
-            // id: json.ID,
-            email: json.Email,
-            avatar: json.AvatarURL === 0 ? DEFAULT_AVATAR : DEFAULT_AVATAR, // TODO: change to user avatar
+            email: json.email,
+            birthDate: json.date_birth,
+            avatar: json.avatar_url, // TODO: change to user avatar
         };
     };
 
     public getCurrentUser(): IUser | null {
-        // return { id: 4, email: 'hello@', avatar: '' };
-
         return this.currentUser;
     };
 
     public async signInUser(signData: IUserSignIn) {
-        const response = await Ajax.ajax(config.api.signIn, JSON.stringify(signData));
+        const signInResponse = await Ajax.ajax(config.api.signIn, JSON.stringify(signData));
 
         try {
-            await Ajax.checkResponseStatus(response, config.api.signIn);
-            // this.currentUser = this.parseUser(response.responseBody.body);
+            await Ajax.checkResponseStatus(signInResponse, config.api.signIn);
 
-            const newResponse = await Ajax.ajax(config.api.profile);
-            await Ajax.checkResponseStatus(newResponse, config.api.profile);
+            const profileResponse = await Ajax.ajax(config.api.profile);
+            await Ajax.checkResponseStatus(profileResponse, config.api.profile);
 
-            console.log('response.responseBody.body.user')
-            console.log(response.responseBody.body.user)
-            this.currentUser = this.parseUser(response.responseBody.body.user);
-            console.log(this.currentUser)
+            this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
         }
         catch {
             this.currentUser = null;
@@ -66,17 +60,24 @@ class UserModel extends IModel {
 
         EventDispatcher.emit('user-changed', this.currentUser);
 
-        console.log('this.currentUser', this.currentUser)
         if (this.currentUser === null)
-            return Promise.reject(response.responseBody.message);
+            return Promise.reject(signInResponse.responseBody.message);
     };
 
     public async signUpUser(signData: IUserSignUp) {
-        const response = await Ajax.ajax(config.api.signUp, JSON.stringify(signData));
+        const signUpResponse = await Ajax.ajax(config.api.signUp, JSON.stringify(signData));
 
+        console.log(signUpResponse)
         try {
-            await Ajax.checkResponseStatus(response, config.api.signUp);
-            this.currentUser = this.parseUser(response.responseBody.body);
+            await Ajax.checkResponseStatus(signUpResponse, config.api.signUp);
+
+            const signInResponse = await Ajax.ajax(config.api.signIn, JSON.stringify(signData));
+            await Ajax.checkResponseStatus(signInResponse, config.api.signIn);
+
+            const profileResponse = await Ajax.ajax(config.api.profile);
+            await Ajax.checkResponseStatus(profileResponse, config.api.profile);
+
+            this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
         }
         catch {
             this.currentUser = null;
@@ -84,7 +85,7 @@ class UserModel extends IModel {
         EventDispatcher.emit('user-changed', this.currentUser);
 
         if (this.currentUser === null)
-            return Promise.reject(response.responseBody.message);
+            return Promise.reject(signUpResponse.responseBody.message);
     };
 
     public async logoutUser() {
@@ -96,11 +97,94 @@ class UserModel extends IModel {
         EventDispatcher.emit('user-changed', this.currentUser);
     };
 
+    public async updateUser(user: any) {
+        console.log('updateUser');
+        const response = await Ajax.ajax(config.api.update, JSON.stringify(user));
+
+        try {
+            await Ajax.checkResponseStatus(response, config.api.update);
+
+            const profileResponse = await Ajax.ajax(config.api.profile);
+            await Ajax.checkResponseStatus(profileResponse, config.api.profile);
+
+            this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
+        }
+        catch {
+            return Promise.reject();
+        }
+
+        EventDispatcher.emit('user-changed', this.currentUser);
+    };
+
+    public async avatarUpdate(formData: any) {
+        console.log('avatarUpdate');
+        // const response = await Ajax.ajax(config.api.avatarUpdate, JSON.stringify(formData));
+        // console.log(response)
+        //
+        // try {
+        //     await Ajax.checkResponseStatus(response, config.api.avatarUpdate);
+        //     console.log('response', response)
+        //
+        //     const profileResponse = await Ajax.ajax(config.api.profile);
+        //     console.log('profileResponse', profileResponse);
+        //     await Ajax.checkResponseStatus(profileResponse, config.api.profile);
+        //
+        //     this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
+        //     console.log('currentUser', this.currentUser);
+        // }
+        // catch {
+        //     return Promise.reject();
+        // }
+
+
+        const request = new XMLHttpRequest();
+        request.open("POST", config.host + config.api.avatarUpdate.url, false);
+        request.withCredentials = true;
+        request.send(formData);
+
+        if (request.status === 200) {
+            const profileResponse = await Ajax.ajax(config.api.profile);
+            await Ajax.checkResponseStatus(profileResponse, config.api.profile);
+
+            console.log('profileResponse.responseBody.body.user', profileResponse.responseBody.body.user)
+            this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
+            console.log('this.currentUser', this.currentUser)
+
+            EventDispatcher.emit('user-changed', this.currentUser);
+        } else {
+            return Promise.reject();
+        }
+    };
+
+    public async avatarDelete() {
+        console.log('avatarDelete');
+        const response = await Ajax.ajax(config.api.avatarDelete);
+        console.log(response)
+
+        try {
+            await Ajax.checkResponseStatus(response, config.api.avatarDelete);
+            console.log('response', response)
+
+            const profileResponse = await Ajax.ajax(config.api.profile);
+            console.log('profileResponse', profileResponse);
+            await Ajax.checkResponseStatus(profileResponse, config.api.profile);
+
+            this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
+            console.log('currentUser', this.currentUser);
+
+            EventDispatcher.emit('user-changed', this.currentUser);
+        }
+        catch {
+            return Promise.reject();
+        }
+    };
+
     public async authUserByCookie() {
         const response = await Ajax.ajax(config.api.profile);
+
         try {
             await Ajax.checkResponseStatus(response, config.api.profile);
-            this.currentUser = this.parseUser(response.responseBody.body);
+            this.currentUser = this.parseUser(response.responseBody.body.user);
         }
         catch {
             this.currentUser = null;

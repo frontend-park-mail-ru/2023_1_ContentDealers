@@ -10,7 +10,7 @@ class IView {
      * @protected
      * @type {HTMLElement}
      */
-    public parent: HTMLElement;
+    protected parent: HTMLElement;
 
     /**
      * Корневой элемент для данного вида
@@ -18,7 +18,7 @@ class IView {
      * @protected
      * @type {HTMLElement}
      */
-    public element: HTMLElement;
+    protected element: HTMLElement;
 
     constructor(parent: HTMLElement, template: string, topElement: string) {
         this.parent = parent;
@@ -47,9 +47,6 @@ class IView {
      * @returns {void}
      */
     public hide(): void {
-        console.log('In hide')
-        console.log(this.parent)
-        console.log(this.element)
         this.parent.removeChild(this.element);
     };
 };

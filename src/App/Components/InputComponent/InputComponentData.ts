@@ -4,6 +4,7 @@ interface InputComponentData extends IComponentData {
     class?: string;
     inputClass?: string;
     id: string;
+    checkboxText?: string;
     type?: string;
     placeholder?: string;
 };

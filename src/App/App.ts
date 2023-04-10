@@ -17,9 +17,13 @@ import SettingsController from './Controllers/SettingsController/SettingsControl
 import PersonView from './Views/PersonView/PersonView';
 import PersonController from './Controllers/PersonController/PersonController';
 
+import MainView from "./Views/MainView/MainView";
+import MainController from "./Controllers/MainController/MainController";
+
 import { UserModel } from './Models/UserModel/UserModel';
 import { FilmModel } from './Models/FilmModel/FilmModel';
 import PersonModel from './Models/PersonModel/PersonModel';
+import SelectionModel from "./Models/SelectionModel/SelectionModel";
 
 import router from './Router/Router';
 import paths from './Router/RouterPaths';
@@ -33,6 +37,7 @@ class App {
     private filmView: FilmView;
     private settingsView: SettingsView;
     private personView: PersonView;
+    private mainView: MainView;
 
     // Controllers
     private headerController: HeaderController;
@@ -40,11 +45,13 @@ class App {
     private filmController: FilmController;
     private settingsController: SettingsController;
     private personController: PersonController;
+    private mainController: MainController;
 
     // Models
     private userModel: UserModel;
     private filmModel: FilmModel;
     private personModel: PersonModel;
+    private selectionModel: SelectionModel;
 
 
     // Elements
@@ -93,6 +100,7 @@ class App {
         this.filmView = new FilmView(this.content);
         this.settingsView = new SettingsView(this.content);
         this.personView = new PersonView(this.content);
+        this.mainView = new MainView(this.content);
     };
 
     /**
@@ -104,6 +112,7 @@ class App {
         this.userModel = new UserModel();
         this.filmModel = new FilmModel();
         this.personModel = new PersonModel();
+        this.selectionModel = new SelectionModel();
     };
 
     /**
@@ -113,10 +122,11 @@ class App {
      */
     private initControllers(): void {
         this.headerController = new HeaderController(this.headerView);
-        this.modalRightController = new ModalRightController(this.modalRightView);
+        this.modalRightController = new ModalRightController(this.modalRightView, this.userModel);
         this.filmController = new FilmController(this.filmView, this.filmModel);
         this.settingsController = new SettingsController(this.settingsView, this.userModel);
         this.personController = new PersonController(this.personView, this.personModel);
+        this.mainController = new MainController(this.mainView, { selections: this.selectionModel });
     };
 
     /**
@@ -132,15 +142,18 @@ class App {
 
         router.addRule(paths.signIn, this.handleRedirectToSignIn.bind(this));
         router.addRule(paths.signUp, this.handleRedirectToSignUp.bind(this));
+        router.addRule(paths.logout, this.handleRedirectToLogout.bind(this));
 
         router.addRule(paths.settings, this.handleRedirectToSettings.bind(this));
 
-        router.addRule(paths.person, this.handleRedirectToPerson.bind(this));
+        router.addRule(paths.films, this.handleRedirectToFilm.bind(this));
+        router.addRule(paths.persons, this.handleRedirectToPerson.bind(this));
     };
 
 
     private handleRedirectToMain(): void {
-        // EventDispatcher.emit('unmount-all');
+        console.log('handleRedirectToMain')
+        EventDispatcher.emit('unmount-all');
 
         this.userModel.authUserByCookie()
             .then(() => {
@@ -151,10 +164,10 @@ class App {
             });
 
         // mount
-        console.log('Mount header')
         this.headerController.mountComponent();
+        this.mainController.mountComponent();
 
-        const film = this.filmController.mountComponent({ id: 1 });
+        // const film = this.filmController.mountComponent({ id: 1 });
         // console.log('Film', film)
 
         // states
@@ -241,29 +254,40 @@ class App {
         console.log('handleRedirectToSettings')
         EventDispatcher.emit('unmount-all');
 
-        // this.userModel.authUserByCookie()
-        //     .then(() => {
-        //         // mount
-        //         this.headerController.mountComponent();
-        //         this.settingsController.mountComponent();
-        //
-        //         // states
-        //         this.headerView.changeActiveHeaderListItem('#');
-        //         this.settingsView.changeActiveLeftMenuItem('/settings');
-        //     })
-        //     .catch(() => {
-        //         router.goToPath(router.getNearestNotAuthUrl());
-        //     });
+        this.userModel.authUserByCookie()
+            .then(() => {
+                // mount
+                this.headerController.mountComponent();
+                this.settingsController.mountComponent();
+
+                // states
+                this.headerView.changeActiveHeaderListItem('#');
+                this.settingsView.changeActiveLeftMenuItem('/settings');
+            })
+            .catch(() => {
+                router.goToPath(router.getNearestNotAuthUrl());
+            });
+    };
+
+    private handleRedirectToFilm(data: any): void {
+        console.log('handleRedirectToFilm');
+        EventDispatcher.emit('unmount-all');
 
         // mount
         this.headerController.mountComponent();
-        this.settingsController.mountComponent();
+
+        if (!data || !data[0]) {
+            router.showUnknownPage();
+            return;
+        }
+
+        console.log(data[0])
+        const filmId = data[0];
+        this.filmController.mountComponent({ id: filmId.toString() });
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
-        this.settingsView.changeActiveLeftMenuItem('/settings');
-    };
-
+    }
 
     private handleRedirectToPerson(data: any): void {
         console.log('handleRedirectToPerson');
@@ -282,7 +306,14 @@ class App {
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
-    }
+    };
+
+    private handleRedirectToLogout(): void {
+        EventDispatcher.emit('redirect', paths.logout);
+
+        this.userModel.logoutUser();
+        router.goToPath(paths.main);
+    };
 }
 
 export default App;

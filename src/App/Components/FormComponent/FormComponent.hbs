@@ -1,4 +1,4 @@
-<form id="{{ formId }}" class="form js-form">
+<form id="{{ formId }}" class="form js-form" {{#if enctype }} enctype="multipart/form-data" {{/if}}>
     <div class="form__content js-form__content"></div>
 
     <div class="form__footer"></div>

@@ -16,7 +16,7 @@ class SettingsView extends IView {
     private leftMenu: ListComponent;
     private currentActiveItem: string | null;
 
-    private form: FormComponent;
+    public readonly form: FormComponent;
 
     constructor(parent: HTMLElement) {
         super(parent, SettingsTemplate(SettingsData), 'main');
@@ -41,11 +41,14 @@ class SettingsView extends IView {
 
     public show(opts?: { user: IUser }) {
         if(!opts) return;
-        console.log('In SettingView Show')
 
         this.form.setDataToFields([{ id: 'email', value: opts.user.email }]);
 
         super.show();
+    };
+
+    public bindClickEvent(listener: any): void {
+        this.element.addEventListener('click', listener.bind(this));
     };
 }
 

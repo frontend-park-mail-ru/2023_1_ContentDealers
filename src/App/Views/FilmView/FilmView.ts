@@ -19,7 +19,6 @@ class FilmView extends IView {
     public fillFilm(data: IFilm): void {
         console.log('In FilmView', data);
         this.parent.innerHTML = FilmTemplate(data);
-        this.element.querySelector('article');
     };
 
     // private renderButtons(): void {

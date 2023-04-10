@@ -27,7 +27,7 @@ class SignUpController extends IController<SignUpView, UserModel> {
         e.preventDefault();
 
         if (this.isMounted) {
-            const isValid = this.view.form.validateAllFields();
+            const isValid = this.view.form.validateWithEmpty();
             if (!isValid) {
                 this.view.form.submitButton.block();
             } else {
@@ -44,7 +44,7 @@ class SignUpController extends IController<SignUpView, UserModel> {
                 return;
             }
 
-            if (!this.view.form.validateAllFields()) { // TODO: check if valid, but if valid always disabled. Useless check?
+            if (!this.view.form.validateWithEmpty()) { // TODO: check if valid, but if valid always disabled. Useless check?
                 return;
             }
 

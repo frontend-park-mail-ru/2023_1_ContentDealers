@@ -23,7 +23,6 @@ class HeaderController extends IController<HeaderView, IModel> {
 
         this.view.bindClickEvent(this.handleClick.bind(this));
 
-
         // TODO
         EventDispatcher.subscribe('user-changed', (user: IUser) => {
             if (user) {
@@ -37,10 +36,6 @@ class HeaderController extends IController<HeaderView, IModel> {
 
         EventDispatcher.subscribe('render-profileButton', () => {
             this.view.changeHeaderProfile('profile');
-        });
-
-        EventDispatcher.subscribe('user-changed', (user: IUser) => {
-
         });
     };
 

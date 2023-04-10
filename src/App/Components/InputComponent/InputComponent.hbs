@@ -1,4 +1,5 @@
 <div class="input-field js-input-field {{ class }}">
     <input type="{{ type }}" id="{{ id }}" placeholder="{{ placeholder }}" class="input-field__input {{ inputClass }}" />
+    {{#if checkboxText }} {{ checkboxText }} {{/if}}
     <div id="{{ id }}-msg" class="input-field__error-msg"></div>
 </div>

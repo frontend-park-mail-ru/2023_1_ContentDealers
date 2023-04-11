@@ -1,4 +1,4 @@
-import IPerson from '../IPerson/IPerson';
+import IPerson from '../Person/IPerson';
 
 interface IContent {
     id:            number;

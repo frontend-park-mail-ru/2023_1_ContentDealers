@@ -2,11 +2,11 @@ import IController from '../IController/IController';
 
 import SignInView from '../../Views/SignInView/SignInView';
 
-import { IUserSignIn, UserModel } from '../../Models/UserModel/UserModel';
+import IUserSignIn from '../../Interfaces/User/IUserSignIn';
+import UserModel from '../../Models/UserModel/UserModel';
 
 import router from '../../Router/Router';
 import paths from '../../Router/RouterPaths';
-import EventDispatcher from "../../EventDispatcher/EventDispatcher";
 
 /**
  * Котроллер для
@@ -66,6 +66,7 @@ class SignInController extends IController<SignInView, UserModel> {
             this.model.signInUser(userSignIn).then(() => {
                 router.goToPath(paths.main);
             }).catch((errorMsg) => {
+                this.view.form.findInputComponent('email').showErrorMsg('');
                 this.view.form.findInputComponent('password').showErrorMsg(errorMsg);
             });
         }

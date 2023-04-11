@@ -25,9 +25,9 @@ const validValidator: ValidatorResult = {
 // }
 
 function validateInput(input: { id: string, value: string }): ValidatorResult {
-    // if (input.value === '') {
-    //     return emptyValidator;
-    // }
+    if (input.id === 'avatar') {
+        return validValidator;
+    }
 
     const validator = validators.get(input.id);
     if (!validator) {

@@ -117,13 +117,16 @@ class FormComponent extends IComponent {
     };
 
     public validateWithEmpty(): boolean {
-        // return this.validateInputFields() && this.validatePasswordFields();
-        return true;
+        console.log('this.validateInputFields()', this.validateInputFields())
+        console.log('this.validatePasswordFields()', this.validatePasswordFields())
+        return this.validateInputFields() && this.validatePasswordFields();
     };
 
     public validateWithoutEmpty(): boolean {
-        // return this.validateInputFields() && this.validatePasswordFields();
-        return true;
+        console.log('validateWithoutEmpty')
+        console.log('this.validateInputFields()', this.validateInputFields())
+        console.log('this.validatePasswordFields()', this.validatePasswordFields())
+        return this.validatePasswordFields();
     };
 
     public setDataToFields(fieldsWithValue: { id: string, value: string }[]): void {

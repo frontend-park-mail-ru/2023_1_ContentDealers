@@ -7,6 +7,7 @@ interface InputComponentData extends IComponentData {
     checkboxText?: string;
     type?: string;
     placeholder?: string;
-};
+    accept?: string;
+}
 
 export default InputComponentData;

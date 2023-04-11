@@ -3,17 +3,15 @@ import IView from '../IView/IView';
 import PersonTemplate from './PersonView.hbs';
 import './PersonView.css';
 
-import IPerson from '../../Interfaces/IPerson/IPerson';
+import IPerson from '../../Interfaces/Person/IPerson';
 
 class PersonView extends IView {
     constructor(parent: HTMLElement) {
-        super(parent, PersonTemplate({}), 'article');
+        super(parent, PersonTemplate({}), '.person');
     };
 
     public fillPerson(data: IPerson): void {
-        console.log('In PersonView', data);
-        this.parent.innerHTML = PersonTemplate(data);
-        this.element.querySelector('article');
+        this.element.innerHTML = PersonTemplate(data);
     };
 
     public bindClickEvent(listener: any): void {

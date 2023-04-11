@@ -4,6 +4,7 @@ import PersonView from '../../Views/PersonView/PersonView';
 import PersonModel from '../../Models/PersonModel/PersonModel';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
+
 import router from "../../Router/Router";
 
 interface IId {
@@ -55,9 +56,14 @@ class PersonController extends IController<PersonView, PersonModel> {
     };
 
     private handleClick(e: Event): void {
+        console.log('Person handleClick');
         e.preventDefault();
 
         if (this.isMounted) {
+            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
+            if (href !== undefined && href !== null) {
+                router.goToPath(href);
+            }
 
             return;
         }

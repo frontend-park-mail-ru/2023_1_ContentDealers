@@ -1,27 +1,14 @@
-import IModel from "../IModel/IModel";
+import IModel from '../IModel/IModel';
+
+import IUser from '../../Interfaces/User/IUser';
+import IUserSignIn from '../../Interfaces/User/IUserSignIn';
+import IUserSignUp from '../../Interfaces/User/IUserSignUp';
 
 import Ajax from '../../Ajax/Ajax';
 
-import { config, DEFAULT_AVATAR } from '../../Config/Config';
+import {config, customFailures} from '../../Config/Config';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
-
-interface IUserSignIn {
-    email: string;
-    password: string;
-}
-
-interface IUserSignUp {
-    email: string;
-    password: string;
-    date_birth: string;
-}
-
-interface IUser {
-    email:      string;
-    birthDate:  string;
-    avatar?:    string;
-}
 
 class UserModel extends IModel {
     private currentUser: IUser | null;
@@ -35,7 +22,7 @@ class UserModel extends IModel {
         return {
             email: json.email,
             birthDate: json.date_birth,
-            avatar: json.avatar_url, // TODO: change to user avatar
+            avatar: json.avatar_url,
         };
     };
 
@@ -67,9 +54,9 @@ class UserModel extends IModel {
     public async signUpUser(signData: IUserSignUp) {
         const signUpResponse = await Ajax.ajax(config.api.signUp, JSON.stringify(signData));
 
-        console.log(signUpResponse)
         try {
             await Ajax.checkResponseStatus(signUpResponse, config.api.signUp);
+            console.log(signUpResponse)
 
             const signInResponse = await Ajax.ajax(config.api.signIn, JSON.stringify(signData));
             await Ajax.checkResponseStatus(signInResponse, config.api.signIn);
@@ -84,8 +71,9 @@ class UserModel extends IModel {
         }
         EventDispatcher.emit('user-changed', this.currentUser);
 
-        if (this.currentUser === null)
+        if (this.currentUser === null) {
             return Promise.reject(signUpResponse.responseBody.message);
+        }
     };
 
     public async logoutUser() {
@@ -110,6 +98,12 @@ class UserModel extends IModel {
             this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
         }
         catch {
+            if (response.status === 400) {
+                const customStatus = response.responseBody.status.toString() as keyof typeof customFailures;
+                return Promise.reject({
+                    msg: customFailures[customStatus],
+                });
+            }
             return Promise.reject();
         }
 
@@ -140,6 +134,10 @@ class UserModel extends IModel {
         const request = new XMLHttpRequest();
         request.open("POST", config.host + config.api.avatarUpdate.url, false);
         request.withCredentials = true;
+
+        const response = await Ajax.getCsrfTokenFromServer();
+
+        request.setRequestHeader('csrf-token', response.body['csrf-token']);
         request.send(formData);
 
         if (request.status === 200) {
@@ -152,25 +150,33 @@ class UserModel extends IModel {
 
             EventDispatcher.emit('user-changed', this.currentUser);
         } else {
+            if (request.status === 413) {
+                return Promise.reject({
+                    msg: 'Слишком большой размер файла',
+                });
+            }
+
+            if (request.status === 400) {
+                const customStatus = response.responseBody.status.toString() as keyof typeof customFailures;
+                return Promise.reject({
+                    msg: customFailures[customStatus],
+                });
+            }
+
             return Promise.reject();
         }
     };
 
     public async avatarDelete() {
-        console.log('avatarDelete');
         const response = await Ajax.ajax(config.api.avatarDelete);
-        console.log(response)
 
         try {
             await Ajax.checkResponseStatus(response, config.api.avatarDelete);
-            console.log('response', response)
 
             const profileResponse = await Ajax.ajax(config.api.profile);
-            console.log('profileResponse', profileResponse);
             await Ajax.checkResponseStatus(profileResponse, config.api.profile);
 
             this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
-            console.log('currentUser', this.currentUser);
 
             EventDispatcher.emit('user-changed', this.currentUser);
         }
@@ -190,8 +196,8 @@ class UserModel extends IModel {
             this.currentUser = null;
             return Promise.reject();
         }
-        EventDispatcher.emit('user-changed', this.currentUser);
+        // EventDispatcher.emit('user-changed', this.currentUser); TODO: need?
     };
 }
 
-export { IUserSignIn, IUserSignUp, IUser, UserModel };
+export default UserModel;

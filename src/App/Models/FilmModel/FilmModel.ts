@@ -1,13 +1,13 @@
 import IModel from '../IModel/IModel';
 
-import IFilm from '../../Interfaces/IFilm/IFilm';
-import IContent from '../../Interfaces/IContent/IContent';
-import IPerson from '../../Interfaces/IPerson/IPerson';
+import IFilm from '../../Interfaces/Film/IFilm';
+import IContent from '../../Interfaces/Content/IContent';
+import IPerson from '../../Interfaces/Person/IPerson';
+import IRole from '../../Interfaces/Role/IRole';
 
 import Ajax from '../../Ajax/Ajax';
 
 import { config } from '../../Config/Config';
-import IRole from "../../Interfaces/IRole/IRole";
 
 class FilmModel extends IModel {
     constructor() {
@@ -81,4 +81,4 @@ class FilmModel extends IModel {
     };
 }
 
-export { IFilm, FilmModel };
+export default FilmModel;

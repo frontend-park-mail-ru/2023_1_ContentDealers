@@ -12,27 +12,37 @@ const REQUEST_METHODS: I_REQUEST_METHODS = {
     DELETE: 'DELETE',
 };
 
-const DEFAULT_AVATAR = '/img/profile/profile.jpg'
+const CsrfTokenName = 'csrf_token';
 
 const headersWithUnicode: { [index: string]: string } = {
     'Content-Type': 'application/json;charset=utf-8',
 };
 
-const headersWithUndefined: { [index: string]: undefined } = {
-    'Content-Type': undefined,
+const headersWithEmpty: { [index: string]: string } = {
+    'Content-Type': '',
 };
 
 const failureDefaultStatuses: { [index: string]: string } = {
     '400': 'Неверный запрос',
-    '401': 'No Cookie',
-    '405': 'Неверный HTTP метод',
+    // '401': 'No Cookie',
+    // '405': 'Неверный HTTP метод',
     '500': 'Ошибка сервера',
+};
+
+const customFailures: { [index: string]: string } = {
+    '1': 'Пользователь уже существует',
+    '2': 'Неверный формат почты',
+    '3': 'Пароль должен быть...',
+    '4': 'Неверная почта или пароль',
+    '5': 'Размер файла выше максимально допустимого',
+    '6': 'Файл не является картинкой формата jpg',
+    '7': 'Пользователь с этой почтой уже существует',
 };
 
 interface IApi {
     url: string;
     method: string;
-    headers: { [index: string]: string | undefined };
+    headers: { [index: string]: string };
     statuses: {
         success: { [index: string]: string };
         failure: { [index: string]: string };
@@ -50,11 +60,11 @@ const config: IConfig = {
     api: {
         csrf: {
             url: '/user/csrf',
-            method: REQUEST_METHODS.POST,
+            method: REQUEST_METHODS.GET,
             headers: headersWithUnicode,
             statuses: {
                 success: {
-                    // '200': 'Авторизация успешна',
+                    '200': '',
                 },
                 failure: failureDefaultStatuses,
             },
@@ -67,10 +77,7 @@ const config: IConfig = {
                 success: {
                     '200': 'Авторизация успешна',
                 },
-                failure: {
-                    '404': 'Пользователь не найден',
-                    '500': 'Ошибка сервера',
-                },
+                failure: failureDefaultStatuses,
             },
         },
         signUp: {
@@ -79,13 +86,9 @@ const config: IConfig = {
             headers: headersWithUnicode,
             statuses: {
                 success: {
-                    // '200': 'Регистрация успешна',
-                    '201': 'Регистрация успешна',
+                    '200': 'Регистрация успешна',
                 },
-                failure: {
-                    // '404': 'Пользователь не найден',
-                    '500': 'Ошибка сервера',
-                },
+                failure: failureDefaultStatuses,
             },
         },
         logout: {
@@ -94,7 +97,7 @@ const config: IConfig = {
             headers: headersWithUnicode,
             statuses: {
                 success: {
-                    '200': 'Успешно',
+                    '200': 'Пользователь вышел',
                 },
                 failure: failureDefaultStatuses,
             },
@@ -105,7 +108,7 @@ const config: IConfig = {
             headers: headersWithUnicode,
             statuses: {
                 success: {
-                    '200': 'Успешно',
+                    '200': 'Данные о пользователе успешно получены',
                 },
                 failure: failureDefaultStatuses,
             },
@@ -116,12 +119,9 @@ const config: IConfig = {
             headers: headersWithUnicode,
             statuses: {
                 success: {
-                    '200': 'Фильм успешно получен',
+                    '200': 'Данные о фильме успешно получены',
                 },
-                failure: {
-                    // '405': 'Неверный HTTP метод',
-                    '500': 'Ошибка сервера',
-                },
+                failure: failureDefaultStatuses,
             },
         },
         selections: {
@@ -132,10 +132,7 @@ const config: IConfig = {
                 success: {
                     '200': 'Подборки успешно получены',
                 },
-                failure: {
-                    // '405': 'Неверный HTTP метод',
-                    '500': 'Ошибка сервера',
-                },
+                failure: failureDefaultStatuses,
             },
         },
         person: {
@@ -144,12 +141,9 @@ const config: IConfig = {
             headers: headersWithUnicode,
             statuses: {
                 success: {
-                    '200': 'Человек успешно получен',
+                    '200': 'Данные о персоне успешно получены',
                 },
-                failure: {
-                    // '405': 'Неверный HTTP метод',
-                    '500': 'Ошибка сервера',
-                },
+                failure: failureDefaultStatuses,
             },
         },
         update: {
@@ -160,23 +154,20 @@ const config: IConfig = {
                 success: {
                     '200': 'Данные успешно обновлены',
                 },
-                failure: {
-                    // '405': 'Неверный HTTP метод',
-                    '500': 'Ошибка сервера',
-                },
+                failure: failureDefaultStatuses,
             },
         },
         avatarUpdate: {
             url: '/user/avatar/update',
             method: REQUEST_METHODS.POST,
-            headers: headersWithUndefined,
+            headers: headersWithEmpty,
             statuses: {
                 success: {
-                    '200': 'Данные успешно обновлены',
+                    '200': 'Аватарка успешно обновлена',
                 },
                 failure: {
-                    // '405': 'Неверный HTTP метод',
-                    '500': 'Ошибка сервера',
+                    ...failureDefaultStatuses,
+                    '413': 'Слишком большой размер файла',
                 },
             },
         },
@@ -186,15 +177,12 @@ const config: IConfig = {
             headers: headersWithUnicode,
             statuses: {
                 success: {
-                    '200': 'Данные успешно обновлены',
+                    '200': 'Аватарка успешно удалена',
                 },
-                failure: {
-                    // '405': 'Неверный HTTP метод',
-                    '500': 'Ошибка сервера',
-                },
+                failure: failureDefaultStatuses,
             },
         }
     }
 };
 
-export { REQUEST_METHODS, DEFAULT_AVATAR, IApi, config };
+export { REQUEST_METHODS, CsrfTokenName, IApi, config, customFailures };

@@ -3,7 +3,7 @@ import IModel from '../../Models/IModel/IModel';
 
 import HeaderView from '../../Views/HeaderView/HeaderView';
 
-import { IUser } from '../../Models/UserModel/UserModel';
+import IUser from '../../Interfaces/User/IUser';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
@@ -25,8 +25,11 @@ class HeaderController extends IController<HeaderView, IModel> {
 
         // TODO
         EventDispatcher.subscribe('user-changed', (user: IUser) => {
+            console.log('user-changed', user)
             if (user) {
                 this.view.changeHeaderProfile('profile', user);
+            } else {
+                this.view.changeHeaderProfile('signIn');
             }
         });
 

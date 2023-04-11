@@ -1,16 +1,31 @@
 import IModel from '../IModel/IModel';
 
-import IPerson from '../../Interfaces/IPerson/IPerson';
+import IPerson from '../../Interfaces/Person/IPerson';
+import IRole from '../../Interfaces/Role/IRole';
+import IGenre from '../../Interfaces/Genre/IGenre';
+import IContent from '../../Interfaces/Content/IContent';
 
 import Ajax from '../../Ajax/Ajax';
 
 import { config } from '../../Config/Config';
-import IRole from "../../Interfaces/IRole/IRole";
-import IGenre from "../../Interfaces/IGenre/IGenre";
-import IFilm from "../../Interfaces/IFilm/IFilm";
-import IContent from "../../Interfaces/IContent/IContent";
 
 class PersonModel extends IModel {
+    private genderMap: { [gender: string]: string } = {
+        F: 'Женский',
+        M: 'Мужской',
+    };
+
+    private roleMap: { [role: string]: string } = {
+        DIRECTOR:   'Режиссёр',
+        COMPOSER:   'Композитор',
+        DESIGN:     'Дизайнер',
+        EDITOR:     'Редактор',
+        ACTOR:      'Актёр',
+        OPERATOR:   'Оператор',
+        PRODUCER:   'Продюссер',
+        WRITER:     'Сценарист',
+    };
+
     constructor() {
         super();
     };
@@ -19,7 +34,7 @@ class PersonModel extends IModel {
         return {
             id:             json.id,
             name:           json.name,
-            gender:         json.gender,
+            gender:         this.transformGender(json.gender),
             genres:         this.parseGenres(json.genres),
             growth:         json.growth,
             birthPlace:     json.birthplace,
@@ -53,7 +68,7 @@ class PersonModel extends IModel {
     private parsePersonRole(role: any): IRole {
         return {
             id:     role.id,
-            title:  role.title,
+            title:  this.transformRole(role.title),
         };
     };
 
@@ -68,6 +83,14 @@ class PersonModel extends IModel {
             id:     content.id,
             title:  content.title,
         };
+    };
+
+    private transformGender(gender: string): string {
+        return this.genderMap[gender];
+    };
+
+    private transformRole(role: string): string {
+        return this.roleMap[role];
     };
 
     public async getPerson(id: number) {

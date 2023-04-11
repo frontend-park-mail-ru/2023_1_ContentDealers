@@ -2,7 +2,8 @@ import IController from '../IController/IController';
 
 import SignUpView from '../../Views/SignUpView/SignUpView';
 
-import { IUserSignUp, UserModel } from "../../Models/UserModel/UserModel";
+import IUserSignUp from '../../Interfaces/User/IUserSignUp';
+import UserModel from '../../Models/UserModel/UserModel';
 
 import router from '../../Router/Router';
 import paths from '../../Router/RouterPaths';

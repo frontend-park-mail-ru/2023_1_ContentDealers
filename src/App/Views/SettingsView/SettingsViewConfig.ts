@@ -78,6 +78,7 @@ const SettingsData: ISettingsData = {
             {
                 type: 'file',
                 id: 'avatar',
+                accept: 'image/jpeg',
             },
             {
                 type: 'checkbox',

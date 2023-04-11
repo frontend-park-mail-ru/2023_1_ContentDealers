@@ -12,7 +12,7 @@ import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 import router from '../../Router/Router';
 
-import { UserModel } from '../../Models/UserModel/UserModel';
+import UserModel from '../../Models/UserModel/UserModel';
 
 /**
  * Котроллер для правого модального окна

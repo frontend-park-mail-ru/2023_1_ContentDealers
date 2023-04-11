@@ -1,6 +1,6 @@
-import IRole from '../IRole/IRole';
-import IGenre from '../IGenre/IGenre';
-import IContent from '../IContent/IContent';
+import IRole from '../Role/IRole';
+import IGenre from '../Genre/IGenre';
+import IContent from '../Content/IContent';
 
 interface IPerson {
     id:                 number;

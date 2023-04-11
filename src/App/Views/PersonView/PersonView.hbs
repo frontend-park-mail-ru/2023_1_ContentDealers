@@ -1,5 +1,103 @@
 <article class="person">
-    Hello persons
+    <div class="person-container">
+        <div class="person__column person__column--left">
+            <div class="person-column-left__container">
+                <div class="person-column-left-container__items">
+                    <div class="person__photo">
+                        <a class="person-photo__link">
+                            <img class="person-photo__image" src="{{ avatarURL }}" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    div.
+        <div class="person__delimiter"></div>
+
+        <div class="person__column person__column--right">
+            <div class="person-column-right__container">
+                <div class="person-column-right-container__items">
+                    <div class="person__header">
+                        <div class="person-header-container">
+                            <h1 class="person-header__ru-name">{{ name }}</h1>
+                        </div>
+                    </div>
+
+                    <div class="person__table">
+                        <h3 class="person-table__title">О персоне</h3>
+                        <div>
+                            {{#if age}}
+                                <div class="person-table__row person-table__row--medium">
+                                    <div class="person-table-row__title">Возраст</div>
+                                    <div class="person-table-row__info">
+                                        {{ age }}
+                                    </div>
+                                </div>
+                            {{/if}}
+
+                            {{#if growth}}
+                            <div class="person-table__row person-table__row--medium">
+                                <div class="person-table-row__title">Рост</div>
+                                <div class="person-table-row__info">
+                                    {{ growth }}
+                                </div>
+                            </div>
+                            {{/if}}
+
+                            {{#if gender}}
+                            <div class="person-table__row person-table__row--medium">
+                                <div class="person-table-row__title">Пол</div>
+                                <div class="person-table-row__info">
+                                    {{ gender }}
+                                </div>
+                            </div>
+                            {{/if}}
+
+                            {{#if birthPlace}}
+                            <div class="person-table__row person-table__row--medium">
+                                <div class="person-table-row__title">Место рождения</div>
+                                <div class="person-table-row__info">
+                                    {{ birthPlace }}
+                                </div>
+                            </div>
+                            {{/if}}
+
+
+                            <div class="person-table__row person-table__row--medium">
+                                <div class="person-table-row__title">Жанры</div>
+                                <div class="person-table-row__info">
+                                    {{#comment}} {{#stringItems genres 'name'}}{{/stringItems}} {{/comment}}
+                                    {{#each genres}}
+                                        {{ name }}
+                                    {{/each}}
+                                </div>
+                            </div>
+
+                            <div class="person-table__row person-table__row--medium">
+                                <div class="person-table-row__title">Роли</div>
+                                <div class="person-table-row__info">
+                                    {{#each roles}}
+                                        {{ title }}
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="person__panel">
+                        <div class="person-panel__films">
+                            <h3 class="person-panel-films__title">Лучшие фильмы</h3>
+                            <ul class="person-panel-films__items">
+                                {{#each participatedIn}}
+                                    <li class="person-panel-films-item">
+                                        <a href="/films/{{ id }}" class="person-panel-films-item__link">{{ title }}</a>
+                                    </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </article>

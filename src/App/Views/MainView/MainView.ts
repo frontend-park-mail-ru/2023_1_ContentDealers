@@ -3,15 +3,11 @@ import IView from '../IView/IView';
 import MainTemplate from './MainView.hbs';
 import './MainView.css';
 
-import ISelection from '../../Interfaces/ISelection/ISelection';
+import ISelection from '../../Interfaces/Selection/ISelection';
 
 class MainView extends IView {
-    // private selectionContainer: HTMLElement;
-
     constructor(parent: HTMLElement) {
         super(parent, MainTemplate({}), '.categories');
-
-        // this.selectionContainer = <HTMLElement>this.element.querySelector('article');
     };
 
     public fillSelections(selections: ISelection[]): void {

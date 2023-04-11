@@ -7,7 +7,7 @@ import './SettingsView.css';
 import ListComponent from '../../Components/ListComponent/ListComponent';
 import FormComponent from '../../Components/FormComponent/FormComponent';
 
-import { IUser } from '../../Models/UserModel/UserModel';
+import IUser from '../../Interfaces/User/IUser';
 
 class SettingsView extends IView {
     private readonly leftMenuContainer: HTMLElement

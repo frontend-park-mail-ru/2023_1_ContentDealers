@@ -34,7 +34,6 @@ class ModalRightView extends IView {
     };
 
     public show(): void {
-        // this.currentView.show();
         this.parent.classList.add('modal--right--open');
         super.show();
     };

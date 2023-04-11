@@ -20,8 +20,8 @@ import PersonController from './Controllers/PersonController/PersonController';
 import MainView from "./Views/MainView/MainView";
 import MainController from "./Controllers/MainController/MainController";
 
-import { UserModel } from './Models/UserModel/UserModel';
-import { FilmModel } from './Models/FilmModel/FilmModel';
+import UserModel from './Models/UserModel/UserModel';
+import FilmModel from './Models/FilmModel/FilmModel';
 import PersonModel from './Models/PersonModel/PersonModel';
 import SelectionModel from "./Models/SelectionModel/SelectionModel";
 
@@ -268,8 +268,11 @@ class App {
                 // states
                 this.headerView.changeActiveHeaderListItem('#');
                 this.settingsView.changeActiveLeftMenuItem('/settings');
+
+                EventDispatcher.emit('user-changed', this.userModel.getCurrentUser());
             })
             .catch(() => {
+                EventDispatcher.emit('render-signInButton');
                 router.goToPath(router.getNearestNotAuthUrl());
             });
     };
@@ -277,6 +280,14 @@ class App {
     private handleRedirectToFilm(data: any): void {
         console.log('handleRedirectToFilm');
         EventDispatcher.emit('unmount-all');
+
+        this.userModel.authUserByCookie()
+            .then(() => {
+                EventDispatcher.emit('render-profileButton');
+            })
+            .catch(() => {
+                EventDispatcher.emit('render-signInButton');
+            });
 
         // console.log('data', data)
         if (!data || !data[0]) {
@@ -289,6 +300,8 @@ class App {
 
         // mount
         this.headerController.mountComponent();
+
+        EventDispatcher.emit('new-player');
         this.filmController.mountComponent({ id: filmId.toString() });
 
         // states
@@ -298,6 +311,14 @@ class App {
     private handleRedirectToPerson(data: any): void {
         console.log('handleRedirectToPerson');
         EventDispatcher.emit('unmount-all');
+
+        this.userModel.authUserByCookie()
+            .then(() => {
+                EventDispatcher.emit('render-profileButton');
+            })
+            .catch(() => {
+                EventDispatcher.emit('render-signInButton');
+            });
 
         if (!data || !data[0]) {
             router.showUnknownPage();

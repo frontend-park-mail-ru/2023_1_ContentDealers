@@ -1,4 +1,4 @@
-import IContent from '../IContent/IContent';
+import IContent from '../Content/IContent';
 
 interface IFilm {
     id:             number;

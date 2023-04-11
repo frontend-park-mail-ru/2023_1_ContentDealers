@@ -1,10 +1,16 @@
 import IController from '../IController/IController';
 
 import FilmView from '../../Views/FilmView/FilmView';
-import { FilmModel } from '../../Models/FilmModel/FilmModel';
+import FilmModel from '../../Models/FilmModel/FilmModel';
+
+import PlayerController from '../../Controllers/PlayerController/PlayerController';
+import PlayerView from '../../Views/PlayerView/PlayerView';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
+
 import router from "../../Router/Router";
+import SignUpController from "../SignUpController/SignUpController";
+import SignUpView from "../../Views/SignUpView/SignUpView";
 
 interface IId {
     id: number;
@@ -12,11 +18,21 @@ interface IId {
 
 class FilmController extends IController<FilmView, FilmModel> {
     private filmId: number | null;
+    private trailerSrc: string | null;
+    private playerController: PlayerController;
 
     constructor(view: FilmView, model: FilmModel) {
         super(view, model);
 
         this.filmId = null;
+        this.trailerSrc = null;
+
+        EventDispatcher.subscribe('new-player', () => {
+            this.view.playerView?.hide();
+
+            this.view.newPlayerView();
+            this.playerController = new PlayerController(<PlayerView>this.view.playerView);
+        });
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
@@ -36,6 +52,10 @@ class FilmController extends IController<FilmView, FilmModel> {
 
                 this.model.getFilm(this.filmId)
                     .then((data) => {
+                        console.log('data', data)
+                        this.trailerSrc = data.content?.trailerURL || null;
+                        console.log(this.trailerSrc)
+
                         this.view.fillFilm(data);
                     })
                     .catch((error) => {
@@ -48,9 +68,11 @@ class FilmController extends IController<FilmView, FilmModel> {
 
     public unmountComponent(): void {
         if (this.isMounted) {
+            this.playerController.unmountComponent();
             super.unmountComponent();
 
             this.filmId = null;
+            this.trailerSrc = null;
         }
     };
 
@@ -63,9 +85,32 @@ class FilmController extends IController<FilmView, FilmModel> {
                 router.goToPath(href);
             }
 
+            const target = <HTMLElement>e.target;
+            const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
+
+            switch (action) {
+                case 'subscribe': {
+                    break;
+                }
+
+                case 'trailer': {
+                    console.log('Clicked!');
+                    console.log(this.trailerSrc)
+                    if (this.trailerSrc) {
+                        this.playerController.setSrc(this.trailerSrc);
+                    }
+                    this.playerController.mountComponent();
+
+                    break;
+                }
+
+                default:
+                    break;
+            }
+
             return;
         }
-    }
+    };
 }
 
 export default FilmController;

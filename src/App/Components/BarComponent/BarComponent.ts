@@ -24,8 +24,8 @@ class BarComponent extends IComponent {
     private barHelper: DivComponent;
     private currentBarCircle: DivComponent;
 
-    private maxValue: number;
-    private postscript: string;
+    // private maxValue: number;
+    // private postscript: string;
 
     // TODO
     // private eventTuples: EventTuple[] = [
@@ -42,8 +42,8 @@ class BarComponent extends IComponent {
 
         this.isDragging = false;
 
-        this.maxValue = 2.37;
-        this.postscript = '';
+        // this.maxValue = 2.37;
+        // this.postscript = '';
 
         this.fullBar = <HTMLElement>this.element.querySelector('.bar__full');
         this.loadBar = <HTMLElement>this.element.querySelector('.bar__load');
@@ -52,7 +52,7 @@ class BarComponent extends IComponent {
 
         this.initHiddenElements();
 
-        this.addEventListeners();
+        // this.addEventListeners();
     };
 
     private initHiddenElements(): void {
@@ -62,102 +62,109 @@ class BarComponent extends IComponent {
         const currentBarCircleDiv = <HTMLElement>this.element.querySelector('#bar__current-circle');
         this.currentBarCircle = new DivComponent(currentBarCircleDiv, '', '', { class: 'bar__current-circle' });
     };
+    //
+    // private updateProgressBar(e: Event): void {
+    //     let percentage: number = 0;
+    //     if (e instanceof MouseEvent) {
+    //         percentage = this.calculatePercentage(e.clientX);
+    //     } else {
+    //         percentage = this.calculatePercentage((<TouchEventWithTarget>e).touches[0].clientX);
+    //     }
+    //
+    //     this.currentBar.style.width = `${percentage}%`;
+    //     // this.currentBarCircle.div.style.left = `${percentage}%`;
+    // };
+    //
+    // private calculatePercentage(cursorX: number): number {
+    //     const barWidth = this.fullBar.offsetWidth;
+    //     const clickOffset = cursorX - this.fullBar.getBoundingClientRect().left;
+    //     return (clickOffset / barWidth) * 100;
+    // }
+    //
+    // private onMouseDown(e: MouseEvent): void {
+    //     // this.isDragging = true;
+    //     // const percentage = this.calculatePercentage(e.clientX);
+    //     //
+    //     // this.currentBarCircle.div.style.left = `${percentage}%`;
+    //     // this.currentBar.style.width = `${percentage}%`;
+    //
+    //     // console.log('onMouseDown')
+    //     this.isDragging = true;
+    //     this.updateProgressBar(e);
+    // };
+    //
+    // private onMouseMove(e: MouseEvent): void {
+    //     console.log('onMouseMove')
+    //     const cursorX = e.clientX;
+    //     const percentage = this.calculatePercentage(cursorX);
+    //
+    //     this.barHelper.div.style.left = `${percentage}%`;
+    //     this.barHelper.div.innerText = (percentage / 100 * this.maxValue).toFixed(2); // TODO change trailer time
+    //     this.barHelper.show();
+    //
+    //     this.currentBarCircle.show();
+    //
+    //     if (this.isDragging) {
+    //         this.updateProgressBar(e);
+    //     }
+    // };
+    //
+    // private onMouseUp(e: MouseEvent): void {
+    //     console.log('onMouseUp')
+    //     this.isDragging = false;
+    // };
+    //
+    // private onMouseOut(e: MouseEvent): void {
+    //     this.barHelper.hide(); // TODO check before hide?
+    //     // this.currentBarCircle.hide();
+    // }
+    //
+    // private onTouchStart(e: TouchEvent): void {
+    //     // console.log('onTouchStart')
+    //     this.isDragging = true;
+    //     const touchEventWithTarget = e as TouchEventWithTarget;
+    //     this.updateProgressBar(touchEventWithTarget);
+    // };
+    //
+    // private onTouchMove(e: TouchEvent): void {
+    //     // console.log('onTouchMove')
+    //     if (this.isDragging) {
+    //         const touchEventWithTarget = e as TouchEventWithTarget;
+    //         this.updateProgressBar(touchEventWithTarget);
+    //     }
+    // };
+    //
+    // private onTouchEnd(e: TouchEvent): void {
+    //     // console.log('onTouchEnd')
+    //     this.isDragging = false;
+    // };
+    //
+    // private addEventListeners(): void {
+    //     this.element.addEventListener("mousedown", (e) => this.onMouseDown(e));
+    //     this.element.addEventListener("mousemove", (e) => this.onMouseMove(e));
+    //     this.element.addEventListener("mouseup", (e) => this.onMouseUp(e));
+    //     this.element.addEventListener("mouseout", (e) => this.onMouseOut(e));
+    //     this.element.addEventListener("touchstart", (e) => this.onTouchStart(e));
+    //     this.element.addEventListener("touchmove", (e) => this.onTouchMove(e));
+    //     this.element.addEventListener("touchend", (e) => this.onTouchEnd(e));
+    // };
+    //
+    // private removeEventListeners(): void {
+    //     this.element.removeEventListener("mousedown", (e) => this.onMouseDown(e));
+    //     this.element.removeEventListener("mousemove", (e) => this.onMouseMove(e));
+    //     this.element.removeEventListener("mouseup", (e) => this.onMouseUp(e));
+    //     this.element.removeEventListener("mouseout", (e) => this.onMouseOut(e));
+    //     this.element.removeEventListener("touchstart", (e) => this.onTouchStart(e));
+    //     this.element.removeEventListener("touchmove", (e) => this.onTouchMove(e));
+    //     this.element.removeEventListener("touchend", (e) => this.onTouchEnd(e));
+    // };
 
-    private updateProgressBar(e: Event): void {
-        let percentage: number = 0;
-        if (e instanceof MouseEvent) {
-            percentage = this.calculatePercentage(e.clientX);
-        } else {
-            percentage = this.calculatePercentage((<TouchEventWithTarget>e).touches[0].clientX);
-        }
 
-        this.currentBar.style.width = `${percentage}%`;
-        // this.currentBarCircle.div.style.left = `${percentage}%`;
+    //     New Life
+    public bindMouseMoveEvent(listener: any) {
+        this.element.addEventListener('mousemove', listener.bind(this));
     };
 
-    private calculatePercentage(cursorX: number): number {
-        const barWidth = this.fullBar.offsetWidth;
-        const clickOffset = cursorX - this.fullBar.getBoundingClientRect().left;
-        return (clickOffset / barWidth) * 100;
-    }
-
-    private onMouseDown(e: MouseEvent): void {
-        // this.isDragging = true;
-        // const percentage = this.calculatePercentage(e.clientX);
-        //
-        // this.currentBarCircle.div.style.left = `${percentage}%`;
-        // this.currentBar.style.width = `${percentage}%`;
-
-        // console.log('onMouseDown')
-        this.isDragging = true;
-        this.updateProgressBar(e);
-    };
-
-    private onMouseMove(e: MouseEvent): void {
-        console.log('onMouseMove')
-        const cursorX = e.clientX;
-        const percentage = this.calculatePercentage(cursorX);
-
-        this.barHelper.div.style.left = `${percentage}%`;
-        this.barHelper.div.innerText = (percentage / 100 * this.maxValue).toFixed(2); // TODO change trailer time
-        this.barHelper.show();
-
-        this.currentBarCircle.show();
-
-        if (this.isDragging) {
-            this.updateProgressBar(e);
-        }
-    };
-
-    private onMouseUp(e: MouseEvent): void {
-        // console.log('onMouseUp')
-        this.isDragging = false;
-    };
-
-    private onMouseOut(e: MouseEvent): void {
-        this.barHelper.hide(); // TODO check before hide?
-        this.currentBarCircle.hide();
-    }
-
-    private onTouchStart(e: TouchEvent): void {
-        // console.log('onTouchStart')
-        this.isDragging = true;
-        const touchEventWithTarget = e as TouchEventWithTarget;
-        this.updateProgressBar(touchEventWithTarget);
-    };
-
-    private onTouchMove(e: TouchEvent): void {
-        // console.log('onTouchMove')
-        if (this.isDragging) {
-            const touchEventWithTarget = e as TouchEventWithTarget;
-            this.updateProgressBar(touchEventWithTarget);
-        }
-    };
-
-    private onTouchEnd(e: TouchEvent): void {
-        // console.log('onTouchEnd')
-        this.isDragging = false;
-    };
-
-    private addEventListeners(): void {
-        this.element.addEventListener("mousedown", (e) => this.onMouseDown(e));
-        this.element.addEventListener("mousemove", (e) => this.onMouseMove(e));
-        this.element.addEventListener("mouseup", (e) => this.onMouseUp(e));
-        this.element.addEventListener("mouseout", (e) => this.onMouseOut(e));
-        this.element.addEventListener("touchstart", (e) => this.onTouchStart(e));
-        this.element.addEventListener("touchmove", (e) => this.onTouchMove(e));
-        this.element.addEventListener("touchend", (e) => this.onTouchEnd(e));
-    };
-
-    private removeEventListeners(): void {
-        this.element.removeEventListener("mousedown", (e) => this.onMouseDown(e));
-        this.element.removeEventListener("mousemove", (e) => this.onMouseMove(e));
-        this.element.removeEventListener("mouseup", (e) => this.onMouseUp(e));
-        this.element.removeEventListener("mouseout", (e) => this.onMouseOut(e));
-        this.element.removeEventListener("touchstart", (e) => this.onTouchStart(e));
-        this.element.removeEventListener("touchmove", (e) => this.onTouchMove(e));
-        this.element.removeEventListener("touchend", (e) => this.onTouchEnd(e));
-    };
 }
 
 export default BarComponent;

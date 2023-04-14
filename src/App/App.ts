@@ -17,8 +17,11 @@ import SettingsController from './Controllers/SettingsController/SettingsControl
 import PersonView from './Views/PersonView/PersonView';
 import PersonController from './Controllers/PersonController/PersonController';
 
-import MainView from "./Views/MainView/MainView";
-import MainController from "./Controllers/MainController/MainController";
+import MainView from './Views/MainView/MainView';
+import MainController from './Controllers/MainController/MainController';
+
+import NotFoundView from './Views/NotFoundView/NotFoundView';
+import NotFoundController from './Controllers/NotFoundController/NotFoundController';
 
 import UserModel from './Models/UserModel/UserModel';
 import FilmModel from './Models/FilmModel/FilmModel';
@@ -38,6 +41,7 @@ class App {
     private settingsView: SettingsView;
     private personView: PersonView;
     private mainView: MainView;
+    private notFoundView: NotFoundView;
 
     // Controllers
     private headerController: HeaderController;
@@ -46,6 +50,7 @@ class App {
     private settingsController: SettingsController;
     private personController: PersonController;
     private mainController: MainController;
+    private notFoundController: NotFoundController;
 
     // Models
     private userModel: UserModel;
@@ -101,6 +106,8 @@ class App {
         this.settingsView = new SettingsView(this.content);
         this.personView = new PersonView(this.content);
         this.mainView = new MainView(this.content);
+
+        this.notFoundView = new NotFoundView(this.content);
     };
 
     /**
@@ -127,6 +134,8 @@ class App {
         this.settingsController = new SettingsController(this.settingsView, this.userModel);
         this.personController = new PersonController(this.personView, this.personModel);
         this.mainController = new MainController(this.mainView, { selections: this.selectionModel });
+
+        this.notFoundController = new NotFoundController(this.notFoundView);
     };
 
     /**
@@ -135,6 +144,8 @@ class App {
      * @return {void}
      */
     private initRoutes(): void {
+        router.setUnknownPageHandler(this.handleRedirectToNotFound.bind(this));
+
         const routes = [
             { path: paths.main,     handler: this.handleRedirectToMain },
             { path: paths.catalog,  handler: this.handleRedirectToCatalog },
@@ -262,7 +273,7 @@ class App {
 
                 // states
                 this.headerView.changeActiveHeaderListItem('#');
-                this.settingsView.changeActiveLeftMenuItem('/settings');
+                this.settingsView.changeActiveLeftMenuItem(paths.settings);
 
                 EventDispatcher.emit('user-changed', this.userModel.getCurrentUser());
             })
@@ -331,6 +342,21 @@ class App {
 
         this.userModel.logoutUser();
         router.goToPath(paths.main);
+    };
+
+    private handleRedirectToNotFound(): void {
+        EventDispatcher.emit('unmount-all');
+
+        this.userModel.authUserByCookie()
+            .then(() => {
+                EventDispatcher.emit('render-profileButton');
+            })
+            .catch(() => {
+                EventDispatcher.emit('render-signInButton');
+            });
+
+        this.headerController.mountComponent();
+        this.notFoundController.mountComponent();
     };
 }
 

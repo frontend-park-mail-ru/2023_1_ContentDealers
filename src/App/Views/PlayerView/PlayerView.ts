@@ -3,19 +3,20 @@ import IView from '../IView/IView';
 import PlayerTemplate from './PlayerView.hbs'
 import './PlayerView.css';
 import BarComponent from "../../Components/BarComponent/BarComponent";
+import EventDispatcher from "../../EventDispatcher/EventDispatcher";
 
 class PlayerView extends IView {
     private videoPanel: HTMLElement;
     private videoBar: BarComponent;
 
-    // public readonly video: HTMLVideoElement;
-    // public readonly playBtn: HTMLButtonElement;
-    // public readonly playBtnImg: HTMLImageElement;
-    // public readonly stopBtn: HTMLButtonElement;
-    // public readonly progress: HTMLProgressElement;
-    // public readonly volumeBtnImg: HTMLImageElement;
-    // public readonly progressVolume: HTMLInputElement;
-    // public readonly time: HTMLDivElement;
+    public readonly video: HTMLVideoElement;
+    public readonly playBtn: HTMLButtonElement;
+    public readonly playBtnImg: HTMLImageElement;
+    public readonly stopBtn: HTMLButtonElement;
+    public readonly progress: HTMLProgressElement;
+    public readonly volumeBtnImg: HTMLImageElement;
+    public readonly progressVolume: HTMLInputElement;
+    public readonly time: HTMLDivElement;
 
     constructor(parent: HTMLElement) {
         super(parent, PlayerTemplate({}), '#fullscreen-modal');
@@ -23,6 +24,9 @@ class PlayerView extends IView {
         this.videoPanel = <HTMLElement>this.element.querySelector('.video__panel');
 
         this.videoPanel.prepend(this.renderVideoBar());
+
+
+        // EventDispatcher.subscribe('video-bar-hover', this.videoBar.)
 
 
         // super(parent, PlayerTemplate({}), '.wrapper');
@@ -39,6 +43,8 @@ class PlayerView extends IView {
         // this.progressVolume = <HTMLInputElement>this.element.querySelector('.volume__progress');
         //
         // this.time = <HTMLDivElement>this.element.querySelector('.controls__time');
+
+        // this.videoBar.
     };
 
     private renderVideoBar(): HTMLElement {
@@ -47,6 +53,11 @@ class PlayerView extends IView {
         this.videoBar.show();
         return div;
     };
+
+    // private handleMouseEvent(e: MouseEvent): void {
+    //     e.preventDefault();
+    //     if (this.)
+    // }
 }
 
 export default PlayerView;

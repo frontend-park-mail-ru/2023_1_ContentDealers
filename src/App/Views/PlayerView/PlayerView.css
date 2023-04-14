@@ -1,126 +1,330 @@
-.player {
+/*.player {*/
+/*    position: relative;*/
+/*    width: 100%;*/
+/*    height: 0;*/
+/*    padding-bottom: 56.25%;*/
+/*    !* Устанавливаем соотношение сторон видео *!*/
+/*}*/
+
+/*.video {*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    object-fit: cover;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.controls {*/
+/*    position: absolute;*/
+/*    bottom: -50px;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 50px;*/
+/*    background-color: rgba(0, 0, 0, 0.5);*/
+/*    color: #fff;*/
+/*    transition: bottom 0.2s ease-in-out, opacity 0.2s ease-in-out;*/
+/*    opacity: 0;*/
+/*}*/
+
+/*.player:hover .controls {*/
+/*    bottom: 0;*/
+/*    opacity: 1;*/
+/*}*/
+
+/*.controls__play,*/
+/*.controls__stop {*/
+/*    display: inline-block;*/
+/*    width: 40px;*/
+/*    height: 40px;*/
+/*    line-height: 40px;*/
+/*    text-align: center;*/
+/*    vertical-align: middle;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.controls__play {*/
+/*    margin-left: 10px;*/
+/*}*/
+
+/*.play__btn,*/
+/*.stop__btn {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    fill: #fff;*/
+/*}*/
+
+/*.controls__progress {*/
+/*    display: inline-block;*/
+/*    width: calc(100% - 360px);*/
+/*    height: 40px;*/
+/*    margin-left: 10px;*/
+/*}*/
+
+/*.progress {*/
+/*    display: block;*/
+/*    width: 100%;*/
+/*    height: 2px;*/
+/*    margin: 19px 0;*/
+/*    background-color: #999;*/
+/*}*/
+
+/*.progress::-webkit-slider-thumb {*/
+/*    appearance: none;*/
+/*    width: 12px;*/
+/*    height: 12px;*/
+/*    background-color: #fff;*/
+/*    border-radius: 50%;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.controls__volume {*/
+/*    display: inline-block;*/
+/*    position: relative;*/
+/*    width: 80px;*/
+/*    height: 5px;*/
+/*    margin-left: 10px;*/
+/*}*/
+
+/*.volume__btn {*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 0;*/
+/*    transform: translateY(-50%);*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*    fill: #fff;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.volume__progress {*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 25px;*/
+/*    transform: translateY(-50%);*/
+/*    width: 55px;*/
+/*    height: 2px;*/
+/*    margin-top: -1px;*/
+/*    background-color: #999;*/
+/*}*/
+
+/*.volume__progress::-webkit-slider-thumb {*/
+/*    appearance: none;*/
+/*    width: 12px;*/
+/*    height: 12px;*/
+/*    background-color: #fff;*/
+/*    border-radius: 50%;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.controls__time {*/
+/*    display: inline-block;*/
+/*    margin-left: 10px;*/
+/*    font-size: 14px;*/
+/*    line-height: 40px;*/
+/*}*/
+
+
+/* ОБЩИЕ СТИЛЯ ДЛЯ ВСЕГО ПРОЕКТА */
+
+.relative-overflow {
     position: relative;
+    overflow: hidden;
+    height: 100%;
     width: 100%;
-    height: 0;
-    padding-bottom: 56.25%;
-    /* Устанавливаем соотношение сторон видео */
 }
 
-.video {
+.relative {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.mr-24 {
+    margin-right: 24px;
+}
+
+.ml-5 {
+    margin-left: 5px;
+}
+
+.current-background {
+    background: #000; /* TODO --current-color */
+}
+
+.flex-center {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+/* ОБЩИЕ СТИЛИ ДЛЯ ПЛЕЕРА */
+
+.video__icon {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    cursor: pointer;
+    transition: opacity.15s;
+}
+
+/* ДОПОЛНИТЕЛЬНЫЕ СТИЛИ */
+
+.fullscreen-modal {
+    position: fixed;
+    overflow: auto;
+    z-index: 1080;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+}
+
+.video__storage {
+    text-align: center;
+    height: 100%;
+    background-color: #000;
+}
+
+.video__background {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity.25s;
+    pointer-events: none;
+}
+
+.video__title-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    pointer-events: none;
+}
+
+.video__title-align {
+    height: 50vh;
+    text-align: center;
+    cursor: default;
+    user-select: none;
+    pointer-events: none;
+    padding-top: 70px;
+}
+
+.video__title-align::before {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    cursor: pointer;
-}
-
-.controls {
-    position: absolute;
-    bottom: -50px;
-    left: 0;
-    width: 100%;
-    height: 50px;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    transition: bottom 0.2s ease-in-out, opacity 0.2s ease-in-out;
-    opacity: 0;
-}
-
-.player:hover .controls {
     bottom: 0;
-    opacity: 1;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    content: '';
+    background-image: linear-gradient(0deg,rgba(0,0,0,.8)50%,rgba(0,0,0,.8)100%);
 }
 
-.controls__play,
-.controls__stop {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
+.video__title {
+    position: relative;
+    z-index: 1;
 }
 
-.controls__play {
-    margin-left: 10px;
-}
-
-.play__btn,
-.stop__btn {
-    width: 100%;
-    height: 100%;
-    fill: #fff;
-}
-
-.controls__progress {
-    display: inline-block;
-    width: calc(100% - 360px);
-    height: 40px;
-    margin-left: 10px;
-}
-
-.progress {
+.video-title__text {
     display: block;
-    width: 100%;
-    height: 2px;
-    margin: 19px 0;
-    background-color: #999;
+    font-size: 30px;
+    line-height: 36px;
+    font-family: SansSerif,sans-serif;
+    color: rgba(255,255,255,.96);
 }
 
-.progress::-webkit-slider-thumb {
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    background-color: #fff;
-    border-radius: 50%;
+.video__close-button {
     cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }
 
-.controls__volume {
+.video__bottom-filter {
+    position: absolute;
+    pointer-events: none;
+    bottom: 0;
+    height: 33%;
+    width: 100%;
+    background: linear-gradient(0deg,rgba(0,0,0,.8)0%,rgba(0,0,0,0)100%);
+}
+
+.video__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 2;
+
+    height: 83px;
+    bottom: 0;
+}
+
+.video__bar {
+    position: relative;
+    margin: 0 auto;
+    width: 96.4789%;
+}
+
+.video__bottom-container {
+    position: relative;
+    z-index: 1;
+    width: 96.4789%;
+    margin: 10px auto 0;
+    display: flex;
+    justify-content: space-between;
+    height: 37px;
+    color: rgba(255,255,255,.96);
+}
+
+.video__play-button {
+    display: block;
+
+    font-size: 14px;
+    line-height: 20px;
+    font-family: SansSerif,sans-serif;
+    margin-left: 10px;
+    white-space: nowrap;
+    cursor: default;
+}
+
+.video__quality {
+    width: 30px;        /* TODO mb delete */
+    height: 20px;       /* TODO mb delete */
+
+    opacity: .4;
+}
+
+.video__icon-fill {
+    width: 20px;        /* TODO mb delete */
+    height: 20px;       /* TODO mb delete */
+
+    fill: currentColor;
+}
+
+.video__volume-bar {
     display: inline-block;
     position: relative;
-    width: 80px;
+    width: 100px;
     height: 5px;
-    margin-left: 10px;
-}
-
-.volume__btn {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    fill: #fff;
+    border-radius: 3px;
     cursor: pointer;
-}
-
-.volume__progress {
-    position: absolute;
-    top: 50%;
-    left: 25px;
-    transform: translateY(-50%);
-    width: 55px;
-    height: 2px;
-    margin-top: -1px;
-    background-color: #999;
-}
-
-.volume__progress::-webkit-slider-thumb {
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    background-color: #fff;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.controls__time {
-    display: inline-block;
     margin-left: 10px;
-    font-size: 14px;
-    line-height: 40px;
 }

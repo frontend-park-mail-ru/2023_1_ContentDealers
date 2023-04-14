@@ -30,15 +30,13 @@
 }
 
 .modal--right {
-    width: 0;
     left: 100%;
-    transition: width, left 0.2s ease-in-out;
+    transition: left 0.2s ease-in-out, backdrop-filter 0.2s;
 }
 
 .modal--right--open {
     background-color: rgba(0,0,0,.8);
     backdrop-filter: blur(4px);
 
-    width: 100%;
     left: 0;
 }

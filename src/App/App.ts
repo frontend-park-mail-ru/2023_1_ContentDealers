@@ -157,7 +157,6 @@ class App {
 
 
     private handleRedirectToMain(): void {
-        console.log('handleRedirectToMain')
         EventDispatcher.emit('unmount-all');
 
         this.userModel.authUserByCookie()
@@ -171,9 +170,6 @@ class App {
         // mount
         this.headerController.mountComponent();
         this.mainController.mountComponent();
-
-        // const film = this.filmController.mountComponent({ id: 1 });
-        // console.log('Film', film)
 
         // states
         this.headerView.changeActiveHeaderListItem('/');
@@ -256,7 +252,6 @@ class App {
     };
 
     private handleRedirectToSettings(): void {
-        console.log('handleRedirectToSettings')
         EventDispatcher.emit('unmount-all');
 
         this.userModel.authUserByCookie()
@@ -278,7 +273,6 @@ class App {
     };
 
     private handleRedirectToFilm(data: any): void {
-        console.log('handleRedirectToFilm');
         EventDispatcher.emit('unmount-all');
 
         this.userModel.authUserByCookie()
@@ -289,13 +283,11 @@ class App {
                 EventDispatcher.emit('render-signInButton');
             });
 
-        // console.log('data', data)
         if (!data || !data[0]) {
             router.showUnknownPage();
             return;
         }
 
-        // console.log(data[0])
         const filmId = data[0];
 
         // mount
@@ -309,7 +301,6 @@ class App {
     };
 
     private handleRedirectToPerson(data: any): void {
-        console.log('handleRedirectToPerson');
         EventDispatcher.emit('unmount-all');
 
         this.userModel.authUserByCookie()

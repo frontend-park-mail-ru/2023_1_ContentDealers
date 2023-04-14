@@ -45,18 +45,17 @@ class FilmController extends IController<FilmView, FilmModel> {
         }
 
         if (!this.isMounted) {
-            super.mountComponent();
-
             if (opts?.id) {
                 this.filmId = opts.id;
 
                 this.model.getFilm(this.filmId)
                     .then((data) => {
-                        console.log('data', data)
                         this.trailerSrc = data.content?.trailerURL || null;
-                        console.log(this.trailerSrc)
 
                         this.view.fillFilm(data);
+                        // this.view.show();
+                        // this.isMounted = true;
+                        super.mountComponent();
                     })
                     .catch((error) => {
                         router.showUnknownPage();
@@ -97,7 +96,7 @@ class FilmController extends IController<FilmView, FilmModel> {
                     console.log('Clicked!');
                     console.log(this.trailerSrc)
                     if (this.trailerSrc) {
-                        this.playerController.setSrc(this.trailerSrc);
+                        // this.playerController.setSrc(this.trailerSrc);
                     }
                     this.playerController.mountComponent();
 

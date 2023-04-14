@@ -34,16 +34,13 @@ class FilmView extends IView {
     }
 
     public fillFilm(data: IFilm): void {
-        console.log('In FilmView', data);
         this.element.innerHTML = FilmTemplate(data);
 
         this.renderButtons();
     };
 
     private renderButtons(): void {
-        console.log(this.element)
         const buttonsContainer = <HTMLElement>this.element.querySelector('.film-content__buttons');
-        console.log('buttonsContainer', buttonsContainer)
 
         this.trailerButton = <ButtonComponent>(new FilmData.trailerButton.componentType(buttonsContainer, '', '', FilmData.trailerButton.componentData));
         this.trailerButton.show();

@@ -19,7 +19,6 @@ class SignUpController extends IController<SignUpView, UserModel> {
     constructor(view: SignUpView, model: UserModel) {
         super(view, model);
 
-        this.view.form.bindInputsEvent(this.onInput.bind(this));
         this.view.form.bindSubmitEvent(this.onSubmit.bind(this));
         this.view.form.bindLinksEvent(this.onRedirect.bind(this));
     };
@@ -40,6 +39,8 @@ class SignUpController extends IController<SignUpView, UserModel> {
     private onSubmit(e: Event): void {
         e.preventDefault();
         if (this.isMounted) {
+            this.view.form.bindInputsEvent(this.onInput.bind(this));
+
             const button = <HTMLElement>(<HTMLElement>e.target).closest('.signUp-button');
             if (button.classList.contains('button--disabled')) { // TODO: check if disabled
                 return;
@@ -70,8 +71,17 @@ class SignUpController extends IController<SignUpView, UserModel> {
             const target = <HTMLElement>e.target;
             const href = (<HTMLElement>target.closest('[href]')).getAttribute('href') || '';
 
+            this.saveFormDataToStorage();
             router.goToPath(href);
         }
+    };
+
+    public saveFormDataToStorage(): void {
+        this.view.form.saveDataToStorage('SignUpData');
+    };
+
+    public getFormDataFromStorage(): void {
+        this.view.form.getDataFromStorage('SignUpData');
     };
 }
 

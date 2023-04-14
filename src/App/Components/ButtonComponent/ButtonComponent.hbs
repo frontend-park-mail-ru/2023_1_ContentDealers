@@ -1,3 +1,6 @@
-<button {{#if id}} id="{{ id }}" {{/if}} class="button js-button {{ className }}" {{#if dataAction}} data-action="{{ dataAction}}" {{/if}}>
-    <span>{{ text }}</span>
-</button>
+<div class="js-button {{ upperClass }}">
+    <button {{#if id}} id="{{ id }}" {{/if}} class="gradient-button gradient-button--blue {{ className }} normal-text p-10" style="--coord-y: 42.8px; --diameter-highlight: 264.308px;--coord-x: 70.3375px;" {{#if dataAction}} data-action="{{ dataAction}}" {{/if}}>
+        <div class="gradient-button__border js-gradient-button__border"></div>
+        <span class="gradient-button__text">{{ text }}</span>
+    </button>
+</div>

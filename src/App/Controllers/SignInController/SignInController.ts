@@ -19,7 +19,6 @@ class SignInController extends IController<SignInView, UserModel> {
     constructor(view: SignInView, model: UserModel) {
         super(view, model);
 
-        // this.view.form.bindInputsEvent(this.onInput.bind(this));
         this.view.form.bindSubmitEvent(this.onSubmit.bind(this));
         this.view.form.bindLinksEvent(this.onRedirect.bind(this));
     };
@@ -39,8 +38,7 @@ class SignInController extends IController<SignInView, UserModel> {
         e.preventDefault();
 
         if (this.isMounted) {
-            // if
-            // TODO: check value, but how? Also I need to add this event after click on button and then remove
+
         }
     };
 
@@ -79,8 +77,17 @@ class SignInController extends IController<SignInView, UserModel> {
             const target = <HTMLElement>e.target;
             const href = (<HTMLElement>target.closest('[href]')).getAttribute('href') || '';
 
+            this.saveFormDataToStorage();
             router.goToPath(href);
         }
+    };
+
+    public saveFormDataToStorage(): void {
+        this.view.form.saveDataToStorage('SignInData');
+    };
+
+    public getFormDataFromStorage(): void {
+        this.view.form.getDataFromStorage('SignInData');
     };
 }
 

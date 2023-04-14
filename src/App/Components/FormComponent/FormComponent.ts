@@ -117,15 +117,10 @@ class FormComponent extends IComponent {
     };
 
     public validateWithEmpty(): boolean {
-        console.log('this.validateInputFields()', this.validateInputFields())
-        console.log('this.validatePasswordFields()', this.validatePasswordFields())
         return this.validateInputFields() && this.validatePasswordFields();
     };
 
     public validateWithoutEmpty(): boolean {
-        console.log('validateWithoutEmpty')
-        console.log('this.validateInputFields()', this.validateInputFields())
-        console.log('this.validatePasswordFields()', this.validatePasswordFields())
         return this.validatePasswordFields();
     };
 
@@ -161,6 +156,27 @@ class FormComponent extends IComponent {
 
     public bindCheckboxClickEvent(listener: any): void {
         this.findInputComponent('avatar-checkbox').bindClickEvent(listener);
+    };
+
+    public saveDataToStorage(key: string): void {
+        const data: { [key: string]: string } = {};
+
+        this.inputs.forEach((inputComponent) => {
+            data[inputComponent.input.id] = inputComponent.input.value;
+        });
+
+        localStorage.setItem(key, JSON.stringify(data));
+    };
+
+    public getDataFromStorage(key: string): void {
+        const savedData = localStorage.getItem(key);
+        if (savedData) {
+            const data: { [key: string]: string } = JSON.parse(savedData);
+
+            Object.entries(data).forEach(([id, value]) => {
+                this.findInputComponent(id).input.value = value;
+            });
+        }
     };
 }
 

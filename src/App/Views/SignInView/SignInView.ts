@@ -14,8 +14,6 @@ class SignInView extends IView {
 
         this.form = new FormComponent(this.element, '', '', SignInData.formData);
         this.form.show();
-
-        // this.form.submitButton.block();
     };
 }
 

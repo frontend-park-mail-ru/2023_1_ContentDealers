@@ -30,14 +30,13 @@ class PersonController extends IController<PersonView, PersonModel> {
         }
 
         if (!this.isMounted) {
-            super.mountComponent();
-
             if (opts?.id) {
                 this.personId = opts.id;
 
                 this.model.getPerson(this.personId)
                     .then((data) => {
                         this.view.fillPerson(data);
+                        super.mountComponent();
                     })
                     .catch((error) => {
                         router.showUnknownPage();

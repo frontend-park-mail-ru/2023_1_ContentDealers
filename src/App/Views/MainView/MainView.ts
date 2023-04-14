@@ -11,7 +11,6 @@ class MainView extends IView {
     };
 
     public fillSelections(selections: ISelection[]): void {
-        console.log('fillSelections', selections)
         this.element.innerHTML = MainTemplate({ selections: selections });
     };
 

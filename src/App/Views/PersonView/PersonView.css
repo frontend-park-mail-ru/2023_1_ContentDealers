@@ -64,6 +64,9 @@
     object-fit: cover;
 
     transition: opacity .1s ease-out;
+
+    border: 2px solid #fff;
+    border-radius: 50px;
 }
 
 .person__delimiter {

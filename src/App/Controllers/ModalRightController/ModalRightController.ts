@@ -47,6 +47,8 @@ class ModalRightController extends IController<ModalRightView, UserModel> {
     };
 
     public mountComponent() {
+        this.currentController.getFormDataFromStorage();
+
         this.currentController?.mountComponent();
         super.mountComponent();
     };
@@ -62,6 +64,8 @@ class ModalRightController extends IController<ModalRightView, UserModel> {
             // TODO: check only if click not on modal right, it also click on close btn (not necessary check it?)
             const modalContent = (<HTMLElement>e.target).closest('.modal__content');
             if (!modalContent) {
+                this.currentController.saveFormDataToStorage();
+
                 this.unmountComponent();
 
                 router.goToPath(router.getNearestNotAuthUrl());

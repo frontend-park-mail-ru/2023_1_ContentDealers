@@ -68,7 +68,7 @@
                                 <div class="person-table-row__info">
                                     {{#comment}} {{#stringItems genres 'name'}}{{/stringItems}} {{/comment}}
                                     {{#each genres}}
-                                        {{ name }}
+                                        {{ name }}{{#unless @last}}, {{/unless}}
                                     {{/each}}
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                                 <div class="person-table-row__title">Роли</div>
                                 <div class="person-table-row__info">
                                     {{#each roles}}
-                                        {{ title }}
+                                        {{ title }}{{#unless @last}}, {{/unless}}
                                     {{/each}}
                                 </div>
                             </div>

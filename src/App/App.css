@@ -3,4 +3,5 @@
     padding: 0;
     font-family: SansSerif, sans-serif;
     box-sizing: border-box;
+    outline: none;
 }

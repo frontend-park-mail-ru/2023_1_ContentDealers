@@ -1,3 +1,5 @@
+import paths from "./RouterPaths";
+
 interface IRoute {
     rule: RegExp;
     handler: RouteHandler;
@@ -9,12 +11,12 @@ type UnknownHandler = () => void;
 class Router {
     private routes: IRoute[];
     private unknownPageHandler: UnknownHandler;
-    private readonly nearestNotAuthUrl: string;
+    private nearestNotAuthUrl: string;
 
     constructor() {
         this.routes = [];
         this.unknownPageHandler = () => { };
-        this.nearestNotAuthUrl = '/';
+        this.nearestNotAuthUrl = paths.main;
     };
 
     public start(entryPath: string): void {
@@ -41,6 +43,11 @@ class Router {
         }
         const path = this.sanitizeUrl(rawPath);
 
+        const tmpPath: string = '/' + path;
+        if (tmpPath !== paths.signIn && tmpPath !== paths.signUp) {
+            this.nearestNotAuthUrl = path;
+        }
+
         const foundedPath = this.routes.find(({ rule, handler }) => {
             const match = path.match(rule);
             if (match) {
@@ -62,13 +69,6 @@ class Router {
     public setUnknownPageHandler(handler: UnknownHandler) {
         this.unknownPageHandler = handler;
     };
-
-    // public addRule(rule: string, handler: RouteHandler) {
-    //     this.routes.push({
-    //         rule: this.parseRule(rule),
-    //         handler: handler,
-    //     })
-    // };
 
     public addRule(rule: string, handler: RouteHandler): IRoute {
         const newRoute = {

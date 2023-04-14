@@ -39,9 +39,12 @@ class ModalRightView extends IView {
     };
 
     public hide(): void {
-        this.currentView = null;
         this.parent.classList.remove('modal--right--open');
-        super.hide();
+
+        setTimeout(() => {
+            this.currentView = null;
+            super.hide();
+        }, 200);
     };
 
     /**

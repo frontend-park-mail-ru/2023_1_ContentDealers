@@ -9,39 +9,40 @@
 }
 
 .film__background {
-    --cover-max-width: 1300px;
-    max-width: var(--cover-max-width);
+    /*--cover-max-width: 1300px;*/
+    /*max-width: var(--cover-max-width);*/
     height: fit-content;
+    width: fit-content;
     position: absolute;
     right: 0;
     top: 0;
 
-    left: 20%;
+    left: 60%;
 }
 
 .film__background::before {
     left: -1px;
 }
 
-.film__background::before {
-    background: linear-gradient(90deg,
-    rgb(0, 0, 0) 3.31%,
-    rgba(0, 0, 0, 0.99) 7.71%,
-    rgba(0, 0, 0, 0.96) 12.11%,
-    rgba(0, 0, 0, 0.91) 16.51%,
-    rgba(0, 0, 0, 0.85) 20.91%,
-    rgba(0, 0, 0, 0.76) 25.31%,
-    rgba(0, 0, 0, 0.67) 29.71%,
-    rgba(0, 0, 0, 0.55) 34.11%,
-    rgba(0, 0, 0, 0.44) 38.52%,
-    rgba(0, 0, 0, 0.33) 42.92%,
-    rgba(0, 0, 0, 0.23) 47.32%,
-    rgba(0, 0, 0, 0.15) 51.72%,
-    rgba(0, 0, 0, 0.08) 56.12%,
-    rgba(0, 0, 0, 0.03) 60.52%,
-    rgba(0, 0, 0, 0.01) 64.92%,
-    rgba(0, 0, 0, 0) 69.32%);
-}
+/*.film__background::before {*/
+/*    background: linear-gradient(90deg,*/
+/*    rgb(0, 0, 0) 3.31%,*/
+/*    rgba(0, 0, 0, 0.99) 7.71%,*/
+/*    rgba(0, 0, 0, 0.96) 12.11%,*/
+/*    rgba(0, 0, 0, 0.91) 16.51%,*/
+/*    rgba(0, 0, 0, 0.85) 20.91%,*/
+/*    rgba(0, 0, 0, 0.76) 25.31%,*/
+/*    rgba(0, 0, 0, 0.67) 29.71%,*/
+/*    rgba(0, 0, 0, 0.55) 34.11%,*/
+/*    rgba(0, 0, 0, 0.44) 38.52%,*/
+/*    rgba(0, 0, 0, 0.33) 42.92%,*/
+/*    rgba(0, 0, 0, 0.23) 47.32%,*/
+/*    rgba(0, 0, 0, 0.15) 51.72%,*/
+/*    rgba(0, 0, 0, 0.08) 56.12%,*/
+/*    rgba(0, 0, 0, 0.03) 60.52%,*/
+/*    rgba(0, 0, 0, 0.01) 64.92%,*/
+/*    rgba(0, 0, 0, 0) 69.32%);*/
+/*}*/
 
 .film__background::before,
 .film__background::after {
@@ -55,10 +56,14 @@
 
 .film-background__image {
     display: block;
-    width: 100%;
+    /* width: 100%; */
+    height: 700px;
     position: relative;
     overflow: hidden;
-    aspect-ratio: 16 / 9;
+    /* aspect-ratio: 16 / 9; */
+
+    border: 2px solid #fff;
+    border-radius: 50px;
 }
 
 .film__content {

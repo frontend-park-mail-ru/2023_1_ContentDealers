@@ -118,36 +118,9 @@
 }
 
 .home-button {
-    font-family: SansSerif, sans-serif;
-
     position: relative;
     z-index: 200;
     margin: 15px auto;
-    width: 200px;
-    padding: 10px 15px;
-    border: 1px solid #FFCB39;
-    border-radius: 100px;
-    font-weight: 400;
-    display: block;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    letter-spacing: 2px;
-    font-size: 12px;
-    line-height: 34px;
-
-    -webkit-transition: all 0.3s ease-in;
-    -moz-transition: all 0.3s ease-in;
-    -ms-transition: all 0.3s ease-in;
-    -o-transition: all 0.3s ease-in;
-    transition: all 0.3s ease-in;
-}
-
-.home-button:hover {
-    background-color: #FFCB39;
-    color: #fff;
-    transform: scale(1.05);
-    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.1);
 }
 
 .space__objects img {

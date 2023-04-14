@@ -13,7 +13,7 @@ class NotFoundController extends IController<NotFoundView, IModel> {
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
-        this.view.bindClickEvent(this.handleClick.bind(this));
+        this.view.bindHomeButtonClick(this.handleClick.bind(this));
     };
 
     private handleClick(e: Event): void {

@@ -1,6 +1,6 @@
 import './App.css';
 
-import BaseComponent from './Components/BaseComponent/BaseComponent';
+import RootComponent from './Components/RootComponent/RootComponent';
 
 import HeaderView from './Views/HeaderView/HeaderView';
 import HeaderController from './Controllers/HeaderController/HeaderController';
@@ -84,7 +84,7 @@ class App {
      * @return {void}
      */
     private initPage(): void {
-        const baseComponent = new BaseComponent(document.body);
+        const baseComponent = new RootComponent(document.body);
         baseComponent.show();
 
         this.root = <HTMLElement>baseComponent.querySelector('.js-root');

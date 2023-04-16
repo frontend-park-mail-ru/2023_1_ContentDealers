@@ -29,7 +29,6 @@ class SettingsController extends IController<SettingsView, UserModel> {
     public mountComponent(): void {
         if (!this.isMounted) {
             const user = this.model.getCurrentUser();
-            console.log('Settings controller', user);
             if (!user) {
                 return;
             }
@@ -45,7 +44,6 @@ class SettingsController extends IController<SettingsView, UserModel> {
 
     private onCheckboxClick(e: Event): void {
         e.stopPropagation();
-        console.log('Click checkbox')
     };
 
     private validate(): boolean {
@@ -96,11 +94,7 @@ class SettingsController extends IController<SettingsView, UserModel> {
 
             const button = target.closest('#save-submit-btn');
             if (button !== undefined && button!== null) {
-                console.log(this.view.form.inputs)
-
-                console.log('validate')
                 if (!this.validate()) {
-                    console.log('return')
                     return;
                 }
 
@@ -116,13 +110,10 @@ class SettingsController extends IController<SettingsView, UserModel> {
                 const file = fileInput.files && fileInput.files[0];
 
                 if (file) {
-                    console.log('If file')
                     if (this.view.form.findInputComponent('avatar-checkbox').input.checked) {
-                        console.log('If checked 1')
                         this.view.form.findInputComponent('repeat-password').showErrorMsg('Нельзя удалить и поставить аватарку!')
                         return;
                     } else {
-                        console.log('Not checked 1')
                         formData.append('avatar', file);
                         this.model.avatarUpdate(formData)
                             .then(() => {
@@ -131,16 +122,12 @@ class SettingsController extends IController<SettingsView, UserModel> {
                                 });
                             })
                             .catch(({ msg }) => {
-                                console.log(msg)
                                 this.view.form.findInputComponent('avatar').showErrorMsg(msg);
                             });
                         return;
                     }
                 } else {
-                    console.log('Not file')
-                    console.log(this.view.form.findInputComponent('avatar-checkbox').input.checked)
                     if (this.view.form.findInputComponent('avatar-checkbox').input.checked) {
-                        console.log('If checked 2')
                         this.model.avatarDelete()
                             .then(() => {
 
@@ -152,10 +139,6 @@ class SettingsController extends IController<SettingsView, UserModel> {
                     }
                 }
 
-                console.log('userData', userData)
-                console.log({ body: formData })
-
-
                 this.model.updateUser(userData)
                     .then(() => {
                         this.view.form.inputs.forEach((inputComponent) => {
@@ -163,7 +146,6 @@ class SettingsController extends IController<SettingsView, UserModel> {
                         });
                     })
                     .catch(({ msg }) => {
-                        console.log('errorMsg', msg)
                         this.view.form.findInputComponent('email').showErrorMsg(msg);
                     });
                 // this.model.avatarUpdate(formData);

@@ -10,6 +10,6 @@ interface LinkComponentData extends IComponentData {
     linkImageWidth?: string;
     linkTextClass?: string;
     linkText?: string;
-};
+}
 
 export default LinkComponentData;

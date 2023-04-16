@@ -55,7 +55,6 @@ class PersonController extends IController<PersonView, PersonModel> {
     };
 
     private handleClick(e: Event): void {
-        console.log('Person handleClick');
         e.preventDefault();
 
         if (this.isMounted) {

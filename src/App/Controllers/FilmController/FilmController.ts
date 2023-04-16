@@ -8,9 +8,7 @@ import PlayerView from '../../Views/PlayerView/PlayerView';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
-import router from "../../Router/Router";
-import SignUpController from "../SignUpController/SignUpController";
-import SignUpView from "../../Views/SignUpView/SignUpView";
+import router from '../../Router/Router';
 
 interface IId {
     id: number;
@@ -53,8 +51,6 @@ class FilmController extends IController<FilmView, FilmModel> {
                         this.trailerSrc = data.content?.trailerURL || null;
 
                         this.view.fillFilm(data);
-                        // this.view.show();
-                        // this.isMounted = true;
                         super.mountComponent();
                     })
                     .catch((error) => {
@@ -93,12 +89,10 @@ class FilmController extends IController<FilmView, FilmModel> {
                 }
 
                 case 'trailer': {
-                    console.log('Clicked!');
-                    console.log(this.trailerSrc)
                     if (this.trailerSrc) {
-                        // this.playerController.setSrc(this.trailerSrc);
+                        this.playerController.mountComponent();
+                        this.playerController.setSrc(this.trailerSrc);
                     }
-                    this.playerController.mountComponent();
 
                     break;
                 }

@@ -25,7 +25,6 @@ class HeaderController extends IController<HeaderView, IModel> {
 
         // TODO
         EventDispatcher.subscribe('user-changed', (user: IUser) => {
-            console.log('user-changed', user)
             if (user) {
                 this.view.changeHeaderProfile('profile', user);
             } else {

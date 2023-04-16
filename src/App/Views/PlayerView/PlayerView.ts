@@ -2,49 +2,90 @@ import IView from '../IView/IView';
 
 import PlayerTemplate from './PlayerView.hbs'
 import './PlayerView.css';
-import BarComponent from "../../Components/BarComponent/BarComponent";
+
+import LinkComponent from '../../Components/LinkComponent/LinkComponent';
+import BarComponent from '../../Components/BarComponent/BarComponent';
+
 import EventDispatcher from "../../EventDispatcher/EventDispatcher";
+import PlayerData from "./PlayerViewConfig";
 
 class PlayerView extends IView {
-    private videoPanel: HTMLElement;
-    private videoBar: BarComponent;
-
     public readonly video: HTMLVideoElement;
-    public readonly playBtn: HTMLButtonElement;
-    public readonly playBtnImg: HTMLImageElement;
-    public readonly stopBtn: HTMLButtonElement;
-    public readonly progress: HTMLProgressElement;
-    public readonly volumeBtnImg: HTMLImageElement;
-    public readonly progressVolume: HTMLInputElement;
-    public readonly time: HTMLDivElement;
+
+    private videoPanel: HTMLElement;
+    public videoBar: BarComponent;
+
+    public volumeContainer: HTMLElement;
+    public volumeBar: BarComponent;
+
+    public playStopContainer: HTMLElement
+    private playButton: LinkComponent;
+    private stopButton: LinkComponent;
+
+    public muteUnmuteContainer: HTMLElement;
+    private muteButton: LinkComponent;
+    private unmuteButton: LinkComponent;
+
+    public readonly time: HTMLElement;
+
 
     constructor(parent: HTMLElement) {
         super(parent, PlayerTemplate({}), '#fullscreen-modal');
 
-        this.videoPanel = <HTMLElement>this.element.querySelector('.video__panel');
+        this.video = <HTMLVideoElement>this.element.querySelector('video');
 
+        this.videoPanel = <HTMLElement>this.element.querySelector('.video__panel');
         this.videoPanel.prepend(this.renderVideoBar());
 
+        this.renderVolumeBar();
 
-        // EventDispatcher.subscribe('video-bar-hover', this.videoBar.)
+        this.initPlayButtons();
+        this.stopButton.show();
 
+        this.initVolumeButtons();
+        this.unmuteButton.show();
 
-        // super(parent, PlayerTemplate({}), '.wrapper');
+        this.time = <HTMLElement>this.element.querySelector('.video__duration-time');
+    };
 
-        // this.video = <HTMLVideoElement>this.element.querySelector('.video');
-        //
-        // this.playBtn = <HTMLButtonElement>this.element.querySelector('.controls__play');
-        // this.playBtnImg = <HTMLImageElement>this.element.querySelector('.play__btn');
-        // this.stopBtn = <HTMLButtonElement>this.element.querySelector('.controls__stop');
-        //
-        // this.progress = <HTMLProgressElement>this.element.querySelector('.progress');
-        //
-        // this.volumeBtnImg = <HTMLImageElement>this.element.querySelector('.volume__btn');
-        // this.progressVolume = <HTMLInputElement>this.element.querySelector('.volume__progress');
-        //
-        // this.time = <HTMLDivElement>this.element.querySelector('.controls__time');
+    private initPlayButtons(): void {
+        this.playStopContainer = <HTMLElement>this.element.querySelector('.video__play-button');
+        this.playButton = new LinkComponent(this.playStopContainer, '', '', PlayerData.playButton);
+        this.stopButton = new LinkComponent(this.playStopContainer, '', '', PlayerData.stopButton);
+    };
 
-        // this.videoBar.
+    private initVolumeButtons(): void {
+        this.muteUnmuteContainer = <HTMLElement>this.element.querySelector('.video__volume');
+        this.muteButton = new LinkComponent(this.muteUnmuteContainer, '', '', PlayerData.muteVolume);
+        this.unmuteButton = new LinkComponent(this.muteUnmuteContainer, '', '', PlayerData.unmuteVolume);
+    };
+
+    public toggleVideoStatus(isPlay: boolean): void {
+        if (isPlay) {
+            this.playButton.hide();
+            this.stopButton.show();
+        } else {
+            this.stopButton.hide();
+            this.playButton.show();
+        }
+    };
+
+    public toggleVolumeStatus(isMute: boolean): void {
+        if (isMute) {
+            try {
+                this.muteButton.hide();
+                this.unmuteButton.show();
+            } catch {
+
+            }
+        } else {
+            try {
+                this.unmuteButton.hide();
+                this.muteButton.show();
+            } catch {
+
+            }
+        }
     };
 
     private renderVideoBar(): HTMLElement {
@@ -54,10 +95,11 @@ class PlayerView extends IView {
         return div;
     };
 
-    // private handleMouseEvent(e: MouseEvent): void {
-    //     e.preventDefault();
-    //     if (this.)
-    // }
+    private renderVolumeBar(): void {
+        this.volumeContainer = <HTMLElement>this.element.querySelector('.video__icon')?.parentElement;
+        this.volumeBar = new BarComponent(this.volumeContainer, '', '', { barClass: 'video__volume-bar' });
+        this.volumeBar.show();
+    }
 }
 
 export default PlayerView;

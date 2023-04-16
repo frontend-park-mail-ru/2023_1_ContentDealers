@@ -56,7 +56,6 @@ class UserModel extends IModel {
 
         try {
             await Ajax.checkResponseStatus(signUpResponse, config.api.signUp);
-            console.log(signUpResponse)
 
             const signInResponse = await Ajax.ajax(config.api.signIn, JSON.stringify(signData));
             await Ajax.checkResponseStatus(signInResponse, config.api.signIn);
@@ -86,7 +85,6 @@ class UserModel extends IModel {
     };
 
     public async updateUser(user: any) {
-        console.log('updateUser');
         const response = await Ajax.ajax(config.api.update, JSON.stringify(user));
 
         try {
@@ -111,7 +109,6 @@ class UserModel extends IModel {
     };
 
     public async avatarUpdate(formData: any) {
-        console.log('avatarUpdate');
         // const response = await Ajax.ajax(config.api.avatarUpdate, JSON.stringify(formData));
         // console.log(response)
         //
@@ -144,9 +141,7 @@ class UserModel extends IModel {
             const profileResponse = await Ajax.ajax(config.api.profile);
             await Ajax.checkResponseStatus(profileResponse, config.api.profile);
 
-            console.log('profileResponse.responseBody.body.user', profileResponse.responseBody.body.user)
             this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
-            console.log('this.currentUser', this.currentUser)
 
             EventDispatcher.emit('user-changed', this.currentUser);
         } else {

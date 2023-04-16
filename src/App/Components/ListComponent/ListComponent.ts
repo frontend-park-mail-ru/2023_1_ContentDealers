@@ -14,7 +14,7 @@ class ListComponent extends IComponent {
     };
 
     constructor(parent: HTMLElement, template = '', topElement = '', data: ListComponentData) {
-        super(parent, ListComponentTemplate(data.listClass), '.js-list');
+        super(parent, ListComponentTemplate({ listClass: data.listClass }), '.js-list');
 
         this.items = Object.assign([], data.items);
 

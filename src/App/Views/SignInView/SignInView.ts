@@ -12,7 +12,7 @@ class SignInView extends IView {
     constructor(parent: HTMLElement) {
         super(parent, SignInTemplate({ title: SignInData.title, description: SignInData.description }), '.js-signIn');
 
-        this.form = new FormComponent(this.element, '', '', SignInData.formData);
+        this.form = new FormComponent(this.element, SignInData.formData);
         this.form.show();
     };
 }

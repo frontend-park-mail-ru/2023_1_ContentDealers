@@ -6,15 +6,15 @@ import ListComponentTemplate from './ListComponent.hbs';
 import ListComponentData from './ListComponentData';
 import './ListComponent.css';
 
-class ListComponent extends IComponent {
-    private items: IComponentDataWithType[];
+class ListComponent<Type extends IComponent, Data> extends IComponent {
+    private items: IComponentDataWithType<Type, Data>[];
 
-    get getElement(): HTMLElement {
+    public getElement(): HTMLElement {
         return this.element;
     };
 
-    constructor(parent: HTMLElement, template = '', topElement = '', data: ListComponentData) {
-        super(parent, ListComponentTemplate({ listClass: data.listClass }), '.js-list');
+    constructor(parent: HTMLElement, data: ListComponentData<Type, Data>) {
+        super(parent, ListComponentTemplate({ listClass: data.listClass }));
 
         this.items = Object.assign([], data.items);
 
@@ -26,11 +26,11 @@ class ListComponent extends IComponent {
             const li = document.createElement('li');
             li.classList.add(itemClass || '');
 
-            const l = new componentType(li, '', '', componentData);
+            const l = new componentType(li, componentData);
             l.show();
             this.element.appendChild(li);
         });
     };
-};
+}
 
 export default ListComponent;

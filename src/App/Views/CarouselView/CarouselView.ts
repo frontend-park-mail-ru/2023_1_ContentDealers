@@ -7,14 +7,14 @@ import './CarouselView.css';
 import ListComponent from '../../Components/ListComponent/ListComponent';
 
 class CarouselView extends IView {
-    private list: ListComponent;
+    // private list: ListComponent;
 
     constructor(parent: HTMLElement) {
         super(parent, CarouselTemplate({}), '.js-carousel');
 
         const div = document.createElement('div');
-        this.list = new ListComponent(div, '', '', CarouselData.list);
-        this.list.show();
+        // this.list = new ListComponent(div, CarouselData.list);
+        // this.list.show();
 
         this.element.firstElementChild?.after(div);
     };

@@ -1,6 +1,4 @@
-import IComponentData from '../IComponent/IComponentData';
-
-interface VideoComponentData extends IComponentData {
+interface VideoComponentData {
     href?: string;
     src?: string;
 }

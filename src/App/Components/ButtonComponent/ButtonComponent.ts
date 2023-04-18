@@ -14,8 +14,8 @@ class ButtonComponent extends IComponent {
 
     public readonly button: HTMLButtonElement;
 
-    constructor(parent: HTMLElement, template = '', topElement = '', data?: ButtonComponentData) {
-        super(parent, ButtonComponentTemplate(data), '.js-button');
+    constructor(parent: HTMLElement, data?: ButtonComponentData) {
+        super(parent, ButtonComponentTemplate(data));
 
         this.button = <HTMLButtonElement>this.element.querySelector('button') || <HTMLButtonElement>this.element;
 

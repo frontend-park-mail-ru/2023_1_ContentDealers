@@ -1,10 +1,8 @@
-import IComponentData from '../IComponent/IComponentData';
-
-interface ButtonComponentData extends IComponentData {
+interface ButtonComponentData {
     id?: string;
     className?: string;
     text?: string;
     dataAction?: string;
-};
+}
 
 export default ButtonComponentData;

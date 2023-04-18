@@ -13,7 +13,7 @@ class SettingsView extends IView {
     private readonly leftMenuContainer: HTMLElement
     private readonly settingsFormContainer: HTMLElement;
 
-    private leftMenu: ListComponent;
+    // private leftMenu: ListComponent;
     private currentActiveItem: string | null;
 
     public readonly form: FormComponent;
@@ -24,19 +24,19 @@ class SettingsView extends IView {
         this.leftMenuContainer = <HTMLElement>this.element.querySelector('.js-settings__left-menu-container');
         this.settingsFormContainer = <HTMLElement>this.element.querySelector('.js-settings__form');
 
-        this.leftMenu = <ListComponent>(new SettingsData.leftMenu.componentType(this.leftMenuContainer, '', '', SettingsData.leftMenu.componentData));
-        this.leftMenu.show();
-        this.currentActiveItem = null;
+        // this.leftMenu = <ListComponent>(new SettingsData.leftMenu.componentType(this.leftMenuContainer, SettingsData.leftMenu.componentData));
+        // this.leftMenu.show();
+        // this.currentActiveItem = null;
 
-        this.form = new FormComponent(this.settingsFormContainer, '', '', SettingsData.formData);
+        this.form = new FormComponent(this.settingsFormContainer, SettingsData.formData);
         this.form.show();
     };
 
     public changeActiveLeftMenuItem(href: string) {
-        const listElement = this.leftMenu.getElement;
-        listElement.querySelector(`[href="${this.currentActiveItem}"]`)?.parentElement?.classList.remove('settings-left-menu__item--active');
-        this.currentActiveItem = href;
-        listElement.querySelector(`[href="${href}"]`)?.parentElement?.classList.add('settings-left-menu__item--active');
+        // const listElement = this.leftMenu.getElement;
+        // listElement.querySelector(`[href="${this.currentActiveItem}"]`)?.parentElement?.classList.remove('settings-left-menu__item--active');
+        // this.currentActiveItem = href;
+        // listElement.querySelector(`[href="${href}"]`)?.parentElement?.classList.add('settings-left-menu__item--active');
     };
 
     public show(opts?: { user: IUser }) {

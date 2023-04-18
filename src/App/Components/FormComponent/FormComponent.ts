@@ -16,39 +16,32 @@ class FormComponent extends IComponent {
     public submitButton: ButtonComponent;
     public links: LinkComponent[];
 
-    constructor(parent: HTMLElement, template = '', topElem = '', data?: FormComponentData) {
-        super(parent, FormComponentTemplate({ formId: data?.formId, enctype: data?.enctype }), '.js-form');
+    constructor(parent: HTMLElement, data?: FormComponentData) {
+        super(parent, FormComponentTemplate({ formId: data?.formId, enctype: data?.enctype }));
 
-        const formContent = <HTMLElement>this.element.querySelector('.form__content');
-        const formFooter = <HTMLElement>this.element.querySelector('.form__footer');
+        const formContent = <HTMLElement>this.element.querySelector('.js-form__content');
+        const formFooter = <HTMLElement>this.element.querySelector('.js-form__footer');
 
         this.inputs = [] as InputComponent[];
         this.links = [] as LinkComponent[];
 
-
         data?.inputs.forEach(input => {
-            const inputComponent = new InputComponent(formContent, '', '', input);
+            const inputComponent = new InputComponent(formContent, input);
             inputComponent.show();
 
             this.inputs.push(inputComponent);
         });
 
-        this.submitButton = new ButtonComponent(formContent, '', '', data?.button);
+        this.submitButton = new ButtonComponent(formContent, data?.button);
         this.submitButton.show();
 
         data?.links?.forEach(link => {
-            const linkElement = new LinkComponent(formFooter, '', '', link);
+            const linkElement = new LinkComponent(formFooter, link);
             linkElement.show();
 
             this.links.push(linkElement);
         });
     };
-
-    // public getData(): { id: string, value: string }[] {
-    //     return this.inputs.map((inputComponent) => {
-    //         return inputComponent.getData();
-    //     });
-    // };
 
     public validateEmptyFields(fields: InputComponent[]): boolean {
         return fields.map(field => {

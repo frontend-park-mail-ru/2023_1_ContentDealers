@@ -5,9 +5,9 @@ import VerticalSpacerComponentData from './VerticalSpacerComponentData';
 import './VerticalSpacerComponent.css';
 
 class VerticalSpacerComponent extends IComponent {
-    constructor(parent: HTMLElement, template = '', topElement = '', data?: VerticalSpacerComponentData) {
-        super(parent, VerticalComponentTemplate(data), '.js-vertical-spacer');
+    constructor(parent: HTMLElement, data?: VerticalSpacerComponentData) {
+        super(parent, VerticalComponentTemplate(data));
     };
-};
+}
 
 export default VerticalSpacerComponent;

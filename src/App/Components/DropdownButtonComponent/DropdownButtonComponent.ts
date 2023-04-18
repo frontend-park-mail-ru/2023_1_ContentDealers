@@ -9,13 +9,13 @@ import LinkComponent from '../LinkComponent/LinkComponent';
 class DropdownButtonComponent extends IComponent {
     private readonly dropdownContentItems: HTMLElement;
 
-    constructor(parent: HTMLElement, template = '', topElement = '', data: DropdownButtonComponentData) {
-        super(parent, DropdownButtonComponentTemplate({ dataAction: data.dataAction, avatar: data.avatar }), '.js-dropdown');
+    constructor(parent: HTMLElement, data: DropdownButtonComponentData) {
+        super(parent, DropdownButtonComponentTemplate({ dataAction: data.dataAction, avatar: data.avatar }));
 
         this.dropdownContentItems = <HTMLElement>this.element.querySelector('.js-dropdown-content-container__items');
 
         data.items?.forEach(item => {
-            const link = new LinkComponent(this.dropdownContentItems, '', '', item);
+            const link = new LinkComponent(this.dropdownContentItems, item);
             link.show();
         });
 

@@ -8,8 +8,8 @@ class InputComponent extends IComponent {
     public readonly input: HTMLInputElement;
     public readonly inputError: HTMLElement;
 
-    constructor(parent: HTMLElement, template = '', topElement = '', data?: InputComponentData) {
-        super(parent, InputComponentTemplate(data), '.js-input-field');
+    constructor(parent: HTMLElement, data?: InputComponentData) {
+        super(parent, InputComponentTemplate(data));
 
         this.input = <HTMLInputElement>this.element.querySelector('input') || <HTMLInputElement>this.element;
         this.inputError = <HTMLElement>this.element.querySelector('[class*=error-msg]');
@@ -36,9 +36,8 @@ class InputComponent extends IComponent {
     }
 
     public bindInputEvent(listener: any): void {
-        const input = this.toHTMLElement();
-        if (input !== null) {
-            input.addEventListener('input', listener.bind(this));
+        if (this.input !== null) {
+            this.input.addEventListener('input', listener.bind(this));
         }
     };
 

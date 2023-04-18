@@ -1,11 +1,11 @@
-import IComponentData from '../IComponent/IComponentData';
+import IComponent from '../IComponent/IComponent';
 
 import IComponentDataWithType from '../../Interfaces/interfaces';
 
-interface ListComponentData extends IComponentData {
+interface ListComponentData<Type extends IComponent, Data> {
     listClass?: string;
     itemClass?: string;
-    items?: IComponentDataWithType[];
-};
+    items?: IComponentDataWithType<Type, Data>[];
+}
 
 export default ListComponentData;

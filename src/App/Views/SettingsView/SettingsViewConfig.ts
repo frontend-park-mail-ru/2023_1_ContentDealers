@@ -9,7 +9,7 @@ interface ISettingsData {
     title?: string;
     description?: string;
     formTitle?: string;
-    leftMenu: IComponentDataWithType;
+    // leftMenu: IComponentDataWithType;
     formData: FormComponentData;
 }
 
@@ -17,54 +17,54 @@ const SettingsData: ISettingsData = {
     title: 'Настройки',
     description: 'Оставьте контактные данные для получения уведомлений от сервиса и взаимодействия со службой поддержки.',
     formTitle: 'Контакты',
-    leftMenu: {
-        componentData: {
-            listClass: 'settings__left-menu',
-            itemClass: 'settings-left-menu__item',
-            items: [
-                {
-                    componentData:
-                        {
-                            linkHref: '/settings',
-                            linkClass: 'settings-left-menu-item__link',
-                            linkText: 'Основные',
-                        },
-                    componentType: LinkComponent
-                },
-                {
-                    componentData:
-                        {
-                            linkHref: '/settings/payments',
-                            linkClass: 'settings-left-menu-item__link',
-                            linkText: 'Оплата услуг',
-                        },
-                    componentType: LinkComponent
-                },
-                {
-                    componentData:
-                        {
-                            linkHref: '/settings/subscriptions',
-                            linkClass: 'settings-left-menu-item__link',
-                            linkText: 'Подписки',
-                        },
-                    componentType: LinkComponent
-                },
-                {
-                    componentData:
-                        {
-                            linkHref: '/logout',
-                            linkClass: 'settings-left-menu-item__link',
-                            linkImageSrc: '/img/icons/logout.svg',
-                            linkImageClass: '',
-                            linkImageWidth: 24,
-                            linkText: 'Выйти',
-                        },
-                    componentType: LinkComponent
-                }
-            ]
-        },
-        componentType: ListComponent,
-    },
+    // leftMenu: {
+    //     componentData: {
+    //         listClass: 'settings__left-menu',
+    //         itemClass: 'settings-left-menu__item',
+    //         items: [
+    //             {
+    //                 componentData:
+    //                     {
+    //                         linkHref: '/settings',
+    //                         linkClass: 'settings-left-menu-item__link',
+    //                         linkText: 'Основные',
+    //                     },
+    //                 componentType: LinkComponent
+    //             },
+    //             {
+    //                 componentData:
+    //                     {
+    //                         linkHref: '/settings/payments',
+    //                         linkClass: 'settings-left-menu-item__link',
+    //                         linkText: 'Оплата услуг',
+    //                     },
+    //                 componentType: LinkComponent
+    //             },
+    //             {
+    //                 componentData:
+    //                     {
+    //                         linkHref: '/settings/subscriptions',
+    //                         linkClass: 'settings-left-menu-item__link',
+    //                         linkText: 'Подписки',
+    //                     },
+    //                 componentType: LinkComponent
+    //             },
+    //             {
+    //                 componentData:
+    //                     {
+    //                         linkHref: '/logout',
+    //                         linkClass: 'settings-left-menu-item__link',
+    //                         linkImageSrc: '/img/icons/logout.svg',
+    //                         linkImageClass: '',
+    //                         linkImageWidth: 24,
+    //                         linkText: 'Выйти',
+    //                     },
+    //                 componentType: LinkComponent
+    //             }
+    //         ]
+    //     },
+    //     componentType: ListComponent,
+    // },
     formData: {
         formId: 'settings__form',
         enctype: true,

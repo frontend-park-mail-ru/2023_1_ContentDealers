@@ -109,55 +109,21 @@ class UserModel extends IModel {
     };
 
     public async avatarUpdate(formData: any) {
-        // const response = await Ajax.ajax(config.api.avatarUpdate, JSON.stringify(formData));
-        // console.log(response)
-        //
-        // try {
-        //     await Ajax.checkResponseStatus(response, config.api.avatarUpdate);
-        //     console.log('response', response)
-        //
-        //     const profileResponse = await Ajax.ajax(config.api.profile);
-        //     console.log('profileResponse', profileResponse);
-        //     await Ajax.checkResponseStatus(profileResponse, config.api.profile);
-        //
-        //     this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
-        //     console.log('currentUser', this.currentUser);
-        // }
-        // catch {
-        //     return Promise.reject();
-        // }
+        const response = await Ajax.ajax(config.api.avatarUpdate, formData);
+        console.log(response)
 
+        try {
+            await Ajax.checkResponseStatus(response, config.api.avatarUpdate);
+            console.log('response', response)
 
-        const request = new XMLHttpRequest();
-        request.open("POST", config.host + config.api.avatarUpdate.url, false);
-        request.withCredentials = true;
-
-        const response = await Ajax.getCsrfTokenFromServer();
-
-        request.setRequestHeader('csrf-token', response.body['csrf-token']);
-        request.send(formData);
-
-        if (request.status === 200) {
             const profileResponse = await Ajax.ajax(config.api.profile);
+            console.log('profileResponse', profileResponse);
             await Ajax.checkResponseStatus(profileResponse, config.api.profile);
 
             this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
-
-            EventDispatcher.emit('user-changed', this.currentUser);
-        } else {
-            if (request.status === 413) {
-                return Promise.reject({
-                    msg: 'Слишком большой размер файла',
-                });
-            }
-
-            if (request.status === 400) {
-                const customStatus = response.responseBody.status.toString() as keyof typeof customFailures;
-                return Promise.reject({
-                    msg: customFailures[customStatus],
-                });
-            }
-
+            console.log('currentUser', this.currentUser);
+        }
+        catch {
             return Promise.reject();
         }
     };

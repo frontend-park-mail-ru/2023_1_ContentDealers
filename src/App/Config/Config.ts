@@ -18,9 +18,9 @@ const headersWithUnicode: { [index: string]: string } = {
     'Content-Type': 'application/json;charset=utf-8',
 };
 
-const headersWithEmpty: { [index: string]: string } = {
-    'Content-Type': '',
-};
+// const headersWithEmpty: { [index: string]: string } = {
+//     'Content-Type': ,
+// };
 
 const failureDefaultStatuses: { [index: string]: string } = {
     '400': 'Неверный запрос',
@@ -161,7 +161,7 @@ const config: IConfig = {
         avatarUpdate: {
             url: '/user/avatar/update',
             method: REQUEST_METHODS.POST,
-            headers: headersWithEmpty,
+            headers: {},
             statuses: {
                 success: {
                     '200': 'Аватарка успешно обновлена',

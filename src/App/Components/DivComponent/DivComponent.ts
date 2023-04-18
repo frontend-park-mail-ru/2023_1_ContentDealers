@@ -6,8 +6,8 @@ import DivComponentData from './DivComponentData';
 class DivComponent extends IComponent {
     public readonly div: HTMLElement;
 
-    constructor(parent: HTMLElement, template = '', topElement = '', data: DivComponentData) {
-        super(parent, DivComponentTemplate(data), 'div');
+    constructor(parent: HTMLElement, data: DivComponentData) {
+        super(parent, DivComponentTemplate(data));
 
         this.div = this.element.querySelector('div') || this.element;
     };

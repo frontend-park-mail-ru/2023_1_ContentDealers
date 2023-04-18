@@ -1,6 +1,4 @@
-import IComponentData from '../IComponent/IComponentData';
-
-interface LinkComponentData extends IComponentData {
+interface LinkComponentData {
     id?: string;
     dataAction?: string;
     linkClass?: string;

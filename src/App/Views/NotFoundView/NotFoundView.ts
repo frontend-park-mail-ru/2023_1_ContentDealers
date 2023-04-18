@@ -13,7 +13,7 @@ class NotFoundView extends IView {
 
         const container = <HTMLElement>this.element.querySelector('.js-space__error');
 
-        this.homeButton = new ButtonComponent(container, '', '', { className: 'home-button', text: 'Вернуться на главную'});
+        this.homeButton = new ButtonComponent(container, { className: 'home-button', text: 'Вернуться на главную'});
         this.homeButton.show();
 
 

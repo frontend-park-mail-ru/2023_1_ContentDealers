@@ -34,8 +34,8 @@ class BarComponent extends IComponent {
     //     // ["touchend", this.onTouchEnd.bind(this)],
     // ];
 
-    constructor(parent: HTMLElement, template = '', topElement = '', data: BarComponentData) {
-        super(parent, BarComponentTemplate({ barClass: data.barClass }), '.js-bar');
+    constructor(parent: HTMLElement, data: BarComponentData) {
+        super(parent, BarComponentTemplate({ barClass: data.barClass }));
 
         this.fullBar = <HTMLElement>this.element.querySelector('.bar__full');
         this.loadBar = <HTMLElement>this.element.querySelector('.bar__load');
@@ -51,10 +51,10 @@ class BarComponent extends IComponent {
 
     private initHiddenElements(): void {
         const barHelperDiv = <HTMLElement>this.element.querySelector('#bar__helper');
-        this.barHelper = new DivComponent(barHelperDiv, '', '', { class: 'bar__helper' });
+        this.barHelper = new DivComponent(barHelperDiv, { class: 'bar__helper' });
 
         const currentBarCircleDiv = <HTMLElement>this.element.querySelector('#bar__current-circle');
-        this.currentBarCircle = new DivComponent(currentBarCircleDiv, '', '', { class: 'bar__current-circle' });
+        this.currentBarCircle = new DivComponent(currentBarCircleDiv, { class: 'bar__current-circle' });
     };
 
     public updateCurrentBar(percentage: string | number): void {

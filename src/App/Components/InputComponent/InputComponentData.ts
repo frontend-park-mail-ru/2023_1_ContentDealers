@@ -1,6 +1,4 @@
-import IComponentData from '../IComponent/IComponentData';
-
-interface InputComponentData extends IComponentData {
+interface InputComponentData {
     class?: string;
     inputClass?: string;
     id: string;

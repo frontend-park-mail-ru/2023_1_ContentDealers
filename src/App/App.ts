@@ -76,6 +76,8 @@ class App {
 
     public run(url: string) {
         router.start(url);
+
+        // Сделать один запрос на profile
     }
 
     /**
@@ -84,14 +86,14 @@ class App {
      * @return {void}
      */
     private initPage(): void {
-        const baseComponent = new RootComponent(document.body);
-        baseComponent.show();
+        const rootComponent = new RootComponent(document.body);
+        rootComponent.show();
 
-        this.root = <HTMLElement>baseComponent.querySelector('.js-root');
-        this.header = <HTMLElement>baseComponent.querySelector('.js-header');
-        this.footer = <HTMLElement>baseComponent.querySelector('.js-footer');
-        this.content = <HTMLElement>baseComponent.querySelector('.js-content');
-        this.modalRight = <HTMLElement>baseComponent.querySelector('.js-modal--right');
+        this.root = rootComponent.querySelector('.js-root');
+        this.header = rootComponent.querySelector('.js-header');
+        this.footer = rootComponent.querySelector('.js-footer');
+        this.content = rootComponent.querySelector('.js-content');
+        this.modalRight = rootComponent.querySelector('.js-modal--right');
     };
 
     /**

@@ -6,10 +6,12 @@ import './HeaderView.css';
 
 import ListComponent from '../../Components/ListComponent/ListComponent';
 
+import LinkComponent from '../../Components/LinkComponent/LinkComponent';
+import LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
+
 import HeaderData from './HeaderViewConfig';
-
-
-import DropdownButtonComponentData from '../../Components/DropdownButtonComponent/DropdownButtonComponentData';
+import DropdownButtonComponent from "../../Components/DropdownButtonComponent/DropdownButtonComponent";
+import DropdownButtonComponentData from "../../Components/DropdownButtonComponent/DropdownButtonComponentData";
 
 /**
  * Отображение хедера приложения
@@ -18,41 +20,37 @@ import DropdownButtonComponentData from '../../Components/DropdownButtonComponen
  * @param {HTMLElement} parent - родительский элемент для хедера
  */
 class HeaderView extends IView {
-    private readonly leftSide: HTMLElement;
-    private readonly rightSide: HTMLElement;
+    private readonly left: HTMLElement;
+    private readonly items: HTMLElement;
     private readonly profile: HTMLElement;
-    private actionsList: ListComponent;
+
+    private actions: ListComponent<LinkComponent, LinkComponentData>;
     private currentActiveItem: string | null;
 
     constructor(parent: HTMLElement) {
-        super(parent, HeaderTemplate({}), '.js-header-container');
+        super(parent, HeaderTemplate({}), '.js-header__nav');
 
         // Initialize fields
-        this.leftSide = <HTMLElement>this.element.querySelector('.js-header-container__left');
-        this.rightSide = <HTMLElement>this.element.querySelector('.js-header-container__right');
-        this.profile = <HTMLElement>this.element.querySelector('.js-user-profile');
+        this.left = <HTMLElement>this.element.querySelector('.js-header__nav--left');
+        this.items = <HTMLElement>this.element.querySelector('.js-header__items');
+        this.profile = <HTMLElement>this.element.querySelector('.js-header__profile');
 
         // Render components
-        HeaderData.leftItems.forEach(({ componentType, componentData}) => {
-            const component = new componentType(this.leftSide, '', '', componentData);
-            component.show();
-        });
+        const logo = new HeaderData.logo.componentType(this.left, HeaderData.logo.componentData);
+        logo.show();
 
-        this.actionsList = <ListComponent>(new HeaderData.actionsList.componentType(this.leftSide, '', '', HeaderData.actionsList.componentData));
-        this.actionsList.show();
+        this.actions = new HeaderData.actions.componentType(this.left, HeaderData.actions.componentData);
+        this.actions.show();
         this.currentActiveItem = null;
 
-        HeaderData.rightItems.forEach(({ componentType, componentData}) => {
-            const component = new componentType(this.rightSide, '', '', componentData);
-            component.show();
+        HeaderData.items.forEach(({ componentType, componentData }) => {
+           const component =  new componentType(this.items, componentData);
+           component.show();
         });
-
-        this.rightSide.removeChild(this.profile);
-        this.rightSide.appendChild(this.profile);
     };
 
     public changeActiveHeaderListItem(href: string) {
-        const listElement = this.actionsList.getElement;
+        const listElement = this.actions.getElement();
         listElement.querySelector(`[href="${this.currentActiveItem}"]`)?.parentElement?.classList.remove('active');
         this.currentActiveItem = href;
         listElement.querySelector(`[href="${href}"]`)?.parentElement?.classList.add('active');
@@ -69,15 +67,15 @@ class HeaderView extends IView {
             return;
         }
 
-        const component = <IComponentDataWithType>HeaderData[profileItemName];
+        const component = HeaderData[profileItemName] as IComponentDataWithType<DropdownButtonComponent, DropdownButtonComponentData>; // TODO improve?
         this.profile.innerHTML = '';
 
         if (data?.avatar) {
-            (<DropdownButtonComponentData>component.componentData).avatar = data.avatar;
+            (<DropdownButtonComponentData>component.componentData).avatar = data.avatar; // TODO improve?
         }
 
-        const profileItem = new component.componentType(this.profile, '', '', component.componentData);
-        profileItem.show();
+        const profile = new component.componentType(this.profile, component.componentData);
+        profile.show();
     };
 
     public toggleProfile(): void {

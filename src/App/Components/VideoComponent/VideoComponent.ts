@@ -5,8 +5,8 @@ import VideoComponentData from './VideoComponentData';
 import './VideoComponent.css';
 
 class VideoComponent extends IComponent {
-    constructor(parent: HTMLElement, template = '', topElement = '', data?: VideoComponentData) {
-        super(parent, VideoComponentTemplate(data), 'a');
+    constructor(parent: HTMLElement, data?: VideoComponentData) {
+        super(parent, VideoComponentTemplate(data));
     };
 }
 

@@ -33,7 +33,7 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.tsx', '.ts', '.js', 'handlebars', 'hbs'],
+        extensions: ['.tsx', '.ts', '.js', '.hbs'],
     },
 
     plugins: [

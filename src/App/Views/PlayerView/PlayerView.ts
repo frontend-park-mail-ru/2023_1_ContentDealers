@@ -10,6 +10,9 @@ import EventDispatcher from "../../EventDispatcher/EventDispatcher";
 import PlayerData from "./PlayerViewConfig";
 
 class PlayerView extends IView {
+
+
+
     public readonly video: HTMLVideoElement;
 
     private videoPanel: HTMLElement;
@@ -39,6 +42,10 @@ class PlayerView extends IView {
 
         this.renderVolumeBar();
 
+
+        // this.video.currentTime =
+
+
         this.initPlayButtons();
         this.stopButton.show();
 
@@ -48,16 +55,18 @@ class PlayerView extends IView {
         this.time = <HTMLElement>this.element.querySelector('.video__duration-time');
     };
 
+
+
     private initPlayButtons(): void {
         this.playStopContainer = <HTMLElement>this.element.querySelector('.video__play-button');
-        this.playButton = new LinkComponent(this.playStopContainer, '', '', PlayerData.playButton);
-        this.stopButton = new LinkComponent(this.playStopContainer, '', '', PlayerData.stopButton);
+        this.playButton = new LinkComponent(this.playStopContainer, PlayerData.playButton);
+        this.stopButton = new LinkComponent(this.playStopContainer, PlayerData.stopButton);
     };
 
     private initVolumeButtons(): void {
         this.muteUnmuteContainer = <HTMLElement>this.element.querySelector('.video__volume');
-        this.muteButton = new LinkComponent(this.muteUnmuteContainer, '', '', PlayerData.muteVolume);
-        this.unmuteButton = new LinkComponent(this.muteUnmuteContainer, '', '', PlayerData.unmuteVolume);
+        this.muteButton = new LinkComponent(this.muteUnmuteContainer, PlayerData.muteVolume);
+        this.unmuteButton = new LinkComponent(this.muteUnmuteContainer, PlayerData.unmuteVolume);
     };
 
     public toggleVideoStatus(isPlay: boolean): void {
@@ -90,14 +99,14 @@ class PlayerView extends IView {
 
     private renderVideoBar(): HTMLElement {
         const div = document.createElement('div');
-        this.videoBar = new BarComponent(div, '', '', { barClass: 'video__bar' });
+        this.videoBar = new BarComponent(div, { barClass: 'video__bar' });
         this.videoBar.show();
         return div;
     };
 
     private renderVolumeBar(): void {
         this.volumeContainer = <HTMLElement>this.element.querySelector('.video__icon')?.parentElement;
-        this.volumeBar = new BarComponent(this.volumeContainer, '', '', { barClass: 'video__volume-bar' });
+        this.volumeBar = new BarComponent(this.volumeContainer, { barClass: 'video__volume-bar' });
         this.volumeBar.show();
     }
 }

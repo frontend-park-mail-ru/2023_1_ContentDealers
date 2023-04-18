@@ -1,6 +1,4 @@
-import IComponentData from '../IComponent/IComponentData';
-
-interface BarComponentData extends IComponentData {
+interface BarComponentData {
     barClass?: string;
 }
 

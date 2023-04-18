@@ -7,8 +7,8 @@ import './LinkComponent.css';
 class LinkComponent extends IComponent {
     public readonly link: HTMLElement;
 
-    constructor(parent: HTMLElement, template = '', topElement = '', data?: LinkComponentData) {
-        super(parent, LinkComponentTemplate(data), '.js-link');
+    constructor(parent: HTMLElement, data?: LinkComponentData) {
+        super(parent, LinkComponentTemplate(data));
 
         this.link = <HTMLElement>this.element.querySelector('a') || this.element;
     };

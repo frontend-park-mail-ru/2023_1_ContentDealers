@@ -1,7 +1,5 @@
-import IComponentData from '../IComponent/IComponentData';
-
-interface VerticalSpacerComponentData extends IComponentData {
+interface VerticalSpacerComponentData {
     size?: number;
-};
+}
 
 export default VerticalSpacerComponentData;

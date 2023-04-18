@@ -1,38 +1,42 @@
-import LinkComponent from '../../Components/LinkComponent/LinkComponent';
-import VerticalSpacerComponent from '../../Components/VerticalSpacerComponent/VerticalSpacerComponent';
-import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
-import ListComponent from '../../Components/ListComponent/ListComponent';
-import DropdownButtonComponent from '../../Components/DropdownButtonComponent/DropdownButtonComponent';
-
-import '../../Components/Css/HeaderActionList/HeaderActionList.css';
-import '../../Components/Css/HeaderProfileDropdown/HeaderProfileDropdown.css';
-import '../../Components/Css/HeaderSignIn/HeaderSignIn.css';
-
 import IComponentDataWithType from '../../Interfaces/interfaces';
 
-interface IHeaderData {
-    leftItems: IComponentDataWithType[];
-    actionsList: IComponentDataWithType;
-    rightItems: IComponentDataWithType[];
-    profile: IComponentDataWithType;
-    signIn: IComponentDataWithType;
+import ListComponent from '../../Components/ListComponent/ListComponent';
+import ListComponentData from '../../Components/ListComponent/ListComponentData';
 
-    [key: string]: IComponentDataWithType | IComponentDataWithType[];
-};
+import LinkComponent from '../../Components/LinkComponent/LinkComponent';
+import LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
+
+import VerticalSpacerComponent from '../../Components/VerticalSpacerComponent/VerticalSpacerComponent';
+import VerticalSpacerComponentData from '../../Components/VerticalSpacerComponent/VerticalSpacerComponentData';
+
+import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
+import ButtonComponentData from '../../Components/ButtonComponent/ButtonComponentData';
+
+import DropdownButtonComponent from '../../Components/DropdownButtonComponent/DropdownButtonComponent';
+import DropdownButtonComponentData from '../../Components/DropdownButtonComponent/DropdownButtonComponentData';
+
+interface IHeaderData {
+    logo: IComponentDataWithType<LinkComponent, LinkComponentData>;
+    actions: IComponentDataWithType<ListComponent<LinkComponent, LinkComponentData>, ListComponentData<LinkComponent, LinkComponentData>>;
+    items: (IComponentDataWithType<LinkComponent, LinkComponentData> | IComponentDataWithType<VerticalSpacerComponent, VerticalSpacerComponentData> | IComponentDataWithType<ButtonComponent, ButtonComponentData>)[];
+    profile: IComponentDataWithType<DropdownButtonComponent, DropdownButtonComponentData>;
+    signIn: IComponentDataWithType<LinkComponent, LinkComponentData>;
+
+    [key: string]: IComponentDataWithType<any, any> | IComponentDataWithType<any, any>[]; // TODO enum all types?
+}
 
 const HeaderData: IHeaderData = {
-    leftItems: [
-        {
-            componentData: {
-                linkHref: '/',
-                linkClass: 'logo',
-                linkImageSrc: '/img/logo/logo.svg',
-                linkImageWidth: '40px',
-            },
-            componentType: LinkComponent,
-        },
-    ],
-    actionsList: {
+    logo: {
+        componentType: LinkComponent,
+        componentData: {
+            linkHref: '/',
+            linkClass: 'logo',
+            linkImageSrc: '/img/logo/logo.svg',
+            linkImageWidth: '40px',
+        }
+    },
+    actions: {
+        componentType: ListComponent,
         componentData: {
             listClass: 'header-container__action-list',
             itemClass: 'header-container-action',
@@ -78,10 +82,10 @@ const HeaderData: IHeaderData = {
                     componentType: LinkComponent
                 },
             ],
-        },
-        componentType: ListComponent,
+
+        }
     },
-    rightItems: [
+    items: [
         {
             componentData: {
                 linkHref: '#',
@@ -93,7 +97,7 @@ const HeaderData: IHeaderData = {
         },
         {
             componentData: {
-                size: '24',
+                size: 24,
             },
             componentType: VerticalSpacerComponent,
         },
@@ -106,12 +110,13 @@ const HeaderData: IHeaderData = {
         },
         {
             componentData: {
-                size: '24',
+                size: 24,
             },
             componentType: VerticalSpacerComponent,
         },
     ],
     profile: {
+        componentType: DropdownButtonComponent,
         componentData: {
             dataAction: 'profile',
             avatar: '/img/profile/profile.jpg',
@@ -126,10 +131,10 @@ const HeaderData: IHeaderData = {
                     linkTextClass: 'profile-link__text',
                 },
             ],
-        },
-        componentType: DropdownButtonComponent,
+        }
     },
     signIn: {
+        componentType: LinkComponent,
         componentData: {
             dataAction: 'signIn',
             linkHref: '/signIn',
@@ -137,9 +142,8 @@ const HeaderData: IHeaderData = {
             linkImageSrc: '/img/icons/circle-user.svg',
             linkImageWidth: '30px',
             linkText: 'Войти',
-        },
-        componentType: LinkComponent,
-    },
-};
+        }
+    }
+}
 
 export default HeaderData;

@@ -72,6 +72,6 @@ class ModalRightController extends IController<ModalRightView, UserModel> {
             }
         }
     };
-};
+}
 
 export default ModalRightController;

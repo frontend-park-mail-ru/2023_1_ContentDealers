@@ -11,7 +11,7 @@ class MainView extends IView {
     private readonly article: HTMLElement; // TODO how to update content not render all page
 
     constructor(parent: HTMLElement) {
-        super(parent, MainTemplate({}), '.categories');
+        super(parent, MainTemplate({}));
 
 
         this.article = document.createElement('article');

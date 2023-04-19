@@ -16,6 +16,10 @@
     width: 100%;
 }
 
-.signIn-link:hover {
+.link-signIn__text {
+    color: #fff;
+}
+
+.link-signIn__text:hover {
     color: #4f4e50;
 }

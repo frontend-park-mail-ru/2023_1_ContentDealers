@@ -6,15 +6,18 @@ import './CarouselView.css';
 
 import ListComponent from '../../Components/ListComponent/ListComponent';
 
+import VideoComponent from '../../Components/VideoComponent/VideoComponent';
+import VideoComponentData from '../../Components/VideoComponent/VideoComponentData';
+
 class CarouselView extends IView {
-    // private list: ListComponent;
+    private items: ListComponent<VideoComponent, VideoComponentData>;
 
     constructor(parent: HTMLElement) {
-        super(parent, CarouselTemplate({}), '.js-carousel');
+        super(parent, CarouselTemplate({}));
 
         const div = document.createElement('div');
-        // this.list = new ListComponent(div, CarouselData.list);
-        // this.list.show();
+        this.items = new CarouselData.items.componentType(div, CarouselData.items.componentData);
+        this.items.show();
 
         this.element.firstElementChild?.after(div);
     };

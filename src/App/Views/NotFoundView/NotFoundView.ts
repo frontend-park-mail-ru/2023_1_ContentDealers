@@ -4,19 +4,18 @@ import NotFoundTemplate from './NotFoundView.hbs'
 import './NotFoundView.css';
 
 import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
+import NotFoundData from "./NotFoundViewConfig";
 
 class NotFoundView extends IView {
     private homeButton: ButtonComponent;
 
     constructor(parent: HTMLElement) {
-        super(parent, NotFoundTemplate({}), '.space');
+        super(parent, NotFoundTemplate({}));
 
         const container = <HTMLElement>this.element.querySelector('.js-space__error');
 
-        this.homeButton = new ButtonComponent(container, { className: 'home-button', text: 'Вернуться на главную'});
+        this.homeButton = new NotFoundData.homeButton.componentType(container, NotFoundData.homeButton.componentData);
         this.homeButton.show();
-
-
     };
 
     public bindHomeButtonClick(listener: any): void {

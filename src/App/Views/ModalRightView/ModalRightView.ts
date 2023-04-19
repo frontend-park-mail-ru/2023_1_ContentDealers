@@ -18,7 +18,7 @@ class ModalRightView extends IView {
     public currentView: SignInView | SignUpView | null;
 
     constructor(parent: HTMLElement) {
-        super(parent, ModalRightTemplate({ title: ModalRightData.title }), '.js-modal__area');
+        super(parent, ModalRightTemplate(ModalRightData));
 
         this.modalBody = <HTMLElement>this.element.querySelector('.js-modal__body');
 
@@ -55,6 +55,6 @@ class ModalRightView extends IView {
     public bindClickEvent(listener: any): void {
         this.element.addEventListener('click', listener.bind(this));
     };
-};
+}
 
 export default ModalRightView;

@@ -33,7 +33,7 @@ class PlayerView extends IView {
 
 
     constructor(parent: HTMLElement) {
-        super(parent, PlayerTemplate({}), '#fullscreen-modal');
+        super(parent, PlayerTemplate({}));
 
         this.video = <HTMLVideoElement>this.element.querySelector('video');
 

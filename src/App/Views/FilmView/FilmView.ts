@@ -21,7 +21,7 @@ class FilmView extends IView {
     private subscribeButton: ButtonComponent;
 
     constructor(parent: HTMLElement) {
-        super(parent, FilmTemplate({}), '.film');
+        super(parent, FilmTemplate({}));
     };
 
     public newPlayerView(): void {
@@ -42,10 +42,11 @@ class FilmView extends IView {
     private renderButtons(): void {
         const buttonsContainer = <HTMLElement>this.element.querySelector('.film-content__buttons');
 
-        // this.trailerButton = <ButtonComponent>(new FilmData.trailerButton.componentType(buttonsContainer, '', '', FilmData.trailerButton.componentData));
-        // this.trailerButton.show();
-        // this.subscribeButton = <ButtonComponent>(new FilmData.subscribeButton.componentType(buttonsContainer, '', '', FilmData.subscribeButton.componentData));
-        // this.subscribeButton.show();
+        this.trailerButton = new FilmData.trailerButton.componentType(buttonsContainer, FilmData.trailerButton.componentData);
+        this.trailerButton.show();
+
+        this.subscribeButton = new FilmData.subscribeButton.componentType(buttonsContainer, FilmData.subscribeButton.componentData);
+        this.subscribeButton.show();
     };
 
     public bindClickEvent(listener: any): void {

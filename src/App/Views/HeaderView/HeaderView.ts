@@ -28,7 +28,7 @@ class HeaderView extends IView {
     private currentActiveItem: string | null;
 
     constructor(parent: HTMLElement) {
-        super(parent, HeaderTemplate({}), '.js-header__nav');
+        super(parent, HeaderTemplate({}));
 
         // Initialize fields
         this.left = <HTMLElement>this.element.querySelector('.js-header__nav--left');

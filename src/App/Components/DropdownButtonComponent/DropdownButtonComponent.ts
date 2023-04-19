@@ -48,6 +48,6 @@ class DropdownButtonComponent extends IComponent {
         //     }
         // }
     };
-};
+}
 
 export default DropdownButtonComponent;

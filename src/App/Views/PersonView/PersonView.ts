@@ -7,7 +7,7 @@ import IPerson from '../../Interfaces/Person/IPerson';
 
 class PersonView extends IView {
     constructor(parent: HTMLElement) {
-        super(parent, PersonTemplate({}), '.person');
+        super(parent, PersonTemplate({}));
     };
 
     public fillPerson(data: IPerson): void {

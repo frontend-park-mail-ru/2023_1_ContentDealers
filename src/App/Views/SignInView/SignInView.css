@@ -16,6 +16,10 @@
     width: 100%;
 }
 
-.signUp-link:hover {
+.link-signUp__text {
+    color: #fff;
+}
+
+.link-signUp__text:hover {
     color: #4f4e50;
 }

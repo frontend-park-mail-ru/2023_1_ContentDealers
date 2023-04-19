@@ -20,16 +20,17 @@ class IView {
      */
     protected element: HTMLElement;
 
-    constructor(parent: HTMLElement, template: string, topElement: string) {
+    constructor(parent: HTMLElement, template: string) {
         this.parent = parent;
 
-        const parser = new DOMParser();
-        const element: HTMLElement | null = parser.parseFromString(template, 'text/html').querySelector(topElement);
-        if (!element) {
-            throw Error('Can not find element from template!');
+        const div = document.createElement('div');
+
+        div.innerHTML = template;
+        if (!div.firstElementChild) {
+            throw Error('Невозможно найти корневой элемент в шаблоне!');
         }
 
-        this.element = element;
+        this.element = <HTMLElement>div.firstElementChild;
     };
 
     /**
@@ -49,6 +50,6 @@ class IView {
     public hide(): void {
         this.parent.removeChild(this.element);
     };
-};
+}
 
 export default IView;

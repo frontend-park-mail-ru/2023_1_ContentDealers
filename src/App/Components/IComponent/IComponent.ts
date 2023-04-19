@@ -15,19 +15,6 @@ class IComponent {
      */
     protected element: HTMLElement;
 
-    // constructor(parent: HTMLElement, template: string, topElement: string, data?: IComponentData) {
-    //     this.parent = parent;
-    //
-    //
-    //     const parser = new DOMParser();
-    //     const element: HTMLElement | null = parser.parseFromString(template, 'text/html').querySelector(topElement);
-    //     if (!element) {
-    //         throw Error('Невозможно найти элемент в шаблоне!');
-    //     }
-    //
-    //     this.element = element;
-    // };
-
     constructor(parent: HTMLElement, template: string) {
         this.parent = parent;
 

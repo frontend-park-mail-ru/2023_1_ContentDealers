@@ -10,9 +10,9 @@ class SignInView extends IView {
     public readonly form: FormComponent;
 
     constructor(parent: HTMLElement) {
-        super(parent, SignInTemplate({ title: SignInData.title, description: SignInData.description }), '.js-signIn');
+        super(parent, SignInTemplate({ title: SignInData.title, description: SignInData.description }));
 
-        this.form = new FormComponent(this.element, SignInData.formData);
+        this.form = new SignInData.formData.componentType(this.element, SignInData.formData.componentData);
         this.form.show();
     };
 }

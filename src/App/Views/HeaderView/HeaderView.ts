@@ -9,9 +9,11 @@ import ListComponent from '../../Components/ListComponent/ListComponent';
 import LinkComponent from '../../Components/LinkComponent/LinkComponent';
 import LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
 
+import DropdownButtonComponent from '../../Components/DropdownButtonComponent/DropdownButtonComponent';
+import DropdownButtonComponentData from '../../Components/DropdownButtonComponent/DropdownButtonComponentData';
+
 import HeaderData from './HeaderViewConfig';
-import DropdownButtonComponent from "../../Components/DropdownButtonComponent/DropdownButtonComponent";
-import DropdownButtonComponentData from "../../Components/DropdownButtonComponent/DropdownButtonComponentData";
+
 
 /**
  * Отображение хедера приложения
@@ -71,7 +73,9 @@ class HeaderView extends IView {
         this.profile.innerHTML = '';
 
         if (data?.avatar) {
-            (<DropdownButtonComponentData>component.componentData).avatar = data.avatar; // TODO improve?
+            if (component.componentData) {
+                component.componentData.avatar = '/' + data.avatar;
+            }
         }
 
         const profile = new component.componentType(this.profile, component.componentData);

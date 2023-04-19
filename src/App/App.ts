@@ -77,7 +77,13 @@ class App {
     public run(url: string) {
         router.start(url);
 
-        // Сделать один запрос на profile
+        this.userModel.authUserByCookie()
+            .then(() => {
+                EventDispatcher.emit('user-changed', this.userModel.getCurrentUser());
+            })
+            .catch(() => {
+                EventDispatcher.emit('render-signInButton');
+            });
     }
 
     /**
@@ -172,14 +178,6 @@ class App {
     private handleRedirectToMain(): void {
         EventDispatcher.emit('unmount-all');
 
-        this.userModel.authUserByCookie()
-            .then(() => {
-                EventDispatcher.emit('render-profileButton');
-            })
-            .catch(() => {
-                EventDispatcher.emit('render-signInButton');
-            });
-
         // mount
         this.headerController.mountComponent();
         this.mainController.mountComponent();
@@ -213,14 +211,6 @@ class App {
     private handleRedirectToCatalog(): void {
         EventDispatcher.emit('unmount-all');
 
-        this.userModel.authUserByCookie()
-            .then(() => {
-                EventDispatcher.emit('render-profileButton');
-            })
-            .catch(() => {
-                EventDispatcher.emit('render-signInButton');
-            });
-
         // mount
         this.headerController.mountComponent();
 
@@ -231,14 +221,6 @@ class App {
     private handleRedirectToStore(): void {
         EventDispatcher.emit('unmount-all');
 
-        this.userModel.authUserByCookie()
-            .then(() => {
-                EventDispatcher.emit('render-profileButton');
-            })
-            .catch(() => {
-                EventDispatcher.emit('render-signInButton');
-            });
-
         // mount
         this.headerController.mountComponent();
 
@@ -248,14 +230,6 @@ class App {
 
     private handleRedirectToMyMovie(): void {
         EventDispatcher.emit('unmount-all');
-
-        this.userModel.authUserByCookie()
-            .then(() => {
-                EventDispatcher.emit('render-profileButton');
-            })
-            .catch(() => {
-                EventDispatcher.emit('render-signInButton');
-            });
 
         // mount
         this.headerController.mountComponent();
@@ -288,14 +262,6 @@ class App {
     private handleRedirectToFilm(data: any): void {
         EventDispatcher.emit('unmount-all');
 
-        this.userModel.authUserByCookie()
-            .then(() => {
-                EventDispatcher.emit('render-profileButton');
-            })
-            .catch(() => {
-                EventDispatcher.emit('render-signInButton');
-            });
-
         if (!data || !data[0]) {
             router.showUnknownPage();
             return;
@@ -315,14 +281,6 @@ class App {
 
     private handleRedirectToPerson(data: any): void {
         EventDispatcher.emit('unmount-all');
-
-        this.userModel.authUserByCookie()
-            .then(() => {
-                EventDispatcher.emit('render-profileButton');
-            })
-            .catch(() => {
-                EventDispatcher.emit('render-signInButton');
-            });
 
         if (!data || !data[0]) {
             router.showUnknownPage();
@@ -348,14 +306,6 @@ class App {
 
     private handleRedirectToNotFound(): void {
         EventDispatcher.emit('unmount-all');
-
-        this.userModel.authUserByCookie()
-            .then(() => {
-                EventDispatcher.emit('render-profileButton');
-            })
-            .catch(() => {
-                EventDispatcher.emit('render-signInButton');
-            });
 
         this.headerController.mountComponent();
         this.notFoundController.mountComponent();

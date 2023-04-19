@@ -77,21 +77,23 @@
 
 
 /* For profile */
-.profile-link {
+.link-profile {
     display: grid;
     height: 40px;
     grid-template-columns: 52px auto auto;
     text-align: left;
 }
 
-.profile-link__image {
+.link-profile__image {
     width: 40px;
     height: 40px;
 }
 
-.profile-link__text {
+.link-profile__text {
     font-size: 16px;
     line-height: 24px;
+
+    color: #fff;
 }
 
 

@@ -123,12 +123,12 @@ const HeaderData: IHeaderData = {
             items: [
                 {
                     linkHref: '/settings',
-                    linkClass: 'profile-link',
+                    linkClass: 'link-profile',
                     linkImageSrc: '/img/icons/settings.svg',
-                    linkImageClass: 'profile-link__image',
+                    linkImageClass: 'link-profile__image',
                     linkImageWidth: '24px',
                     linkText: 'Настройки',
-                    linkTextClass: 'profile-link__text',
+                    linkTextClass: 'link-profile__text',
                 },
             ],
         }

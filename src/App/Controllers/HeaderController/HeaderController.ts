@@ -19,8 +19,6 @@ class HeaderController extends IController<HeaderView, IModel> {
     constructor(view: HeaderView) {
         super(view, IModel);
 
-        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
-
         this.view.bindClickEvent(this.handleClick.bind(this));
 
         // TODO
@@ -34,10 +32,6 @@ class HeaderController extends IController<HeaderView, IModel> {
 
         EventDispatcher.subscribe('render-signInButton', () => {
             this.view.changeHeaderProfile('signIn');
-        });
-
-        EventDispatcher.subscribe('render-profileButton', () => {
-            this.view.changeHeaderProfile('profile');
         });
     };
 

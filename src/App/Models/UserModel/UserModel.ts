@@ -114,18 +114,17 @@ class UserModel extends IModel {
 
         try {
             await Ajax.checkResponseStatus(response, config.api.avatarUpdate);
-            console.log('response', response)
 
             const profileResponse = await Ajax.ajax(config.api.profile);
-            console.log('profileResponse', profileResponse);
             await Ajax.checkResponseStatus(profileResponse, config.api.profile);
 
             this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
-            console.log('currentUser', this.currentUser);
         }
         catch {
             return Promise.reject();
         }
+
+        EventDispatcher.emit('user-changed', this.currentUser);
     };
 
     public async avatarDelete() {
@@ -138,12 +137,12 @@ class UserModel extends IModel {
             await Ajax.checkResponseStatus(profileResponse, config.api.profile);
 
             this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
-
-            EventDispatcher.emit('user-changed', this.currentUser);
         }
         catch {
             return Promise.reject();
         }
+
+        EventDispatcher.emit('user-changed', this.currentUser);
     };
 
     public async authUserByCookie() {
@@ -157,7 +156,6 @@ class UserModel extends IModel {
             this.currentUser = null;
             return Promise.reject();
         }
-        // EventDispatcher.emit('user-changed', this.currentUser); TODO: need?
     };
 }
 

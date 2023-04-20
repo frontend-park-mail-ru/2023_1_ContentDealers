@@ -5,6 +5,7 @@ import BarComponentData from './BarComponentData'
 import './BarComponent.css';
 
 import DivComponent from '../DivComponent/DivComponent';
+
 import EventDispatcher from "../../EventDispatcher/EventDispatcher";
 
 interface TouchEventWithTarget extends TouchEvent {
@@ -43,18 +44,14 @@ class BarComponent extends IComponent {
         this.currentBar = <HTMLElement>this.element.querySelector('.bar__current');
 
         this.initHiddenElements();
-
-        // EventDispatcher.subscribe('bar_update-progress', (percentage: number) => {
-        //     this.updateCurrentBar(percentage);
-        // });
     };
 
     private initHiddenElements(): void {
         const barHelperDiv = <HTMLElement>this.element.querySelector('#bar__helper');
-        this.barHelper = new DivComponent(barHelperDiv, { class: 'bar__helper' });
+        this.barHelper = new DivComponent(barHelperDiv, { divClass: 'bar__helper' });
 
         const currentBarCircleDiv = <HTMLElement>this.element.querySelector('#bar__current-circle');
-        this.currentBarCircle = new DivComponent(currentBarCircleDiv, { class: 'bar__current-circle' });
+        this.currentBarCircle = new DivComponent(currentBarCircleDiv, { divClass: 'bar__current-circle' });
     };
 
     public updateCurrentBar(percentage: string | number): void {

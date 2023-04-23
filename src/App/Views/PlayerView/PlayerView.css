@@ -167,14 +167,26 @@
 }
 
 .video__play-button {
-    display: block;
+    align-items: center;
+    cursor: pointer;
+    -webkit-transition: opacity.15s;
+    -o-transition: opacity.15s;
+    transition: opacity.15s;
 
-    font-size: 14px;
-    line-height: 20px;
-    font-family: SansSerif,sans-serif;
-    margin-left: 10px;
-    white-space: nowrap;
-    cursor: default;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    -webkit-box-shadow: 0 11px 11px 0 rgba(0,0,0,.14);
+    box-shadow: 0 11px 11px 0 rgba(0,0,0,.14);
+
+    width: 44px;
+    height: 44px;
+    background: -o-linear-gradient(63.43deg,#3c1a70 0%,rgba(93,14,245,.83));
+    background: linear-gradient(26.57deg,#3c1a70 0%,rgba(93,14,245,.83));
+}
+
+.video__play-button:hover {
+    opacity: 0.8;
 }
 
 .video__duration-time {

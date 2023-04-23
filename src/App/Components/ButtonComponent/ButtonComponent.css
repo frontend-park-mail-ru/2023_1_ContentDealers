@@ -103,6 +103,15 @@
     background: var(--color-hover-gradient-primary-dark)
 }
 
+.gradient-button--grey {
+    background: rgba(139,136,146,.32);
+    backdrop-filter: blur(16px);
+}
+
+.gradient-button--grey:hover {
+
+}
+
 .gradient-button--blue:active {
     background: -o-linear-gradient(63.43deg,#3c1a70 0%,rgba(93,14,245,.83));
     background: linear-gradient(26.57deg,#3c1a70 0%,rgba(93,14,245,.83));

@@ -5,6 +5,7 @@ interface DivComponentData {
 
     imgSrc?: string;
     imgClass?: string;
+    imgWidth?: string;
 }
 
 export default DivComponentData;

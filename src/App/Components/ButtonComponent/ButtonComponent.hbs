@@ -1,6 +1,7 @@
 <div class="{{ upperClass }}">
     <button {{#if id}} id="{{ id }}" {{/if}} class="gradient-button gradient-button--blue {{ className }} normal-text p-10" style="--coord-y: 42.8px; --diameter-highlight: 264.308px;--coord-x: 70.3375px;" {{#if dataAction}} data-action="{{ dataAction}}" {{/if}}>
         <div class="gradient-button__border js-gradient-button__border"></div>
-        <span class="gradient-button__text">{{ text }}</span>
+        {{#if text}}<span class="gradient-button__text">{{ text }}</span>{{/if}}
+        {{#if imgSrc}}<img src="{{ imgSrc }}" width="{{ imgWidth }}" alt="">{{/if}}
     </button>
 </div>

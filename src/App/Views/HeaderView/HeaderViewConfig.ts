@@ -88,10 +88,10 @@ const HeaderData: IHeaderData = {
     items: [
         {
             componentData: {
-                linkHref: '#',
                 linkClass: 'search',
                 linkImageSrc: '/img/icons/search.svg',
                 linkImageWidth: '24px',
+                dataAction: 'search',
             },
             componentType: LinkComponent,
         },

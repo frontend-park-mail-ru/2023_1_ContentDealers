@@ -1,5 +1,5 @@
 interface BarComponentData {
-    barClass?: string;
+    barWidthClass?: string;
 }
 
 export default BarComponentData;

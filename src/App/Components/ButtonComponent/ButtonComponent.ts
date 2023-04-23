@@ -8,8 +8,8 @@ class ButtonComponent extends IComponent {
     private buttonProps: { [key: string]: { name: string, value: number } } = {
         coordinateX:        { name: '--coord-x',                            value: 0 },
         coordinateY:        { name: '--coord-y',                            value: 0 },
-        sizeSquare:         { name: '--size-square',                        value: 0 },
-        diameterHighlight:  { name: '--diameter-highlight',                 value: 0 },
+        sizeSquare:         { name: '--size-square',                        value: 80 },
+        diameterHighlight:  { name: '--diameter-highlight',                 value: 80 },
     };
 
     public readonly button: HTMLButtonElement;
@@ -30,7 +30,9 @@ class ButtonComponent extends IComponent {
             const buttonWidth = this.button.offsetWidth;
             const buttonHeight = this.button.offsetHeight;
 
-            this.buttonProps['sizeSquare'].value = Math.sqrt(buttonWidth * buttonWidth + buttonHeight * buttonHeight);
+            if (buttonWidth + buttonHeight !== 0) {
+                this.buttonProps['sizeSquare'].value =  Math.sqrt(buttonWidth * buttonWidth + buttonHeight * buttonHeight);
+            }
 
             this.button.style.setProperty(this.buttonProps['sizeSquare'].name, `${this.buttonProps['sizeSquare'].value}px`);
         }, 0);
@@ -44,7 +46,10 @@ class ButtonComponent extends IComponent {
             const diameter = Math.sqrt(buttonWidth * buttonWidth + buttonHeight * buttonHeight);
             const multiplySqrt = Math.sqrt(buttonWidth * buttonHeight);
 
-            this.buttonProps['diameterHighlight'].value = diameter + multiplySqrt;
+            if (diameter + multiplySqrt !== 0) {
+                this.buttonProps['diameterHighlight'].value = diameter + multiplySqrt;
+            }
+
             this.button.style.setProperty(this.buttonProps['diameterHighlight'].name, `${this.buttonProps['diameterHighlight'].value}px`);
         }, 0);
     }

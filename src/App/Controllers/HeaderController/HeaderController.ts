@@ -60,6 +60,10 @@ class HeaderController extends IController<HeaderView, IModel> {
                     break;
                 }
 
+                case 'search': {
+                    break;
+                }
+
                 case 'signIn': {
                     // EventDispatcher.emit('signIn');
                     break;

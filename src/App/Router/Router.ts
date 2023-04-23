@@ -41,6 +41,7 @@ class Router {
         if (!rawPath) {
             return;
         }
+
         const path = this.sanitizeUrl(rawPath);
 
         const tmpPath: string = '/' + path;

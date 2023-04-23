@@ -17,10 +17,15 @@ class ModalRightView extends IView {
     private readonly modalBody: HTMLElement;
     public currentView: SignInView | SignUpView | null;
 
+    private readonly backButtonContainer: HTMLElement;
+
     constructor(parent: HTMLElement) {
-        super(parent, ModalRightTemplate(ModalRightData));
+        super(parent, ModalRightTemplate({ title: ModalRightData.title }));
 
         this.modalBody = <HTMLElement>this.element.querySelector('.js-modal__body');
+
+        this.backButtonContainer = <HTMLElement>this.element.querySelector('.js-modal__close-btn-container');
+        new ModalRightData.backButton.componentType(this.backButtonContainer, ModalRightData.backButton.componentData).show();
 
         this.currentView = null;
     };

@@ -9,6 +9,9 @@
     line-height: 18px
 }
 
+.br-50 {
+    border-radius: 50%!important;
+}
 
 /* Стили для кнопки */
 
@@ -106,10 +109,6 @@
 .gradient-button--grey {
     background: rgba(139,136,146,.32);
     backdrop-filter: blur(16px);
-}
-
-.gradient-button--grey:hover {
-
 }
 
 .gradient-button--blue:active {

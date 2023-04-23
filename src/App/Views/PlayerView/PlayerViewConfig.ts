@@ -26,6 +26,7 @@ const PlayerData: IPlayerData = {
     backButton: {
         componentType: ButtonComponent,
         componentData: {
+            colorClass: 'gradient-button--grey',
             imgSrc: '/img/icons/close.svg',
             imgWidth: '22px',
         }

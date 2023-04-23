@@ -263,15 +263,12 @@ class BarComponent extends IComponent {
 
     private bindEvents(): void {
         this.element.addEventListener('mousedown', this.onMouseDown.bind(this));
-
         this.element.addEventListener('mouseover', this.onMouseOver.bind(this));
-
         this.element.addEventListener('mouseleave', this.onMouseLeave.bind(this));
     };
 
     private unbindEvents(): void {
         this.element.removeEventListener('mousedown', this.onMouseDown.bind(this));
-
         this.element.removeEventListener('mouseover', this.onMouseOver.bind(this));
         this.element.removeEventListener('mouseout', this.onMouseLeave.bind(this));
     };

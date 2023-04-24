@@ -1,6 +1,6 @@
 import IComponent from '../IComponent/IComponent';
 
-import BarComponent from '../Bar/BarComponent';
+import BarComponent from '../BarComponent/BarComponent';
 
 import ProgressBarComponentTemplate from './ProgressBarComponent.hbs';
 import ProgressBarComponentData from './ProgressBarComponentData';
@@ -11,6 +11,8 @@ type UpdateFunction = (num: number) => void;
 class ProgressBarComponent extends IComponent {
     private barComponent: BarComponent;
 
+    private readonly timeMinValue: number = 0;
+
     private readonly secInMin: number = 60;
 
     constructor(parent: HTMLElement, data?: ProgressBarComponentData) {
@@ -20,16 +22,18 @@ class ProgressBarComponent extends IComponent {
         this.barComponent.show();
     };
 
-    public updateCurrentBar(time: number): void {
-        this.barComponent.updateCurrentBar(this.timeToPercentage(time));
-    };
 
+    // Setters //
     public setUpdateVideoFunc(func: UpdateFunction): void {
         this.barComponent.setUpdateVideoFunc(func);
     };
 
     public setMaxMinValues(duration: number): void {
-        this.barComponent.setMaxMinValues(0, duration);
+        this.barComponent.setMaxMinValues(this.timeMinValue, duration);
+    };
+
+    public setCurrentValueToBar(time: number): void {
+        this.barComponent.setCurrentValue(time);
     };
 
     public setHelperText(time: number) {
@@ -37,10 +41,7 @@ class ProgressBarComponent extends IComponent {
     };
 
 
-    private timeToPercentage(time: number): number {
-        return (time / this.barComponent.getMaxValue()) * this.barComponent.getMaxPercentageValue();
-    };
-
+    // Calculations //
     private timeToString(time: number): string {
         const minutes = Math.floor(time / this.secInMin);
         const seconds = Math.floor(time % this.secInMin);

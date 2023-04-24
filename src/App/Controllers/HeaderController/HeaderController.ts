@@ -90,6 +90,7 @@ class HeaderController extends IController<HeaderView, IModel> {
                     this.view.toggleMiddle(this.isSearch);
 
                     this.isSearch = !this.isSearch;
+
                     break;
                 }
 

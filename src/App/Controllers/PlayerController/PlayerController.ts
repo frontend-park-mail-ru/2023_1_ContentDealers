@@ -4,28 +4,36 @@ import IController from '../IController/IController';
 import PlayerView from '../../Views/PlayerView/PlayerView';
 
 
-
 class PlayerController extends IController<PlayerView, IModel> {
-    // private videoTime: number;
-    // private videoTimeMinutes: number;
-    // private videoTimeSeconds: number;
-
-    // private readonly currentVolume: number;
-    // private previousVolume: number;
-
     constructor(view: PlayerView) {
         super(view, IModel);
 
-        this.addEventListeners();
+        this.playProxy.isPlay = true;
+        this.view.video.volume = 0.5;
 
-        // this.videoTime = 0;
-        // this.videoTimeMinutes = 0;
-        // this.videoTimeSeconds = 0;
-        //
-        // this.currentVolume = 0.5;
-        // this.previousVolume = 0;
+        this.addEventListeners();
     };
 
+
+    // Proxy //
+    private playHandler = {
+        set: (target: any, key: string, value: any) => {
+            target[key] = value;
+            if (key === 'isPlay') {
+                this.view.rerenderPlay(value);
+            }
+            return true;
+        },
+    };
+
+    public playProxy = new Proxy(this, this.playHandler);
+
+    private changePlayStatus(): void {
+        this.playProxy.isPlay = !this.playProxy.isPlay;
+    };
+
+
+    // Setters //
     public setSrc(src: string): void {
         this.view.video.src = src;
     };
@@ -34,75 +42,77 @@ class PlayerController extends IController<PlayerView, IModel> {
         this.view.video.currentTime = time;
     };
 
+    private setVideoVolume(volume: number): void {
+        this.view.video.volume = volume;
+    };
+
+
+    // Getters //
+    private getVideoVolume(): number {
+        return this.view.video.volume;
+    };
+
+
     private addEventListeners(): void {
         this.view.video.addEventListener('canplay', this.initVideo.bind(this));
 
         this.view.video.addEventListener('timeupdate', () => {
-            this.view.progressBar.updateCurrentBar(this.view.video.currentTime);
+            this.view.progressBar.setCurrentValueToBar(this.view.video.currentTime);
         });
 
-        // this.view.playStopContainer.addEventListener('click', this.onPlayButtonClick.bind(this));
+        this.view.video.addEventListener('volumechange', () => {
+            const volume = this.view.video.volume;
+
+            if (volume < 0.01) {
+                this.view.volumeBar.setMuteProxy(true);
+            } else {
+                this.view.volumeBar.setMuteProxy(false);
+            }
+        });
+
+        this.view.bindPlayButtonClick(this.togglePlayButton.bind(this));
+
+        this.view.bindBackButtonClick(this.onBackButtonClick.bind(this));
+
+        this.view.bindViewClick(this.onViewClick.bind(this));
     };
-
-    // private removeEventListeners(): void { // TODO
-    //
-    // };
-
-    // private onPlayButtonClick(e: Event) {
-    //     e.preventDefault();
-    //
-    //     if (this.isMounted) {
-    //         if (this.view.video.paused) {
-    //             this.playVideo();
-    //         } else {
-    //             this.stopVideo();
-    //         }
-    //
-    //         return;
-    //     }
-    // };
 
     private initVideo(): void {
         this.view.progressBar.setMaxMinValues(this.view.video.duration);
         this.view.progressBar.setUpdateVideoFunc(this.setVideoProgress.bind(this));
 
-        // this.view.video.volume = 0.5;
-        // this.videoTime = this.view.video.duration;
-        // this.videoTimeMinutes = Math.floor(this.videoTime / 60);
-        // this.videoTimeSeconds = Math.floor(this.videoTime % 60);
-
-        // this.updateTime();
-        // this.updateVolume();
+        this.view.volumeBar.setUpdateVideoFunc(this.setVideoVolume.bind(this));
+        this.view.volumeBar.setGetVolumeFunc(this.getVideoVolume.bind(this));
     };
 
-    private async playVideo() {
-        await this.view.video.play();
-        // this.view.toggleVideoStatus(true);
+    private togglePlayButton(e: Event): void {
+        e.preventDefault();
+        e.stopPropagation();
+
+        this.changePlayStatus();
+
+        if (this.playProxy.isPlay) {
+            this.view.video.play();
+        } else {
+            this.view.video.pause();
+        }
     };
 
-    private stopVideo(): void {
-        this.view.video.pause();
-        // this.view.toggleVideoStatus(false);
+    private onBackButtonClick(e: Event): void {
+        e.preventDefault();
+        e.stopPropagation();
+
+        this.unmountComponent();
     };
 
+    private onViewClick(e: Event): void {
+        const target = <HTMLElement>e.target;
 
-
-    // private muteVolume(): void {
-    //     // Math.abs(a - b) < tolerance;
-    //
-    //     if (this.view.video.volume < 0.01) {
-    //         this.view.video.volume = this.previousVolume;
-    //
-    //         this.updateVolume();
-    //         this.view.toggleVolumeStatus(true);
-    //     } else {
-    //         this.previousVolume = this.view.video.volume;
-    //         this.view.video.volume = 0;
-    //
-    //         this.updateVolume();
-    //         this.view.toggleVolumeStatus(false);
-    //     }
-    // };
+        const panel = <HTMLElement>target.closest('.video__panel');
+        if (!panel) {
+            this.togglePlayButton(e);
+        }
+    };
 }
 
 export default PlayerController;

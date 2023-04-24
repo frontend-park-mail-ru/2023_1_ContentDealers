@@ -1,19 +1,12 @@
 import IComponent from '../IComponent/IComponent';
 
 import BarComponentTemplate from './BarComponent.hbs';
-import BarComponentData from './BarComponentData'
+import BarComponentData from './BarComponentData';
 import './BarComponent.css';
 
 import DivComponent from '../DivComponent/DivComponent';
 
-import EventDispatcher from "../../EventDispatcher/EventDispatcher";
-
-interface TouchEventWithTarget extends TouchEvent {
-    target: EventTarget;
-}
-
-// TODO
-// type EventTuple = [string, (e: TouchEvent | MouseEvent) => void];
+type UpdateVideoFunction = (val: number) => void;
 
 class BarComponent extends IComponent {
     private fullBar : HTMLElement;
@@ -21,22 +14,47 @@ class BarComponent extends IComponent {
     private loadProgressBar: HTMLElement;
     private currentBar: HTMLElement;
 
-    public barHelper: DivComponent;
-    public currentBarCircle: DivComponent;
+    protected barHelper: DivComponent;
+    protected currentBarCircle: DivComponent;
 
+    private isDragging: boolean;
 
-    // TODO
-    // private eventTuples: EventTuple[] = [
-    //     ["mousedown", (e: MouseEvent) => { this.onMouseDown(e); }],
-    //     // ["mousemove", this.onMouseMove.bind(this)],
-    //     // ["mouseup", this.onMouseUp.bind(this)],
-    //     // ["touchstart", this.onTouchStart.bind(this)],
-    //     // ["touchmove", this.onTouchMove.bind(this)],
-    //     // ["touchend", this.onTouchEnd.bind(this)],
-    // ];
+    private readonly minPercentageValue: number = 0;
+    private readonly maxPercentageValue: number = 100;
 
-    constructor(parent: HTMLElement, data: BarComponentData) {
-        super(parent, BarComponentTemplate({ barClass: data.barClass }));
+    private minValue: number;
+    private maxValue: number;
+
+    private currentValue: number;
+
+    private boundMouseMove = this.onMouseMove.bind(this);
+    private boundMouseUp = this.onMouseUp.bind(this);
+
+    private currentValueHandler = {
+        set: (target: any, key: string, value: any) => {
+            if (key === 'currentValue') {
+                this.updateBar(value);
+            }
+            return true;
+        },
+    };
+
+    private currentValueProxy = new Proxy(this, this.currentValueHandler);
+
+    public setCurrentValue(value: number): void {
+        this.currentValueProxy.currentValue = this.toPercentage(value);
+    };
+
+    public getCurrentValue(): number {
+        return this.currentValue;
+    };
+
+    public updateVideo: UpdateVideoFunction;
+
+    constructor(parent: HTMLElement, data?: BarComponentData) {
+        super(parent, BarComponentTemplate(data));
+
+        this.isDragging = false;
 
         this.fullBar = <HTMLElement>this.element.querySelector('.bar__full');
         this.loadBar = <HTMLElement>this.element.querySelector('.bar__load');
@@ -44,6 +62,8 @@ class BarComponent extends IComponent {
         this.currentBar = <HTMLElement>this.element.querySelector('.bar__current');
 
         this.initHiddenElements();
+
+        this.bindEvents();
     };
 
     private initHiddenElements(): void {
@@ -54,85 +74,203 @@ class BarComponent extends IComponent {
         this.currentBarCircle = new DivComponent(currentBarCircleDiv, { divClass: 'bar__current-circle' });
     };
 
-    public updateCurrentBar(percentage: string | number): void {
-        this.currentBar.style.width = `${percentage}%`;
-
-        this.currentBarCircle.div.style.left = `${percentage}%`;
+    // Getter Functions //
+    public getInterval(): number {
+        return (this.maxValue - this.minValue);
     };
 
-    public calculatePercentage(cursorX: number): number {
-        const barWidth = this.fullBar.offsetWidth;
-        const clickOffset = cursorX - this.fullBar.getBoundingClientRect().left;
-        return (clickOffset / barWidth) * 100;
+    private toValue(percentage: number): number {
+        return (percentage / this.maxPercentageValue) * this.getInterval();
     };
 
-
-
-    // private onMouseOut(e: MouseEvent): void {
-    //     this.barHelper.hide(); // TODO check before hide?
-    //     // this.currentBarCircle.hide();
-    // }
-    //
-    // private onTouchStart(e: TouchEvent): void {
-    //     // console.log('onTouchStart')
-    //     this.isDragging = true;
-    //     const touchEventWithTarget = e as TouchEventWithTarget;
-    //     this.updateProgressBar(touchEventWithTarget);
-    // };
-    //
-    // private onTouchMove(e: TouchEvent): void {
-    //     // console.log('onTouchMove')
-    //     if (this.isDragging) {
-    //         const touchEventWithTarget = e as TouchEventWithTarget;
-    //         this.updateProgressBar(touchEventWithTarget);
-    //     }
-    // };
-    //
-    // private onTouchEnd(e: TouchEvent): void {
-    //     // console.log('onTouchEnd')
-    //     this.isDragging = false;
-    // };
-    //
-
-
-
-    // Helpers
-    public checkHelper(): boolean {
-        return Boolean(this.element.querySelector('.bar__helper'));
-    };
-
-    public checkCircle(): boolean {
-        return Boolean(this.element.querySelector('.bar__current-circle'));
+    private toPercentage(value: number): number {
+        return (value / this.getInterval()) * this.maxPercentageValue;
     };
 
 
-    // Binds
-    public bindMouseDownEvent(listener: any): void {
-        this.element.addEventListener('mousedown', listener);
+    // Setter Functions //
+    public setUpdateVideoFunc(func: UpdateVideoFunction): void {
+        this.updateVideo = func;
+    };
+
+    public setMaxMinValues(min: number, max: number): void {
+        this.minValue = min;
+        this.maxValue = max;
+    };
+
+    public setHelperText(text: string) {
+        this.barHelper.div.innerText = text;
+    };
+
+
+    // Update functions //
+    public updateBarDragging(percentage: number): void {
+        if (this.isDragging) {
+            const truncPercentage = this.truncatePercentage(percentage);
+
+            this.updateCurrentBar(truncPercentage);
+            this.updateVideo(this.toValue(truncPercentage)); // Update video
+        }
+    };
+
+    private updateCurrentBar(percentage: number): void {
+        const truncPercentage = this.truncatePercentage(percentage);
+
+        this.currentBar.style.width = `${truncPercentage}%`;
+        this.currentBarCircle.div.style.left = `${truncPercentage}%`;
+    };
+
+    public updateBar(percentage: number): void {
+        if (!this.isDragging) {
+            this.updateCurrentBar(percentage);
+        }
+    };
+
+    private updateHelper(percentage: number): void {
+        this.barHelper.div.style.left = `${percentage}%`;
+    };
+
+
+    // Calculate functions //
+    private truncatePercentage(percentage: number): number {
+        let truncPercentage = percentage;
+        if (percentage < this.minPercentageValue) {
+            truncPercentage = this.minPercentageValue;
+        }
+
+        if (percentage > this.maxPercentageValue) {
+            truncPercentage = this.maxPercentageValue;
+        }
+
+        return truncPercentage;
     }
 
-    public bindMouseUpEvent(listener: any): void {
-        this.element.addEventListener('mouseup', listener);
+    private positionToPercentage(cursorX: number): number {
+        const barRect = this.fullBar.getBoundingClientRect();
+        const barLeft = barRect.left + window.scrollX;
+        const barWidth = barRect.width;
+
+        const position = cursorX - barLeft;
+        const percentage = (position < 0) ? 0 : (position / barWidth * this.maxPercentageValue);
+
+        return parseFloat(percentage.toFixed(2));
     };
 
-    public bindMouseMoveEvent(listener: any): void {
-        this.element.addEventListener('mousemove', listener);
+    // Check functions //
+    private isElement(className: string): boolean {
+        return Boolean(this.element.querySelector(`${className}`));
     };
 
-    public bindMouseOutEvent(listener: any): void {
-        this.element.addEventListener('mouseout', listener);
+    private isHelper(): boolean {
+        return this.isElement('.bar__helper');
     };
 
-    public bindTouchStartEvent(listener: any): void {
-        this.element.addEventListener('touchstart', listener);
+    private isCircle(): boolean {
+        return this.isElement('.bar__current-circle');
     };
 
-    public bindTouchEndEvent(listener: any): void {
-        this.element.addEventListener('touchend', listener);
+
+    // Show / hide functions //
+    private showHelper(): void {
+        if (!this.isHelper()) {
+            this.barHelper.show();
+        }
     };
 
-    public bindTouchMoveEvent(listener: any): void {
-        this.element.addEventListener('touchmove', listener);
+    private hideHelper(): void {
+        if (this.isHelper()) {
+            this.barHelper.hide();
+        }
+    };
+
+    private showCircle(): void {
+        if (!this.isCircle()) {
+            this.currentBarCircle.show();
+        }
+    };
+
+    private hideCircle(): void {
+        if (this.isCircle()) {
+            this.currentBarCircle.hide();
+        }
+    };
+
+
+    // Events
+    private onMouseDown(e: MouseEvent): void {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('onMouseDown');
+
+        this.isDragging = true;
+        this.updateBarDragging(this.positionToPercentage(e.clientX)); // Update bar
+
+        this.bindMouseDraggingEvents();
+    };
+
+    private onMouseMove(e: MouseEvent): void {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('onMouseMove')
+
+        this.updateBarDragging(this.positionToPercentage(e.clientX));
+    };
+
+    private onMouseUp(e: MouseEvent): void {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('onMouseUp');
+
+        this.isDragging = false;
+
+        this.unbindMouseDraggingEvents();
+    };
+
+    private onMouseOver(e: MouseEvent): void {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const percentage = this.positionToPercentage(e.clientX);   // Calculate % for current cursor position
+
+        this.updateHelper(percentage);
+        this.showHelper();
+
+        this.showCircle();
+    };
+
+    private onMouseLeave(e: MouseEvent): void {
+        e.preventDefault();
+        e.stopPropagation();
+
+        console.log('onMouseLeave')
+
+        this.hideHelper();
+
+        if (!this.isDragging) {
+            this.hideCircle();
+        }
+    };
+
+    private bindMouseDraggingEvents(): void {
+        document.addEventListener('mousemove', this.boundMouseMove);
+        document.addEventListener('mouseup', this.boundMouseUp);
+    };
+
+    private unbindMouseDraggingEvents(): void {
+        document.removeEventListener('mousemove', this.boundMouseMove);
+        document.removeEventListener('mouseup', this.boundMouseUp);
+    };
+
+    private bindEvents(): void {
+        this.element.addEventListener('mousedown', this.onMouseDown.bind(this));
+        this.element.addEventListener('mouseover', this.onMouseOver.bind(this));
+        this.element.addEventListener('mouseleave', this.onMouseLeave.bind(this));
+    };
+
+    private unbindEvents(): void {
+        this.element.removeEventListener('mousedown', this.onMouseDown.bind(this));
+        this.element.removeEventListener('mouseover', this.onMouseOver.bind(this));
+        this.element.removeEventListener('mouseout', this.onMouseLeave.bind(this));
     };
 }
 

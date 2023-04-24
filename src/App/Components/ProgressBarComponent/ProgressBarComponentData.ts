@@ -1,4 +1,4 @@
-import BarComponentData from '../Bar/BarComponentData';
+import BarComponentData from '../BarComponent/BarComponentData';
 
 interface ProgressBarComponentData {
     class?: string;

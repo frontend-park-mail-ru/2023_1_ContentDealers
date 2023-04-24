@@ -11,6 +11,16 @@
     z-index: 1000 !important;
 }
 
+.search-view_blur {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(10px); /* Степень размытия */
+    z-index: -1;
+}
+
 .search-view_back-color {
     background-color: #16032b;
 }

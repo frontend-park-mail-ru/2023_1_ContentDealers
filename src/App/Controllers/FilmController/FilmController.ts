@@ -26,7 +26,7 @@ class FilmController extends IController<FilmView, FilmModel> {
         this.trailerSrc = null;
 
         EventDispatcher.subscribe('new-player', () => {
-            this.view.playerView?.hide();
+            this.view?.playerView?.hide();
 
             this.view.newPlayerView();
             this.playerController = new PlayerController(<PlayerView>this.view.playerView);

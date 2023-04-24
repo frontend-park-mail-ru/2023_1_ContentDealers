@@ -9,6 +9,9 @@ import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 import router from '../../Router/Router';
 
+import SearchController from '../SearchController/SearchController';
+import SearchModel from '../../Models/SearchModel/SearchModel';
+
 /**
  * Котроллер для хэдера
  * @category Header
@@ -16,10 +19,23 @@ import router from '../../Router/Router';
  * @param  {HeaderView} view Объект вида компонента хэдер
  */
 class HeaderController extends IController<HeaderView, IModel> {
+    private searchController: SearchController;
+    private isSearch: boolean;
+    private previousCall: number | null;
+    private lastCall: number | null;
+    private lastCallTimer: number;
+    private timeout: number;
+
     constructor(view: HeaderView) {
         super(view, IModel);
 
         this.view.bindClickEvent(this.handleClick.bind(this));
+        this.view.bindInputEvent(this.handleKeyPress.bind(this));
+        this.timeout = 150;
+        this.previousCall = null;
+        this.lastCall = null;
+        this.searchController = new SearchController(this.view.searchView, new SearchModel());
+        this.isSearch = false;
 
         // TODO
         EventDispatcher.subscribe('user-changed', (user: IUser) => {
@@ -32,6 +48,11 @@ class HeaderController extends IController<HeaderView, IModel> {
 
         EventDispatcher.subscribe('render-signInButton', () => {
             this.view.changeHeaderProfile('signIn');
+        });
+
+        EventDispatcher.subscribe('render-middle-list', () => {
+            this.view.toggleMiddle(this.isSearch);
+            this.isSearch = false;
         });
     };
 
@@ -60,6 +81,18 @@ class HeaderController extends IController<HeaderView, IModel> {
                     break;
                 }
 
+                case 'search': {
+                    if (!this.isSearch) {
+                        this.searchController.mountComponent();
+                    } else {
+                        this.searchController.unmountComponent();
+                    }
+                    this.view.toggleMiddle(this.isSearch);
+
+                    this.isSearch = !this.isSearch;
+                    break;
+                }
+
                 case 'signIn': {
                     // EventDispatcher.emit('signIn');
                     break;
@@ -71,6 +104,27 @@ class HeaderController extends IController<HeaderView, IModel> {
 
             return;
         }
+    };
+
+    /**
+     * Функция обработки ввода названия
+     * @param  {Event} e
+     * @returns {void}
+     */
+    private handleKeyPress(e: Event): void {
+        this.previousCall = this.lastCall;
+
+        this.lastCall = Date.now();
+
+        if (this.previousCall && this.lastCall - this.previousCall <= this.timeout) {
+            clearTimeout(this.lastCallTimer);
+        }
+
+        this.lastCallTimer = setTimeout(() => {
+            this.searchController.getSearchResult(this.view.getInputValue().split(' ').join('+'));
+            this.searchController.unRenderItems();
+            this.searchController.renderItems();
+        }, this.timeout);
     };
 }
 

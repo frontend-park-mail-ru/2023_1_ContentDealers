@@ -64,37 +64,36 @@ const HeaderData: IHeaderData = {
                         },
                     componentType: LinkComponent
                 },
-                // TODO: uncomment
-                // {
-                //     componentData:
-                //         {
-                //             linkHref: '/catalog',
-                //             linkClass: 'header-container-action__link',
-                //             linkText: 'Каталог',
-                //             linkTextClass: 'header-container-action-link__text',
-                //         },
-                //     componentType: LinkComponent
-                // },
-                // {
-                //     componentData:
-                //         {
-                //             linkHref: '/store',
-                //             linkClass: 'header-container-action__link',
-                //             linkText: 'Магазин',
-                //             linkTextClass: 'header-container-action-link__text',
-                //         },
-                //     componentType: LinkComponent
-                // },
-                // {
-                //     componentData:
-                //         {
-                //             linkHref: '/my-movie',
-                //             linkClass: 'header-container-action__link',
-                //             linkText: 'Моё',
-                //             linkTextClass: 'header-container-action-link__text',
-                //         },
-                //     componentType: LinkComponent
-                // },
+                {
+                    componentData:
+                        {
+                            linkHref: '/catalog',
+                            linkClass: 'header-container-action__link',
+                            linkText: 'Каталог',
+                            linkTextClass: 'header-container-action-link__text',
+                        },
+                    componentType: LinkComponent
+                },
+                {
+                    componentData:
+                        {
+                            linkHref: '/store',
+                            linkClass: 'header-container-action__link',
+                            linkText: 'Магазин',
+                            linkTextClass: 'header-container-action-link__text',
+                        },
+                    componentType: LinkComponent
+                },
+                {
+                    componentData:
+                        {
+                            linkHref: '/my-movie',
+                            linkClass: 'header-container-action__link',
+                            linkText: 'Моё',
+                            linkTextClass: 'header-container-action-link__text',
+                        },
+                    componentType: LinkComponent
+                },
             ],
 
         }

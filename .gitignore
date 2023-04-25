@@ -2,3 +2,5 @@
 node_modules
 build
 move.sh
+static/index_bundle.js
+static/main.css

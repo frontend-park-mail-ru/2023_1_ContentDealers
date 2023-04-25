@@ -44,7 +44,6 @@ class FilmView extends IView {
         const buttonsContainer = <HTMLElement>this.element.querySelector('.film-content__buttons');
 
         this.subscribeButton = new FilmData.subscribeButton.componentType(buttonsContainer, FilmData.subscribeButton.componentData);
-        this.subscribeButton.button.setAttribute('disabled', 'true'); // TODO: delete
         this.subscribeButton.show();
 
         this.trailerButton = new FilmData.trailerButton.componentType(buttonsContainer, FilmData.trailerButton.componentData);

@@ -106,6 +106,8 @@ class PlayerController extends IController<PlayerView, IModel> {
     };
 
     private onViewClick(e: Event): void {
+        e.preventDefault();
+
         const target = <HTMLElement>e.target;
 
         const panel = <HTMLElement>target.closest('.video__panel');

@@ -10,20 +10,21 @@ interface IFilmData {
 }
 
 const FilmData: IFilmData = {
-    trailerButton:
+    subscribeButton:
         {
             componentData: {
                 text: 'Оформить подписку',
-                className: 'trailer-button',
+                className: 'subscribe-button',
                 dataAction: 'subscribe',
             },
             componentType: ButtonComponent,
         },
-    subscribeButton:
+    trailerButton:
         {
             componentData: {
                 text: 'Трейлер',
-                className: 'subscribe-button',
+                colorClass: 'gradient-button--grey',
+                className: 'trailer-button',
                 dataAction: 'trailer',
             },
             componentType: ButtonComponent,

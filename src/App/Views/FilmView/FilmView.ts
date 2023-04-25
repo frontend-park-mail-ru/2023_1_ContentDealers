@@ -42,11 +42,11 @@ class FilmView extends IView {
     private renderButtons(): void {
         const buttonsContainer = <HTMLElement>this.element.querySelector('.film-content__buttons');
 
-        this.trailerButton = new FilmData.trailerButton.componentType(buttonsContainer, FilmData.trailerButton.componentData);
-        this.trailerButton.show();
-
         this.subscribeButton = new FilmData.subscribeButton.componentType(buttonsContainer, FilmData.subscribeButton.componentData);
         this.subscribeButton.show();
+
+        this.trailerButton = new FilmData.trailerButton.componentType(buttonsContainer, FilmData.trailerButton.componentData);
+        this.trailerButton.show();
     };
 
     public bindClickEvent(listener: any): void {

@@ -115,7 +115,10 @@ class VolumeBarComponent extends IComponent {
         this.barComponent.setHelperText(`${volume}`);
     };
 
-    public changeMuteStatus(): void {
+    public changeMuteStatus(e: Event): void {
+        e.preventDefault();
+        e.stopPropagation();
+
         this.muteProxy.isMute = !this.muteProxy.isMute;
 
         if (!this.muteProxy.isMute) {

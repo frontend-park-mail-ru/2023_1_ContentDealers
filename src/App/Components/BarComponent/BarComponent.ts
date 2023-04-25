@@ -116,8 +116,9 @@ class BarComponent extends IComponent {
     private updateCurrentBar(percentage: number): void {
         const truncPercentage = this.truncatePercentage(percentage);
 
-        this.currentBar.style.width = `${truncPercentage}%`;
+        this.currentBarCircle.div.classList.add('active');
         this.currentBarCircle.div.style.left = `${truncPercentage}%`;
+        this.currentBar.style.width = `${truncPercentage}%`;
     };
 
     public updateBar(percentage: number): void {

@@ -14,6 +14,10 @@ import DropdownButtonComponentData from '../../Components/DropdownButtonComponen
 
 import HeaderData from './HeaderViewConfig';
 
+import SearchView from "../SearchView/SearchView";
+import searchView from "../SearchView/SearchView";
+import InputComponent from "../../Components/InputComponent/InputComponent";
+
 
 /**
  * Отображение хедера приложения
@@ -22,36 +26,58 @@ import HeaderData from './HeaderViewConfig';
  * @param {HTMLElement} parent - родительский элемент для хедера
  */
 class HeaderView extends IView {
-    private readonly left: HTMLElement;
     private readonly items: HTMLElement;
     private readonly profile: HTMLElement;
+    private readonly logo: HTMLElement;
+    private readonly middle: HTMLElement;
+    private input: InputComponent;
 
     private actions: ListComponent<LinkComponent, LinkComponentData>;
     private currentActiveItem: string | null;
+
+    public searchView: SearchView;
 
     constructor(parent: HTMLElement) {
         super(parent, HeaderTemplate({}));
 
         // Initialize fields
-        this.left = <HTMLElement>this.element.querySelector('.js-header__nav--left');
         this.items = <HTMLElement>this.element.querySelector('.js-header__items');
         this.profile = <HTMLElement>this.element.querySelector('.js-header__profile');
+        this.logo = <HTMLElement>this.element.querySelector('.js-header__logo');
+        this.middle = <HTMLElement>this.element.querySelector('.js-header__middle');
 
         // Render components
-        const logo = new HeaderData.logo.componentType(this.left, HeaderData.logo.componentData);
+        const logo = new HeaderData.logo.componentType(this.logo, HeaderData.logo.componentData);
         logo.show();
 
-        this.actions = new HeaderData.actions.componentType(this.left, HeaderData.actions.componentData);
+        this.input = new InputComponent(this.middle, HeaderData.input.componentData);
+
+        this.searchView = new SearchView(this.middle);
+
+        this.actions = new HeaderData.actions.componentType(this.middle, HeaderData.actions.componentData);
         this.actions.show();
         this.currentActiveItem = null;
 
         HeaderData.items.forEach(({ componentType, componentData }) => {
-           const component =  new componentType(this.items, componentData);
+           const component = new componentType(this.items, componentData);
            component.show();
         });
     };
 
-    public changeActiveHeaderListItem(href: string) {
+    public toggleMiddle(isSearch: boolean): void {
+        if (!isSearch) {
+            this.actions.hide();
+            this.input.show();
+            this.items.querySelector('img')!.src = '/img/icons/close.svg';
+            (<HTMLElement>this.middle.querySelector('.input-field__search')).focus();
+        } else {
+            this.input.hide();
+            this.actions.show();
+            this.items.querySelector('img')!.src = '/img/icons/search.svg';
+        }
+    }
+
+    public changeActiveHeaderListItem(href: string): void {
         const listElement = this.actions.getElement();
         listElement.querySelector(`[href="${this.currentActiveItem}"]`)?.parentElement?.classList.remove('active');
         this.currentActiveItem = href;
@@ -90,6 +116,10 @@ class HeaderView extends IView {
         this.profile.querySelector('.js-dropdown__content')?.classList.remove('dropdown__content__show');
     };
 
+    public getInputValue(): string {
+        return (<HTMLInputElement>this.element.querySelector('#query')).value;
+    };
+
     /**
      * Функция добавления обработчика события нажатия на хедер
      * @param  {any} listener - Callback функция для события
@@ -97,6 +127,10 @@ class HeaderView extends IView {
      */
     public bindClickEvent(listener: any): void {
         this.element.addEventListener('click', listener.bind(this));
+    };
+
+    public bindInputEvent(listener: any): void {
+        this.element.addEventListener('input', listener.bind(this));
     };
 }
 

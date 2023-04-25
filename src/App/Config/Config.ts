@@ -56,8 +56,8 @@ interface IConfig {
 
 const config: IConfig = {
     // host: 'http://89.208.199.170/',
-    host: 'http://filmium.ru/api',
-    // host: 'http://89.208.199.170:8100/api',
+    // host: 'http://filmium.ru/api',
+    host: 'http://89.208.199.170:8100/api',
     api: {
         csrf: {
             url: '/user/csrf',
@@ -182,7 +182,18 @@ const config: IConfig = {
                 },
                 failure: failureDefaultStatuses,
             },
-        }
+        },
+        search: {
+            url: '/search?query={query}',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Данные успешно получены',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
     }
 };
 

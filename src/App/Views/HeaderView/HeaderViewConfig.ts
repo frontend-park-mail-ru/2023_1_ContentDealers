@@ -14,9 +14,12 @@ import ButtonComponentData from '../../Components/ButtonComponent/ButtonComponen
 
 import DropdownButtonComponent from '../../Components/DropdownButtonComponent/DropdownButtonComponent';
 import DropdownButtonComponentData from '../../Components/DropdownButtonComponent/DropdownButtonComponentData';
+import InputComponent from "../../Components/InputComponent/InputComponent";
+import InputComponentData from "../../Components/InputComponent/InputComponentData";
 
 interface IHeaderData {
     logo: IComponentDataWithType<LinkComponent, LinkComponentData>;
+    input: IComponentDataWithType<InputComponent, InputComponentData>;
     actions: IComponentDataWithType<ListComponent<LinkComponent, LinkComponentData>, ListComponentData<LinkComponent, LinkComponentData>>;
     items: (IComponentDataWithType<LinkComponent, LinkComponentData> | IComponentDataWithType<VerticalSpacerComponent, VerticalSpacerComponentData> | IComponentDataWithType<ButtonComponent, ButtonComponentData>)[];
     profile: IComponentDataWithType<DropdownButtonComponent, DropdownButtonComponentData>;
@@ -33,6 +36,16 @@ const HeaderData: IHeaderData = {
             linkClass: 'logo',
             linkImageSrc: '/img/logo/logo.svg',
             linkImageWidth: '40px',
+        }
+    },
+    input: {
+        componentType: InputComponent,
+        componentData: {
+            inputClass: 'input-field__search',
+            type: 'text',
+            id: 'query',
+            notAutocomplite: true,
+            placeholder: 'Название фильма, сериала или имя актёра, режиссёра',
         }
     },
     actions: {

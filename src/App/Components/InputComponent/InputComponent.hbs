@@ -1,5 +1,5 @@
 <div class="input-field {{ class }}">
-    <input type="{{ type }}" id="{{ id }}" placeholder="{{ placeholder }}" class="input-field__input {{ inputClass }}" {{#if accept}} accept="{{accept}}" {{/if}} />
+    <input type="{{ type }}" id="{{ id }}" {{#if notAutocomplite}}autocomplete="off"{{/if}} placeholder="{{ placeholder }}" class="input-field__input {{ inputClass }}" {{#if accept}} accept="{{accept}}" {{/if}} />
     {{#if checkboxText }} {{ checkboxText }} {{/if}}
     <div id="{{ id }}-msg" class="input-field__error-msg"></div>
 </div>

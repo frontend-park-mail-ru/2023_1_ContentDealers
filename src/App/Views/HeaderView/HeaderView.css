@@ -12,6 +12,29 @@
     height: 100%;
 }
 
+.header__middle {
+    height: 100%;
+}
+
+.header__logo {
+    padding-right: 15px;
+}
+
+.input-field__search {
+    position: absolute;
+    top: 50%;
+    transform: translatey(-50%);
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    outline: none;
+    margin: 0;
+    z-index: 1;
+    width: 600px !important;
+    color: rgba(255,255,255,.96);
+}
+
 .header__items {
     display: flex;
     align-items: center;

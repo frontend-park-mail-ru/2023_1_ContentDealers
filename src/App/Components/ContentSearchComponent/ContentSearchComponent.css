@@ -19,6 +19,8 @@
 }
 
 .picture_size {
+    border-radius: 16px;
+
     max-width: 100px;
 }
 

@@ -28,6 +28,9 @@ class PlayerView extends IView {
     private playButton: DivComponent;
     private pauseButton: DivComponent;
 
+    public currentTimeElement: HTMLElement;
+
+
     constructor(parent: HTMLElement) {
         super(parent, PlayerTemplate({}));
 
@@ -44,6 +47,8 @@ class PlayerView extends IView {
         this.volumeBarContainer = <HTMLElement>this.element.querySelector('.video__volume-container');
         this.volumeBar = new PlayerData.volumeBar.componentType(this.volumeBarContainer, PlayerData.volumeBar.componentData);
         this.volumeBar.show();
+
+        this.currentTimeElement = <HTMLElement>this.element.querySelector('.video__duration-time');
 
         this.initPlayButtons();
     };
@@ -67,6 +72,10 @@ class PlayerView extends IView {
         }
     };
 
+    public setCurrentTime(time: number): void {
+        this.currentTimeElement.innerText = `${this.progressBar.timeToString(time)} / ${this.progressBar.timeToString(this.video.duration)}`;
+    };
+
     public bindPlayButtonClick(listener: any): void {
         this.playStatusContainer.addEventListener('click', listener);
     };
@@ -77,7 +86,7 @@ class PlayerView extends IView {
 
     public bindViewClick(listener: any): void {
         this.element.addEventListener('click', listener);
-    }
+    };
 }
 
 export default PlayerView;

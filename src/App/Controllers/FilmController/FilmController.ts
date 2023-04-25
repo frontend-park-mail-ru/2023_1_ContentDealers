@@ -17,6 +17,7 @@ interface IId {
 class FilmController extends IController<FilmView, FilmModel> {
     private filmId: number | null;
     private trailerSrc: string | null;
+    private filmSrc: string | null;
     private playerController: PlayerController;
 
     constructor(view: FilmView, model: FilmModel) {
@@ -24,6 +25,7 @@ class FilmController extends IController<FilmView, FilmModel> {
 
         this.filmId = null;
         this.trailerSrc = null;
+        this.filmSrc = null;
 
         EventDispatcher.subscribe('new-player', () => {
             this.view?.playerView?.hide();
@@ -49,6 +51,7 @@ class FilmController extends IController<FilmView, FilmModel> {
                 this.model.getFilm(this.filmId)
                     .then((data) => {
                         this.trailerSrc = data.content?.trailerURL || null;
+                        this.filmSrc = data.contentURL || null;
 
                         this.view.fillFilm(data);
                         super.mountComponent();
@@ -68,6 +71,7 @@ class FilmController extends IController<FilmView, FilmModel> {
 
             this.filmId = null;
             this.trailerSrc = null;
+            this.filmSrc = null;
         }
     };
 
@@ -95,6 +99,13 @@ class FilmController extends IController<FilmView, FilmModel> {
                     }
 
                     break;
+                }
+
+                case 'film': {
+                    if (this.filmSrc) {
+                        this.playerController.mountComponent();
+                        this.playerController.setSrc(this.filmSrc);
+                    }
                 }
 
                 default:

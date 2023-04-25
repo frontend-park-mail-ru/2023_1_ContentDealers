@@ -7,6 +7,7 @@ import ButtonComponentData from '../../Components/ButtonComponent/ButtonComponen
 interface IFilmData {
     trailerButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
     subscribeButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
+    filmButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
 }
 
 const FilmData: IFilmData = {
@@ -26,6 +27,16 @@ const FilmData: IFilmData = {
                 colorClass: 'gradient-button--grey',
                 className: 'trailer-button',
                 dataAction: 'trailer',
+            },
+            componentType: ButtonComponent,
+        },
+    filmButton:
+        {
+            componentData: {
+                text: 'Смотреть',
+                colorClass: 'gradient-button--grey',
+                className: 'film-button',
+                dataAction: 'film',
             },
             componentType: ButtonComponent,
         },

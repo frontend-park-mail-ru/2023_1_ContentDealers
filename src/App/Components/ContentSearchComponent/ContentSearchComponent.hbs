@@ -4,7 +4,10 @@
             <img src="{{ src }}" class="picture_size">
         </div>
         <div class="content__title">
-            <h3>{{#if isSerial}}S {{/if}} {{ title }}</h3>
+<!--            <h3>{{#if isSerial}}S {{/if}} {{ title }}</h3>-->
+            <h3>
+                {{#if isSerial}}<img src="/img/icons/clapperboard.svg" width="14px" alt="">{{/if}}
+                {{ title }}</h3>
             <div class="content__under-title">
 
             </div>

@@ -15,7 +15,6 @@ import DropdownButtonComponentData from '../../Components/DropdownButtonComponen
 import HeaderData from './HeaderViewConfig';
 
 import SearchView from "../SearchView/SearchView";
-import searchView from "../SearchView/SearchView";
 import InputComponent from "../../Components/InputComponent/InputComponent";
 
 
@@ -62,6 +61,8 @@ class HeaderView extends IView {
            const component = new componentType(this.items, componentData);
            component.show();
         });
+
+        this.element.querySelector('.subscribe-button')?.setAttribute('disabled', 'true');  // TODO: delete
     };
 
     public toggleMiddle(isSearch: boolean): void {

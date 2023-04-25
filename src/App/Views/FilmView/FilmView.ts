@@ -17,8 +17,9 @@ import ButtonComponent from "../../Components/ButtonComponent/ButtonComponent";
 class FilmView extends IView {
     public playerView: PlayerView | null;
 
-    private trailerButton: ButtonComponent;
     private subscribeButton: ButtonComponent;
+    private trailerButton: ButtonComponent;
+    private filmButton: ButtonComponent;
 
     constructor(parent: HTMLElement) {
         super(parent, FilmTemplate({}));
@@ -42,15 +43,19 @@ class FilmView extends IView {
     private renderButtons(): void {
         const buttonsContainer = <HTMLElement>this.element.querySelector('.film-content__buttons');
 
+        this.subscribeButton = new FilmData.subscribeButton.componentType(buttonsContainer, FilmData.subscribeButton.componentData);
+        this.subscribeButton.button.setAttribute('disabled', 'true'); // TODO: delete
+        this.subscribeButton.show();
+
         this.trailerButton = new FilmData.trailerButton.componentType(buttonsContainer, FilmData.trailerButton.componentData);
         this.trailerButton.show();
 
-        this.subscribeButton = new FilmData.subscribeButton.componentType(buttonsContainer, FilmData.subscribeButton.componentData);
-        this.subscribeButton.show();
+        this.filmButton = new FilmData.filmButton.componentType(buttonsContainer, FilmData.filmButton.componentData);
+        this.filmButton.show();
     };
 
     public bindClickEvent(listener: any): void {
-        this.element.addEventListener('click', listener.bind(this));
+        this.element.addEventListener('click', listener);
     };
 }
 

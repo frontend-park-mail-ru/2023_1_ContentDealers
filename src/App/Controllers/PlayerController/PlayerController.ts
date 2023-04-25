@@ -5,13 +5,31 @@ import PlayerView from '../../Views/PlayerView/PlayerView';
 
 
 class PlayerController extends IController<PlayerView, IModel> {
+    // Bound events //
+    private readonly BoundKeyDown = this.onKeyDown.bind(this);
+
     constructor(view: PlayerView) {
         super(view, IModel);
 
-        this.playProxy.isPlay = true;
         this.view.video.volume = 0.5;
 
         this.addEventListeners();
+    };
+
+
+    public mountComponent() {
+        super.mountComponent();
+
+        document.addEventListener('keydown', this.BoundKeyDown);
+
+        this.playProxy.isPlay = true;
+    };
+
+
+    public unmountComponent() {
+        super.unmountComponent();
+
+        document.removeEventListener('keydown', this.BoundKeyDown);
     };
 
 
@@ -56,8 +74,11 @@ class PlayerController extends IController<PlayerView, IModel> {
     private addEventListeners(): void {
         this.view.video.addEventListener('canplay', this.initVideo.bind(this));
 
-        this.view.video.addEventListener('timeupdate', () => {
-            this.view.progressBar.setCurrentValueToBar(this.view.video.currentTime);
+        this.view.video.addEventListener('loadedmetadata', () => {
+            this.view.video.addEventListener('timeupdate', () => {
+                this.view.progressBar.setCurrentValueToBar(this.view.video.currentTime);
+                this.view.setCurrentTime(this.view.video.currentTime);
+            });
         });
 
         this.view.video.addEventListener('volumechange', () => {
@@ -106,10 +127,21 @@ class PlayerController extends IController<PlayerView, IModel> {
     };
 
     private onViewClick(e: Event): void {
+        e.preventDefault();
+
         const target = <HTMLElement>e.target;
 
         const panel = <HTMLElement>target.closest('.video__panel');
         if (!panel) {
+            this.togglePlayButton(e);
+        }
+    };
+
+    private onKeyDown(e: KeyboardEvent): void {
+        // e.preventDefault();
+        e.stopPropagation();
+
+        if (e.code === 'Space') {
             this.togglePlayButton(e);
         }
     };

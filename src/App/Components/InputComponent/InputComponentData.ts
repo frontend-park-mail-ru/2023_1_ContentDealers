@@ -2,7 +2,7 @@ interface InputComponentData {
     class?: string;
     inputClass?: string;
     id: string;
-    notAutocomplite?: boolean;
+    autocomplete?: boolean;
     checkboxText?: string;
     type?: string;
     placeholder?: string;

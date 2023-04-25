@@ -42,7 +42,7 @@ class ProgressBarComponent extends IComponent {
 
 
     // Calculations //
-    private timeToString(time: number): string {
+    public timeToString(time: number): string {
         const minutes = Math.floor(time / this.secInMin);
         const seconds = Math.floor(time % this.secInMin);
 

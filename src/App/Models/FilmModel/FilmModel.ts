@@ -70,6 +70,7 @@ class FilmModel extends IModel {
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
 
+        console.log(response)
         const filmData = this.parseFilm(response.responseBody.body.film);
 
         if (filmData.content) {

@@ -131,6 +131,10 @@ class HeaderView extends IView {
     public bindInputEvent(listener: any): void {
         this.element.addEventListener('input', listener.bind(this));
     };
+
+    public bindKeyPressEvent(listener: any): void {
+        this.element.addEventListener('keydown', listener.bind(this));
+    };
 }
 
 export default HeaderView;

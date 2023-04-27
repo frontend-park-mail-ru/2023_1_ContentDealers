@@ -23,10 +23,14 @@ import MainController from './Controllers/MainController/MainController';
 import NotFoundView from './Views/NotFoundView/NotFoundView';
 import NotFoundController from './Controllers/NotFoundController/NotFoundController';
 
+import FavoritesView from './Views/FavoritesView/FavoritesView';
+import FavoritesController from './Controllers/FavoritesController/FavoritesController';
+
 import UserModel from './Models/UserModel/UserModel';
 import FilmModel from './Models/FilmModel/FilmModel';
 import PersonModel from './Models/PersonModel/PersonModel';
 import SelectionModel from "./Models/SelectionModel/SelectionModel";
+import FavoritesModel from './Models/FavoritesModel/FavoritesModel';
 
 import router from './Router/Router';
 import paths from './Router/RouterPaths';
@@ -42,6 +46,7 @@ class App {
     private personView: PersonView;
     private mainView: MainView;
     private notFoundView: NotFoundView;
+    private favoritesView: FavoritesView;
 
     // Controllers
     private headerController: HeaderController;
@@ -51,12 +56,14 @@ class App {
     private personController: PersonController;
     private mainController: MainController;
     private notFoundController: NotFoundController;
+    private favoritesController: FavoritesController
 
     // Models
     private userModel: UserModel;
     private filmModel: FilmModel;
     private personModel: PersonModel;
     private selectionModel: SelectionModel;
+    private favoritesModel: FavoritesModel;
 
 
     // Elements
@@ -116,6 +123,7 @@ class App {
         this.mainView = new MainView(this.content);
 
         this.notFoundView = new NotFoundView(this.content);
+        this.favoritesView = new FavoritesView(this.content);
     };
 
     /**
@@ -128,6 +136,7 @@ class App {
         this.filmModel = new FilmModel();
         this.personModel = new PersonModel();
         this.selectionModel = new SelectionModel();
+        this.favoritesModel = new FavoritesModel();
     };
 
     /**
@@ -144,6 +153,7 @@ class App {
         this.mainController = new MainController(this.mainView, { selections: this.selectionModel });
 
         this.notFoundController = new NotFoundController(this.notFoundView);
+        this.favoritesController = new FavoritesController(this.favoritesView, this.favoritesModel);
     };
 
     /**
@@ -233,6 +243,7 @@ class App {
 
         // mount
         this.headerController.mountComponent();
+        this.favoritesController.mountComponent();
 
         // states
         this.headerView.changeActiveHeaderListItem('/my-movie');

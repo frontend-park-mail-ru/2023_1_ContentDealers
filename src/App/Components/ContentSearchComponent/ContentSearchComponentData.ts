@@ -3,6 +3,7 @@ interface ContentSearchComponentData {
     src?:          string;
     title?:        string;
     isSerial?:     boolean;
+    forSearch?:    boolean;
 }
 
 export default ContentSearchComponentData;

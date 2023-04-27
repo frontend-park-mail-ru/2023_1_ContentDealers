@@ -1,0 +1,37 @@
+.grid__content {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 2px 16px;
+}
+
+.grid__actors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px 16px;
+}
+
+.js-content {
+    display: block;
+}
+
+.news {
+    display: block;
+}
+
+.favorites__content, .favorites__actors {
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+.favorites__content-header, .favorites__actors_header {
+    color: rgba(255,255,255,.96);
+    margin-bottom: 20px;
+}
+
+.favorites__content-main, .favorites__actors-main {
+    margin-bottom: 30px;
+}
+
+.favorites__content {
+    margin-bottom: 50px;
+}

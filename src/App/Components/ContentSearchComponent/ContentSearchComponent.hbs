@@ -1,8 +1,9 @@
-<a class="film-item film-item_white search_hover" href="/films/{{ contentId }}">
+<a class="film-item film-item_white search_hover {{#if forSearch}}search-item_flex{{/if}}" href="/films/{{ contentId }}">
     <div class="film-item__content">
         <div class="content__picture">
             <img src="{{ src }}" class="picture_size">
         </div>
+        {{#if forSearch}}
         <div class="content__title">
 <!--            <h3>{{#if isSerial}}S {{/if}} {{ title }}</h3>-->
             <h3>
@@ -12,5 +13,6 @@
 
             </div>
         </div>
+        {{/if}}
     </div>
 </a>

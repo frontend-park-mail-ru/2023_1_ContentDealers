@@ -9,6 +9,7 @@ import ActorSearchComponent from "../../Components/ActorSearchComponent/ActorSea
 import SearchTemplate from './SearchView.hbs';
 import SearchViewData from './SearchViewConfig';
 import './SearchView.css';
+import {tsxRegex} from "ts-loader/dist/constants";
 
 class SearchView extends IView {
     private readonly content: HTMLElement;
@@ -27,13 +28,13 @@ class SearchView extends IView {
 
     public fillContent(data: IContentSearch[]): void {
         data.forEach(contentData => {
-            new ContentSearchComponent(this.content, contentData).show();
+            new ContentSearchComponent(this.content, contentData, true).show();
         });
     };
 
     public fillActors(data: IActorSearch[]): void {
         data.forEach(actorData => {
-            new ActorSearchComponent(this.actors, actorData).show();
+            new ActorSearchComponent(this.actors, actorData, true).show();
         });
     };
 

@@ -1,10 +1,8 @@
-import IContent from '../Content/IContent';
+import type IContent from '../Content/IContent';
 
-interface IFilm {
+export default interface IFilm {
     id:             number;
     contentURL?:    string;
 
     content?:       IContent;
 }
-
-export default IFilm;

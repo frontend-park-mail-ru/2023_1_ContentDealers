@@ -1,10 +1,9 @@
 import IController from '../IController/IController';
-import IModel from "../../Models/IModel/IModel";
 
-import MainView from "../../Views/MainView/MainView";
+import type MainView from "../../Views/MainView/MainView";
 import EventDispatcher from "../../EventDispatcher/EventDispatcher";
 
-import SelectionModel from '../../Models/SelectionModel/SelectionModel';
+import type SelectionModel from '../../Models/SelectionModel/SelectionModel';
 import router from "../../Router/Router";
 import CarouselController from "../CarouselController/CarouselController";
 

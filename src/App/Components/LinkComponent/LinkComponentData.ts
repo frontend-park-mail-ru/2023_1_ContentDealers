@@ -1,4 +1,4 @@
-interface LinkComponentData {
+export default interface LinkComponentData {
     id?: string;
     dataAction?: string;
     linkClass?: string;
@@ -9,5 +9,3 @@ interface LinkComponentData {
     linkTextClass?: string;
     linkText?: string;
 }
-
-export default LinkComponentData;

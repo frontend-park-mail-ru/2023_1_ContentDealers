@@ -1,5 +1,3 @@
-interface BarComponentData {
+export default interface BarComponentData {
     barWidthClass?: string;
 }
-
-export default BarComponentData;

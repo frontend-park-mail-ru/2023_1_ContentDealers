@@ -1,9 +1,9 @@
 import IController from '../IController/IController';
 
-import SignInView from '../../Views/SignInView/SignInView';
+import type SignInView from '../../Views/SignInView/SignInView';
 
-import IUserSignIn from '../../Interfaces/User/IUserSignIn';
-import UserModel from '../../Models/UserModel/UserModel';
+import type IUserSignIn from '../../Interfaces/User/IUserSignIn';
+import type UserModel from '../../Models/UserModel/UserModel';
 
 import router from '../../Router/Router';
 import paths from '../../Router/RouterPaths';

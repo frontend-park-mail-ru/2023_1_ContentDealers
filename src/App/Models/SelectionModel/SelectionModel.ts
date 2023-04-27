@@ -4,8 +4,8 @@ import { config } from "../../Config/Config";
 
 import Ajax from "../../Ajax/Ajax";
 
-import ISelection from '../../Interfaces/Selection/ISelection';
-import IContent from '../../Interfaces/Content/IContent';
+import type ISelection from '../../Interfaces/Selection/ISelection';
+import type IContent from '../../Interfaces/Content/IContent';
 
 class SelectionModel extends IModel {
     constructor() {

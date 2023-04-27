@@ -131,7 +131,7 @@ class App {
     };
 
     /**
-     * Функция инициализирует все отображения (views)
+     * Функция инициализирует все контроллеры (controllers)
      * (приватное поле класса)
      * @return {void}
      */
@@ -271,8 +271,6 @@ class App {
 
         // mount
         this.headerController.mountComponent();
-
-        EventDispatcher.emit('new-player');
         this.filmController.mountComponent({ id: filmId.toString() });
 
         // states

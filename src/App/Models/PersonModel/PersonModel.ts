@@ -1,9 +1,9 @@
 import IModel from '../IModel/IModel';
 
-import IPerson from '../../Interfaces/Person/IPerson';
-import IRole from '../../Interfaces/Role/IRole';
-import IGenre from '../../Interfaces/Genre/IGenre';
-import IContent from '../../Interfaces/Content/IContent';
+import type IPerson from '../../Interfaces/Person/IPerson';
+import type IRole from '../../Interfaces/Role/IRole';
+import type IGenre from '../../Interfaces/Genre/IGenre';
+import type IContent from '../../Interfaces/Content/IContent';
 
 import Ajax from '../../Ajax/Ajax';
 

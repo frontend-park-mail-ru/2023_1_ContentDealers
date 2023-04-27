@@ -1,7 +1,7 @@
 import IComponent from '../IComponent/IComponent';
 
 import VideoComponentTemplate from './VideoComponent.hbs';
-import VideoComponentData from './VideoComponentData';
+import type VideoComponentData from './VideoComponentData';
 import './VideoComponent.css';
 
 class VideoComponent extends IComponent {

@@ -1,7 +1,7 @@
 import IComponent from '../IComponent/IComponent';
 
 import ButtonComponentTemplate from './ButtonComponent.hbs';
-import ButtonComponentData from "./ButtonComponentData";
+import type ButtonComponentData from "./ButtonComponentData";
 import './ButtonComponent.css';
 
 class ButtonComponent extends IComponent {

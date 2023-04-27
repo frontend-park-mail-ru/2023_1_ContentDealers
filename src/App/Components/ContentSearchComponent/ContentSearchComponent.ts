@@ -1,7 +1,7 @@
 import IComponent from '../IComponent/IComponent';
 
 import ContentSearchComponentTemplate from './ContentSearchComponent.hbs';
-import ContentSearchComponentData from './ContentSearchComponentData';
+import type ContentSearchComponentData from './ContentSearchComponentData';
 import './ContentSearchComponent.css';
 
 class ContentSearchComponent extends IComponent {

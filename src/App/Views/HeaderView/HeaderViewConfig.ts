@@ -1,21 +1,22 @@
-import IComponentDataWithType from '../../Interfaces/interfaces';
+import type IComponentDataWithType from '../../Interfaces/interfaces';
 
 import ListComponent from '../../Components/ListComponent/ListComponent';
-import ListComponentData from '../../Components/ListComponent/ListComponentData';
+import type ListComponentData from '../../Components/ListComponent/ListComponentData';
 
 import LinkComponent from '../../Components/LinkComponent/LinkComponent';
-import LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
+import type LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
 
 import VerticalSpacerComponent from '../../Components/VerticalSpacerComponent/VerticalSpacerComponent';
-import VerticalSpacerComponentData from '../../Components/VerticalSpacerComponent/VerticalSpacerComponentData';
+import type VerticalSpacerComponentData from '../../Components/VerticalSpacerComponent/VerticalSpacerComponentData';
 
 import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
-import ButtonComponentData from '../../Components/ButtonComponent/ButtonComponentData';
+import type ButtonComponentData from '../../Components/ButtonComponent/ButtonComponentData';
 
 import DropdownButtonComponent from '../../Components/DropdownButtonComponent/DropdownButtonComponent';
-import DropdownButtonComponentData from '../../Components/DropdownButtonComponent/DropdownButtonComponentData';
-import InputComponent from "../../Components/InputComponent/InputComponent";
-import InputComponentData from "../../Components/InputComponent/InputComponentData";
+import type DropdownButtonComponentData from '../../Components/DropdownButtonComponent/DropdownButtonComponentData';
+
+import InputComponent from '../../Components/InputComponent/InputComponent';
+import type InputComponentData from '../../Components/InputComponent/InputComponentData';
 
 interface IHeaderData {
     logo: IComponentDataWithType<LinkComponent, LinkComponentData>;

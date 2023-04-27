@@ -1,12 +1,13 @@
 import IView from '../IView/IView';
+import type IFilm from '../../Interfaces/Film/IFilm';
 
 import FilmTemplate from './FilmView.hbs';
+import FilmData from "./FilmViewConfig";
 import './FilmView.css';
 
-import IFilm from '../../Interfaces/Film/IFilm';
 import PlayerView from "../PlayerView/PlayerView";
-import FilmData from "./FilmViewConfig";
-import ButtonComponent from "../../Components/ButtonComponent/ButtonComponent";
+
+import type ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
 
 /**
  * Отображение фильма приложения
@@ -25,8 +26,8 @@ class FilmView extends IView {
         super(parent, FilmTemplate({}));
     };
 
-    public newPlayerView(): void {
-        this.playerView = new PlayerView(<HTMLElement>this.parent.parentElement);
+    public newPlayerView(title: string): void {
+        this.playerView = new PlayerView(<HTMLElement>this.parent.parentElement, title);
     };
 
     public hide() {

@@ -1,8 +1,6 @@
-import IComponent from '../Components/IComponent/IComponent';
+import type IComponent from '../Components/IComponent/IComponent';
 
-interface IComponentDataWithType<cType extends IComponent, cData> {
+export default interface IComponentDataWithType<cType extends IComponent, cData> {
     componentType: { new (parent: HTMLElement, data?: any): cType }; // TODO delete any, but how rewrite ListComponent
     componentData?: cData;
 }
-
-export default IComponentDataWithType;

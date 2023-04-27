@@ -1,9 +1,7 @@
-import IContent from '../Content/IContent';
+import type IContent from '../Content/IContent';
 
-interface ISelection {
+export default interface ISelection {
     id:         number;
     title?:     string;
     content?:   IContent[];
 }
-
-export default ISelection;

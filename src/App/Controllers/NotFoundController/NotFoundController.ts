@@ -1,7 +1,7 @@
 import IController from '../IController/IController';
 import IModel from '../../Models/IModel/IModel';
 
-import NotFoundView from '../../Views/NotFoundView/NotFoundView';
+import type NotFoundView from '../../Views/NotFoundView/NotFoundView';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 

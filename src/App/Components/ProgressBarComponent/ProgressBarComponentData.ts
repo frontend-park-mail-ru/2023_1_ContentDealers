@@ -1,8 +1,6 @@
-import BarComponentData from '../BarComponent/BarComponentData';
+import type BarComponentData from '../BarComponent/BarComponentData';
 
-interface ProgressBarComponentData {
+export default interface ProgressBarComponentData {
     class?: string;
     barData: BarComponentData;
 }
-
-export default ProgressBarComponentData;

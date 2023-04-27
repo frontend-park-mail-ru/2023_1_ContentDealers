@@ -4,7 +4,7 @@ import SignInTemplate from './SignInView.hbs';
 import SignInData from './SignInViewConfig';
 import './SignInView.css';
 
-import FormComponent from '../../Components/FormComponent/FormComponent';
+import type FormComponent from '../../Components/FormComponent/FormComponent';
 
 class SignInView extends IView {
     public readonly form: FormComponent;

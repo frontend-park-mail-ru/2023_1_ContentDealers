@@ -24,7 +24,7 @@
 }
 
 .bar-load__progress {
-    /*left: 0;            !* TODO: change *!*/
+    left: 0;            /* TODO: change */
     /*width: 22.5357%;    !* TODO: change *!*/
 
     position: absolute;

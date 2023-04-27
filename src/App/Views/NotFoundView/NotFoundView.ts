@@ -3,7 +3,7 @@ import IView from '../IView/IView';
 import NotFoundTemplate from './NotFoundView.hbs'
 import './NotFoundView.css';
 
-import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
+import type ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
 import NotFoundData from "./NotFoundViewConfig";
 
 class NotFoundView extends IView {

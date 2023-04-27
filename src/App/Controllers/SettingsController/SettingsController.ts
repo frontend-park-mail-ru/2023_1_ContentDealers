@@ -1,13 +1,13 @@
 import IController from '../IController/IController';
 
-import SettingsView from '../../Views/SettingsView/SettingsView';
+import type SettingsView from '../../Views/SettingsView/SettingsView';
 
-import UserModel from '../../Models/UserModel/UserModel';
+import type UserModel from '../../Models/UserModel/UserModel';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 import router from "../../Router/Router";
-import {validateInput} from "../../Utils/Validators/Validator";
+import { validateInput } from "../../Utils/Validators/Validator";
 
 /**
  * Котроллер для

@@ -1,6 +1,6 @@
 import validators from './ValidatorConfig';
 
-interface ValidatorResult {
+export interface ValidatorResult {
     isValid:    boolean;
     errorMsg:  string;
 }
@@ -55,4 +55,4 @@ function validatePasswords(password: string, repeatPassword: string): ValidatorR
     return { isValid: true, errorMsg: '' };
 }
 
-export { ValidatorResult, validateInput, validatePasswords };
+export { validateInput, validatePasswords };

@@ -1,7 +1,7 @@
-import IComponentDataWithType from '../../Interfaces/interfaces';
+import type IComponentDataWithType from '../../Interfaces/interfaces';
 
 import FormComponent from '../../Components/FormComponent/FormComponent';
-import FormComponentData from '../../Components/FormComponent/FormComponentData';
+import type FormComponentData from '../../Components/FormComponent/FormComponentData';
 
 interface ISignInData {
     title?: string;

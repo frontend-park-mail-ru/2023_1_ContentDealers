@@ -1,16 +1,16 @@
 import IView from "../IView/IView";
-import IComponentDataWithType from '../../Interfaces/interfaces';
+import type IComponentDataWithType from '../../Interfaces/interfaces';
 
 import HeaderTemplate from './HeaderView.hbs';
 import './HeaderView.css';
 
-import ListComponent from '../../Components/ListComponent/ListComponent';
+import type ListComponent from '../../Components/ListComponent/ListComponent';
 
-import LinkComponent from '../../Components/LinkComponent/LinkComponent';
-import LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
+import type LinkComponent from '../../Components/LinkComponent/LinkComponent';
+import type LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
 
-import DropdownButtonComponent from '../../Components/DropdownButtonComponent/DropdownButtonComponent';
-import DropdownButtonComponentData from '../../Components/DropdownButtonComponent/DropdownButtonComponentData';
+import type DropdownButtonComponent from '../../Components/DropdownButtonComponent/DropdownButtonComponent';
+import type DropdownButtonComponentData from '../../Components/DropdownButtonComponent/DropdownButtonComponentData';
 
 import HeaderData from './HeaderViewConfig';
 
@@ -107,14 +107,6 @@ class HeaderView extends IView {
         profile.show();
     };
 
-    public toggleProfile(): void {
-        this.profile.querySelector('.js-dropdown__content')?.classList.toggle('dropdown__content__show');
-    };
-
-    public hideProfile(): void {
-        this.profile.querySelector('.js-dropdown__content')?.classList.remove('dropdown__content__show');
-    };
-
     public getInputValue(): string {
         return (<HTMLInputElement>this.element.querySelector('#query')).value;
     };
@@ -125,11 +117,11 @@ class HeaderView extends IView {
      * @returns {void}
      */
     public bindClickEvent(listener: any): void {
-        this.element.addEventListener('click', listener.bind(this));
+        this.element.addEventListener('click', listener);
     };
 
     public bindInputEvent(listener: any): void {
-        this.element.addEventListener('input', listener.bind(this));
+        this.element.addEventListener('input', listener);
     };
 }
 

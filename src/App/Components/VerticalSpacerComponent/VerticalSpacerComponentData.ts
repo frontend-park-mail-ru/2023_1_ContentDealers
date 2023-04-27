@@ -1,5 +1,3 @@
-interface VerticalSpacerComponentData {
+export default interface VerticalSpacerComponentData {
     size?: number;
 }
-
-export default VerticalSpacerComponentData;

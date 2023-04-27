@@ -1,11 +1,13 @@
 import IController from "../IController/IController";
 
-import SearchView from "../../Views/SearchView/SearchView";
-import SearchModel from "../../Models/SearchModel/SearchModel";
+import type IContentSearch from '../../Interfaces/ContentSearch/IContentSearch';
+import type IActorSearch from '../../Interfaces/ActorSearch/IActorSearch';
+
+import type SearchView from "../../Views/SearchView/SearchView";
+import type SearchModel from "../../Models/SearchModel/SearchModel";
 
 import router from "../../Router/Router";
-import IContentSearch from "../../Interfaces/ContentSearch/IContentSearch";
-import IActorSearch from "../../Interfaces/ActorSearch/IActorSearch";
+
 import EventDispatcher from "../../EventDispatcher/EventDispatcher";
 
 class SearchController extends IController<SearchView, SearchModel> {

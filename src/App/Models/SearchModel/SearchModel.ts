@@ -1,8 +1,8 @@
 import IModel from '../IModel/IModel';
 
-import IActorSearch from '../../Interfaces/ActorSearch/IActorSearch';
-import IContentSearch from "../../Interfaces/ContentSearch/IContentSearch";
-import ISearch from "../../Interfaces/Search/ISearch";
+import type IActorSearch from '../../Interfaces/ActorSearch/IActorSearch';
+import type IContentSearch from "../../Interfaces/ContentSearch/IContentSearch";
+import type ISearch from "../../Interfaces/Search/ISearch";
 
 import Ajax from '../../Ajax/Ajax';
 

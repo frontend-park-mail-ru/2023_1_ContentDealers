@@ -1,4 +1,4 @@
-interface ButtonComponentData {
+export default interface ButtonComponentData {
     upperClass?: string;
     id?: string;
     dataAction?: string;
@@ -8,5 +8,3 @@ interface ButtonComponentData {
     imgSrc?: string;
     imgWidth?: string;
 }
-
-export default ButtonComponentData;

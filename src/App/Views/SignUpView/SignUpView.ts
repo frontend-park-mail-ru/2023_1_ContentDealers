@@ -4,8 +4,7 @@ import SignUpTemplate from './SignUpView.hbs'
 import SignUpData from './SignUpViewConfig';
 import './SignUpView.css';
 
-import FormComponent from '../../Components/FormComponent/FormComponent';
-import SignInData from "../SignInView/SignInViewConfig";
+import type FormComponent from '../../Components/FormComponent/FormComponent';
 
 class SignUpView extends IView {
     public readonly form: FormComponent;

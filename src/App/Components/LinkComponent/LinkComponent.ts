@@ -1,7 +1,7 @@
 import IComponent from '../IComponent/IComponent';
 
 import LinkComponentTemplate from './LinkComponent.hbs';
-import LinkComponentData from './LinkComponentData';
+import type LinkComponentData from './LinkComponentData';
 import './LinkComponent.css';
 
 class LinkComponent extends IComponent {

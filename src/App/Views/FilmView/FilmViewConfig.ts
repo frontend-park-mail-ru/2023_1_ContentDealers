@@ -1,7 +1,7 @@
-import IComponentDataWithType from '../../Interfaces/interfaces';
+import type IComponentDataWithType from '../../Interfaces/interfaces';
 
 import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
-import ButtonComponentData from '../../Components/ButtonComponent/ButtonComponentData';
+import type ButtonComponentData from '../../Components/ButtonComponent/ButtonComponentData';
 
 
 interface IFilmData {

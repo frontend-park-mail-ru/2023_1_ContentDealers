@@ -1,8 +1,8 @@
-import IRole from '../Role/IRole';
-import IGenre from '../Genre/IGenre';
-import IContent from '../Content/IContent';
+import type IRole from '../Role/IRole';
+import type IGenre from '../Genre/IGenre';
+import type IContent from '../Content/IContent';
 
-interface IPerson {
+export default interface IPerson {
     id:                 number;
     name?:              string;
     gender?:            string;
@@ -16,5 +16,3 @@ interface IPerson {
     roles?:             IRole[];
     participatedIn?:    IContent[],
 }
-
-export default IPerson;

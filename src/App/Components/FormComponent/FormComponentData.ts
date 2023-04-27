@@ -1,8 +1,8 @@
-import InputComponentData from '../InputComponent/InputComponentData';
-import ButtonComponentData from '../ButtonComponent/ButtonComponentData';
-import LinkComponentData from '../LinkComponent/LinkComponentData';
+import type InputComponentData from '../InputComponent/InputComponentData';
+import type ButtonComponentData from '../ButtonComponent/ButtonComponentData';
+import type LinkComponentData from '../LinkComponent/LinkComponentData';
 
-interface FormComponentData {
+export default interface FormComponentData {
     formId?: string;
     formTitle?: string;
     enctype?: boolean;
@@ -10,5 +10,3 @@ interface FormComponentData {
     button: ButtonComponentData;
     links?: LinkComponentData[];
 }
-
-export default FormComponentData;

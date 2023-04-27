@@ -1,9 +1,9 @@
 import IController from '../IController/IController';
 import IModel from '../../Models/IModel/IModel';
 
-import HeaderView from '../../Views/HeaderView/HeaderView';
+import type HeaderView from '../../Views/HeaderView/HeaderView';
 
-import IUser from '../../Interfaces/User/IUser';
+import type IUser from '../../Interfaces/User/IUser';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
@@ -65,7 +65,6 @@ class HeaderController extends IController<HeaderView, IModel> {
     private handleClick(e: Event): void {
         e.preventDefault();
         if (this.isMounted) {
-            this.view.hideProfile();
 
             const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
@@ -77,7 +76,6 @@ class HeaderController extends IController<HeaderView, IModel> {
 
             switch (action) {
                 case 'profile': {
-                    this.view.toggleProfile();
                     break;
                 }
 

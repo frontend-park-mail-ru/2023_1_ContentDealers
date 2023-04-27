@@ -1,7 +1,7 @@
 import IComponent from '../IComponent/IComponent';
 
 import ActorSearchComponentTemplate from './ActorSearchComponent.hbs';
-import ActorSearchComponentData from './ActorSearchComponentData';
+import type ActorSearchComponentData from './ActorSearchComponentData';
 import './ActorSearchComponent.css';
 
 class ActorSearchComponent extends IComponent {

@@ -1,7 +1,7 @@
 import IController from '../IController/IController';
 
-import PersonView from '../../Views/PersonView/PersonView';
-import PersonModel from '../../Models/PersonModel/PersonModel';
+import type PersonView from '../../Views/PersonView/PersonView';
+import type PersonModel from '../../Models/PersonModel/PersonModel';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 

@@ -1,5 +1,5 @@
-import IView from '../../Views/IView/IView'
-import IModel from '../../Models/IModel/IModel'
+import type IView from '../../Views/IView/IView'
+import type IModel from '../../Models/IModel/IModel'
 
 
 /**

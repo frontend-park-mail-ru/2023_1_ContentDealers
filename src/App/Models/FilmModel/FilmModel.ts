@@ -1,15 +1,17 @@
 import IModel from '../IModel/IModel';
 
-import IFilm from '../../Interfaces/Film/IFilm';
-import IContent from '../../Interfaces/Content/IContent';
-import IPerson from '../../Interfaces/Person/IPerson';
-import IRole from '../../Interfaces/Role/IRole';
+import type IFilm from '../../Interfaces/Film/IFilm';
+import type IContent from '../../Interfaces/Content/IContent';
+import type IPerson from '../../Interfaces/Person/IPerson';
+import type IRole from '../../Interfaces/Role/IRole';
 
 import Ajax from '../../Ajax/Ajax';
 
 import { config } from '../../Config/Config';
 
 class FilmModel extends IModel {
+    private title: string | undefined;
+
     constructor() {
         super();
     };
@@ -70,8 +72,9 @@ class FilmModel extends IModel {
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
 
-        console.log(response)
         const filmData = this.parseFilm(response.responseBody.body.film);
+
+        this.title = filmData.content?.title;
 
         if (filmData.content) {
             filmData.content.actors = this.getFilmActors(filmData.content.persons || []);
@@ -79,6 +82,10 @@ class FilmModel extends IModel {
         }
 
         return Promise.resolve(filmData);
+    };
+
+    public getFilmTitle(): string {
+        return <string>this.title;
     };
 }
 

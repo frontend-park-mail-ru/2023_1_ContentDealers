@@ -1,9 +1,7 @@
-import LinkComponentData from '../LinkComponent/LinkComponentData';
+import type LinkComponentData from '../LinkComponent/LinkComponentData';
 
-interface DropdownButtonComponentData {
+export default interface DropdownButtonComponentData {
     dataAction?: string;
     avatar?: string;
     items?: LinkComponentData[];
 }
-
-export default DropdownButtonComponentData;

@@ -1,13 +1,13 @@
-import IComponentDataWithType from "../../Interfaces/interfaces";
+import type IComponentDataWithType from "../../Interfaces/interfaces";
 
 import ListComponent from '../../Components/ListComponent/ListComponent';
-import ListComponentData from '../../Components/ListComponent/ListComponentData';
+import type ListComponentData from '../../Components/ListComponent/ListComponentData';
 
 import LinkComponent from '../../Components/LinkComponent/LinkComponent';
-import LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
+import type LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
 
 import FormComponent from '../../Components/FormComponent/FormComponent';
-import FormComponentData from '../../Components/FormComponent/FormComponentData';
+import type FormComponentData from '../../Components/FormComponent/FormComponentData';
 
 interface ISettingsData {
     title?: string;

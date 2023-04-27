@@ -4,14 +4,14 @@ import SettingsTemplate from './SettingsView.hbs';
 import SettingsData from './SettingsViewConfig';
 import './SettingsView.css';
 
-import ListComponent from '../../Components/ListComponent/ListComponent';
+import type ListComponent from '../../Components/ListComponent/ListComponent';
 
-import FormComponent from '../../Components/FormComponent/FormComponent';
+import type FormComponent from '../../Components/FormComponent/FormComponent';
 
-import LinkComponent from '../../Components/LinkComponent/LinkComponent';
-import LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
+import type LinkComponent from '../../Components/LinkComponent/LinkComponent';
+import type LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
 
-import IUser from '../../Interfaces/User/IUser';
+import type IUser from '../../Interfaces/User/IUser';
 
 class SettingsView extends IView {
     private readonly leftMenuContainer: HTMLElement

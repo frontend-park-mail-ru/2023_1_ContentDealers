@@ -1,4 +1,5 @@
-import { REQUEST_METHODS, CsrfTokenName, IApi, config, customFailures } from '../Config/Config';
+import { REQUEST_METHODS, config, customFailures } from '../Config/Config';
+import type { IApi } from '../Config/Config';
 
 interface IRequestParams {
     url: string;

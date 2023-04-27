@@ -1,9 +1,7 @@
-import IContentSearch from "../ContentSearch/IContentSearch";
-import IActorSearch from "../ActorSearch/IActorSearch";
+import type IContentSearch from "../ContentSearch/IContentSearch";
+import type IActorSearch from "../ActorSearch/IActorSearch";
 
-interface ISearch {
+export default interface ISearch {
     content:         IContentSearch[];
     actors:          IActorSearch[];
 }
-
-export default ISearch;

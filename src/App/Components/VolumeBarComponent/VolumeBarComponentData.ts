@@ -1,8 +1,6 @@
-import BarComponentData from '../BarComponent/BarComponentData';
+import type BarComponentData from '../BarComponent/BarComponentData';
 
-interface VolumeBarComponentData {
+export default interface VolumeBarComponentData {
     class?: string;
     barData: BarComponentData;
 }
-
-export default VolumeBarComponentData;

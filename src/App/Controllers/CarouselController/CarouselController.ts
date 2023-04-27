@@ -1,7 +1,7 @@
 import IController from '../IController/IController';
 import IModel from '../../Models/IModel/IModel';
 
-import CarouselView from '../../Views/CarouselView/CarouselView';
+import type CarouselView from '../../Views/CarouselView/CarouselView';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 

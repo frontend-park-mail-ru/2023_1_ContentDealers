@@ -1,8 +1,8 @@
 import IModel from '../IModel/IModel';
 
-import IUser from '../../Interfaces/User/IUser';
-import IUserSignIn from '../../Interfaces/User/IUserSignIn';
-import IUserSignUp from '../../Interfaces/User/IUserSignUp';
+import type IUser from '../../Interfaces/User/IUser';
+import type IUserSignIn from '../../Interfaces/User/IUserSignIn';
+import type IUserSignUp from '../../Interfaces/User/IUserSignUp';
 
 import Ajax from '../../Ajax/Ajax';
 

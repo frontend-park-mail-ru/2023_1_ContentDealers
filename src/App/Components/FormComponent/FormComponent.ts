@@ -1,15 +1,16 @@
 import IComponent from '../IComponent/IComponent';
 
 import FormComponentTemplate from './FormComponent.hbs';
-import FormComponentData from './FormComponentData';
+import type FormComponentData from './FormComponentData';
 import './FormComponent.css';
 
 import InputComponent from '../InputComponent/InputComponent';
 import ButtonComponent from '../ButtonComponent/ButtonComponent';
 import LinkComponent from "../LinkComponent/LinkComponent";
 
-import {validateInput, validatePasswords, ValidatorResult} from '../../Utils/Validators/Validator';
-import inputComponent from "../InputComponent/InputComponent";
+import { validateInput, validatePasswords } from '../../Utils/Validators/Validator';
+import type { ValidatorResult } from '../../Utils/Validators/Validator';
+import type inputComponent from "../InputComponent/InputComponent";
 
 class FormComponent extends IComponent {
     public inputs: InputComponent[];

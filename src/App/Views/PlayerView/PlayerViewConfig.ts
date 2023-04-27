@@ -1,29 +1,51 @@
-import IComponentDataWithType from '../../Interfaces/interfaces';
+import type IComponentDataWithType from '../../Interfaces/interfaces';
 
 import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
-import ButtonComponentData from '../../Components/ButtonComponent/ButtonComponentData';
+import type ButtonComponentData from '../../Components/ButtonComponent/ButtonComponentData';
 
 import ProgressBarComponent from '../../Components/ProgressBarComponent/ProgressBarComponent';
-import ProgressBarComponentData from '../../Components/ProgressBarComponent/ProgressBarComponentData';
+import type ProgressBarComponentData from '../../Components/ProgressBarComponent/ProgressBarComponentData';
 
 import VolumeBarComponent from '../../Components/VolumeBarComponent/VolumeBarComponent';
-import VolumeBarComponentData from '../../Components/VolumeBarComponent/VolumeBarComponentData';
+import type VolumeBarComponentData from '../../Components/VolumeBarComponent/VolumeBarComponentData';
 
 import DivComponent from '../../Components/DivComponent/DivComponent';
-import DivComponentData from '../../Components/DivComponent/DivComponentData';
+import type DivComponentData from '../../Components/DivComponent/DivComponentData';
 
 interface IPlayerData {
-    backButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
+    playButton: IComponentDataWithType<DivComponent, DivComponentData>;
+    pauseButton: IComponentDataWithType<DivComponent, DivComponentData>;
+
+    closeButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
 
     progressBar: IComponentDataWithType<ProgressBarComponent, ProgressBarComponentData>;
     volumeBar: IComponentDataWithType<VolumeBarComponent, VolumeBarComponentData>;
 
-    play: IComponentDataWithType<DivComponent, DivComponentData>;
-    pause: IComponentDataWithType<DivComponent, DivComponentData>;
+    screenButton: IComponentDataWithType<DivComponent, DivComponentData>;
+    compressButton: IComponentDataWithType<DivComponent, DivComponentData>;
 }
 
 const PlayerData: IPlayerData = {
-    backButton: {
+    playButton: {
+        componentType: DivComponent,
+        componentData: {
+            divClass: 'flex-center',
+            title: 'Остановить видео',
+            imgSrc: '/img/icons/player/play.svg',
+            imgWidth: '16px',
+        },
+    },
+    pauseButton: {
+        componentType: DivComponent,
+        componentData: {
+            divClass: 'flex-center',
+            title: 'Включить видео',
+            imgSrc: '/img/icons/player/pause.svg',
+            imgWidth: '16px',
+        },
+    },
+
+    closeButton: {
         componentType: ButtonComponent,
         componentData: {
             colorClass: 'gradient-button--grey',
@@ -46,22 +68,22 @@ const PlayerData: IPlayerData = {
         },
     },
 
-    play: {
+    screenButton: {
         componentType: DivComponent,
         componentData: {
             divClass: 'flex-center',
-            title: 'Остановить видео',
-            imgSrc: '/img/icons/player/play.svg',
-            imgWidth: '16px',
+            title: 'Во весь экран',
+            imgSrc: '/img/icons/player/fullscreen.svg',
+            imgWidth: '22px',
         },
     },
-    pause: {
+    compressButton: {
         componentType: DivComponent,
         componentData: {
             divClass: 'flex-center',
-            title: 'Включить видео',
-            imgSrc: '/img/icons/player/pause.svg',
-            imgWidth: '16px',
+            title: 'Выйти из полноэкранного режима',
+            imgSrc: '/img/icons/player/compress.svg',
+            imgWidth: '22px',
         },
     },
 };

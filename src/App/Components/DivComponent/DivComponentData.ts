@@ -1,4 +1,4 @@
-interface DivComponentData {
+export default interface DivComponentData {
     divClass?: string;
     title?: string;
     text?: string;
@@ -7,5 +7,3 @@ interface DivComponentData {
     imgClass?: string;
     imgWidth?: string;
 }
-
-export default DivComponentData;

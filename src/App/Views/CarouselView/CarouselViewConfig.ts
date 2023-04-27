@@ -1,10 +1,10 @@
-import IComponentDataWithType from '../../Interfaces/interfaces';
+import type IComponentDataWithType from '../../Interfaces/interfaces';
 
 import ListComponent from '../../Components/ListComponent/ListComponent';
-import ListComponentData from '../../Components/ListComponent/ListComponentData';
+import type ListComponentData from '../../Components/ListComponent/ListComponentData';
 
 import VideoComponent from '../../Components/VideoComponent/VideoComponent';
-import VideoComponentData from '../../Components/VideoComponent/VideoComponentData';
+import type VideoComponentData from '../../Components/VideoComponent/VideoComponentData';
 
 interface ICarouselData {
     items: IComponentDataWithType<ListComponent<VideoComponent, VideoComponentData>, ListComponentData<VideoComponent, VideoComponentData>>;

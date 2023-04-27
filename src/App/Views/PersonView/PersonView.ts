@@ -3,7 +3,7 @@ import IView from '../IView/IView';
 import PersonTemplate from './PersonView.hbs';
 import './PersonView.css';
 
-import IPerson from '../../Interfaces/Person/IPerson';
+import type IPerson from '../../Interfaces/Person/IPerson';
 
 class PersonView extends IView {
     constructor(parent: HTMLElement) {

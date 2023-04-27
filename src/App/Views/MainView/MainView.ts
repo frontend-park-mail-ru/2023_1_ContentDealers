@@ -1,10 +1,10 @@
 import IView from '../IView/IView';
+import type ISelection from '../../Interfaces/Selection/ISelection';
 
 import MainTemplate from './MainView.hbs';
 import './MainView.css';
 
-import ISelection from '../../Interfaces/Selection/ISelection';
-import CarouselView from "../CarouselView/CarouselView";
+import CarouselView from '../CarouselView/CarouselView';
 
 class MainView extends IView {
     public carouselView: CarouselView;

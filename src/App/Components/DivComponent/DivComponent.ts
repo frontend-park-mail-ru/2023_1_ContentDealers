@@ -1,7 +1,7 @@
 import IComponent from '../IComponent/IComponent';
 
 import DivComponentTemplate from './DivComponent.hbs';
-import DivComponentData from './DivComponentData';
+import type DivComponentData from './DivComponentData';
 
 class DivComponent extends IComponent {
     public readonly div: HTMLElement;

@@ -1,9 +1,9 @@
 import IComponent from '../IComponent/IComponent';
 
-import IComponentDataWithType from '../../Interfaces/interfaces';
+import type IComponentDataWithType from '../../Interfaces/interfaces';
 
 import ListComponentTemplate from './ListComponent.hbs';
-import ListComponentData from './ListComponentData';
+import type ListComponentData from './ListComponentData';
 import './ListComponent.css';
 
 class ListComponent<Type extends IComponent, Data> extends IComponent {

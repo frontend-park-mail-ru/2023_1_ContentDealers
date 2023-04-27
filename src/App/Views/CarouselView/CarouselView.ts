@@ -4,10 +4,10 @@ import CarouselTemplate from './CarouselView.hbs';
 import CarouselData from './CarouselViewConfig';
 import './CarouselView.css';
 
-import ListComponent from '../../Components/ListComponent/ListComponent';
+import type ListComponent from '../../Components/ListComponent/ListComponent';
 
-import VideoComponent from '../../Components/VideoComponent/VideoComponent';
-import VideoComponentData from '../../Components/VideoComponent/VideoComponentData';
+import type VideoComponent from '../../Components/VideoComponent/VideoComponent';
+import type VideoComponentData from '../../Components/VideoComponent/VideoComponentData';
 
 class CarouselView extends IView {
     private items: ListComponent<VideoComponent, VideoComponentData>;

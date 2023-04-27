@@ -1,10 +1,10 @@
 import IController from '../IController/IController';
 
-import FilmView from '../../Views/FilmView/FilmView';
-import FilmModel from '../../Models/FilmModel/FilmModel';
+import type FilmView from '../../Views/FilmView/FilmView';
+import type FilmModel from '../../Models/FilmModel/FilmModel';
 
 import PlayerController from '../../Controllers/PlayerController/PlayerController';
-import PlayerView from '../../Views/PlayerView/PlayerView';
+import type PlayerView from '../../Views/PlayerView/PlayerView';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
@@ -26,13 +26,6 @@ class FilmController extends IController<FilmView, FilmModel> {
         this.filmId = null;
         this.trailerSrc = null;
         this.filmSrc = null;
-
-        EventDispatcher.subscribe('new-player', () => {
-            this.view?.playerView?.hide();
-
-            this.view.newPlayerView();
-            this.playerController = new PlayerController(<PlayerView>this.view.playerView);
-        });
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
@@ -66,7 +59,6 @@ class FilmController extends IController<FilmView, FilmModel> {
 
     public unmountComponent(): void {
         if (this.isMounted) {
-            this.playerController.unmountComponent();
             super.unmountComponent();
 
             this.filmId = null;
@@ -94,6 +86,9 @@ class FilmController extends IController<FilmView, FilmModel> {
 
                 case 'trailer': {
                     if (this.trailerSrc) {
+                        this.view.newPlayerView(this.model.getFilmTitle());
+                        this.playerController = new PlayerController(<PlayerView>this.view.playerView, );
+
                         this.playerController.mountComponent();
                         this.playerController.setSrc(this.trailerSrc);
                     }
@@ -103,6 +98,9 @@ class FilmController extends IController<FilmView, FilmModel> {
 
                 case 'film': {
                     if (this.filmSrc) {
+                        this.view.newPlayerView(this.model.getFilmTitle());
+                        this.playerController = new PlayerController(<PlayerView>this.view.playerView);
+
                         this.playerController.mountComponent();
                         this.playerController.setSrc(this.filmSrc);
                     }

@@ -1,6 +1,4 @@
-interface IUserSignIn {
+export default interface IUserSignIn {
     email:      string;
     password:   string;
 }
-
-export default IUserSignIn;

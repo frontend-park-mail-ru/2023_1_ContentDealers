@@ -1,14 +1,13 @@
 import IComponent from '../IComponent/IComponent';
-import IComponentDataWithType from '../../Interfaces/interfaces';
+import type IComponentDataWithType from '../../Interfaces/interfaces';
 
 import BarComponent from '../BarComponent/BarComponent';
 
 import DivComponent from '../DivComponent/DivComponent';
 
 import VolumeBarComponentTemplate from './VolumeBarComponent.hbs';
-import VolumeBarComponentData from './VolumeBarComponentData';
+import type VolumeBarComponentData from './VolumeBarComponentData';
 import './VolumeBarComponent.css';
-import {log} from "handlebars";
 
 type UpdateFunction = (num: number) => void;
 
@@ -19,7 +18,6 @@ class VolumeBarComponent extends IComponent {
     private readonly volumeMaxValue: number = 1;
 
     private setVolumeFunc: (volume: number) => void;
-    private getVolumeFunc: () => number;
 
     private prevVolume: number = 0.5;
 
@@ -74,7 +72,9 @@ class VolumeBarComponent extends IComponent {
         this.barComponent.show();
 
         this.setMaxMinValues();
-        this.barComponent.setCurrentValue(this.prevVolume);
+        this.barComponent.setCurrentPercentage(this.prevVolume);
+
+        this.barComponent.setUpdateHelperFunc(this.setHelperText.bind(this));
 
         this.bindVolumeButtonClick(this.changeMuteStatus.bind(this));
     };
@@ -97,10 +97,6 @@ class VolumeBarComponent extends IComponent {
         this.barComponent.setUpdateVideoFunc(func);
     };
 
-    public setGetVolumeFunc(func: () => number): void {
-        this.getVolumeFunc = func;
-    };
-
     public setMaxMinValues(): void {
         this.barComponent.setMaxMinValues(this.volumeMinValue, this.volumeMaxValue);
     };
@@ -112,7 +108,7 @@ class VolumeBarComponent extends IComponent {
     };
 
     public setHelperText(volume: number) {
-        this.barComponent.setHelperText(`${volume}`);
+        this.barComponent.setHelperText(`${Math.round(this.barComponent.toPercentage(volume))}%`);
     };
 
     public changeMuteStatus(e: Event): void {
@@ -122,12 +118,10 @@ class VolumeBarComponent extends IComponent {
         this.muteProxy.isMute = !this.muteProxy.isMute;
 
         if (!this.muteProxy.isMute) {
-            this.setVolumeFunc(this.prevVolume);
-            this.barComponent.setCurrentValue(this.prevVolume);
+            this.barComponent.callUpdateVideoFunction(this.prevVolume);
         } else {
-            this.prevVolume = this.getVolumeFunc();
-            this.setVolumeFunc(this.volumeMinValue);
-            this.barComponent.setCurrentValue(this.volumeMinValue);
+            this.prevVolume = this.barComponent.getCurrentValue();
+            this.barComponent.callUpdateVideoFunction(this.volumeMinValue);
         }
     };
 

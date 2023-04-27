@@ -1,6 +1,6 @@
-import IPerson from '../Person/IPerson';
+import type IPerson from '../Person/IPerson';
 
-interface IContent {
+export default interface IContent {
     id:            number;
     title?:         string;
     description?:   string;
@@ -16,5 +16,3 @@ interface IContent {
     actors?:        IPerson[];      // TODO: how improve?
     directors?:     IPerson[];      // TODO: how improve?
 }
-
-export default IContent;

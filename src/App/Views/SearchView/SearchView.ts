@@ -1,7 +1,7 @@
 import IView from '../IView/IView';
 
-import IContentSearch from "../../Interfaces/ContentSearch/IContentSearch";
-import IActorSearch from "../../Interfaces/ActorSearch/IActorSearch";
+import type IContentSearch from "../../Interfaces/ContentSearch/IContentSearch";
+import type IActorSearch from "../../Interfaces/ActorSearch/IActorSearch";
 
 import ContentSearchComponent from "../../Components/ContentSearchComponent/ContentSearchComponent";
 import ActorSearchComponent from "../../Components/ActorSearchComponent/ActorSearchComponent";

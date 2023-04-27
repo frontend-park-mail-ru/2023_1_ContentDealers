@@ -1,18 +1,18 @@
 import IController from '../IController/IController';
 
-import ModalRightView from '../../Views/ModalRightView/ModalRightView';
+import type ModalRightView from '../../Views/ModalRightView/ModalRightView';
 
 import SignInController from '../../Controllers/SignInController/SignInController';
-import SignInView from '../../Views/SignInView/SignInView';
+import type SignInView from '../../Views/SignInView/SignInView';
 
 import SignUpController from '../../Controllers/SignUpController/SignUpController';
-import SignUpView from '../../Views/SignUpView/SignUpView';
+import type SignUpView from '../../Views/SignUpView/SignUpView';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 import router from '../../Router/Router';
 
-import UserModel from '../../Models/UserModel/UserModel';
+import type UserModel from '../../Models/UserModel/UserModel';
 
 /**
  * Котроллер для правого модального окна

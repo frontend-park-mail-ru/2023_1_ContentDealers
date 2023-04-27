@@ -1,4 +1,4 @@
-interface InputComponentData {
+export default interface InputComponentData {
     class?: string;
     inputClass?: string;
     id: string;
@@ -8,5 +8,3 @@ interface InputComponentData {
     placeholder?: string;
     accept?: string;
 }
-
-export default InputComponentData;

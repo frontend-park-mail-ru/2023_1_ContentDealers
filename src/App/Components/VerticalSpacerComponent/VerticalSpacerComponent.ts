@@ -1,7 +1,7 @@
 import IComponent from '../IComponent/IComponent';
 
 import VerticalComponentTemplate from './VerticalSpacerComponent.hbs';
-import VerticalSpacerComponentData from './VerticalSpacerComponentData';
+import type VerticalSpacerComponentData from './VerticalSpacerComponentData';
 import './VerticalSpacerComponent.css';
 
 class VerticalSpacerComponent extends IComponent {

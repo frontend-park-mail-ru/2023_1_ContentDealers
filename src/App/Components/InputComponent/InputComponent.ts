@@ -1,7 +1,7 @@
 import IComponent from '../IComponent/IComponent';
 
 import InputComponentTemplate from './InputComponent.hbs';
-import InputComponentData from './InputComponentData';
+import type InputComponentData from './InputComponentData';
 import './InputComponent.css';
 
 class InputComponent extends IComponent {

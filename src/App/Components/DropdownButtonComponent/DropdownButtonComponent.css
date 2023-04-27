@@ -24,7 +24,7 @@
     z-index: 1;
 }
 
-.dropdown__content__show {
+.dropdown__content_show {
     display: block;
 }
 

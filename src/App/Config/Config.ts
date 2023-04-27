@@ -39,7 +39,7 @@ const customFailures: { [index: string]: string } = {
     '7': 'Пользователь с этой почтой уже существует',
 };
 
-interface IApi {
+export interface IApi {
     url: string;
     method: string;
     headers: { [index: string]: string };
@@ -56,8 +56,8 @@ interface IConfig {
 
 const config: IConfig = {
     // host: 'http://89.208.199.170/',
-    // host: 'http://filmium.ru/api',
-    host: 'http://89.208.199.170:8100/api',
+    host: 'http://filmium.ru/api',
+    // host: 'http://89.208.199.170:8100/api',
     api: {
         csrf: {
             url: '/user/csrf',
@@ -197,4 +197,4 @@ const config: IConfig = {
     }
 };
 
-export { REQUEST_METHODS, CsrfTokenName, IApi, config, customFailures };
+export { REQUEST_METHODS, CsrfTokenName, config, customFailures };

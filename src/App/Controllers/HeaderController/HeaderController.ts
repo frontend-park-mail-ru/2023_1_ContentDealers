@@ -129,6 +129,11 @@ class HeaderController extends IController<HeaderView, IModel> {
         this.lastCallTimer = setTimeout(() => {
             this.searchController.getSearchResult(this.view.getInputValue().split(' ').join('+'))
                 .then(() => {
+                    if ((e.target as HTMLInputElement).value !== '') {
+                        this.searchController.setTitle('Результаты поиска');
+                    } else {
+                        this.searchController.setTitle('Часто ищут');
+                    }
                     this.searchController.unRenderItems();
                     this.searchController.renderItems();
                 });

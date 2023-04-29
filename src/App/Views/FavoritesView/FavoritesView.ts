@@ -42,7 +42,7 @@ class FavoritesView extends IView {
 
     public fillContent(data: IContentSearch[]): void {
         data.forEach(contentData => {
-            new ContentSearchComponent(this.content, contentData, false).show();
+            new ContentSearchComponent(this.content, contentData, false, 'picture_size').show();
         });
     };
 

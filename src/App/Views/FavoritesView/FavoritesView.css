@@ -1,6 +1,6 @@
 .grid__content {
     display: grid;
-    grid-template-columns: repeat(9, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 2px 16px;
 }
 
@@ -13,6 +13,7 @@
 .selection-block {
     display: flex;
     justify-content: right;
+    margin-bottom: 20px;
 }
 
 .selection {

@@ -21,10 +21,16 @@
     background-color: rgba(255,255,255,.1);
 }
 
-.picture_size {
+.picture_search-size {
     border-radius: 16px;
 
     max-width: 100px;
+}
+
+.picture_size {
+    border-radius: 16px;
+
+    max-width: 200px;
 }
 
 .film-item_white {

@@ -4,6 +4,7 @@ interface ContentSearchComponentData {
     title?:        string;
     isSerial?:     boolean;
     forSearch?:    boolean;
+    imgClassName?: string;
 }
 
 export default ContentSearchComponentData;

@@ -29,7 +29,7 @@ class SearchView extends IView {
 
     public fillContent(data: IContentSearch[]): void {
         data.forEach(contentData => {
-            new ContentSearchComponent(this.content, contentData, true).show();
+            new ContentSearchComponent(this.content, contentData, true, 'picture_search-size').show();
         });
     };
 

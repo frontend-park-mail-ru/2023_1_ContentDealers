@@ -3,8 +3,8 @@ import IView from "../IView/IView";
 import IContentSearch from "../../Interfaces/ContentSearch/IContentSearch";
 import IActorSearch from "../../Interfaces/ActorSearch/IActorSearch";
 
-import ContentSearchComponent from "../../Components/ContentSearchComponent/ContentSearchComponent";
-import ActorSearchComponent from "../../Components/ActorSearchComponent/ActorSearchComponent";
+import ContentSearchComponent from '../../Components/ContentSearchComponent/ContentSearchComponent';
+import ActorSearchComponent from '../../Components/ActorSearchComponent/ActorSearchComponent';
 
 import FavoritesTemplate from './FavoritesView.hbs';
 import FavoritesViewData from './FavoritesViewConfig';
@@ -14,10 +14,11 @@ import './FavoritesView.css';
 import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
 
 class FavoritesView extends IView {
-    private readonly content: HTMLElement;
-    private readonly actors: HTMLElement;
-    private readonly contentButton: HTMLElement;
-    private readonly actorsButton: HTMLElement;
+    private readonly content:        HTMLElement;
+    private readonly actors:         HTMLElement;
+    private readonly contentButton:  HTMLElement;
+    private readonly actorsButton:   HTMLElement;
+    private readonly selection:      HTMLSelectElement;
 
     constructor(parent: HTMLElement) {
         super(parent, FavoritesTemplate(FavoritesViewData));
@@ -33,6 +34,10 @@ class FavoritesView extends IView {
 
     public bindClickEvent(listener: any): void {
         this.element.addEventListener('click', listener.bind(this));
+    };
+
+    public bindChangeEvent(listener: any): void {
+        this.element.addEventListener('change', listener.bind(this));
     };
 
     public fillContent(data: IContentSearch[]): void {

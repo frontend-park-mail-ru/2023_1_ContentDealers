@@ -7,6 +7,7 @@ import IFilm from '../../Interfaces/Film/IFilm';
 import PlayerView from "../PlayerView/PlayerView";
 import FilmData from "./FilmViewConfig";
 import ButtonComponent from "../../Components/ButtonComponent/ButtonComponent";
+import LinkComponent from "../../Components/LinkComponent/LinkComponent";
 
 /**
  * Отображение фильма приложения
@@ -17,9 +18,12 @@ import ButtonComponent from "../../Components/ButtonComponent/ButtonComponent";
 class FilmView extends IView {
     public playerView: PlayerView | null;
 
-    private subscribeButton: ButtonComponent;
-    private trailerButton: ButtonComponent;
-    private filmButton: ButtonComponent;
+    private subscribeButton:  ButtonComponent;
+    private trailerButton:    ButtonComponent;
+    private filmButton:       ButtonComponent;
+    private favoritesLink:    LinkComponent;
+    private favoritesIcon:    HTMLImageElement;
+    private isInFavorites:    boolean;
 
     constructor(parent: HTMLElement) {
         super(parent, FilmTemplate({}));
@@ -51,6 +55,23 @@ class FilmView extends IView {
 
         this.filmButton = new FilmData.filmButton.componentType(buttonsContainer, FilmData.filmButton.componentData);
         this.filmButton.show();
+
+        this.favoritesLink = new FilmData.favoritesLink.componentType(buttonsContainer, FilmData.favoritesLink.componentData);
+        this.favoritesLink.show();
+
+        // TODO add value depending on response
+        this.isInFavorites = false;
+        this.favoritesIcon = <HTMLImageElement>this.favoritesLink.querySelector('img');
+    };
+
+    public toggleBookmark(): void {
+        this.isInFavorites = !this.isInFavorites;
+        this.favoritesIcon.src = (this.isInFavorites ? '/img/icons/bookmark-added.svg' : '/img/icons/bookmark-regular.svg');
+
+    };
+
+    public isDelete(): boolean {
+        return this.isInFavorites;
     };
 
     public bindClickEvent(listener: any): void {

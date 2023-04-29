@@ -8,6 +8,7 @@ import IRole from '../../Interfaces/Role/IRole';
 import Ajax from '../../Ajax/Ajax';
 
 import { config } from '../../Config/Config';
+import IFavoritesAddDelete from '../../Interfaces/IFavoritesAddDelete/IFavoritesAddDelete';
 
 class FilmModel extends IModel {
     constructor() {
@@ -56,12 +57,12 @@ class FilmModel extends IModel {
     private getFilmActors(persons: IPerson[]): IPerson[] {
         const actorRole: IRole = { id: 0, title: 'ACTOR' };
         return persons.filter(person => person.role === actorRole.title);
-    }
+    };
 
     private getFilmDirectors(persons: IPerson[]): IPerson[] {
         const directorRole: IRole = { id: 0, title: 'DIRECTOR' };
         return persons.filter(person => person.role === directorRole.title);
-    }
+    };
 
     public async getFilm(id: number) {
         let conf = Object.assign({}, config.api.film);
@@ -79,6 +80,30 @@ class FilmModel extends IModel {
         }
 
         return Promise.resolve(filmData);
+    };
+
+    public async deleteFromFavorites(data: IFavoritesAddDelete) {
+        let conf = Object.assign({}, config.api.favoritesContentDelete);
+
+        const response = await Ajax.ajax(conf, JSON.stringify(data));
+        // await Ajax.checkResponseStatus(response, conf);
+
+        console.log(response);
+
+        return Promise.resolve(response);
+    };
+
+    public async addToFavorites(data: IFavoritesAddDelete) {
+        let conf = Object.assign({}, config.api.favoritesContentAdd);
+        console.log(data);
+        console.log(JSON.stringify(data));
+
+        const response = await Ajax.ajax(conf, JSON.stringify(data));
+        await Ajax.checkResponseStatus(response, conf);
+
+        console.log(response);
+
+        return Promise.resolve(response);
     };
 }
 

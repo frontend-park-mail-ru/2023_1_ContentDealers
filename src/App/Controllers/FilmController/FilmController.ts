@@ -9,6 +9,7 @@ import PlayerView from '../../Views/PlayerView/PlayerView';
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 import router from '../../Router/Router';
+import IFavoritesAddDelete from "../../Interfaces/IFavoritesAddDelete/IFavoritesAddDelete";
 
 interface IId {
     id: number;
@@ -53,6 +54,7 @@ class FilmController extends IController<FilmView, FilmModel> {
                         this.trailerSrc = data.content?.trailerURL || null;
                         this.filmSrc = data.contentURL || null;
 
+                        // TODO add a flag indicating if the movie is added to favorites
                         this.view.fillFilm(data);
                         super.mountComponent();
                     })
@@ -106,8 +108,25 @@ class FilmController extends IController<FilmView, FilmModel> {
                         this.playerController.mountComponent();
                         this.playerController.setSrc(this.filmSrc);
                     }
+
+                    break;
                 }
 
+                case 'addToFavorites': {
+                    const addDeleteFavorites: IFavoritesAddDelete = {
+                        content_id: this.filmId,
+                    };
+
+                    if (this.view.isDelete()) {
+                        this.model.deleteFromFavorites(addDeleteFavorites);
+                    } else {
+                        this.model.addToFavorites(addDeleteFavorites);
+                    }
+
+                    this.view.toggleBookmark();
+
+                    break;
+                }
                 default:
                     break;
             }

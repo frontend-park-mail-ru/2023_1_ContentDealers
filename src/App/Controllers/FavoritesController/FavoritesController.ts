@@ -17,6 +17,7 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel>{
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
         this.view.bindClickEvent(this.handleClick.bind(this));
+        this.view.bindChangeEvent(this.handleChange.bind(this));
     };
 
     public async getSearchResult() {
@@ -83,6 +84,11 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel>{
                 break;
             }
         }
+    };
+
+    private handleChange(e: Event): void {
+        // TODO request
+        console.log((e.target as HTMLSelectElement).value);
     };
 }
 

@@ -25,11 +25,12 @@ import InputComponent from "../../Components/InputComponent/InputComponent";
  * @param {HTMLElement} parent - родительский элемент для хедера
  */
 class HeaderView extends IView {
-    private readonly items: HTMLElement;
-    private readonly profile: HTMLElement;
-    private readonly logo: HTMLElement;
-    private readonly middle: HTMLElement;
-    private input: InputComponent;
+    private readonly items:    HTMLElement;
+    private readonly profile:  HTMLElement;
+    private readonly logo:     HTMLElement;
+    private readonly middle:   HTMLElement;
+    private input:             InputComponent;
+    private searchIcon:        HTMLImageElement;
 
     private actions: ListComponent<LinkComponent, LinkComponentData>;
     private currentActiveItem: string | null;
@@ -61,18 +62,20 @@ class HeaderView extends IView {
            const component = new componentType(this.items, componentData);
            component.show();
         });
+
+        this.searchIcon = <HTMLImageElement>this.items.querySelector('img');
     };
 
     public toggleMiddle(isSearch: boolean): void {
         if (!isSearch) {
             this.actions.hide();
             this.input.show();
-            this.items.querySelector('img')!.src = '/img/icons/close.svg';
+            this.searchIcon.src = '/img/icons/close.svg';
             (<HTMLElement>this.middle.querySelector('.input-field__search')).focus();
         } else {
             this.input.hide();
             this.actions.show();
-            this.items.querySelector('img')!.src = '/img/icons/search.svg';
+            this.searchIcon.src = '/img/icons/search.svg';
         }
     }
 

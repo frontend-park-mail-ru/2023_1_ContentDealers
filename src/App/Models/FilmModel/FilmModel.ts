@@ -70,8 +70,7 @@ class FilmModel extends IModel {
 
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
-
-        console.log(response)
+        
         const filmData = this.parseFilm(response.responseBody.body.film);
 
         if (filmData.content) {
@@ -86,24 +85,18 @@ class FilmModel extends IModel {
         let conf = Object.assign({}, config.api.favoritesContentDelete);
 
         const response = await Ajax.ajax(conf, JSON.stringify(data));
-        // await Ajax.checkResponseStatus(response, conf);
+        await Ajax.checkResponseStatus(response, conf);
 
-        console.log(response);
-
-        return Promise.resolve(response);
+        return Promise.resolve(response.status);
     };
 
     public async addToFavorites(data: IFavoritesAddDelete) {
         let conf = Object.assign({}, config.api.favoritesContentAdd);
-        console.log(data);
-        console.log(JSON.stringify(data));
 
         const response = await Ajax.ajax(conf, JSON.stringify(data));
         await Ajax.checkResponseStatus(response, conf);
 
-        console.log(response);
-
-        return Promise.resolve(response);
+        return Promise.resolve(response.status);
     };
 }
 

@@ -114,16 +114,22 @@ class FilmController extends IController<FilmView, FilmModel> {
 
                 case 'addToFavorites': {
                     const addDeleteFavorites: IFavoritesAddDelete = {
-                        content_id: this.filmId,
+                        content_id: Number(this.filmId),
                     };
 
                     if (this.view.isDelete()) {
-                        this.model.deleteFromFavorites(addDeleteFavorites);
+                        this.model.deleteFromFavorites(addDeleteFavorites)
+                            .then((status) =>{
+                                this.view.toggleBookmark();
+                                console.log('УСПЕШНО УДАЛЕНО');
+                            });
                     } else {
-                        this.model.addToFavorites(addDeleteFavorites);
+                        this.model.addToFavorites(addDeleteFavorites)
+                            .then((status) => {
+                                this.view.toggleBookmark();
+                                console.log('УСПЕШНО ДОБАВЛЕНО');
+                            });
                     }
-
-                    this.view.toggleBookmark();
 
                     break;
                 }

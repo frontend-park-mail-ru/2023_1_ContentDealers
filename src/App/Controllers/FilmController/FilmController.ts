@@ -54,9 +54,13 @@ class FilmController extends IController<FilmView, FilmModel> {
                         this.trailerSrc = data.content?.trailerURL || null;
                         this.filmSrc = data.contentURL || null;
 
-                        // TODO add a flag indicating if the movie is added to favorites
-                        this.view.fillFilm(data);
-                        super.mountComponent();
+                        this.model.getFavoritesStatus(String(this.filmId))
+                            .then((status) => {
+                                this.view.fillFilm(data, status);
+                                super.mountComponent();
+                            })
+                            .catch((error) => {
+                            });
                     })
                     .catch((error) => {
                         router.showUnknownPage();

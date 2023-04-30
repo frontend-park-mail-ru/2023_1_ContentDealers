@@ -38,13 +38,13 @@ class FilmView extends IView {
         super.hide();
     }
 
-    public fillFilm(data: IFilm): void {
+    public fillFilm(data: IFilm, status: boolean): void {
         this.element.innerHTML = FilmTemplate(data);
 
-        this.renderButtons();
+        this.renderButtons(status);
     };
 
-    private renderButtons(): void {
+    private renderButtons(status: boolean): void {
         const buttonsContainer = <HTMLElement>this.element.querySelector('.film-content__buttons');
 
         this.subscribeButton = new FilmData.subscribeButton.componentType(buttonsContainer, FilmData.subscribeButton.componentData);
@@ -59,9 +59,12 @@ class FilmView extends IView {
         this.favoritesLink = new FilmData.favoritesLink.componentType(buttonsContainer, FilmData.favoritesLink.componentData);
         this.favoritesLink.show();
 
-        // TODO add value depending on response
         this.isInFavorites = false;
         this.favoritesIcon = <HTMLImageElement>this.favoritesLink.querySelector('img');
+
+        if (status) {
+            this.toggleBookmark();
+        }
     };
 
     public toggleBookmark(): void {

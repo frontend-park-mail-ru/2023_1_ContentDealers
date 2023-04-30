@@ -205,6 +205,17 @@ const config: IConfig = {
                 failure: failureDefaultStatuses,
             },
         },
+        favoritesContentHas: {
+            url: '/favorites/content/{:id}/has',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Данные успешно получены',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
         favoritesContentAdd: {
             url: '/favorites/content/add',
             method: REQUEST_METHODS.POST,

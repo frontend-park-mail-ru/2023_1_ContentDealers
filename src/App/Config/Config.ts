@@ -238,6 +238,17 @@ const config: IConfig = {
                 failure: failureDefaultStatuses,
             },
         },
+        genres: {
+            url: '/genres/{:id}',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Данные успешно получены',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
     }
 };
 

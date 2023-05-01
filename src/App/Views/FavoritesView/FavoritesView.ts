@@ -1,4 +1,4 @@
-import IView from "../IView/IView";
+import IView from '../IView/IView';
 
 import IContentSearch from '../../Interfaces/ContentSearch/IContentSearch';
 import IActorSearch from '../../Interfaces/ActorSearch/IActorSearch';

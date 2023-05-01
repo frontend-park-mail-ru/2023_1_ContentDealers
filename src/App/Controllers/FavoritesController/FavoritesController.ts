@@ -20,16 +20,6 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel>{
         this.view.bindChangeEvent(this.handleChange.bind(this));
     };
 
-    // public async getSearchResult() {
-    //     await this.model.getSearchResult('')
-    //         .then((data) => {
-    //             this.content = data.content;
-    //             this.actors = data.actors;
-    //         })
-    //         .catch((error) => {
-    //         });
-    // };
-
     public async getContent(order: string) {
         await this.model.getFavoritesContent(order)
             .then((data) => {

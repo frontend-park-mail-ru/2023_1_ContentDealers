@@ -26,11 +26,15 @@ import NotFoundController from './Controllers/NotFoundController/NotFoundControl
 import FavoritesView from './Views/FavoritesView/FavoritesView';
 import FavoritesController from './Controllers/FavoritesController/FavoritesController';
 
+import GenreView from './Views/GenreView/GenreView';
+import GenreController from './Controllers/GenreController/GenreController';
+
 import UserModel from './Models/UserModel/UserModel';
 import FilmModel from './Models/FilmModel/FilmModel';
 import PersonModel from './Models/PersonModel/PersonModel';
-import SelectionModel from "./Models/SelectionModel/SelectionModel";
+import SelectionModel from './Models/SelectionModel/SelectionModel';
 import FavoritesModel from './Models/FavoritesModel/FavoritesModel';
+import GenreModel from './Models/GenreModel/GenreModel';
 
 import router from './Router/Router';
 import paths from './Router/RouterPaths';
@@ -47,6 +51,7 @@ class App {
     private mainView: MainView;
     private notFoundView: NotFoundView;
     private favoritesView: FavoritesView;
+    private genreView: GenreView;
 
     // Controllers
     private headerController: HeaderController;
@@ -57,6 +62,7 @@ class App {
     private mainController: MainController;
     private notFoundController: NotFoundController;
     private favoritesController: FavoritesController
+    private genreController: GenreController;
 
     // Models
     private userModel: UserModel;
@@ -64,6 +70,7 @@ class App {
     private personModel: PersonModel;
     private selectionModel: SelectionModel;
     private favoritesModel: FavoritesModel;
+    private genreModel: GenreModel;
 
 
     // Elements
@@ -124,6 +131,7 @@ class App {
 
         this.notFoundView = new NotFoundView(this.content);
         this.favoritesView = new FavoritesView(this.content);
+        this.genreView = new GenreView(this.content);
     };
 
     /**
@@ -137,6 +145,7 @@ class App {
         this.personModel = new PersonModel();
         this.selectionModel = new SelectionModel();
         this.favoritesModel = new FavoritesModel();
+        this.genreModel = new GenreModel();
     };
 
     /**
@@ -154,6 +163,7 @@ class App {
 
         this.notFoundController = new NotFoundController(this.notFoundView);
         this.favoritesController = new FavoritesController(this.favoritesView, this.favoritesModel);
+        this.genreController = new GenreController(this.genreView, this.genreModel);
     };
 
     /**
@@ -177,6 +187,8 @@ class App {
 
             { path: paths.films,    handler: this.handleRedirectToFilm },
             { path: paths.persons,  handler: this.handleRedirectToPerson },
+
+            { path: paths.genres,   handler: this.handleRedirectToGenre },
         ];
 
         routes.forEach(({ path, handler }) => {
@@ -320,6 +332,24 @@ class App {
 
         this.headerController.mountComponent();
         this.notFoundController.mountComponent();
+    };
+
+    private handleRedirectToGenre(data: any): void {
+        EventDispatcher.emit('unmount-all');
+
+        if (!data || !data[0]) {
+            router.showUnknownPage();
+            return;
+        }
+
+        const genreId = data[0];
+
+        // mount
+        this.headerController.mountComponent();
+        this.genreController.mountComponent({ id: genreId.toString() });
+
+        // states
+        this.headerView.changeActiveHeaderListItem('#');
     };
 }
 

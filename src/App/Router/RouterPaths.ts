@@ -15,6 +15,7 @@ const paths = {
     logout: '/logout',
     films: '/films/{:id}',
     persons: '/persons/{:id}',
+    genres: '/genres/{:id}',
 }
 
 export default paths;

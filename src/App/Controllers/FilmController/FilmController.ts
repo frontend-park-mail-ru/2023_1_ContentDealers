@@ -9,7 +9,7 @@ import PlayerView from '../../Views/PlayerView/PlayerView';
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 import router from '../../Router/Router';
-import IFavoritesAddDelete from "../../Interfaces/IFavoritesAddDelete/IFavoritesAddDelete";
+import IFavoritesAddDelete from '../../Interfaces/IFavoritesAddDelete/IFavoritesAddDelete';
 
 interface IId {
     id: number;

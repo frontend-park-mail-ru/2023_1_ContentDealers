@@ -13,20 +13,13 @@ class FavoritesModel extends IModel {
         super();
     };
 
-    private parseSearchResult(json: any): ISearch {
-        return {
-            content:    this.parseContentForSearch(json.content),
-            actors:     this.parseActorsForSearch(json.persons),
-        };
-    };
-
-    private parseContentForSearch(content: any): IContentSearch[] {
+    private parseContent(content: any): IContentSearch[] {
         return content.map((item: any) => {
-            return this.parseContentItemForSearch(item);
+            return this.parseContentItem(item);
         });
     };
 
-    private parseContentItemForSearch(item: any): IContentSearch {
+    private parseContentItem(item: any): IContentSearch {
         return {
             contentId:        item.id,
             src:              item.preview_url,
@@ -35,13 +28,13 @@ class FavoritesModel extends IModel {
         };
     };
 
-    private parseActorsForSearch(actors: any): IActorSearch[] {
+    private parseActors(actors: any): IActorSearch[] {
         return actors.map((actor: any) => {
-            return this.parseActorForSearch(actor);
+            return this.parseActor(actor);
         });
     };
 
-    private parseActorForSearch(actor: any): IActorSearch {
+    private parseActor(actor: any): IActorSearch {
         return {
             personId:          actor.id,
             name:              actor.name,
@@ -49,16 +42,20 @@ class FavoritesModel extends IModel {
         };
     };
 
-    public async getSearchResult(query: string) {
-        let conf = Object.assign({}, config.api.search);
-        conf.url = conf.url.replace('{query}', query);
+    public async getFavoritesContent(order: string) {
+        let conf = Object.assign({}, config.api.favoritesContent);
+        conf.url = conf.url.replace('{order}', order);
 
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
 
-        const searchResult = this.parseSearchResult(response.responseBody.body.search);
+        const favoritesContent = this.parseContent(response.responseBody.body.content);
 
-        return Promise.resolve(searchResult);
+        return Promise.resolve(favoritesContent);
+    };
+
+    public async getFavoritesActors() {
+
     };
 }
 

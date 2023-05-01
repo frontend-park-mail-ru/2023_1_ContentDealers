@@ -195,7 +195,7 @@ const config: IConfig = {
             },
         },
         favoritesContent: {
-            url: 'favorites/content',
+            url: '/favorites/content?order={order}',
             method: REQUEST_METHODS.GET,
             headers: headersWithUnicode,
             statuses: {

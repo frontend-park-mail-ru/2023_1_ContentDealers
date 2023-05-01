@@ -1,12 +1,12 @@
-import IController from "../IController/IController";
+import IController from '../IController/IController';
 
-import FavoritesView from "../../Views/FavoritesView/FavoritesView";
-import FavoritesModel from "../../Models/FavoritesModel/FavoritesModel";
+import FavoritesView from '../../Views/FavoritesView/FavoritesView';
+import FavoritesModel from '../../Models/FavoritesModel/FavoritesModel';
 
-import router from "../../Router/Router";
-import IContentSearch from "../../Interfaces/ContentSearch/IContentSearch";
-import IActorSearch from "../../Interfaces/ActorSearch/IActorSearch";
-import EventDispatcher from "../../EventDispatcher/EventDispatcher";
+import router from '../../Router/Router';
+import IContentSearch from '../../Interfaces/ContentSearch/IContentSearch';
+import IActorSearch from '../../Interfaces/ActorSearch/IActorSearch';
+import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 class FavoritesController extends IController<FavoritesView, FavoritesModel>{
     private content: IContentSearch[];
@@ -20,28 +20,38 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel>{
         this.view.bindChangeEvent(this.handleChange.bind(this));
     };
 
-    public async getSearchResult() {
-        await this.model.getSearchResult('')
+    // public async getSearchResult() {
+    //     await this.model.getSearchResult('')
+    //         .then((data) => {
+    //             this.content = data.content;
+    //             this.actors = data.actors;
+    //         })
+    //         .catch((error) => {
+    //         });
+    // };
+
+    public async getContent(order: string) {
+        await this.model.getFavoritesContent(order)
             .then((data) => {
-                this.content = data.content;
-                this.actors = data.actors;
+                this.content = data;
             })
             .catch((error) => {
+
             });
-    };
+    }
 
     public async mountComponent() {
         if (!this.isMounted) {
-            await this.getSearchResult();
-            this.renderItems();
+            await this.getContent('new');
+            this.view.fillContent(this.content);
             super.mountComponent();
         }
     };
 
-    public renderItems(): void {
-        this.view.fillContent(this.content);
-        this.view.fillActors(this.actors);
-    };
+    // public renderItems(): void {
+    //     this.view.fillContent(this.content);
+    //     this.view.fillActors(this.actors);
+    // };
 
     public unRenderItems(): void {
         this.view.emptyContent();
@@ -63,32 +73,32 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel>{
         if (this.isMounted) {
             const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
-                // this.unmountComponent();
                 router.goToPath(href);
             }
         }
 
-        const target = <HTMLElement>e.target;
-        const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
-
-        switch (action) {
-            case 'loadContent': {
-                console.log('LOAD CONTENT');
-                this.view.fillContent(this.content);
-                break;
-            }
-
-            case 'loadActors': {
-                console.log('LOAD ACTORS');
-                this.view.fillActors(this.actors);
-                break;
-            }
-        }
+        // const target = <HTMLElement>e.target;
+        // const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
+        //
+        // switch (action) {
+        //     case 'loadContent': {
+        //         console.log('LOAD CONTENT');
+        //         this.view.fillContent(this.content);
+        //         break;
+        //     }
+        //
+        //     case 'loadActors': {
+        //         console.log('LOAD ACTORS');
+        //         this.view.fillActors(this.actors);
+        //         break;
+        //     }
+        // }
     };
 
-    private handleChange(e: Event): void {
-        // TODO request
-        console.log((e.target as HTMLSelectElement).value);
+    private async handleChange(e: Event) {
+        await this.getContent((e.target as HTMLSelectElement).value);
+        this.unRenderItems();
+        this.view.fillContent(this.content);
     };
 }
 

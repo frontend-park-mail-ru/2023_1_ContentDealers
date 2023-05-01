@@ -1,7 +1,7 @@
 import IView from "../IView/IView";
 
-import IContentSearch from "../../Interfaces/ContentSearch/IContentSearch";
-import IActorSearch from "../../Interfaces/ActorSearch/IActorSearch";
+import IContentSearch from '../../Interfaces/ContentSearch/IContentSearch';
+import IActorSearch from '../../Interfaces/ActorSearch/IActorSearch';
 
 import ContentSearchComponent from '../../Components/ContentSearchComponent/ContentSearchComponent';
 import ActorSearchComponent from '../../Components/ActorSearchComponent/ActorSearchComponent';
@@ -18,7 +18,6 @@ class FavoritesView extends IView {
     private readonly actors:         HTMLElement;
     private readonly contentButton:  HTMLElement;
     private readonly actorsButton:   HTMLElement;
-    private readonly selection:      HTMLSelectElement;
 
     constructor(parent: HTMLElement) {
         super(parent, FavoritesTemplate(FavoritesViewData));
@@ -26,10 +25,10 @@ class FavoritesView extends IView {
         this.content = <HTMLElement>this.element.querySelector('.js-content__item');
         this.actors = <HTMLElement>this.element.querySelector('.js-grid__actors');
         this.contentButton = <HTMLElement>this.element.querySelector('.js-content-button');
-        this.actorsButton = <HTMLElement>this.element.querySelector('.js-actors-button')
+        this.actorsButton = <HTMLElement>this.element.querySelector('.js-actors-button');
 
-        new ButtonComponent(this.contentButton, FavoritesViewData.contentButton).show();
-        new ButtonComponent(this.actorsButton, FavoritesViewData.actorsButton).show();
+        // new ButtonComponent(this.contentButton, FavoritesViewData.contentButton).show();
+        // new ButtonComponent(this.actorsButton, FavoritesViewData.actorsButton).show();
     };
 
     public bindClickEvent(listener: any): void {

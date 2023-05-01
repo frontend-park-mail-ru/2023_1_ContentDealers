@@ -1,4 +1,5 @@
 import IPerson from '../Person/IPerson';
+import IGenre from '../Genre/IGenre';
 
 interface IContent {
     id:            number;
@@ -12,6 +13,7 @@ interface IContent {
     trailerURL?:    string;
     previewURL?:    string;
     type?:          string;
+    genres?:        IGenre[];
 
     actors?:        IPerson[];      // TODO: how improve?
     directors?:     IPerson[];      // TODO: how improve?

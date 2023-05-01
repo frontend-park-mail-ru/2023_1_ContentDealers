@@ -16,6 +16,7 @@ const paths = {
     films: '/films/{:id}',
     persons: '/persons/{:id}',
     genres: '/genres/{:id}',
+    selections: '/selections/{:id}',
 }
 
 export default paths;

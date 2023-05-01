@@ -5,10 +5,18 @@ import IContentSearch from "../../Interfaces/ContentSearch/IContentSearch";
 import Ajax from '../../Ajax/Ajax';
 
 import { config } from '../../Config/Config';
+import IGrid from '../../Interfaces/Grid/IGrid';
 
 class FavoritesModel extends IModel {
     constructor() {
         super();
+    };
+
+    private parseData(json: any): IGrid {
+        return {
+            title:       json.title,
+            content:     this.parseContent(json.content),
+        }
     };
 
     private parseContent(content: any): IContentSearch[] {
@@ -26,6 +34,18 @@ class FavoritesModel extends IModel {
         };
     };
 
+    public async getSelectionsContent(id: number) {
+        let conf = Object.assign({}, config.api.selectionsById);
+        conf.url = conf.url.replace('{:id}', id.toString());
+
+        const response = await Ajax.ajax(conf);
+        await Ajax.checkResponseStatus(response, conf);
+
+        const content = this.parseData(response.responseBody.body.selection);
+
+        return Promise.resolve(content);
+    };
+
     public async getGenreContent(id: number) {
           let conf = Object.assign({}, config.api.genres);
           conf.url = conf.url.replace('{:id}', id.toString());
@@ -33,7 +53,7 @@ class FavoritesModel extends IModel {
           const response = await Ajax.ajax(conf);
           await Ajax.checkResponseStatus(response, conf);
 
-          const content = this.parseContent(response.responseBody.body.content);
+          const content = this.parseData(response.responseBody.body);
 
           return Promise.resolve(content);
     };

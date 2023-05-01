@@ -175,20 +175,21 @@ class App {
         router.setUnknownPageHandler(this.handleRedirectToNotFound.bind(this));
 
         const routes = [
-            { path: paths.main,     handler: this.handleRedirectToMain },
-            { path: paths.catalog,  handler: this.handleRedirectToCatalog },
-            { path: paths.store,    handler: this.handleRedirectToStore },
-            { path: paths.myMovie,  handler: this.handleRedirectToMyMovie },
+            { path: paths.main,         handler: this.handleRedirectToMain },
+            { path: paths.catalog,      handler: this.handleRedirectToCatalog },
+            { path: paths.store,        handler: this.handleRedirectToStore },
+            { path: paths.myMovie,      handler: this.handleRedirectToFavorites },
 
-            { path: paths.signIn,   handler: this.handleRedirectToSignIn },
-            { path: paths.signUp,   handler: this.handleRedirectToSignUp },
-            { path: paths.logout,   handler: this.handleRedirectToLogout },
-            { path: paths.settings, handler: this.handleRedirectToSettings },
+            { path: paths.signIn,       handler: this.handleRedirectToSignIn },
+            { path: paths.signUp,       handler: this.handleRedirectToSignUp },
+            { path: paths.logout,       handler: this.handleRedirectToLogout },
+            { path: paths.settings,     handler: this.handleRedirectToSettings },
 
-            { path: paths.films,    handler: this.handleRedirectToFilm },
-            { path: paths.persons,  handler: this.handleRedirectToPerson },
+            { path: paths.films,        handler: this.handleRedirectToFilm },
+            { path: paths.persons,      handler: this.handleRedirectToPerson },
 
-            { path: paths.genres,   handler: this.handleRedirectToGenre },
+            { path: paths.genres,       handler: this.handleRedirectToGenre },
+            { path: paths.selections,   handler: this.handleRedirectToSelections },
         ];
 
         routes.forEach(({ path, handler }) => {
@@ -250,7 +251,7 @@ class App {
         this.headerView.changeActiveHeaderListItem('/store');
     };
 
-    private handleRedirectToMyMovie(): void {
+    private handleRedirectToFavorites(): void {
         EventDispatcher.emit('unmount-all');
 
         this.userModel.authUserByCookie()
@@ -265,8 +266,6 @@ class App {
             .catch(() => {
                 router.goToPath(paths.signIn);
             });
-
-
     };
 
     private handleRedirectToSettings(): void {
@@ -360,7 +359,31 @@ class App {
 
         // mount
         this.headerController.mountComponent();
-        this.genreController.mountComponent({ id: genreId.toString() });
+        this.genreController.mountComponent({
+            id: genreId.toString(),
+            forGenre: true,
+        });
+
+        // states
+        this.headerView.changeActiveHeaderListItem('#');
+    };
+
+    private handleRedirectToSelections(data: any): void {
+        EventDispatcher.emit('unmount-all');
+
+        if (!data || !data[0]) {
+            router.showUnknownPage();
+            return;
+        }
+
+        const genreId = data[0];
+
+        // mount
+        this.headerController.mountComponent();
+        this.genreController.mountComponent({
+            id: genreId.toString(),
+            forSelections: true,
+        });
 
         // states
         this.headerView.changeActiveHeaderListItem('#');

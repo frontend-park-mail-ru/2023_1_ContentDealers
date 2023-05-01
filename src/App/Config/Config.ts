@@ -249,6 +249,17 @@ const config: IConfig = {
                 failure: failureDefaultStatuses,
             },
         },
+        selectionsById: {
+            url: '/selections/{:id}',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Данные успешно получены',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
     }
 };
 

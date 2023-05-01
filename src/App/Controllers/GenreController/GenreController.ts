@@ -4,16 +4,18 @@ import GenreView from '../../Views/GenreView/GenreView';
 import GenreModel from '../../Models/GenreModel/GenreModel';
 
 import router from '../../Router/Router';
-import IContentSearch from '../../Interfaces/ContentSearch/IContentSearch';
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
+import IGrid from '../../Interfaces/Grid/IGrid';
 
 interface IId {
-    id: number;
+    id:               number,
+    forGenre?:        boolean,
+    forSelections?:   boolean,
 }
 
 class GenreController extends IController<GenreView, GenreModel>{
-    private content: IContentSearch[];
-    private genreId: number | null;
+    private data:  IGrid;
+    private id:    number | null;
 
     constructor(view: GenreView, model: GenreModel) {
         super(view, model);
@@ -30,18 +32,29 @@ class GenreController extends IController<GenreView, GenreModel>{
 
         if (!this.isMounted) {
             if (opts?.id) {
-                this.genreId = opts.id;
+                this.id = opts.id;
 
-                this.model.getGenreContent(this.genreId)
-                    .then((data) => {
-                        this.content = data;
-                        this.view.fillContent(this.content);
-                        super.mountComponent();
-                    })
-                    .catch((error) => {
-                        router.showUnknownPage();
-                        return;
-                    });
+                if (opts.forGenre) {
+                    await this.model.getGenreContent(this.id)
+                        .then((data) => {
+                            this.data = data;
+                        })
+                        .catch((error) => {
+                            router.showUnknownPage();
+                            return;
+                        });
+                } else {
+                    await this.model.getSelectionsContent(this.id)
+                        .then((data) => {
+                            this.data = data;
+                        })
+                        .catch((error) => {
+                            router.showUnknownPage();
+                            return;
+                        })
+                }
+                this.view.fillContent(this.data);
+                super.mountComponent();
             }
         }
     };
@@ -49,8 +62,8 @@ class GenreController extends IController<GenreView, GenreModel>{
     public unmountComponent() {
         if (this.isMounted) {
             super.unmountComponent();
-            this.content = [];
-            this.genreId = null;
+            this.data.content = [];
+            this.id = null;
             this.view.emptyContent();
         }
     };

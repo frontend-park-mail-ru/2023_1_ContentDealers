@@ -4,11 +4,12 @@ import IFilm from '../../Interfaces/Film/IFilm';
 import IContent from '../../Interfaces/Content/IContent';
 import IPerson from '../../Interfaces/Person/IPerson';
 import IRole from '../../Interfaces/Role/IRole';
+import IGenre from '../../Interfaces/Genre/IGenre';
 
 import Ajax from '../../Ajax/Ajax';
 
 import { config } from '../../Config/Config';
-import IFavoritesAddDelete from '../../Interfaces/IFavoritesAddDelete/IFavoritesAddDelete';
+import IFavoritesAddDelete from '../../Interfaces/FavoritesAddDelete/IFavoritesAddDelete';
 
 class FilmModel extends IModel {
     constructor() {
@@ -37,6 +38,7 @@ class FilmModel extends IModel {
             trailerURL:     content.trailer_url,
             previewURL:     content.preview_url,
             type:           content.type,
+            genres:         this.parseGenresForFilm(content.genres),
         };
     };
 
@@ -51,6 +53,19 @@ class FilmModel extends IModel {
           id:   personWithRole.person.id,
           name: personWithRole.person.name,
           role: personWithRole.role.title,
+        };
+    };
+
+    private parseGenresForFilm(genres: any): IGenre[] {
+        return genres.map((genre: any) => {
+            return this.parseGenreForFilm(genre);
+        });
+    };
+
+    private parseGenreForFilm(genre: any): IGenre {
+        return {
+            id: genre.id,
+            name: genre.name,
         };
     };
 

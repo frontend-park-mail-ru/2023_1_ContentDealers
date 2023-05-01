@@ -18,6 +18,7 @@ import LinkComponent from "../../Components/LinkComponent/LinkComponent";
 class FilmView extends IView {
     public playerView: PlayerView | null;
 
+    private buttonsContainer: HTMLElement;
     private subscribeButton:  ButtonComponent;
     private trailerButton:    ButtonComponent;
     private filmButton:       ButtonComponent;
@@ -38,25 +39,34 @@ class FilmView extends IView {
         super.hide();
     }
 
-    public fillFilm(data: IFilm, status: boolean): void {
+    public fillFilm(data: IFilm): void {
         this.element.innerHTML = FilmTemplate(data);
+        this.buttonsContainer = <HTMLElement>this.element.querySelector('.film-content__buttons');
 
-        this.renderButtons(status);
+        this.renderButtons();
     };
 
-    private renderButtons(status: boolean): void {
-        const buttonsContainer = <HTMLElement>this.element.querySelector('.film-content__buttons');
-
-        this.subscribeButton = new FilmData.subscribeButton.componentType(buttonsContainer, FilmData.subscribeButton.componentData);
+    private renderButtons(): void {
+        this.subscribeButton = new FilmData.subscribeButton.componentType(this.buttonsContainer, FilmData.subscribeButton.componentData);
         this.subscribeButton.show();
 
-        this.trailerButton = new FilmData.trailerButton.componentType(buttonsContainer, FilmData.trailerButton.componentData);
+        this.trailerButton = new FilmData.trailerButton.componentType(this.buttonsContainer, FilmData.trailerButton.componentData);
         this.trailerButton.show();
+    };
 
-        this.filmButton = new FilmData.filmButton.componentType(buttonsContainer, FilmData.filmButton.componentData);
+    public toggleBookmark(): void {
+        this.isInFavorites = !this.isInFavorites;
+        this.favoritesIcon.src = (this.isInFavorites ? '/img/icons/bookmark-added.svg' : '/img/icons/bookmark-regular.svg');
+
+    };
+
+    public renderWatchButton(): void {
+        this.filmButton = new FilmData.filmButton.componentType(this.buttonsContainer, FilmData.filmButton.componentData);
         this.filmButton.show();
+    };
 
-        this.favoritesLink = new FilmData.favoritesLink.componentType(buttonsContainer, FilmData.favoritesLink.componentData);
+    public renderFavoritesButton(status: boolean): void {
+        this.favoritesLink = new FilmData.favoritesLink.componentType(this.buttonsContainer, FilmData.favoritesLink.componentData);
         this.favoritesLink.show();
 
         this.isInFavorites = false;
@@ -65,12 +75,6 @@ class FilmView extends IView {
         if (status) {
             this.toggleBookmark();
         }
-    };
-
-    public toggleBookmark(): void {
-        this.isInFavorites = !this.isInFavorites;
-        this.favoritesIcon.src = (this.isInFavorites ? '/img/icons/bookmark-added.svg' : '/img/icons/bookmark-regular.svg');
-
     };
 
     public isDelete(): boolean {

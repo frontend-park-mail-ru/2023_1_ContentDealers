@@ -49,18 +49,12 @@ class FilmController extends IController<FilmView, FilmModel> {
             if (opts?.id) {
                 this.filmId = opts.id;
 
-                this.model.getFilm(this.filmId)
+                await this.model.getFilm(this.filmId)
                     .then((data) => {
                         this.trailerSrc = data.content?.trailerURL || null;
                         this.filmSrc = data.contentURL || null;
-
-                        this.model.getFavoritesStatus(String(this.filmId))
-                            .then((status) => {
-                                this.view.fillFilm(data, status);
-                                super.mountComponent();
-                            })
-                            .catch((error) => {
-                            });
+                        this.view.fillFilm(data);
+                        super.mountComponent();
                     })
                     .catch((error) => {
                         router.showUnknownPage();
@@ -68,6 +62,15 @@ class FilmController extends IController<FilmView, FilmModel> {
                     });
             }
         }
+    };
+
+    public addFavoritesButton() {
+        this.model.getFavoritesStatus(String(this.filmId))
+            .then((status) => {
+                this.view.renderFavoritesButton(status);
+            })
+            .catch((error) => {
+            });
     };
 
     public unmountComponent(): void {

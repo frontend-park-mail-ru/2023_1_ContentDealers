@@ -253,12 +253,20 @@ class App {
     private handleRedirectToMyMovie(): void {
         EventDispatcher.emit('unmount-all');
 
-        // mount
-        this.headerController.mountComponent();
-        this.favoritesController.mountComponent();
+        this.userModel.authUserByCookie()
+            .then(() => {
+                // mount
+                this.headerController.mountComponent();
+                this.favoritesController.mountComponent();
 
-        // states
-        this.headerView.changeActiveHeaderListItem('/my-movie');
+                // states
+                this.headerView.changeActiveHeaderListItem('/my-movie');
+            })
+            .catch(() => {
+                router.goToPath(paths.signIn);
+            });
+
+
     };
 
     private handleRedirectToSettings(): void {
@@ -282,7 +290,7 @@ class App {
             });
     };
 
-    private handleRedirectToFilm(data: any): void {
+    private async handleRedirectToFilm(data: any) {
         EventDispatcher.emit('unmount-all');
 
         if (!data || !data[0]) {
@@ -296,10 +304,16 @@ class App {
         this.headerController.mountComponent();
 
         EventDispatcher.emit('new-player');
-        this.filmController.mountComponent({ id: filmId.toString() });
+        await this.filmController.mountComponent({ id: filmId.toString() });
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
+
+        this.userModel.authUserByCookie()
+            .then(() => {
+                this.filmView.renderWatchButton();
+                this.filmController.addFavoritesButton();
+            });
     };
 
     private handleRedirectToPerson(data: any): void {

@@ -10,6 +10,8 @@ import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 import router from '../../Router/Router';
 
+import type IFavoritesAddDelete from '../../Interfaces/FavoritesAddDelete/IFavoritesAddDelete';
+
 interface IId {
     id: number;
     type: string;
@@ -106,6 +108,15 @@ class FilmController extends IController<FilmView, FilmModel> {
         }
     };
 
+    public addFavoritesButton() {
+        this.model.getFavoritesStatus(String(this.filmId))
+            .then((status) => {
+                this.view.renderFavoritesButton(status);
+            })
+            .catch((error) => {
+            });
+    };
+
     public unmountComponent(): void {
         if (this.isMounted) {
             super.unmountComponent();
@@ -159,6 +170,27 @@ class FilmController extends IController<FilmView, FilmModel> {
                     return;
                 }
 
+                case 'addToFavorites': {
+                    const addDeleteFavorites: IFavoritesAddDelete = {
+                        content_id: Number(this.filmId),
+                    };
+
+                    if (this.view.isDelete()) {
+                        this.model.deleteFromFavorites(addDeleteFavorites)
+                            .then((status) =>{
+                                this.view.toggleBookmark();
+                                console.log('УСПЕШНО УДАЛЕНО');
+                            });
+                    } else {
+                        this.model.addToFavorites(addDeleteFavorites)
+                            .then((status) => {
+                                this.view.toggleBookmark();
+                                console.log('УСПЕШНО ДОБАВЛЕНО');
+                            });
+                    }
+
+                    return;
+                }
                 default:
                     break;
             }
@@ -178,7 +210,6 @@ class FilmController extends IController<FilmView, FilmModel> {
 
             const actionId = action as unknown as number;
             if (actionId) {
-                console.log('In if')
                 this.view.seasonComponent.changeActiveItem(actionId);
                 this.view.seasonComponent.renderCarousel({ episodes: this.model.getEpisodes(actionId) });
                 return;

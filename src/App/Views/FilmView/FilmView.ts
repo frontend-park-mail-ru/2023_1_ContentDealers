@@ -3,15 +3,17 @@ import type IFilm from '../../Interfaces/Film/IFilm';
 import type ISeries from '../../Interfaces/Series/ISeries';
 
 import FilmTemplate from './FilmView.hbs';
-import FilmData from "./FilmViewConfig";
+import FilmData from './FilmViewConfig';
 import './FilmView.css';
-
-import PlayerView from "../PlayerView/PlayerView";
 
 import type ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
 
 import SeasonComponent from '../../Components/SeasonComponent/SeasonComponent';
 import type SeasonsComponentData from '../../Components/SeasonComponent/SeasonsComponentData';
+
+import LinkComponent from '../../Components/LinkComponent/LinkComponent';
+
+import PlayerView from '../PlayerView/PlayerView';
 
 /**
  * Отображение фильма приложения
@@ -22,9 +24,13 @@ import type SeasonsComponentData from '../../Components/SeasonComponent/SeasonsC
 class FilmView extends IView {
     public playerView: PlayerView | null;
 
-    private subscribeButton: ButtonComponent;
-    private trailerButton: ButtonComponent;
-    private filmButton: ButtonComponent;
+    private buttonsContainer: HTMLElement;
+    private subscribeButton:  ButtonComponent;
+    private trailerButton:    ButtonComponent;
+    private filmButton:       ButtonComponent;
+    private favoritesLink:    LinkComponent;
+    private favoritesIcon:    HTMLImageElement;
+    private isInFavorites:    boolean;
 
     private seasons: HTMLElement;
     public seasonComponent: SeasonComponent;
@@ -42,10 +48,10 @@ class FilmView extends IView {
         super.hide();
     }
 
+
     public fillFilm(data: IFilm | ISeries): void {
         this.parent.innerHTML = FilmTemplate(data);
         this.element = <HTMLElement>this.parent.firstElementChild;
-
 
         this.seasons = <HTMLElement>this.element.querySelector('.js-seasons');
 
@@ -58,17 +64,39 @@ class FilmView extends IView {
     };
 
     private renderButtons(): void {
-        const buttonsContainer = <HTMLElement>this.element.querySelector('.film-content__buttons');
-
-        this.subscribeButton = new FilmData.subscribeButton.componentType(buttonsContainer, FilmData.subscribeButton.componentData);
+        this.subscribeButton = new FilmData.subscribeButton.componentType(this.buttonsContainer, FilmData.subscribeButton.componentData);
         this.subscribeButton.show();
         this.subscribeButton.button.setAttribute('disabled', 'true'); // TODO: return
 
-        this.trailerButton = new FilmData.trailerButton.componentType(buttonsContainer, FilmData.trailerButton.componentData);
+        this.trailerButton = new FilmData.trailerButton.componentType(this.buttonsContainer, FilmData.trailerButton.componentData);
         this.trailerButton.show();
+    };
 
-        this.filmButton = new FilmData.filmButton.componentType(buttonsContainer, FilmData.filmButton.componentData);
+    public toggleBookmark(): void {
+        this.isInFavorites = !this.isInFavorites;
+        this.favoritesIcon.src = (this.isInFavorites ? '/img/icons/bookmark-added.svg' : '/img/icons/bookmark-regular.svg');
+
+    };
+
+    public renderWatchButton(): void {
+        this.filmButton = new FilmData.filmButton.componentType(this.buttonsContainer, FilmData.filmButton.componentData);
         this.filmButton.show();
+    };
+
+    public renderFavoritesButton(status: boolean): void {
+        this.favoritesLink = new FilmData.favoritesLink.componentType(this.buttonsContainer, FilmData.favoritesLink.componentData);
+        this.favoritesLink.show();
+
+        this.isInFavorites = false;
+        this.favoritesIcon = <HTMLImageElement>this.favoritesLink.querySelector('img');
+
+        if (status) {
+            this.toggleBookmark();
+        }
+    };
+
+    public isDelete(): boolean {
+        return this.isInFavorites;
     };
 
     public bindClickEvent(listener: any): void {

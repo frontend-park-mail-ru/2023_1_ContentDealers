@@ -6,10 +6,13 @@ import type IPerson from '../../Interfaces/Person/IPerson';
 import type IRole from '../../Interfaces/Role/IRole';
 import type IEpisode from '../../Interfaces/Episode/IEpisode';
 import type ISeries from '../../Interfaces/Series/ISeries';
+import type IGenre from '../../Interfaces/Genre/IGenre';
 
 import Ajax from '../../Ajax/Ajax';
 
 import { config } from '../../Config/Config';
+
+import type IFavoritesAddDelete from '../../Interfaces/FavoritesAddDelete/IFavoritesAddDelete';
 
 class FilmModel extends IModel {
     private title: string | undefined;
@@ -67,7 +70,9 @@ class FilmModel extends IModel {
             ageLimit:       content.age_limit,
             trailerURL:     content.trailer_url,
             previewURL:     content.preview_url,
-            type:           this.parseContentType(content.type),
+
+            type:           content.type,
+            genres:         this.parseGenresForFilm(content.genres),
         };
     };
 
@@ -89,15 +94,28 @@ class FilmModel extends IModel {
         };
     };
 
+    private parseGenresForFilm(genres: any): IGenre[] {
+        return genres.map((genre: any) => {
+            return this.parseGenreForFilm(genre);
+        });
+    };
+
+    private parseGenreForFilm(genre: any): IGenre {
+        return {
+            id: genre.id,
+            name: genre.name,
+        };
+    };
+
     private getFilmActors(persons: IPerson[]): IPerson[] {
         const actorRole: IRole = { id: 0, title: 'ACTOR' };
         return persons.filter(person => person.role === actorRole.title);
-    }
+    };
 
     private getFilmDirectors(persons: IPerson[]): IPerson[] {
         const directorRole: IRole = { id: 0, title: 'DIRECTOR' };
         return persons.filter(person => person.role === directorRole.title);
-    }
+    };
 
     public async getFilm(id: number) {
         let conf = Object.assign({}, config.api.film);
@@ -116,6 +134,17 @@ class FilmModel extends IModel {
         }
 
         return Promise.resolve(filmData);
+    };
+
+    public async getFavoritesStatus(filmId: string) {
+        let conf = Object.assign({}, config.api.favoritesContentHas);
+
+        conf.url = conf.url.replace('{:id}', filmId);
+
+        const response = await Ajax.ajax(conf);
+        await Ajax.checkResponseStatus(response, conf);
+
+        return Promise.resolve(response.responseBody.body.has);
     };
 
     public async getSeries(id: number) {
@@ -149,6 +178,24 @@ class FilmModel extends IModel {
 
     public getFilmTitle(): string {
         return <string>this.title;
+    };
+
+    public async deleteFromFavorites(data: IFavoritesAddDelete) {
+        let conf = Object.assign({}, config.api.favoritesContentDelete);
+
+        const response = await Ajax.ajax(conf, JSON.stringify(data));
+        await Ajax.checkResponseStatus(response, conf);
+
+        return Promise.resolve(response.status);
+    };
+
+    public async addToFavorites(data: IFavoritesAddDelete) {
+        let conf = Object.assign({}, config.api.favoritesContentAdd);
+
+        const response = await Ajax.ajax(conf, JSON.stringify(data));
+        await Ajax.checkResponseStatus(response, conf);
+
+        return Promise.resolve(response.status);
     };
 }
 

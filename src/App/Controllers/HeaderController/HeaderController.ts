@@ -30,7 +30,8 @@ class HeaderController extends IController<HeaderView, IModel> {
         super(view, IModel);
 
         this.view.bindClickEvent(this.handleClick.bind(this));
-        this.view.bindInputEvent(this.handleKeyPress.bind(this));
+        this.view.bindInputEvent(this.handleInput.bind(this));
+        // this.view.bindKeyPressEvent(this.handleKeyPress.bind(this));
         this.timeout = 150;
         this.previousCall = null;
         this.lastCall = null;
@@ -54,6 +55,17 @@ class HeaderController extends IController<HeaderView, IModel> {
             this.view.toggleMiddle(this.isSearch);
             this.isSearch = false;
         });
+    };
+
+    private closeSearch(): void {
+        if (!this.isSearch) {
+            this.searchController.mountComponent();
+        } else {
+            this.searchController.unmountComponent();
+        }
+        this.view.toggleMiddle(this.isSearch);
+
+        this.isSearch = !this.isSearch;
     };
 
     /**
@@ -80,14 +92,7 @@ class HeaderController extends IController<HeaderView, IModel> {
                 }
 
                 case 'search': {
-                    if (!this.isSearch) {
-                        this.searchController.mountComponent();
-                    } else {
-                        this.searchController.unmountComponent();
-                    }
-                    this.view.toggleMiddle(this.isSearch);
-
-                    this.isSearch = !this.isSearch;
+                    this.closeSearch();
 
                     break;
                 }
@@ -110,7 +115,7 @@ class HeaderController extends IController<HeaderView, IModel> {
      * @param  {Event} e
      * @returns {void}
      */
-    private handleKeyPress(e: Event): void {
+    private handleInput(e: Event): void {
         this.previousCall = this.lastCall;
 
         this.lastCall = Date.now();
@@ -119,11 +124,24 @@ class HeaderController extends IController<HeaderView, IModel> {
             clearTimeout(this.lastCallTimer);
         }
 
-        this.lastCallTimer = (setTimeout(() => {
-            this.searchController.getSearchResult(this.view.getInputValue().split(' ').join('+'));
-            this.searchController.unRenderItems();
-            this.searchController.renderItems();
-        }, this.timeout) as unknown) as number;
+        this.lastCallTimer = setTimeout(() => {
+            this.searchController.getSearchResult(this.view.getInputValue().split(' ').join('+'))
+                .then(() => {
+                    if ((e.target as HTMLInputElement).value !== '') {
+                        this.searchController.setTitle('Результаты поиска');
+                    } else {
+                        this.searchController.setTitle('Часто ищут');
+                    }
+                    this.searchController.unRenderItems();
+                    this.searchController.renderItems();
+                });
+        }, this.timeout);
+    };
+
+    private handleKeyPress(e: KeyboardEvent): void {
+        if (e.key === 'Escape') {
+            this.closeSearch();
+        }
     };
 }
 

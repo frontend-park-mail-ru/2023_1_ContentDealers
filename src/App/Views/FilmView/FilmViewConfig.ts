@@ -3,11 +3,15 @@ import type IComponentDataWithType from '../../Interfaces/interfaces';
 import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
 import type ButtonComponentData from '../../Components/ButtonComponent/ButtonComponentData';
 
+import LinkComponent from '../../Components/LinkComponent/LinkComponent';
+import type LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
+
 
 interface IFilmData {
     trailerButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
     subscribeButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
     filmButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
+    favoritesLink: IComponentDataWithType<LinkComponent, LinkComponentData>
 }
 
 const FilmData: IFilmData = {
@@ -40,6 +44,15 @@ const FilmData: IFilmData = {
             },
             componentType: ButtonComponent,
         },
+    favoritesLink:
+        {
+            componentData: {
+                linkClass: 'favorites',
+                dataAction: 'addToFavorites',
+                linkImageSrc: '/img/icons/bookmark-regular.svg',
+            },
+            componentType: LinkComponent,
+        }
 };
 
 export default FilmData;

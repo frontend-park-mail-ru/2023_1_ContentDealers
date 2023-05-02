@@ -31,9 +31,7 @@ class MainView extends IView {
     };
 
     public bindClickEvent(listener: any): void {
-        this.element.querySelectorAll('img.category__container__item-image').forEach((element) => {
-            element.addEventListener('click', listener.bind(this));
-        });
+        this.element.addEventListener('click', listener);
     };
 }
 

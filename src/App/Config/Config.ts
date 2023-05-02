@@ -205,6 +205,72 @@ const config: IConfig = {
                 failure: failureDefaultStatuses,
             },
         },
+        favoritesContent: {
+            url: '/favorites/content?order={order}',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Данные успешно получены',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        favoritesContentHas: {
+            url: '/favorites/content/{:id}/has',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Данные успешно получены',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        favoritesContentAdd: {
+            url: '/favorites/content/add',
+            method: REQUEST_METHODS.POST,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Добавлено в избранное',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        favoritesContentDelete: {
+            url: '/favorites/content/delete',
+            method: REQUEST_METHODS.POST,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Удалено из избранного',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        genres: {
+            url: '/genres/{:id}',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Данные успешно получены',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        selectionsById: {
+            url: '/selections/{:id}',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Данные успешно получены',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
     }
 };
 

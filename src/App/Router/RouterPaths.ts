@@ -16,6 +16,9 @@ const paths = {
     persons: '/persons/{:id}',
 
     series: '/series/{:id}',
+
+    genres: '/genres/{:id}',
+    selections: '/selections/{:id}',
 }
 
 export default paths;

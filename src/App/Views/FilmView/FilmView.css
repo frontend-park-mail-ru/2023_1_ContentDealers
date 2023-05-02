@@ -193,7 +193,8 @@
 }
 
 .film-content-authors__director,
-.film-content-authors__actors {
+.film-content-authors__actors,
+.film-content__genres {
     margin-bottom: 8px;
 
     font-size: 18px;
@@ -204,7 +205,8 @@
 }
 
 .film-content-authors-director__text,
-.film-content-authors-actors__text {
+.film-content-authors-actors__text,
+.film-content-genre__text {
     display: inline;
     margin-right: 8px;
 
@@ -213,7 +215,8 @@
 }
 
 .film-content-authors-director__name,
-.film-content-authors-actors__name {
+.film-content-authors-actors__name,
+.film-content-genre__name {
     text-underline-offset: 4px;
     text-decoration-color: rgba(139, 136, 146, 0.32);
     color: inherit;
@@ -222,7 +225,8 @@
 }
 
 .film-content-authors-director__name:hover,
-.film-content-authors-actors__name:hover {
+.film-content-authors-actors__name:hover,
+.film-content-genre__name:hover {
     text-decoration-color: rgba(255, 255, 255, 0.56);
 }
 

@@ -7,6 +7,9 @@
     overflow: hidden;
     transition: color.3s;
     border-radius: 5px;
+}
+
+.search-item_flex {
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: calc(99.9% * 1/3);

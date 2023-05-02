@@ -60,6 +60,10 @@ class SearchController extends IController<SearchView, SearchModel> {
         }
     };
 
+    public setTitle(title: string): void {
+        this.view.setTitle(title);
+    };
+
     private handleClick(e: Event): void {
         e.preventDefault();
         e.stopPropagation();

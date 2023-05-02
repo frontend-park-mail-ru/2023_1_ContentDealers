@@ -4,6 +4,8 @@ import type IFilm from '../../Interfaces/Film/IFilm';
 import type IContent from '../../Interfaces/Content/IContent';
 import type IPerson from '../../Interfaces/Person/IPerson';
 import type IRole from '../../Interfaces/Role/IRole';
+import type IEpisode from '../../Interfaces/Episode/IEpisode';
+import type ISeries from '../../Interfaces/Series/ISeries';
 
 import Ajax from '../../Ajax/Ajax';
 
@@ -11,6 +13,8 @@ import { config } from '../../Config/Config';
 
 class FilmModel extends IModel {
     private title: string | undefined;
+
+    private seriesData: ISeries;
 
     constructor() {
         super();
@@ -22,6 +26,32 @@ class FilmModel extends IModel {
             contentURL: json.content_url,
 
             content:    this.parseContentForFilm(json.content),
+        };
+    };
+
+    private parseSeries(json: any): ISeries {
+        return {
+            id:         json.id,
+
+            content:    this.parseContentForFilm(json.content),
+            episodes:   this.parseEpisodes(json.episodes),
+        };
+    };
+
+    private parseEpisodes(episodes: any): IEpisode[] {
+        return episodes.map((episode: any) => {
+            return this.parseEpisode(episode);
+        });
+    };
+
+    private parseEpisode(episode: any): IEpisode {
+        return {
+            id:             episode.id,
+            contentURL:     episode.content_url,
+            releaseDate:    episode.release_date,
+            episodeNum:     episode.episode_num,
+            seasonNum:      episode.season_num,
+            title:          episode.title,
         };
     };
 
@@ -37,8 +67,12 @@ class FilmModel extends IModel {
             ageLimit:       content.age_limit,
             trailerURL:     content.trailer_url,
             previewURL:     content.preview_url,
-            type:           content.type,
+            type:           this.parseContentType(content.type),
         };
+    };
+
+    private parseContentType(type: string): string {
+        return (type === 'film') ? `${type}s` : type;
     };
 
     private parsePersonsForFilm(personsWithRoles: any): IPerson[] {
@@ -82,6 +116,35 @@ class FilmModel extends IModel {
         }
 
         return Promise.resolve(filmData);
+    };
+
+    public async getSeries(id: number) {
+        let conf = Object.assign({}, config.api.series);
+        conf.url = conf.url.replace('{:id}', id.toString());
+
+        const response = await Ajax.ajax(conf);
+        await Ajax.checkResponseStatus(response, conf);
+
+        this.seriesData = this.parseSeries(response.responseBody.body.series);
+
+        this.title = this.seriesData.content?.title;
+
+        if (this.seriesData.content) {
+            this.seriesData.content.actors = this.getFilmActors(this.seriesData.content.persons || []);
+            this.seriesData.content.directors = this.getFilmDirectors(this.seriesData.content.persons || []);
+        }
+
+        return Promise.resolve(this.seriesData);
+    };
+
+    public getSeasonsCount(): number {
+        return this.seriesData.episodes.reduce((max, { seasonNum }) => {
+            return seasonNum > max ? seasonNum : max;
+        }, Number.NEGATIVE_INFINITY);
+    };
+
+    public getEpisodes(num: number): IEpisode[] {
+        return (this.seriesData.episodes.filter(({ seasonNum }) => seasonNum == num));
     };
 
     public getFilmTitle(): string {

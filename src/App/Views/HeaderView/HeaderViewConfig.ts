@@ -65,26 +65,27 @@ const HeaderData: IHeaderData = {
                         },
                     componentType: LinkComponent
                 },
-                {
-                    componentData:
-                        {
-                            linkHref: '/catalog',
-                            linkClass: 'header-container-action__link',
-                            linkText: 'Каталог',
-                            linkTextClass: 'header-container-action-link__text',
-                        },
-                    componentType: LinkComponent
-                },
-                {
-                    componentData:
-                        {
-                            linkHref: '/store',
-                            linkClass: 'header-container-action__link',
-                            linkText: 'Магазин',
-                            linkTextClass: 'header-container-action-link__text',
-                        },
-                    componentType: LinkComponent
-                },
+                // TODO: return
+                // {
+                //     componentData:
+                //         {
+                //             linkHref: '/catalog',
+                //             linkClass: 'header-container-action__link',
+                //             linkText: 'Каталог',
+                //             linkTextClass: 'header-container-action-link__text',
+                //         },
+                //     componentType: LinkComponent
+                // },
+                // {
+                //     componentData:
+                //         {
+                //             linkHref: '/store',
+                //             linkClass: 'header-container-action__link',
+                //             linkText: 'Магазин',
+                //             linkTextClass: 'header-container-action-link__text',
+                //         },
+                //     componentType: LinkComponent
+                // },
                 {
                     componentData:
                         {

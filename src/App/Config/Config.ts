@@ -125,6 +125,17 @@ const config: IConfig = {
                 failure: failureDefaultStatuses,
             },
         },
+        series: {
+            url: '/series/{:id}',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Данные о сериале успешно получены',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
         selections: {
             url: '/selections',
             method: REQUEST_METHODS.GET,

@@ -35,24 +35,25 @@ const SettingsData: ISettingsData = {
                         },
                     componentType: LinkComponent
                 },
-                {
-                    componentData:
-                        {
-                            linkHref: '/settings/payments',
-                            linkClass: 'settings-left-menu-item__link',
-                            linkText: 'Оплата услуг',
-                        },
-                    componentType: LinkComponent
-                },
-                {
-                    componentData:
-                        {
-                            linkHref: '/settings/subscriptions',
-                            linkClass: 'settings-left-menu-item__link',
-                            linkText: 'Подписки',
-                        },
-                    componentType: LinkComponent
-                },
+                // TODO: return
+                // {
+                //     componentData:
+                //         {
+                //             linkHref: '/settings/payments',
+                //             linkClass: 'settings-left-menu-item__link',
+                //             linkText: 'Оплата услуг',
+                //         },
+                //     componentType: LinkComponent
+                // },
+                // {
+                //     componentData:
+                //         {
+                //             linkHref: '/settings/subscriptions',
+                //             linkClass: 'settings-left-menu-item__link',
+                //             linkText: 'Подписки',
+                //         },
+                //     componentType: LinkComponent
+                // },
                 {
                     componentData:
                         {

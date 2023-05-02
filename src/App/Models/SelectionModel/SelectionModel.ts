@@ -43,8 +43,12 @@ class SelectionModel extends IModel {
             ageLimit:       selectionContent.age_limit,
             trailerURL:     selectionContent.trailer_url,
             previewURL:     selectionContent.preview_url,
-            type:           selectionContent.type,
+            type:           this.parseContentType(selectionContent.type),
         };
+    };
+
+    private parseContentType(type: string): string {
+        return (type === 'film') ? `${type}s` : type;
     };
 
     public async getSelections() {

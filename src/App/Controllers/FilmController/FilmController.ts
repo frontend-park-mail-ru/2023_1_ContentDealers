@@ -12,6 +12,7 @@ import router from '../../Router/Router';
 
 interface IId {
     id: number;
+    type: string;
 }
 
 class FilmController extends IController<FilmView, FilmModel> {
@@ -29,7 +30,7 @@ class FilmController extends IController<FilmView, FilmModel> {
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
-        this.view.bindClickEvent(this.handleClick.bind(this));
+        // this.view.bindClickEvent(this.handleClick.bind(this));
     };
 
     public async mountComponent(opts?: IId) {
@@ -41,18 +42,66 @@ class FilmController extends IController<FilmView, FilmModel> {
             if (opts?.id) {
                 this.filmId = opts.id;
 
-                this.model.getFilm(this.filmId)
-                    .then((data) => {
-                        this.trailerSrc = data.content?.trailerURL || null;
-                        this.filmSrc = data.contentURL || null;
+                switch (opts.type) {
+                    case 'film': {
+                        this.model.getFilm(this.filmId)
+                            .then((data) => {
+                                this.trailerSrc = data.content?.trailerURL || null;
+                                this.filmSrc = data?.contentURL || null;
 
-                        this.view.fillFilm(data);
-                        super.mountComponent();
-                    })
-                    .catch((error) => {
-                        router.showUnknownPage();
+                                this.view.fillFilm(data);
+                                super.mountComponent();
+
+                                this.view.bindClickEvent(this.handleClick.bind(this));
+                            })
+                            .catch((error) => {
+                                router.showUnknownPage();
+                                return;
+                            });
+                        break;
+                    }
+
+                    case 'series': {
+                        this.model.getSeries(this.filmId)
+                            .then((data) => {
+                                this.trailerSrc = data.content?.trailerURL || null;
+
+                                this.view.fillFilm(data);
+
+                                this.view.fillSeasonItems({ count: this.model.getSeasonsCount(), data: { episodes: this.model.getEpisodes(1) } });
+
+                                super.mountComponent();
+
+                                this.view.bindClickEvent(this.handleClick.bind(this));
+                            })
+                            .catch((error) => {
+                                router.showUnknownPage();
+                                return;
+                            });
+                        break;
+                    }
+
+                    default: {
                         return;
-                    });
+                    }
+                }
+
+                // this.model.getFilm(this.filmId, opts.type)
+                //     .then((data) => {
+                //         if (data) {
+                //             console.log('getFilm')
+                //
+                //             this.trailerSrc = data.content?.trailerURL || null;
+                //             this.filmSrc = data?.contentURL || null;
+                //
+                //             this.view.fillFilm(data);
+                //             super.mountComponent();
+                //         }
+                //     })
+                //     .catch((error) => {
+                //         router.showUnknownPage();
+                //         return;
+                //     });
             }
         }
     };
@@ -68,6 +117,7 @@ class FilmController extends IController<FilmView, FilmModel> {
     };
 
     private handleClick(e: Event): void {
+        console.log('handleClick')
         e.preventDefault();
 
         if (this.isMounted) {
@@ -79,6 +129,7 @@ class FilmController extends IController<FilmView, FilmModel> {
             const target = <HTMLElement>e.target;
             const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
 
+            console.log('Hello')
             switch (action) {
                 case 'subscribe': {
                     break;
@@ -87,13 +138,13 @@ class FilmController extends IController<FilmView, FilmModel> {
                 case 'trailer': {
                     if (this.trailerSrc) {
                         this.view.newPlayerView(this.model.getFilmTitle());
-                        this.playerController = new PlayerController(<PlayerView>this.view.playerView, );
+                        this.playerController = new PlayerController(<PlayerView>this.view.playerView);
 
                         this.playerController.mountComponent();
                         this.playerController.setSrc(this.trailerSrc);
                     }
 
-                    break;
+                    return;
                 }
 
                 case 'film': {
@@ -104,10 +155,33 @@ class FilmController extends IController<FilmView, FilmModel> {
                         this.playerController.mountComponent();
                         this.playerController.setSrc(this.filmSrc);
                     }
+
+                    return;
                 }
 
                 default:
                     break;
+            }
+
+            const actionStr = (action as unknown as string);
+            if (actionStr.startsWith('trailers/') && actionStr.endsWith('.mp4')) {
+                this.filmSrc = actionStr;
+
+                this.view.newPlayerView(this.model.getFilmTitle());
+                this.playerController = new PlayerController(<PlayerView>this.view.playerView);
+
+                this.playerController.mountComponent();
+                this.playerController.setSrc(this.filmSrc);
+
+                return;
+            }
+
+            const actionId = action as unknown as number;
+            if (actionId) {
+                console.log('In if')
+                this.view.seasonComponent.changeActiveItem(actionId);
+                this.view.seasonComponent.renderCarousel({ episodes: this.model.getEpisodes(actionId) });
+                return;
             }
 
             return;

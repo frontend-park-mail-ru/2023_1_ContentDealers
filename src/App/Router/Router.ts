@@ -46,7 +46,7 @@ class Router {
 
         const tmpPath: string = '/' + path;
         if (tmpPath !== paths.signIn && tmpPath !== paths.signUp && tmpPath !== paths.settings) {
-            this.nearestNotAuthUrl = path;
+            this.nearestNotAuthUrl = tmpPath;
         }
 
         const foundedPath = this.routes.find(({ rule, handler }) => {

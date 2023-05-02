@@ -110,7 +110,6 @@ class UserModel extends IModel {
 
     public async avatarUpdate(formData: any) {
         const response = await Ajax.ajax(config.api.avatarUpdate, formData);
-        console.log(response)
 
         try {
             await Ajax.checkResponseStatus(response, config.api.avatarUpdate);

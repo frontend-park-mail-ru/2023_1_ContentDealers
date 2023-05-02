@@ -61,6 +61,8 @@ class HeaderView extends IView {
            const component = new componentType(this.items, componentData);
            component.show();
         });
+
+        this.items.querySelector('.subscribe-button')?.setAttribute('disabled', 'true'); // TODO: return
     };
 
     public toggleMiddle(isSearch: boolean): void {

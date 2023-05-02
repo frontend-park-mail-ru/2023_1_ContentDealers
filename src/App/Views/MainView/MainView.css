@@ -78,6 +78,8 @@
     width: 100%;
 
     color: hsla(0,0%,100%,.96);
+
+    margin-top: 10px;
 }
 
 .category__container__items {

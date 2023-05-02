@@ -119,11 +119,11 @@ class HeaderController extends IController<HeaderView, IModel> {
             clearTimeout(this.lastCallTimer);
         }
 
-        this.lastCallTimer = setTimeout(() => {
+        this.lastCallTimer = (setTimeout(() => {
             this.searchController.getSearchResult(this.view.getInputValue().split(' ').join('+'));
             this.searchController.unRenderItems();
             this.searchController.renderItems();
-        }, this.timeout);
+        }, this.timeout) as unknown) as number;
     };
 }
 

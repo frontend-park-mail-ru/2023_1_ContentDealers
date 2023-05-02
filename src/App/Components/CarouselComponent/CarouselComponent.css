@@ -1,0 +1,19 @@
+.mw-100 {
+    border-radius: 20px;
+
+    max-width: 100%;
+}
+
+.season-text {
+    display: grid;
+    gap: 10px;
+}
+
+.season-text__text {
+    padding-left: 14px;
+
+    font-size: 18px;
+    line-height: 22px;
+
+    color: rgba(255,255,255,.78);
+}

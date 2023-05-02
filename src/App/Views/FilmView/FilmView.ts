@@ -1,5 +1,6 @@
 import IView from '../IView/IView';
 import type IFilm from '../../Interfaces/Film/IFilm';
+import type ISeries from '../../Interfaces/Series/ISeries';
 
 import FilmTemplate from './FilmView.hbs';
 import FilmData from "./FilmViewConfig";
@@ -8,6 +9,9 @@ import './FilmView.css';
 import PlayerView from "../PlayerView/PlayerView";
 
 import type ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
+
+import SeasonComponent from '../../Components/SeasonComponent/SeasonComponent';
+import type SeasonsComponentData from '../../Components/SeasonComponent/SeasonsComponentData';
 
 /**
  * Отображение фильма приложения
@@ -22,6 +26,9 @@ class FilmView extends IView {
     private trailerButton: ButtonComponent;
     private filmButton: ButtonComponent;
 
+    private seasons: HTMLElement;
+    public seasonComponent: SeasonComponent;
+
     constructor(parent: HTMLElement) {
         super(parent, FilmTemplate({}));
     };
@@ -35,10 +42,19 @@ class FilmView extends IView {
         super.hide();
     }
 
-    public fillFilm(data: IFilm): void {
-        this.element.innerHTML = FilmTemplate(data);
+    public fillFilm(data: IFilm | ISeries): void {
+        this.parent.innerHTML = FilmTemplate(data);
+        this.element = <HTMLElement>this.parent.firstElementChild;
+
+
+        this.seasons = <HTMLElement>this.element.querySelector('.js-seasons');
 
         this.renderButtons();
+    };
+
+    public fillSeasonItems(data: SeasonsComponentData): void {
+        this.seasonComponent = new SeasonComponent(this.seasons, data);
+        this.seasonComponent.show();
     };
 
     private renderButtons(): void {
@@ -46,6 +62,7 @@ class FilmView extends IView {
 
         this.subscribeButton = new FilmData.subscribeButton.componentType(buttonsContainer, FilmData.subscribeButton.componentData);
         this.subscribeButton.show();
+        this.subscribeButton.button.setAttribute('disabled', 'true'); // TODO: return
 
         this.trailerButton = new FilmData.trailerButton.componentType(buttonsContainer, FilmData.trailerButton.componentData);
         this.trailerButton.show();

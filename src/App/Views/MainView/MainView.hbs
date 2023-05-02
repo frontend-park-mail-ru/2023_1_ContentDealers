@@ -1,39 +1,39 @@
 <main class="categories">
-    {{#each selections}}
-        <article class="category">
+<!--    {{#each selections}}-->
+<!--        <article class="category">-->
 
-            <a class="category__link">
-                <div class="category__block">
-                    <h2 class="category__name">{{ title }}</h2>
-                    <img src="/img/icons/chevron-right.svg" alt="" class="icon-right">
-                </div>
-            </a>
+<!--            <a class="category__link">-->
+<!--                <div class="category__block">-->
+<!--                    <h2 class="category__name">{{ title }}</h2>-->
+<!--                    <img src="/img/icons/chevron-right.svg" alt="" class="icon-right">-->
+<!--                </div>-->
+<!--            </a>-->
 
-            <div class="category__container">
-                <div class="category__container__list">
-                    <ul class="category__container__items">
+<!--            <div class="category__container">-->
+<!--                <div class="category__container__list">-->
+<!--                    <ul class="category__container__items">-->
 
-                        {{#each content}}
-                            <li class="category__container__item">
-                                <a href="/films/{{ id }}" class="category__container__item-link">
-                                    <img src="{{ previewURL }}" alt="" class="category__container__item-image">
-                                </a>
-                            </li>
-                        {{/each}}
+<!--                        {{#each content}}-->
+<!--                            <li class="category__container__item">-->
+<!--                                <a href="/{{ type }}/{{ id }}" class="category__container__item-link">-->
+<!--                                    <img src="{{ previewURL }}" alt="" class="category__container__item-image">-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                        {{/each}}-->
 
-                    </ul>
-                </div>
+<!--                    </ul>-->
+<!--                </div>-->
 
-                <div class="category__container__buttons">
-                    <button class="category__container__button-left">
-                        <img src="/img/icons/chevron-left.svg" alt="" class="icon-left">
-                    </button>
-                    <button class="category__container__button-right">
-                        <img src="/img/icons/chevron-right.svg" alt="" class="icon-right">
-                    </button>
-                </div>
-            </div>
+<!--                <div class="category__container__buttons">-->
+<!--                    <button class="category__container__button-left">-->
+<!--                        <img src="/img/icons/chevron-left.svg" alt="" class="icon-left">-->
+<!--                    </button>-->
+<!--                    <button class="category__container__button-right">-->
+<!--                        <img src="/img/icons/chevron-right.svg" alt="" class="icon-right">-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
 
-        </article>
-    {{/each}}
+<!--        </article>-->
+<!--    {{/each}}-->
 </main>

@@ -167,6 +167,8 @@ class App {
 
             { path: paths.films,    handler: this.handleRedirectToFilm },
             { path: paths.persons,  handler: this.handleRedirectToPerson },
+
+            { path: paths.series,  handler: this.handleRedirectToSeries },
         ];
 
         routes.forEach(({ path, handler }) => {
@@ -260,6 +262,8 @@ class App {
     };
 
     private handleRedirectToFilm(data: any): void {
+        console.log('handleRedirectToFilm')
+
         EventDispatcher.emit('unmount-all');
 
         if (!data || !data[0]) {
@@ -271,7 +275,27 @@ class App {
 
         // mount
         this.headerController.mountComponent();
-        this.filmController.mountComponent({ id: filmId.toString() });
+        this.filmController.mountComponent({ id: filmId.toString(), type: 'film' });
+
+        // states
+        this.headerView.changeActiveHeaderListItem('#');
+    };
+
+    private handleRedirectToSeries(data: any): void {
+        console.log('handleRedirectToSeries')
+
+        EventDispatcher.emit('unmount-all');
+
+        if (!data || !data[0]) {
+            router.showUnknownPage();
+            return;
+        }
+
+        const filmId = data[0];
+
+        // mount
+        this.headerController.mountComponent();
+        this.filmController.mountComponent({ id: filmId.toString(), type: 'series' });
 
         // states
         this.headerView.changeActiveHeaderListItem('#');

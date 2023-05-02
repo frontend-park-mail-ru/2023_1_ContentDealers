@@ -31,7 +31,7 @@ class HeaderController extends IController<HeaderView, IModel> {
 
         this.view.bindClickEvent(this.handleClick.bind(this));
         this.view.bindInputEvent(this.handleInput.bind(this));
-        // this.view.bindKeyPressEvent(this.handleKeyPress.bind(this));
+        this.view.bindKeyPressEvent(this.handleKeyPress.bind(this));
         this.timeout = 150;
         this.previousCall = null;
         this.lastCall = null;

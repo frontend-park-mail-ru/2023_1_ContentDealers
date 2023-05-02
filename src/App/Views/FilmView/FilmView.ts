@@ -54,11 +54,14 @@ class FilmView extends IView {
         this.element = <HTMLElement>this.parent.firstElementChild;
 
         this.seasons = <HTMLElement>this.element.querySelector('.js-seasons');
+        this.buttonsContainer = <HTMLElement>this.element.querySelector('.film-content__buttons');
 
         this.renderButtons();
     };
 
     public fillSeasonItems(data: SeasonsComponentData): void {
+        // this.seasons.innerHTML = '';
+
         this.seasonComponent = new SeasonComponent(this.seasons, data);
         this.seasonComponent.show();
     };

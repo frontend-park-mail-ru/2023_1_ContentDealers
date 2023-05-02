@@ -25,6 +25,8 @@ class MainView extends IView {
     };
 
     public fillSelections(selections: ISelection[]): void {
+        this.element.innerHTML = '';
+
         selections.forEach(({ title, content}) => {
             new SeasonComponent(this.element, { title: title, data: { contents: <IContent[]>content } }).show();
         });

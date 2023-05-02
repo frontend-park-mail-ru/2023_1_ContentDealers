@@ -32,8 +32,6 @@ class CarouselComponent extends IComponent {
 
                         linkImageSrc: previewURL ? previewURL : '/img/notfound/question.jpg',
                         linkImageClass: 'mw-100',
-
-                        linkText: '1',
                     },
                 };
             });

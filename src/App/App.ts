@@ -306,9 +306,15 @@ class App {
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
+
+        this.userModel.authUserByCookie()
+            .then(() => {
+                this.filmView.renderWatchButton();
+                this.filmController.addFavoritesButton();
+            });
     };
 
-    private handleRedirectToSeries(data: any): void {
+    private async handleRedirectToSeries(data: any) {
         console.log('handleRedirectToSeries')
 
         EventDispatcher.emit('unmount-all');

@@ -18,7 +18,6 @@ class SeasonComponent extends IComponent {
     private readonly itemsListContainer: HTMLElement;
 
     private currentItemId: number;
-    // private itemsList: ListComponent<any, any>
 
     private numberListData: ListComponentData<LinkComponent, LinkComponentData> = {
         listClass: 'seasons__list',
@@ -38,10 +37,6 @@ class SeasonComponent extends IComponent {
 
         if (data?.data) {
             this.renderCarousel(data.data);
-        }
-
-        if (data?.count) {
-            // this.bindNumberListClick(this.onNumberListClick.bind(this));
         }
     };
 
@@ -72,22 +67,6 @@ class SeasonComponent extends IComponent {
         this.itemsListContainer.innerHTML = '';
 
         new CarouselComponent(this.itemsListContainer, data).show();
-    };
-
-    private onNumberListClick(e: Event): void {
-          // e.preventDefault();
-          // e.stopPropagation();
-          //
-          // const target = <HTMLElement>e.target;
-          // const id = <number>(target.closest('[data-action]')?.getAttribute('data-action') as unknown);
-          // if (id) {
-          //     this.changeActiveItem(id);
-          //     // this.renderCarousel();
-          // }
-    };
-
-    private bindNumberListClick(listener: any): void {
-        this.numberListContainer.addEventListener('click', listener);
     };
 }
 

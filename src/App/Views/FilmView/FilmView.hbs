@@ -39,6 +39,12 @@
                                 <a href="/persons/{{ id }}" class="film-content-authors-actors__name">{{ name }}</a>{{#unless @last}}, {{/unless}}
                             {{/each}}
                         </div>
+                        <div class="film-content__genres">
+                            <div class="film-content-genre__text">Жанры:</div>
+                            {{#each genres}}
+                                <a href="/genres/{{ id }}" class="film-content-genre__name">{{ name }}</a>{{#unless @last}}, {{/unless}}
+                            {{/each}}
+                        </div>
                     </div>
 
                     <div class="film-content__buttons">
@@ -49,18 +55,5 @@
         {{/with}}
     </article>
 
-<<<<<<< HEAD
-    <div class="d-contents js-seasons">
-=======
-            <div class="film-content__genres">
-                <div class="film-content-genre__text">Жанры:</div>
-                {{#each genres}}
-                    <a href="/genres/{{ id }}" class="film-content-genre__name">{{ name }}</a>{{#unless @last}}, {{/unless}}
-                {{/each}}
-            </div>
-
-            <div class="film-content__buttons">
->>>>>>> origin/v3
-
-    </div>
+    <div class="d-contents js-seasons"></div>
 </div>

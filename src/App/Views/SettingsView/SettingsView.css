@@ -1,0 +1,125 @@
+.settings-container {
+    display: block;
+
+    color: rgba(255,255,255,.78);
+
+    min-height: 650px;
+}
+
+.settings {
+    --grid-sides: 72px;
+    --grid-spacing: 16px;
+    --grid-columns: 20;
+    --grid-card-count: 5;
+    --grid-column-width: calc((100% - var(--grid-spacing)*var(--grid-columns))/var(--grid-columns));
+
+    padding-left: var(--grid-sides);
+    padding-right: var(--grid-sides);
+}
+
+.settings__title {
+    font-family: SansSerif,sans-serif;
+    display: block;
+    margin: 0 0 2px;
+    color: rgba(255,255,255,.96);
+
+    font-size: 36px;
+    line-height: 44px;
+}
+
+.settings__content {
+    display: flex;
+}
+
+.settings__left-menu-container {
+    display: block;
+
+    flex: 0 0 272px;
+    max-width: 272px;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.settings__left-menu {
+    list-style: none;
+}
+
+.settings-left-menu__item {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    padding-top: 4px;
+    padding-bottom: 2px;
+    min-height: 28px;
+    margin-bottom: 18px;
+
+    /*color: rgba(255,255,255,.56);*/
+    filter: brightness(0.8);
+}
+
+.settings-left-menu__item:hover {
+    color: rgba(255,255,255,.96);
+    filter: brightness(1);
+}
+
+.settings-left-menu__item--active {
+    color: rgba(255,255,255,.96);
+    filter: brightness(1);
+}
+
+.settings-left-menu-item__link {
+    font-family: SansSerif,sans-serif;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+
+    font-size: 16px;
+    line-height: 20px;
+
+    display: flex;
+    gap: 6px;
+}
+
+.settings-left-menu__item:after {
+    --menu-item-bullet-size: 10px;
+
+    content: '';
+    position: absolute;
+    background: #8776f9;
+    width: var(--menu-item-bullet-size);
+    height: var(--menu-item-bullet-size);
+    border-radius: 50%;
+    top: 50%;
+    margin-top: calc(var(--menu-item-bullet-size)/-2);
+    opacity: 0;
+
+    left: -30px;
+}
+
+.settings-left-menu__item--active:after {
+    opacity: 1;
+}
+
+.settings__right {
+    flex-grow: 1;
+
+    display: block;
+    margin-bottom: 28px;
+
+    padding: 20px 0;
+}
+
+.settings__form {
+    max-width: 580px;
+    position: relative;
+
+    margin-bottom: 48px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#settings__form {
+    align-items: baseline;
+}

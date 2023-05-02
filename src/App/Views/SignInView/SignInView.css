@@ -1,0 +1,25 @@
+.signIn__title {
+    font-size: 22px;
+    line-height: 28px;
+}
+
+.signIn__description {
+    color: rgba(255,255,255,.78);
+
+    font-size: 16px;
+    line-height: 24px;
+    font-family: SansSerif,sans-serif;
+    margin-bottom: 20px;
+}
+
+.signIn-button {
+    width: 100%;
+}
+
+.link-signUp__text {
+    color: #fff;
+}
+
+.link-signUp__text:hover {
+    color: #4f4e50;
+}

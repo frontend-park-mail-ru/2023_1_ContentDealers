@@ -1,0 +1,11 @@
+<div class="{{ upperClass }}">
+    <button
+        {{#if id}} id="{{ id }}" {{/if}}
+        class=  "{{#if imgSrc}} br-50 {{/if}} gradient-button {{#if colorClass}} {{ colorClass }} {{else}} gradient-button--blue {{/if}} {{ className }} normal-text p-10"
+        {{#if dataAction}} data-action="{{ dataAction}}" {{/if}}>
+
+        <div class="gradient-button__border js-gradient-button__border {{#if imgSrc}} br-50 {{/if}}"></div>
+        {{#if text}}<span class="gradient-button__text">{{ text }}</span>{{/if}}
+        {{#if imgSrc}}<img src="{{ imgSrc }}" width="{{ imgWidth }}" alt="">{{/if}}
+    </button>
+</div>

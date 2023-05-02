@@ -1,0 +1,42 @@
+.root {
+    background-color: #16032b;
+    min-height: 100vh;
+}
+
+.header {
+    position: relative;
+    height: 70px;
+    width: 100%;
+    padding: 0 8%;
+    z-index: 10;
+}
+
+.content {
+    display: grid;
+
+    padding: 48px 0;
+}
+
+.modal {
+    position: fixed;
+    z-index: 1080 !important;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    min-height: 100%;
+    height: 100%;
+}
+
+.modal--right {
+    left: 100%;
+    transition: left 0.2s ease-in-out, backdrop-filter 0.2s;
+}
+
+.modal--right--open {
+    background-color: rgba(0,0,0,.8);
+    backdrop-filter: blur(4px);
+
+    left: 0;
+}

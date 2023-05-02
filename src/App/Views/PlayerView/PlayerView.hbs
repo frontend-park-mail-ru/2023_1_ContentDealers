@@ -1,0 +1,67 @@
+<div id="fullscreen-modal">
+    <div class="fullscreen-modal">
+        <div class="relative-overflow">
+            <div class="relative">
+                <div class="relative current-background">
+                    <div id="video-controls" class="video relative">
+                        <div class="video__storage">
+                            <div class="video__background"></div>
+                            <video id="video-player" autoplay playsinline src="{{ src }}"></video>
+                        </div>
+
+                        <div class="video__title-container js-video__title-container">
+                            <div class="video__title-align js-video__title-align">
+                                <div class="video__title">
+                                    <div class="video-title__text">{{ title }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="video__close-button js-video__close-button"></div>
+                        </div>
+
+                        <div class="js-video__bottom-filter-container">
+                            <div class="video__bottom-filter js-video__bottom-filter"></div>
+                        </div>
+
+                        <div class="js-video__panel-container">
+                            <div class="video__panel js-video__panel">
+                                <div class="video__progress-container"></div>
+
+                                <div class="video__bottom-container">
+                                    <div class="flex-center">
+                                        <div>
+                                            <div class="video__play-button js-video__play-button"></div>
+                                        </div>
+                                        <div>
+                                            <div class="video__duration-time"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex-center">
+                                        <div class="ml-5 mr-24"> <!-- TODO div with title in -->
+                                            <div title="Воспроизводится в HD качестве" class="video__quality">
+                                                <img src="/img/icons/player/hd.svg" alt="Воспроизводится в HD качестве">
+                                            </div>
+                                        </div>
+
+                                        <div class="mr-24">
+                                            <div class="flex-center">
+                                                <div class="video__volume-container"></div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <div class="video__icon js-video__screen-container"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

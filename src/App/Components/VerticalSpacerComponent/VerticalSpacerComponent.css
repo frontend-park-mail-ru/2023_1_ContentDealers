@@ -1,0 +1,22 @@
+.vertical-spacer {
+    margin: 0 25px;
+    width: 1px;
+    opacity: .2;
+    background-color: #f5f4f6;
+}
+
+.vertical-spacer-10 {
+    height: 10px;
+}
+
+.vertical-spacer-20 {
+    height: 20px;
+}
+
+.vertical-spacer-24 {
+    height: 24px;
+}
+
+.vertical-spacer-30 {
+    height: 30px;
+}

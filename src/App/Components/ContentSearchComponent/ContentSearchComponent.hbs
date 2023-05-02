@@ -1,4 +1,4 @@
-<a class="film-item film-item_white search_hover {{#if forSearch}}search-item_flex{{/if}}" href="/films/{{ contentId }}">
+<a class="film-item film-item_white search_hover {{#if forSearch}}search-item_flex{{/if}}" href="/{{#if isSerial}}series{{else}}films{{/if}}/{{ contentId }}">
     <div class="film-item__content">
         <div class="content__picture">
             <img src="{{ src }}" class={{ imgClassName }}>

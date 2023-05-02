@@ -201,16 +201,18 @@ class FilmController extends IController<FilmView, FilmModel> {
             }
 
             const actionStr = (action as unknown as string);
-            if (actionStr.startsWith('trailers/') && actionStr.endsWith('.mp4')) {
-                this.filmSrc = actionStr;
+            if (actionStr !== undefined) {
+                if (actionStr.startsWith('trailers/') && actionStr.endsWith('.mp4')) {
+                    this.filmSrc = actionStr;
 
-                this.view.newPlayerView(this.model.getFilmTitle());
-                this.playerController = new PlayerController(<PlayerView>this.view.playerView);
+                    this.view.newPlayerView(this.model.getFilmTitle());
+                    this.playerController = new PlayerController(<PlayerView>this.view.playerView);
 
-                this.playerController.mountComponent();
-                this.playerController.setSrc(this.filmSrc);
+                    this.playerController.mountComponent();
+                    this.playerController.setSrc(this.filmSrc);
 
-                return;
+                    return;
+                }
             }
 
             const actionId = action as unknown as number;

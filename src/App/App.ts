@@ -302,7 +302,7 @@ class App {
 
         // mount
         this.headerController.mountComponent();
-        this.filmController.mountComponent({ id: filmId.toString(), type: 'film' });
+        await this.filmController.mountComponent({ id: filmId.toString(), type: 'film' });
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
@@ -328,7 +328,7 @@ class App {
 
         // mount
         this.headerController.mountComponent();
-        this.filmController.mountComponent({ id: filmId.toString(), type: 'series' });
+        await this.filmController.mountComponent({ id: filmId.toString(), type: 'series' });
 
         // states
         this.headerView.changeActiveHeaderListItem('#');

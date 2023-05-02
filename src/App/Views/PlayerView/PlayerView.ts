@@ -206,8 +206,8 @@ class PlayerView extends IView {
         this.closeButtonContainer.addEventListener('click', listener);
     };
 
-    public bindViewClick(listener: any): void {
-        this.element.addEventListener('click', listener);
+    public bindVideoClick(listener: any): void {
+        this.element.querySelector('.js-video__storage')?.addEventListener('click', listener);
     };
 
     public bindMouseMoveEvent(listener: any): void {

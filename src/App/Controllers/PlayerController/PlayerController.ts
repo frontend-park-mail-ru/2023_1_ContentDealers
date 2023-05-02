@@ -94,7 +94,7 @@ class PlayerController extends IController<PlayerView, IModel> {
             this.view.video.addEventListener('timeupdate', () => {
                 const currentTime = this.view.video.currentTime;
                 const duration = this.view.video.duration;
-                const buffered = this.view.video.buffered.end(0);
+                const buffered = this.view.video.buffered.end(this.view.video.buffered.length - 1);
 
                 this.view.progressBar.updateLoadProgressBar(buffered / duration * 100)
                 this.view.progressBar.setCurrentValueToBar(currentTime);
@@ -112,21 +112,11 @@ class PlayerController extends IController<PlayerView, IModel> {
             }
         });
 
-        this.view.video.addEventListener('progress', () => {
-            const duration = this.view.video.duration;
-            const buffered = this.view.video.buffered.end(0); // TODO: last
-
-            this.view.progressBar.updateLoadProgressBar(buffered / duration * 100)
-        });
-
-        this.view.bindPlayButtonClick(this.togglePlayButton.bind(this));
-
         this.view.bindCloseButtonClick(this.onCloseButtonClick.bind(this));
 
-        this.view.bindViewClick(this.onViewClick.bind(this));
-
+        this.view.bindVideoClick(this.onVideoClick.bind(this));
+        this.view.bindPlayButtonClick(this.togglePlayButton.bind(this));
         this.view.bindMouseMoveEvent(this.onMouseMove.bind(this));
-
         this.view.bindScreenButtonClick(this.toggleScreenButton.bind(this));
     };
 
@@ -176,8 +166,7 @@ class PlayerController extends IController<PlayerView, IModel> {
         this.unmountComponent();
     };
 
-    private onViewClick(e: Event): void {
-        console.log('click')
+    private onVideoClick(e: Event): void {
         e.preventDefault();
 
         this.onMouseMove(<MouseEvent>e); // TODO: improve??
@@ -201,8 +190,6 @@ class PlayerController extends IController<PlayerView, IModel> {
     };
 
     private onMouseMove(e: MouseEvent): void {
-        console.log('player controller onMouseMove')
-
         if (this.mouseTimeoutId) {
             window.clearTimeout(this.mouseTimeoutId);
         }

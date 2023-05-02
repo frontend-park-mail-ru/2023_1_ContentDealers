@@ -142,6 +142,7 @@ class BarComponent extends IComponent {
     };
 
 
+    // Init functions //
     private initElements(): void {
         this.fullBar = <HTMLElement>this.element.querySelector('.bar__full');
         this.loadBar = <HTMLElement>this.element.querySelector('.bar__load');
@@ -167,6 +168,7 @@ class BarComponent extends IComponent {
     public callUpdateHelperFunction(percentage: number): void {
         this.updateHelperFunction(this.toValue(percentage));
     };
+
 
     // Setter Functions //
     public setCurrentPercentage(value: number): void {
@@ -212,6 +214,9 @@ class BarComponent extends IComponent {
 
     public updateBarDragging(percentage: number): void {
         if (this.isDragging) {
+            this.addActiveToCircle();
+            this.deleteTransition();
+
             const truncPercentage = this.truncatePercentage(percentage);
 
             this.updateBarElements(truncPercentage);
@@ -233,6 +238,7 @@ class BarComponent extends IComponent {
     public updateLoadProgressBar(percentage: number): void {
         this.loadProgressBar.style.width = `${percentage}%`;
     };
+
 
     // Calculate functions //
     private toValue(percentage: number): number {
@@ -308,11 +314,29 @@ class BarComponent extends IComponent {
     };
 
 
+    // Delete / add classes functions //
+    private addTransition(): void {
+        this.currentBar.classList.add('panel-transition--width')
+        this.currentBarCircle.div.classList.add('panel-transition--left');
+    };
+
+    private deleteTransition(): void {
+        this.currentBar.classList.remove('panel-transition--width')
+        this.currentBarCircle.div.classList.remove('panel-transition--left');
+    };
+
+    private addActiveToCircle(): void {
+        this.currentBarCircle.div.classList.add('bar__current-circle--active');
+    };
+
+    private deleteActiveFromCircle(): void {
+        this.currentBarCircle.div.classList.remove('bar__current-circle--active');
+    };
+
+
     // Events //
     private onMouseDown(e: MouseEvent): void {
-        // e.preventDefault();
-        // e.stopPropagation();
-        console.log('onMouseDown');
+        this.addTransition();
 
         this.isDragging = true;
         this.updateBarDragging(this.positionToPercentage(e.clientX)); // Update bar
@@ -321,16 +345,12 @@ class BarComponent extends IComponent {
     };
 
     private onMouseMove(e: MouseEvent): void {
-        // e.preventDefault();
-        // e.stopPropagation();
-
         this.updateBarDragging(this.positionToPercentage(e.clientX));
     };
 
     private onMouseUp(e: MouseEvent): void {
-        // e.preventDefault();
-        // e.stopPropagation();
-        console.log('onMouseUp');
+        this.deleteActiveFromCircle();
+        this.deleteTransition();
 
         this.isDragging = false;
 
@@ -338,31 +358,16 @@ class BarComponent extends IComponent {
     };
 
     private onMouseOver(e: MouseEvent): void {
-        e.preventDefault();
-        e.stopPropagation();
-
         this.showCircle();
     };
 
     private onMouseLeave(e: MouseEvent): void {
-        e.preventDefault();
-        e.stopPropagation();
-
-        console.log('onMouseLeave')
-
         this.hideHelper();
 
         if (!this.isDragging) {
             this.hideCircle();
         }
     };
-
-    private onMouseClick(e: MouseEvent): void {
-        e.stopPropagation();
-    };
-
-    // private on
-
 
     private bindMouseDraggingEvents(): void {
         document.addEventListener('mousemove', this.boundMouseMove);
@@ -384,8 +389,6 @@ class BarComponent extends IComponent {
         this.element.addEventListener('mousedown', this.boundMouseDown);
         this.element.addEventListener('mouseover', this.boundMouseOver);
         this.element.addEventListener('mouseleave', this.boundMouseLeave);
-
-        this.element.addEventListener('click', this.onMouseClick.bind(this));
     };
 
     private unbindEvents(): void {

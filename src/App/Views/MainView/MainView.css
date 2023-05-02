@@ -89,20 +89,21 @@
 
     position: relative;
     list-style: none;
-    width: 100%;
     margin: 0;
     padding: 0;
+
+    width: 20vw;
 }
 
 .category__container__item {
-    width: 262px;
-
-    margin-left: 8%;
+    margin-left: 40vh;
 
     display: inline-block;
     flex-shrink: 0;
     vertical-align: top;
     margin-right: 16px;
+
+    width: 100%;
 }
 
 .category__container__item:not(:first-child) {

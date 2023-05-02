@@ -7,7 +7,7 @@ import Ajax from '../../Ajax/Ajax';
 
 import { config } from '../../Config/Config';
 
-class FavoritesModel extends IModel {
+class GenreModel extends IModel {
     constructor() {
         super();
     };
@@ -47,16 +47,16 @@ class FavoritesModel extends IModel {
     };
 
     public async getGenreContent(id: number) {
-          let conf = Object.assign({}, config.api.genres);
-          conf.url = conf.url.replace('{:id}', id.toString());
+        let conf = Object.assign({}, config.api.genres);
+        conf.url = conf.url.replace('{:id}', id.toString());
 
-          const response = await Ajax.ajax(conf);
-          await Ajax.checkResponseStatus(response, conf);
+        const response = await Ajax.ajax(conf);
+        await Ajax.checkResponseStatus(response, conf);
 
-          const content = this.parseData(response.responseBody.body);
+        const content = this.parseData(response.responseBody.body);
 
-          return Promise.resolve(content);
+        return Promise.resolve(content);
     };
 }
 
-export default FavoritesModel;
+export default GenreModel;

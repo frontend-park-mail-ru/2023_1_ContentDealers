@@ -310,8 +310,8 @@ class BarComponent extends IComponent {
 
     // Events //
     private onMouseDown(e: MouseEvent): void {
-        e.preventDefault();
-        e.stopPropagation();
+        // e.preventDefault();
+        // e.stopPropagation();
         console.log('onMouseDown');
 
         this.isDragging = true;
@@ -321,15 +321,15 @@ class BarComponent extends IComponent {
     };
 
     private onMouseMove(e: MouseEvent): void {
-        e.preventDefault();
-        e.stopPropagation();
+        // e.preventDefault();
+        // e.stopPropagation();
 
         this.updateBarDragging(this.positionToPercentage(e.clientX));
     };
 
     private onMouseUp(e: MouseEvent): void {
-        e.preventDefault();
-        e.stopPropagation();
+        // e.preventDefault();
+        // e.stopPropagation();
         console.log('onMouseUp');
 
         this.isDragging = false;
@@ -357,6 +357,12 @@ class BarComponent extends IComponent {
         }
     };
 
+    private onMouseClick(e: MouseEvent): void {
+        e.stopPropagation();
+    };
+
+    // private on
+
 
     private bindMouseDraggingEvents(): void {
         document.addEventListener('mousemove', this.boundMouseMove);
@@ -378,6 +384,8 @@ class BarComponent extends IComponent {
         this.element.addEventListener('mousedown', this.boundMouseDown);
         this.element.addEventListener('mouseover', this.boundMouseOver);
         this.element.addEventListener('mouseleave', this.boundMouseLeave);
+
+        this.element.addEventListener('click', this.onMouseClick.bind(this));
     };
 
     private unbindEvents(): void {

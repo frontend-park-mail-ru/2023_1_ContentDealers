@@ -37,7 +37,6 @@ class FilmController extends IController<FilmView, FilmModel> {
 
     public async mountComponent(opts?: IId) {
         if (!opts) {
-            console.log('not opts');
             router.showUnknownPage();
         }
 
@@ -58,8 +57,6 @@ class FilmController extends IController<FilmView, FilmModel> {
                                 this.view.bindClickEvent(this.handleClick.bind(this));
                             })
                             .catch((error) => {
-                                console.log('film')
-                                console.log(error)
                                 router.showUnknownPage();
                                 return;
                             });
@@ -80,8 +77,6 @@ class FilmController extends IController<FilmView, FilmModel> {
                                 this.view.bindClickEvent(this.handleClick.bind(this));
                             })
                             .catch((error) => {
-                                console.log('film')
-                                console.log(error)
                                 router.showUnknownPage();
                                 return;
                             });
@@ -133,7 +128,6 @@ class FilmController extends IController<FilmView, FilmModel> {
     };
 
     private handleClick(e: Event): void {
-        console.log('handleClick')
         e.preventDefault();
 
         if (this.isMounted) {
@@ -145,7 +139,6 @@ class FilmController extends IController<FilmView, FilmModel> {
             const target = <HTMLElement>e.target;
             const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
 
-            console.log('Hello')
             switch (action) {
                 case 'subscribe': {
                     break;

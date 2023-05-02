@@ -23,7 +23,6 @@ class GenreController extends IController<GenreView, GenreModel>{
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
         this.view.bindClickEvent(this.handleClick.bind(this));
-        // this.view.bindChangeEvent(this.handleChange.bind(this));
     };
 
     public async mountComponent(opts?: IId) {
@@ -39,6 +38,7 @@ class GenreController extends IController<GenreView, GenreModel>{
                     await this.model.getGenreContent(this.id)
                         .then((data) => {
                             this.data = data;
+                            this.data.title = 'Подборка жанра';
                         })
                         .catch((error) => {
                             router.showUnknownPage();

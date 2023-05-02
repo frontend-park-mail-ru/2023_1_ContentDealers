@@ -43,6 +43,7 @@ class MainController extends IController<MainView, { selections: SelectionModel 
     }
 
     private handleClick(e: Event): void {
+
         e.preventDefault();
         if (this.isMounted) {
             const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');

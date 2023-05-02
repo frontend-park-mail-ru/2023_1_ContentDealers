@@ -67,23 +67,6 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel>{
                 router.goToPath(href);
             }
         }
-
-        // const target = <HTMLElement>e.target;
-        // const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
-        //
-        // switch (action) {
-        //     case 'loadContent': {
-        //         console.log('LOAD CONTENT');
-        //         this.view.fillContent(this.content);
-        //         break;
-        //     }
-        //
-        //     case 'loadActors': {
-        //         console.log('LOAD ACTORS');
-        //         this.view.fillActors(this.actors);
-        //         break;
-        //     }
-        // }
     };
 
     private async handleChange(e: Event) {

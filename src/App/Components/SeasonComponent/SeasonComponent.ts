@@ -26,7 +26,7 @@ class SeasonComponent extends IComponent {
     };
 
     constructor(parent: HTMLElement, data?: SeasonsComponentData) {
-        super(parent, SeasonComponentTemplate({ title: data?.title, count: data?.count }));
+        super(parent, SeasonComponentTemplate({ id: data?.id, title: data?.title, count: data?.count }));
 
         this.numberListContainer = <HTMLElement>this.element.querySelector('.js-number-list');
         this.itemsListContainer = <HTMLElement>this.element.querySelector('.js-items-list');

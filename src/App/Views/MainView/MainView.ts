@@ -22,13 +22,15 @@ class MainView extends IView {
 
         this.carouselView = new CarouselView(this.article);
         this.carouselView.show();
+
+        this.parent.appendChild(this.article);
     };
 
     public fillSelections(selections: ISelection[]): void {
         this.element.innerHTML = '';
 
-        selections.forEach(({ title, content}) => {
-            new SeasonComponent(this.element, { title: title, data: { contents: <IContent[]>content } }).show();
+        selections.forEach(({ id, title, content}) => {
+            new SeasonComponent(this.element, { id: id.toString(), title: title, data: { contents: <IContent[]>content } }).show();
         });
     };
 

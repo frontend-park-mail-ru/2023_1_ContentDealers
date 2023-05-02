@@ -114,7 +114,7 @@ class PlayerController extends IController<PlayerView, IModel> {
 
         this.view.video.addEventListener('progress', () => {
             const duration = this.view.video.duration;
-            const buffered = this.view.video.buffered.end(0);
+            const buffered = this.view.video.buffered.end(0); // TODO: last
 
             this.view.progressBar.updateLoadProgressBar(buffered / duration * 100)
         });
@@ -177,6 +177,7 @@ class PlayerController extends IController<PlayerView, IModel> {
     };
 
     private onViewClick(e: Event): void {
+        console.log('click')
         e.preventDefault();
 
         this.onMouseMove(<MouseEvent>e); // TODO: improve??

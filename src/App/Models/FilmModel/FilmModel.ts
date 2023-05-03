@@ -25,19 +25,19 @@ class FilmModel extends IModel {
 
     private parseFilm(json: any): IFilm {
         return {
-            id:         json.id,
+            id: json.id,
             contentURL: json.content_url,
 
-            content:    this.parseContentForFilm(json.content),
+            content: this.parseContentForFilm(json.content),
         };
     }
 
     private parseSeries(json: any): ISeries {
         return {
-            id:         json.id,
+            id: json.id,
 
-            content:    this.parseContentForFilm(json.content),
-            episodes:   this.parseEpisodes(json.episodes),
+            content: this.parseContentForFilm(json.content),
+            episodes: this.parseEpisodes(json.episodes),
         };
     }
 
@@ -49,35 +49,35 @@ class FilmModel extends IModel {
 
     private parseEpisode(episode: any): IEpisode {
         return {
-            id:             episode.id,
-            contentURL:     episode.content_url,
-            releaseDate:    episode.release_date,
-            episodeNum:     episode.episode_num,
-            seasonNum:      episode.season_num,
-            title:          episode.title,
+            id: episode.id,
+            contentURL: episode.content_url,
+            releaseDate: episode.release_date,
+            episodeNum: episode.episode_num,
+            seasonNum: episode.season_num,
+            title: episode.title,
         };
     }
 
     private parseContentForFilm(content: any): IContent {
         return {
-            id:             content.id,
-            title:          content.title,
-            description:    content.description,
-            rating:         content.rating,
-            year:           content.year,
-            persons:        this.parsePersonsForFilm(content.persons_roles),
-            isFree:         content.is_free,
-            ageLimit:       content.age_limit,
-            trailerURL:     content.trailer_url,
-            previewURL:     content.preview_url,
+            id: content.id,
+            title: content.title,
+            description: content.description,
+            rating: content.rating,
+            year: content.year,
+            persons: this.parsePersonsForFilm(content.persons_roles),
+            isFree: content.is_free,
+            ageLimit: content.age_limit,
+            trailerURL: content.trailer_url,
+            previewURL: content.preview_url,
 
-            type:           content.type,
-            genres:         this.parseGenresForFilm(content.genres),
+            type: content.type,
+            genres: this.parseGenresForFilm(content.genres),
         };
     }
 
     private parseContentType(type: string): string {
-        return (type === 'film') ? `${type}s` : type;
+        return type === 'film' ? `${type}s` : type;
     }
 
     private parsePersonsForFilm(personsWithRoles: any): IPerson[] {
@@ -88,9 +88,9 @@ class FilmModel extends IModel {
 
     private parsePersonForFilm(personWithRole: any): IPerson {
         return {
-          id:   personWithRole.person.id,
-          name: personWithRole.person.name,
-          role: personWithRole.role.title,
+            id: personWithRole.person.id,
+            name: personWithRole.person.name,
+            role: personWithRole.role.title,
         };
     }
 
@@ -129,8 +129,12 @@ class FilmModel extends IModel {
         this.title = filmData.content?.title;
 
         if (filmData.content) {
-            filmData.content.actors = this.getFilmActors(filmData.content.persons || []);
-            filmData.content.directors = this.getFilmDirectors(filmData.content.persons || []);
+            filmData.content.actors = this.getFilmActors(
+                filmData.content.persons || []
+            );
+            filmData.content.directors = this.getFilmDirectors(
+                filmData.content.persons || []
+            );
         }
 
         return Promise.resolve(filmData);
@@ -159,8 +163,12 @@ class FilmModel extends IModel {
         this.title = this.seriesData.content?.title;
 
         if (this.seriesData.content) {
-            this.seriesData.content.actors = this.getFilmActors(this.seriesData.content.persons || []);
-            this.seriesData.content.directors = this.getFilmDirectors(this.seriesData.content.persons || []);
+            this.seriesData.content.actors = this.getFilmActors(
+                this.seriesData.content.persons || []
+            );
+            this.seriesData.content.directors = this.getFilmDirectors(
+                this.seriesData.content.persons || []
+            );
         }
 
         return Promise.resolve(this.seriesData);
@@ -173,14 +181,18 @@ class FilmModel extends IModel {
     }
 
     public getEpisodes(num: number): IEpisode[] {
-        return (this.seriesData.episodes.filter(({ seasonNum }) => seasonNum == num));
+        return this.seriesData.episodes.filter(
+            ({ seasonNum }) => seasonNum == num
+        );
     }
 
     public getFilmTitle(): string {
         return <string>this.title;
     }
 
-    public async deleteFromFavorites(data: IFavoritesAddDelete): Promise<number> {
+    public async deleteFromFavorites(
+        data: IFavoritesAddDelete
+    ): Promise<number> {
         const conf = Object.assign({}, config.api.favoritesContentDelete);
 
         const response = await Ajax.ajax(conf, JSON.stringify(data));

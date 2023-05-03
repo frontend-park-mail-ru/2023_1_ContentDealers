@@ -5,7 +5,7 @@ import type PersonModel from '../../Models/PersonModel/PersonModel';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
-import router from "../../Router/Router";
+import router from '../../Router/Router';
 
 interface IId {
     id: number;
@@ -19,7 +19,10 @@ class PersonController extends IController<PersonView, PersonModel> {
 
         this.personId = null;
 
-        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
+        EventDispatcher.subscribe(
+            'unmount-all',
+            this.unmountComponent.bind(this)
+        );
 
         this.view.bindClickEvent(this.handleClick.bind(this));
     }
@@ -33,12 +36,13 @@ class PersonController extends IController<PersonView, PersonModel> {
             if (opts?.id) {
                 this.personId = opts.id;
 
-                this.model.getPerson(this.personId)
-                    .then((data) => {
+                this.model
+                    .getPerson(this.personId)
+                    .then(data => {
                         this.view.fillPerson(data);
                         super.mountComponent();
                     })
-                    .catch((error) => console.error(error));
+                    .catch(error => console.error(error));
             }
         }
 
@@ -57,7 +61,9 @@ class PersonController extends IController<PersonView, PersonModel> {
         e.preventDefault();
 
         if (this.isMounted) {
-            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
+            const href = (<HTMLElement>e.target)
+                .closest('[href]')
+                ?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 router.goToPath(href);
             }

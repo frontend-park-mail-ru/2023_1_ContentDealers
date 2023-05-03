@@ -14,7 +14,7 @@ class EventDispatcher {
     private events: Map<string, Array<Callback>>;
 
     public constructor() {
-        this.events = new Map;
+        this.events = new Map();
     }
 
     /**
@@ -46,10 +46,9 @@ class EventDispatcher {
 
         this.events.set(
             eventName,
-            callbackList
-                .filter((func) => {
-                    return func !== callback;
-                })
+            callbackList.filter(func => {
+                return func !== callback;
+            })
         );
     }
 

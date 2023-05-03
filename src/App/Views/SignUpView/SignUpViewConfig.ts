@@ -39,17 +39,17 @@ const SignUpData: ISignUpData = {
             button: {
                 id: 'signUp-submit-btn',
                 text: 'Войти',
-                className: 'signUp-button'
+                className: 'signUp-button',
             },
             links: [
                 {
                     id: 'link-signIn',
                     linkHref: '/signIn',
                     linkText: 'Есть аккаунт? Войти',
-                    linkTextClass: 'link-signIn__text'
+                    linkTextClass: 'link-signIn__text',
                 },
             ],
-        }
+        },
     },
 };
 

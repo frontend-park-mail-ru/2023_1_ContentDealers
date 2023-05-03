@@ -1,7 +1,7 @@
-import IModel from "../IModel/IModel";
+import IModel from '../IModel/IModel';
 
 import type IActorSearch from '../../Interfaces/ActorSearch/IActorSearch';
-import type IContentSearch from "../../Interfaces/ContentSearch/IContentSearch";
+import type IContentSearch from '../../Interfaces/ContentSearch/IContentSearch';
 
 import Ajax from '../../Ajax/Ajax';
 
@@ -20,10 +20,10 @@ class FavoritesModel extends IModel {
 
     private parseContentItem(item: any): IContentSearch {
         return {
-            contentId:        item.id,
-            src:              item.preview_url,
-            title:            item.title,
-            isSerial:         item.type == 'series',
+            contentId: item.id,
+            src: item.preview_url,
+            title: item.title,
+            isSerial: item.type == 'series',
         };
     }
 
@@ -35,9 +35,9 @@ class FavoritesModel extends IModel {
 
     private parseActor(actor: any): IActorSearch {
         return {
-            personId:          actor.id,
-            name:              actor.name,
-            description:       actor.birthplace,
+            personId: actor.id,
+            name: actor.name,
+            description: actor.birthplace,
         };
     }
 
@@ -48,7 +48,9 @@ class FavoritesModel extends IModel {
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
 
-        const favoritesContent = this.parseContent(response.responseBody.body.content);
+        const favoritesContent = this.parseContent(
+            response.responseBody.body.content
+        );
 
         return Promise.resolve(favoritesContent);
     }

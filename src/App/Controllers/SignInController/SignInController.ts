@@ -28,7 +28,7 @@ class SignInController extends IController<SignInView, UserModel> {
         const passwordField = this.view.form.findInputComponent('password');
 
         if (!emailField || !passwordField) {
-           throw Error('Fields dont exists');
+            throw Error('Fields dont exists');
         }
 
         return this.view.form.validateEmptyFields([emailField, passwordField]);
@@ -43,8 +43,11 @@ class SignInController extends IController<SignInView, UserModel> {
         if (this.isMounted) {
             this.view.form.bindInputsEvent(this.onInput.bind(this));
 
-            const button = <HTMLElement>(<HTMLElement>e.target).closest('.signIn-button');
-            if (button.classList.contains('button--disabled')) { // TODO: check if disabled
+            const button = <HTMLElement>(
+                (<HTMLElement>e.target).closest('.signIn-button')
+            );
+            if (button.classList.contains('button--disabled')) {
+                // TODO: check if disabled
                 return;
             }
 
@@ -54,15 +57,21 @@ class SignInController extends IController<SignInView, UserModel> {
 
             const userSignIn: IUserSignIn = {
                 email: this.view.form.findInputComponent('email').input.value,
-                password: this.view.form.findInputComponent('password').input.value,
+                password:
+                    this.view.form.findInputComponent('password').input.value,
             };
 
-            this.model.signInUser(userSignIn).then(() => {
-                router.goToPath(paths.main);
-            }).catch((errorMsg) => {
-                this.view.form.findInputComponent('email').showErrorMsg('');
-                this.view.form.findInputComponent('password').showErrorMsg(errorMsg);
-            });
+            this.model
+                .signInUser(userSignIn)
+                .then(() => {
+                    router.goToPath(paths.main);
+                })
+                .catch(errorMsg => {
+                    this.view.form.findInputComponent('email').showErrorMsg('');
+                    this.view.form
+                        .findInputComponent('password')
+                        .showErrorMsg(errorMsg);
+                });
         }
     }
 
@@ -71,7 +80,9 @@ class SignInController extends IController<SignInView, UserModel> {
         e.preventDefault();
         if (this.isMounted) {
             const target = <HTMLElement>e.target;
-            const href = (<HTMLElement>target.closest('[href]')).getAttribute('href') || '';
+            const href =
+                (<HTMLElement>target.closest('[href]')).getAttribute('href') ||
+                '';
 
             this.saveFormDataToStorage();
             router.goToPath(href);

@@ -1,6 +1,6 @@
 import IView from '../IView/IView';
 
-import SignUpTemplate from './SignUpView.hbs'
+import SignUpTemplate from './SignUpView.hbs';
 import SignUpData from './SignUpViewConfig';
 import './SignUpView.css';
 
@@ -10,9 +10,18 @@ class SignUpView extends IView {
     public readonly form: FormComponent;
 
     public constructor(parent: HTMLElement) {
-        super(parent, SignUpTemplate({ title: SignUpData.title, description: SignUpData.description }));
+        super(
+            parent,
+            SignUpTemplate({
+                title: SignUpData.title,
+                description: SignUpData.description,
+            })
+        );
 
-        this.form = new SignUpData.formData.componentType(this.element, SignUpData.formData.componentData);
+        this.form = new SignUpData.formData.componentType(
+            this.element,
+            SignUpData.formData.componentData
+        );
         this.form.show();
     }
 }

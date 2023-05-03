@@ -29,7 +29,6 @@ class ProgressBarComponent extends IComponent {
         this.barComponent.updateLoadProgressBar(percentage);
     }
 
-
     // Setters //
     public setUpdateVideoFunc(func: UpdateFunction): void {
         this.barComponent.setUpdateVideoFunc(func);
@@ -47,7 +46,6 @@ class ProgressBarComponent extends IComponent {
         this.barComponent.setHelperText(this.timeToString(time));
     }
 
-
     // Calculations //
     public timeToString(time: number): string {
         const secInHour = this.secInMin * this.minInHour;
@@ -57,9 +55,13 @@ class ProgressBarComponent extends IComponent {
         const seconds = Math.floor(time % this.secInMin);
 
         if (hours > 0) {
-            return `${hours > 9 ? hours : '0' + hours}:${minutes > 9 ? minutes : '0' + minutes}:${seconds > 9 ? seconds : '0' + seconds}`;
+            return `${hours > 9 ? hours : '0' + hours}:${
+                minutes > 9 ? minutes : '0' + minutes
+            }:${seconds > 9 ? seconds : '0' + seconds}`;
         } else {
-            return `${minutes > 9 ? minutes : '0' + minutes}:${seconds > 9 ? seconds : '0' + seconds}`;
+            return `${minutes > 9 ? minutes : '0' + minutes}:${
+                seconds > 9 ? seconds : '0' + seconds
+            }`;
         }
     }
 }

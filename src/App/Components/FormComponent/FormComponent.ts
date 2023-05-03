@@ -6,11 +6,14 @@ import './FormComponent.css';
 
 import InputComponent from '../InputComponent/InputComponent';
 import ButtonComponent from '../ButtonComponent/ButtonComponent';
-import LinkComponent from "../LinkComponent/LinkComponent";
+import LinkComponent from '../LinkComponent/LinkComponent';
 
-import { validateInput, validatePasswords } from '../../Utils/Validators/Validator';
+import {
+    validateInput,
+    validatePasswords,
+} from '../../Utils/Validators/Validator';
 import type { ValidatorResult } from '../../Utils/Validators/Validator';
-import type inputComponent from "../InputComponent/InputComponent";
+import type inputComponent from '../InputComponent/InputComponent';
 
 class FormComponent extends IComponent {
     public inputs: InputComponent[];
@@ -18,10 +21,20 @@ class FormComponent extends IComponent {
     public links: LinkComponent[];
 
     public constructor(parent: HTMLElement, data?: FormComponentData) {
-        super(parent, FormComponentTemplate({ formId: data?.formId, enctype: data?.enctype }));
+        super(
+            parent,
+            FormComponentTemplate({
+                formId: data?.formId,
+                enctype: data?.enctype,
+            })
+        );
 
-        const formContent = <HTMLElement>this.element.querySelector('.js-form__content');
-        const formFooter = <HTMLElement>this.element.querySelector('.js-form__footer');
+        const formContent = <HTMLElement>(
+            this.element.querySelector('.js-form__content')
+        );
+        const formFooter = <HTMLElement>(
+            this.element.querySelector('.js-form__footer')
+        );
 
         this.inputs = [] as InputComponent[];
         this.links = [] as LinkComponent[];
@@ -45,14 +58,16 @@ class FormComponent extends IComponent {
     }
 
     public validateEmptyFields(fields: InputComponent[]): boolean {
-        return fields.map(field => {
-            if (field.isEmptyData()) {
-                field.showErrorMsg('Пустое поле');
-                return false;
-            }
-            field.hideErrorMsg();
-            return true;
-        }).every(isValid => isValid);
+        return fields
+            .map(field => {
+                if (field.isEmptyData()) {
+                    field.showErrorMsg('Пустое поле');
+                    return false;
+                }
+                field.hideErrorMsg();
+                return true;
+            })
+            .every(isValid => isValid);
     }
 
     public validatePasswordFields(): boolean {
@@ -61,10 +76,12 @@ class FormComponent extends IComponent {
         const passwordField = this.findInputComponent('password');
         const repeatPasswordField = this.findInputComponent('repeat-password');
 
-        if (passwordField) { // If exists password field
+        if (passwordField) {
+            // If exists password field
             const validatedPassword = validateInput(passwordField.getData());
 
-            if (!validatedPassword.isValid) { // If data in password field is incorrect
+            if (!validatedPassword.isValid) {
+                // If data in password field is incorrect
                 passwordField.showErrorMsg(validatedPassword.errorMsg);
                 isValid = false;
             } else {
@@ -72,11 +89,18 @@ class FormComponent extends IComponent {
                 isValid = true;
             }
 
-            if (repeatPasswordField) { // If exists repeat password field
-                const validatedPasswords = validatePasswords(passwordField.input.value, repeatPasswordField.input.value);
+            if (repeatPasswordField) {
+                // If exists repeat password field
+                const validatedPasswords = validatePasswords(
+                    passwordField.input.value,
+                    repeatPasswordField.input.value
+                );
 
-                if (!validatedPasswords.isValid) { // If passwords not match
-                    repeatPasswordField.showErrorMsg(<string>validatedPasswords.passwordErrorMsg);
+                if (!validatedPasswords.isValid) {
+                    // If passwords not match
+                    repeatPasswordField.showErrorMsg(
+                        <string>validatedPasswords.passwordErrorMsg
+                    );
                     isValid = false;
                 } else {
                     repeatPasswordField.hideErrorMsg();
@@ -91,10 +115,15 @@ class FormComponent extends IComponent {
     public validateInputFields(): boolean {
         let isValid = true;
 
-        const inputFields = this.inputs.filter(inputComponent => inputComponent.input.id.toLowerCase().indexOf('password') === -1);
+        const inputFields = this.inputs.filter(
+            inputComponent =>
+                inputComponent.input.id.toLowerCase().indexOf('password') === -1
+        );
         if (inputFields) {
             inputFields.forEach(inputField => {
-                const validatedInput: ValidatorResult = validateInput(inputField.getData());
+                const validatedInput: ValidatorResult = validateInput(
+                    inputField.getData()
+                );
 
                 if (!validatedInput.isValid) {
                     inputField.showErrorMsg(validatedInput.errorMsg);
@@ -118,18 +147,22 @@ class FormComponent extends IComponent {
         return this.validatePasswordFields();
     }
 
-    public setDataToFields(fieldsWithValue: { id: string, value: string }[]): void {
-        fieldsWithValue.forEach(({id, value}) => {
+    public setDataToFields(
+        fieldsWithValue: { id: string; value: string }[]
+    ): void {
+        fieldsWithValue.forEach(({ id, value }) => {
             this.findInputComponent(id).input.value = value;
         });
     }
 
     public findInputComponent(id: string): InputComponent {
-        return <inputComponent>this.inputs.find(inputComponent => inputComponent.input.id === id);
+        return <inputComponent>(
+            this.inputs.find(inputComponent => inputComponent.input.id === id)
+        );
     }
 
     public bindInputsEvent(listener: any): void {
-        this.inputs.forEach((inputComponent) => {
+        this.inputs.forEach(inputComponent => {
             inputComponent.bindInputEvent(listener);
         });
     }
@@ -139,7 +172,7 @@ class FormComponent extends IComponent {
     }
 
     public bindLinksEvent(listener: any): void {
-        this.links.forEach((linkComponent) => {
+        this.links.forEach(linkComponent => {
             linkComponent.bindClickEvent(listener);
         });
     }
@@ -155,7 +188,7 @@ class FormComponent extends IComponent {
     public saveDataToStorage(key: string): void {
         const data: { [key: string]: string } = {};
 
-        this.inputs.forEach((inputComponent) => {
+        this.inputs.forEach(inputComponent => {
             data[inputComponent.input.id] = inputComponent.input.value;
         });
 

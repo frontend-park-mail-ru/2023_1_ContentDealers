@@ -20,7 +20,10 @@ class CarouselView extends IView {
         super(parent, CarouselTemplate({}));
 
         this.div = document.createElement('div');
-        this.items = new CarouselData.items.componentType(this.div, CarouselData.items.componentData);
+        this.items = new CarouselData.items.componentType(
+            this.div,
+            CarouselData.items.componentData
+        );
         this.items.show();
 
         this.items.copyFirstLastItems();
@@ -29,8 +32,12 @@ class CarouselView extends IView {
 
         this.track = <HTMLElement>document.querySelector('.carousel__list');
 
-        this.leftBtn = <HTMLButtonElement>this.element.querySelector('.js-chevron-left');
-        this.rightBtn = <HTMLButtonElement>this.element.querySelector('.js-chevron-right');
+        this.leftBtn = <HTMLButtonElement>(
+            this.element.querySelector('.js-chevron-left')
+        );
+        this.rightBtn = <HTMLButtonElement>(
+            this.element.querySelector('.js-chevron-right')
+        );
     }
 
     public setPosition(position: number): void {

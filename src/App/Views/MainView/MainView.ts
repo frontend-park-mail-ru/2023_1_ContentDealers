@@ -10,7 +10,7 @@ import CarouselView from '../CarouselView/CarouselView';
 
 import SeasonComponent from '../../Components/SeasonComponent/SeasonComponent';
 
-import CarouselComponent from "../../Components/CarouselComponent/CarouselComponent";
+import CarouselComponent from '../../Components/CarouselComponent/CarouselComponent';
 
 class MainView extends IView {
     public carouselView: CarouselView;
@@ -49,8 +49,12 @@ class MainView extends IView {
     public fillSelections(selections: ISelection[]): void {
         this.main.innerHTML = '';
 
-        selections.forEach(({ id, title, content}) => {
-            new SeasonComponent(this.main, { id: id.toString(), title: title, data: { contents: <IContent[]>content } }).show();
+        selections.forEach(({ id, title, content }) => {
+            new SeasonComponent(this.main, {
+                id: id.toString(),
+                title: title,
+                data: { contents: <IContent[]>content },
+            }).show();
         });
     }
 

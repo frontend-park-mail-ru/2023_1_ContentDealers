@@ -1,14 +1,14 @@
-import IController from "../IController/IController";
+import IController from '../IController/IController';
 
 import type IContentSearch from '../../Interfaces/ContentSearch/IContentSearch';
 import type IActorSearch from '../../Interfaces/ActorSearch/IActorSearch';
 
-import type SearchView from "../../Views/SearchView/SearchView";
-import type SearchModel from "../../Models/SearchModel/SearchModel";
+import type SearchView from '../../Views/SearchView/SearchView';
+import type SearchModel from '../../Models/SearchModel/SearchModel';
 
-import router from "../../Router/Router";
+import router from '../../Router/Router';
 
-import EventDispatcher from "../../EventDispatcher/EventDispatcher";
+import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 class SearchController extends IController<SearchView, SearchModel> {
     private content: IContentSearch[];
@@ -23,13 +23,14 @@ class SearchController extends IController<SearchView, SearchModel> {
     }
 
     public async getSearchResult(query: string): Promise<void> {
-        await this.model.getSearchResult(query)
-              .then((data) => {
+        await this.model
+            .getSearchResult(query)
+            .then(data => {
                 this.content = data.content;
                 this.actors = data.actors;
                 this.lastQuery = query;
-              })
-              .catch((error) => console.error(error));
+            })
+            .catch(error => console.error(error));
 
         return;
     }
@@ -72,7 +73,9 @@ class SearchController extends IController<SearchView, SearchModel> {
         e.stopPropagation();
 
         if (this.isMounted) {
-            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
+            const href = (<HTMLElement>e.target)
+                .closest('[href]')
+                ?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 this.unmountComponent();
                 router.goToPath(href);

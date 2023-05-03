@@ -35,7 +35,10 @@ class HeaderController extends IController<HeaderView, IModel> {
         this.timeout = 150;
         this.previousCall = null;
         this.lastCall = null;
-        this.searchController = new SearchController(this.view.searchView, new SearchModel());
+        this.searchController = new SearchController(
+            this.view.searchView,
+            new SearchModel()
+        );
         this.isSearch = false;
 
         // TODO
@@ -77,14 +80,16 @@ class HeaderController extends IController<HeaderView, IModel> {
     private handleClick(e: Event): void {
         e.preventDefault();
         if (this.isMounted) {
-
-            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
+            const href = (<HTMLElement>e.target)
+                .closest('[href]')
+                ?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 router.goToPath(href);
             }
 
             const target = <HTMLElement>e.target;
-            const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
+            const action = (<HTMLElement>target.closest('[data-action]'))
+                ?.dataset['action'];
 
             switch (action) {
                 case 'profile': {
@@ -120,12 +125,16 @@ class HeaderController extends IController<HeaderView, IModel> {
 
         this.lastCall = Date.now();
 
-        if (this.previousCall && this.lastCall - this.previousCall <= this.timeout) {
+        if (
+            this.previousCall &&
+            this.lastCall - this.previousCall <= this.timeout
+        ) {
             clearTimeout(this.lastCallTimer);
         }
 
         this.lastCallTimer = setTimeout(() => {
-            this.searchController.getSearchResult(this.view.getInputValue().split(' ').join('+'))
+            this.searchController
+                .getSearchResult(this.view.getInputValue().split(' ').join('+'))
                 .then(() => {
                     if ((e.target as HTMLInputElement).value !== '') {
                         this.searchController.setTitle('Результаты поиска');

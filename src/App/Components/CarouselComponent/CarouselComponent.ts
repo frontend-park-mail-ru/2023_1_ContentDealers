@@ -8,25 +8,27 @@ import ListComponent from '../ListComponent/ListComponent';
 import LinkComponent from '../LinkComponent/LinkComponent';
 
 class CarouselComponent extends IComponent {
-    private listContainer:              HTMLElement;
-    private position:                   number;
-    private readonly slidesToShow:      number;
-    private readonly slidesToScroll:    number;
-    private readonly container:         HTMLElement | null;
-    private readonly track:             HTMLElement | null;
-    private readonly item:              HTMLElement | null;
-    private readonly btnPrev:           HTMLButtonElement;
-    private readonly btnNext:           HTMLButtonElement;
-    private itemWidth:                  number;
-    private movePosition:               number;
-    private readonly itemsCount:        number;
+    private listContainer: HTMLElement;
+    private position: number;
+    private readonly slidesToShow: number;
+    private readonly slidesToScroll: number;
+    private readonly container: HTMLElement | null;
+    private readonly track: HTMLElement | null;
+    private readonly item: HTMLElement | null;
+    private readonly btnPrev: HTMLButtonElement;
+    private readonly btnNext: HTMLButtonElement;
+    private itemWidth: number;
+    private movePosition: number;
+    private readonly itemsCount: number;
 
     private readonly boundClickEvent = this.onClick.bind(this);
 
     public constructor(parent: HTMLElement, data?: CarouselComponentData) {
         super(parent, CarouselComponentTemplate({}));
 
-        this.listContainer = <HTMLElement>this.element.querySelector('.js-category__container__list');
+        this.listContainer = <HTMLElement>(
+            this.element.querySelector('.js-category__container__list')
+        );
 
         if (data) {
             this.renderList(data);
@@ -37,11 +39,17 @@ class CarouselComponent extends IComponent {
         this.slidesToScroll = 4;
 
         this.container = this.element.querySelector('.js-category__container');
-        this.track = this.element.querySelector('.js-category__container__list');
+        this.track = this.element.querySelector(
+            '.js-category__container__list'
+        );
         this.item = this.element.querySelector('li');
 
-        this.btnPrev = this.element.querySelector('.js-category__container__button-left') as HTMLButtonElement;
-        this.btnNext = this.element.querySelector('.js-category__container__button-right') as HTMLButtonElement;
+        this.btnPrev = this.element.querySelector(
+            '.js-category__container__button-left'
+        ) as HTMLButtonElement;
+        this.btnNext = this.element.querySelector(
+            '.js-category__container__button-right'
+        ) as HTMLButtonElement;
 
         setTimeout(() => {
             console.log(this.item?.offsetWidth);
@@ -78,7 +86,11 @@ class CarouselComponent extends IComponent {
     }
 
     private checkBtns(): void {
-        this.btnNext.style.display = this.position <= -(this.itemsCount - this.slidesToShow) * this.itemWidth ? 'none' : 'block';
+        this.btnNext.style.display =
+            this.position <=
+            -(this.itemsCount - this.slidesToShow) * this.itemWidth
+                ? 'none'
+                : 'block';
         this.btnPrev.style.display = this.position === 0 ? 'none' : 'block';
     }
 
@@ -86,13 +98,15 @@ class CarouselComponent extends IComponent {
         this.listContainer.innerHTML = '';
 
         if (data.contents) {
-            const listItems = data.contents.map(({id, type, previewURL}) => {
+            const listItems = data.contents.map(({ id, type, previewURL }) => {
                 return {
                     componentType: LinkComponent,
                     componentData: {
                         linkHref: type ? `/${type}/${id}` : '',
 
-                        linkImageSrc: previewURL ? previewURL : '/img/notfound/question.jpg',
+                        linkImageSrc: previewURL
+                            ? previewURL
+                            : '/img/notfound/question.jpg',
                         linkImageClass: 'mw-100',
                     },
                 };
@@ -106,22 +120,24 @@ class CarouselComponent extends IComponent {
         }
 
         if (data.episodes) {
-            const listItems = data.episodes.map(({episodeNum, contentURL}, ) => {
-                return {
-                    componentType: LinkComponent,
-                    componentData: {
-                        dataAction: contentURL,
+            const listItems = data.episodes.map(
+                ({ episodeNum, contentURL }) => {
+                    return {
+                        componentType: LinkComponent,
+                        componentData: {
+                            dataAction: contentURL,
 
-                        linkClass: 'season-text',
+                            linkClass: 'season-text',
 
-                        linkImageSrc: '/img/notfound/question.jpg',
-                        linkImageClass: 'mw-100',
+                            linkImageSrc: '/img/notfound/question.jpg',
+                            linkImageClass: 'mw-100',
 
-                        linkText: `${episodeNum} Серия`,
-                        linkTextClass: 'season-text__text',
-                    },
-                };
-            });
+                            linkText: `${episodeNum} Серия`,
+                            linkTextClass: 'season-text__text',
+                        },
+                    };
+                }
+            );
 
             new ListComponent(this.listContainer, {
                 listClass: 'category__container__items',
@@ -131,7 +147,7 @@ class CarouselComponent extends IComponent {
         }
 
         if (data.genres) {
-            const listItems = data.genres.map(({id, name}) => {
+            const listItems = data.genres.map(({ id, name }) => {
                 return {
                     componentType: LinkComponent,
                     componentData: {
@@ -150,17 +166,22 @@ class CarouselComponent extends IComponent {
                 items: listItems,
             }).show();
         }
-
     }
 
     private onClick(e: Event): void {
-        const action = (<HTMLElement>(<HTMLElement>e.target).closest('[data-action]'))?.dataset['action'];
+        const action = (<HTMLElement>(
+            (<HTMLElement>e.target).closest('[data-action]')
+        ))?.dataset['action'];
 
         switch (action) {
             case 'btn-left': {
-                const itemsLeft: number = Math.abs(this.position) / this.itemWidth;
+                const itemsLeft: number =
+                    Math.abs(this.position) / this.itemWidth;
 
-                this.position += itemsLeft >= this.slidesToScroll ? this.movePosition : itemsLeft * this.itemWidth;
+                this.position +=
+                    itemsLeft >= this.slidesToScroll
+                        ? this.movePosition
+                        : itemsLeft * this.itemWidth;
 
                 this.setPosition();
 
@@ -169,9 +190,16 @@ class CarouselComponent extends IComponent {
             }
 
             case 'btn-right': {
-                const itemsRight: number = this.itemsCount - (Math.abs(this.position) + this.slidesToShow * this.itemWidth) / this.itemWidth;
+                const itemsRight: number =
+                    this.itemsCount -
+                    (Math.abs(this.position) +
+                        this.slidesToShow * this.itemWidth) /
+                        this.itemWidth;
 
-                this.position -= itemsRight >= this.slidesToScroll ? this.movePosition : itemsRight * this.itemWidth;
+                this.position -=
+                    itemsRight >= this.slidesToScroll
+                        ? this.movePosition
+                        : itemsRight * this.itemWidth;
 
                 this.setPosition();
 

@@ -22,10 +22,17 @@ class ModalRightView extends IView {
     public constructor(parent: HTMLElement) {
         super(parent, ModalRightTemplate({ title: ModalRightData.title }));
 
-        this.modalBody = <HTMLElement>this.element.querySelector('.js-modal__body');
+        this.modalBody = <HTMLElement>(
+            this.element.querySelector('.js-modal__body')
+        );
 
-        this.backButtonContainer = <HTMLElement>this.element.querySelector('.js-modal__close-btn-container');
-        new ModalRightData.backButton.componentType(this.backButtonContainer, ModalRightData.backButton.componentData).show();
+        this.backButtonContainer = <HTMLElement>(
+            this.element.querySelector('.js-modal__close-btn-container')
+        );
+        new ModalRightData.backButton.componentType(
+            this.backButtonContainer,
+            ModalRightData.backButton.componentData
+        ).show();
 
         this.currentView = null;
     }

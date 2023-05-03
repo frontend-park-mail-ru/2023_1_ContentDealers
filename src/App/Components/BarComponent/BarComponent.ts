@@ -21,11 +21,10 @@ class BarComponent extends IComponent {
      * @private
      * @type {HTMLElement}
      */
-    private fullBar : HTMLElement;
+    private fullBar: HTMLElement;
     private loadBar: HTMLElement;
     private loadProgressBar: HTMLElement;
     private currentBar: HTMLElement;
-
 
     /**
      * Составляющие класса
@@ -36,7 +35,6 @@ class BarComponent extends IComponent {
     protected barHelper: DivComponent;
     protected currentBarCircle: DivComponent;
 
-
     /**
      * Флаг, отвечающий за перетаскивание
      * @member
@@ -44,7 +42,6 @@ class BarComponent extends IComponent {
      * @type {boolean}
      */
     private isDragging: boolean;
-
 
     /**
      * Максимальное и минимальное значения в процентах
@@ -55,7 +52,6 @@ class BarComponent extends IComponent {
     private readonly minPercentageValue: number = 0;
     private readonly maxPercentageValue: number = 100;
 
-
     /**
      * Максимальное и минимальное значения шкалы
      * @member
@@ -65,7 +61,6 @@ class BarComponent extends IComponent {
     private minValue: number;
     private maxValue: number;
 
-
     /**
      * Текущее значение шкалы в процентах
      * @member
@@ -73,7 +68,6 @@ class BarComponent extends IComponent {
      * @type {number}
      */
     private currentPercentage: number;
-
 
     /**
      * Забинженные хендлеры событий
@@ -86,7 +80,6 @@ class BarComponent extends IComponent {
     private readonly boundMouseUp = this.onMouseUp.bind(this);
     private readonly boundMouseOver = this.onMouseOver.bind(this);
     private readonly boundMouseLeave = this.onMouseLeave.bind(this);
-
 
     /**
      * Прокси хендлер, обрабатывающий изменение поля currentPercentage
@@ -103,7 +96,6 @@ class BarComponent extends IComponent {
         },
     };
 
-
     /**
      * Прокси для поля currentPercentage
      * @member
@@ -112,7 +104,6 @@ class BarComponent extends IComponent {
      */
     private currentValueProxy = new Proxy(this, this.currentPercentageHandler);
 
-
     /**
      * Функция, обновляющая видео
      * @member
@@ -120,7 +111,6 @@ class BarComponent extends IComponent {
      * @type {UpdateFunction}
      */
     private updateVideoFunction: UpdateFunction;
-
 
     /**
      * Функция, обновляющая содержимое хелпера
@@ -141,23 +131,33 @@ class BarComponent extends IComponent {
         this.bindEvents();
     }
 
-
     // Init functions //
     private initElements(): void {
         this.fullBar = <HTMLElement>this.element.querySelector('.bar__full');
         this.loadBar = <HTMLElement>this.element.querySelector('.bar__load');
-        this.loadProgressBar = <HTMLElement>this.element.querySelector('.bar-load__progress');
-        this.currentBar = <HTMLElement>this.element.querySelector('.bar__current');
+        this.loadProgressBar = <HTMLElement>(
+            this.element.querySelector('.bar-load__progress')
+        );
+        this.currentBar = <HTMLElement>(
+            this.element.querySelector('.bar__current')
+        );
     }
 
     private initHiddenElements(): void {
-        const barHelperDiv = <HTMLElement>this.element.querySelector('#bar__helper');
-        this.barHelper = new DivComponent(barHelperDiv, { divClass: 'bar__helper' });
+        const barHelperDiv = <HTMLElement>(
+            this.element.querySelector('#bar__helper')
+        );
+        this.barHelper = new DivComponent(barHelperDiv, {
+            divClass: 'bar__helper',
+        });
 
-        const currentBarCircleDiv = <HTMLElement>this.element.querySelector('#bar__current-circle');
-        this.currentBarCircle = new DivComponent(currentBarCircleDiv, { divClass: 'bar__current-circle' });
+        const currentBarCircleDiv = <HTMLElement>(
+            this.element.querySelector('#bar__current-circle')
+        );
+        this.currentBarCircle = new DivComponent(currentBarCircleDiv, {
+            divClass: 'bar__current-circle',
+        });
     }
-
 
     // Call update function //
     public callUpdateVideoFunction(value: number): void {
@@ -168,7 +168,6 @@ class BarComponent extends IComponent {
     public callUpdateHelperFunction(percentage: number): void {
         this.updateHelperFunction(this.toValue(percentage));
     }
-
 
     // Setter Functions //
     public setCurrentPercentage(value: number): void {
@@ -193,16 +192,14 @@ class BarComponent extends IComponent {
         this.barHelper.div.innerText = text;
     }
 
-
     // Getter Functions //
     public getCurrentValue(): number {
         return this.toValue(this.currentPercentage);
     }
 
     public getInterval(): number {
-        return (this.maxValue - this.minValue);
+        return this.maxValue - this.minValue;
     }
-
 
     // Update functions //
     private updateBarElements(percentage: number): void {
@@ -239,7 +236,6 @@ class BarComponent extends IComponent {
         this.loadProgressBar.style.width = `${percentage}%`;
     }
 
-
     // Calculate functions //
     private toValue(percentage: number): number {
         return (percentage / this.maxPercentageValue) * this.getInterval();
@@ -268,11 +264,11 @@ class BarComponent extends IComponent {
         const barWidth = barRect.width;
 
         const position = cursorX - barLeft;
-        const percentage = (position < 0) ? 0 : (position / barWidth * this.maxPercentageValue);
+        const percentage =
+            position < 0 ? 0 : (position / barWidth) * this.maxPercentageValue;
 
         return parseFloat(percentage.toFixed(2));
     }
-
 
     // Check functions //
     private isElement(className: string): boolean {
@@ -286,7 +282,6 @@ class BarComponent extends IComponent {
     private isCircle(): boolean {
         return this.isElement('.bar__current-circle');
     }
-
 
     // Show / hide functions //
     private showHelper(): void {
@@ -313,15 +308,14 @@ class BarComponent extends IComponent {
         }
     }
 
-
     // Delete / add classes functions //
     private addTransition(): void {
-        this.currentBar.classList.add('panel-transition--width')
+        this.currentBar.classList.add('panel-transition--width');
         this.currentBarCircle.div.classList.add('panel-transition--left');
     }
 
     private deleteTransition(): void {
-        this.currentBar.classList.remove('panel-transition--width')
+        this.currentBar.classList.remove('panel-transition--width');
         this.currentBarCircle.div.classList.remove('panel-transition--left');
     }
 
@@ -330,9 +324,10 @@ class BarComponent extends IComponent {
     }
 
     private deleteActiveFromCircle(): void {
-        this.currentBarCircle.div.classList.remove('bar__current-circle--active');
+        this.currentBarCircle.div.classList.remove(
+            'bar__current-circle--active'
+        );
     }
-
 
     // Events //
     private onMouseDown(e: MouseEvent): void {
@@ -378,7 +373,6 @@ class BarComponent extends IComponent {
         document.removeEventListener('mousemove', this.boundMouseMove);
         document.removeEventListener('mouseup', this.boundMouseUp);
     }
-
 
     private bindEvents(): void {
         this.element.addEventListener('mousemove', (e: MouseEvent) => {

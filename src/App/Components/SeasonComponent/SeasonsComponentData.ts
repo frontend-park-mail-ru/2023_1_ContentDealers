@@ -2,7 +2,7 @@ import type CarouselComponentData from '../CarouselComponent/CarouselComponentDa
 
 export default interface SeasonsComponentData {
     id?: string;
-    title?: string
+    title?: string;
     count?: number;
     data: CarouselComponentData;
 }

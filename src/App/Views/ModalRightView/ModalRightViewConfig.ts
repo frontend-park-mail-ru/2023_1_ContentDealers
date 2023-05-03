@@ -16,7 +16,7 @@ const ModalRightData: IModalRightData = {
             colorClass: 'gradient-button--grey',
             imgSrc: '/img/icons/close.svg',
             imgWidth: '22px',
-        }
+        },
     },
 };
 

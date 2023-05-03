@@ -4,12 +4,18 @@ import DropdownButtonComponentTemplate from './DropdownButtonComponent.hbs';
 import type DropdownButtonComponentData from './DropdownButtonComponentData';
 import './DropdownButtonComponent.css';
 
-
 class DropdownButtonComponent extends IComponent {
     // private readonly dropdownContentItems: HTMLElement;
 
     public constructor(parent: HTMLElement, data: DropdownButtonComponentData) {
-        super(parent, DropdownButtonComponentTemplate({ dataAction: data.dataAction, avatar: data.avatar, href: data.items?.at(0)?.linkHref }));
+        super(
+            parent,
+            DropdownButtonComponentTemplate({
+                dataAction: data.dataAction,
+                avatar: data.avatar,
+                href: data.items?.at(0)?.linkHref,
+            })
+        );
 
         // this.dropdownContentItems = <HTMLElement>this.element.querySelector('.js-dropdown-content-container__items');
 

@@ -19,17 +19,31 @@ class SeasonComponent extends IComponent {
 
     private currentItemId: number;
 
-    private numberListData: ListComponentData<LinkComponent, LinkComponentData> = {
+    private numberListData: ListComponentData<
+        LinkComponent,
+        LinkComponentData
+    > = {
         listClass: 'seasons__list',
         itemClass: 'seasons-list__item',
         items: [],
     };
 
     public constructor(parent: HTMLElement, data?: SeasonsComponentData) {
-        super(parent, SeasonComponentTemplate({ id: data?.id, title: data?.title, count: data?.count }));
+        super(
+            parent,
+            SeasonComponentTemplate({
+                id: data?.id,
+                title: data?.title,
+                count: data?.count,
+            })
+        );
 
-        this.numberListContainer = <HTMLElement>this.element.querySelector('.js-number-list');
-        this.itemsListContainer = <HTMLElement>this.element.querySelector('.js-items-list');
+        this.numberListContainer = <HTMLElement>(
+            this.element.querySelector('.js-number-list')
+        );
+        this.itemsListContainer = <HTMLElement>(
+            this.element.querySelector('.js-items-list')
+        );
 
         if (data?.count) {
             this.renderNumbers(data?.count);
@@ -50,7 +64,8 @@ class SeasonComponent extends IComponent {
             },
         }));
 
-        this.numberListData.items = this.numberListData.items?.concat(numberItems);
+        this.numberListData.items =
+            this.numberListData.items?.concat(numberItems);
 
         new ListComponent(this.numberListContainer, this.numberListData).show();
 
@@ -58,9 +73,13 @@ class SeasonComponent extends IComponent {
     }
 
     public changeActiveItem(id: number): void {
-        this.numberListContainer.querySelector(`[data-action="${this.currentItemId}"]`)?.parentElement?.classList.remove('seasons-list__item--active');
+        this.numberListContainer
+            .querySelector(`[data-action="${this.currentItemId}"]`)
+            ?.parentElement?.classList.remove('seasons-list__item--active');
         this.currentItemId = id;
-        this.numberListContainer.querySelector(`[data-action="${id}"]`)?.parentElement?.classList.add('seasons-list__item--active');
+        this.numberListContainer
+            .querySelector(`[data-action="${id}"]`)
+            ?.parentElement?.classList.add('seasons-list__item--active');
     }
 
     public renderCarousel(data: CarouselComponentData): void {

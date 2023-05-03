@@ -10,7 +10,10 @@ interface INotFoundData {
 const NotFoundData: INotFoundData = {
     homeButton: {
         componentType: ButtonComponent,
-        componentData: { className: 'home-button', text: 'Вернуться на главную'},
+        componentData: {
+            className: 'home-button',
+            text: 'Вернуться на главную',
+        },
     },
 };
 

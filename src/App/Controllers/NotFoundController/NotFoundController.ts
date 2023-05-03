@@ -11,7 +11,10 @@ class NotFoundController extends IController<NotFoundView, IModel> {
     public constructor(view: NotFoundView) {
         super(view, IModel);
 
-        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
+        EventDispatcher.subscribe(
+            'unmount-all',
+            this.unmountComponent.bind(this)
+        );
 
         this.view.bindHomeButtonClick(this.handleClick.bind(this));
     }
@@ -19,7 +22,9 @@ class NotFoundController extends IController<NotFoundView, IModel> {
     private handleClick(e: Event): void {
         e.preventDefault();
         if (this.isMounted) {
-            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
+            const href = (<HTMLElement>e.target)
+                .closest('[href]')
+                ?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 router.goToPath(href);
             }

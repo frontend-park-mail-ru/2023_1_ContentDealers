@@ -1,15 +1,15 @@
 import IComponent from '../IComponent/IComponent';
 
 import ButtonComponentTemplate from './ButtonComponent.hbs';
-import type ButtonComponentData from "./ButtonComponentData";
+import type ButtonComponentData from './ButtonComponentData';
 import './ButtonComponent.css';
 
 class ButtonComponent extends IComponent {
-    private buttonProps: { [key: string]: { name: string, value: number } } = {
-        coordinateX:        { name: '--coord-x',                            value: 0 },
-        coordinateY:        { name: '--coord-y',                            value: 0 },
-        sizeSquare:         { name: '--size-square',                        value: 80 },
-        diameterHighlight:  { name: '--diameter-highlight',                 value: 80 },
+    private buttonProps: { [key: string]: { name: string; value: number } } = {
+        coordinateX: { name: '--coord-x', value: 0 },
+        coordinateY: { name: '--coord-y', value: 0 },
+        sizeSquare: { name: '--size-square', value: 80 },
+        diameterHighlight: { name: '--diameter-highlight', value: 80 },
     };
 
     public readonly button: HTMLButtonElement;
@@ -17,7 +17,9 @@ class ButtonComponent extends IComponent {
     public constructor(parent: HTMLElement, data?: ButtonComponentData) {
         super(parent, ButtonComponentTemplate(data));
 
-        this.button = <HTMLButtonElement>this.element.querySelector('button') || <HTMLButtonElement>this.element;
+        this.button =
+            <HTMLButtonElement>this.element.querySelector('button') ||
+            <HTMLButtonElement>this.element;
 
         this.setSizeSquare();
         this.setDiameterHighlight();
@@ -31,10 +33,15 @@ class ButtonComponent extends IComponent {
             const buttonHeight = this.button.offsetHeight;
 
             if (buttonWidth + buttonHeight !== 0) {
-                this.buttonProps['sizeSquare'].value =  Math.sqrt(buttonWidth * buttonWidth + buttonHeight * buttonHeight);
+                this.buttonProps['sizeSquare'].value = Math.sqrt(
+                    buttonWidth * buttonWidth + buttonHeight * buttonHeight
+                );
             }
 
-            this.button.style.setProperty(this.buttonProps['sizeSquare'].name, `${this.buttonProps['sizeSquare'].value}px`);
+            this.button.style.setProperty(
+                this.buttonProps['sizeSquare'].name,
+                `${this.buttonProps['sizeSquare'].value}px`
+            );
         }, 0);
     }
 
@@ -43,14 +50,20 @@ class ButtonComponent extends IComponent {
             const buttonWidth = this.button.offsetWidth;
             const buttonHeight = this.button.offsetHeight;
 
-            const diameter = Math.sqrt(buttonWidth * buttonWidth + buttonHeight * buttonHeight);
+            const diameter = Math.sqrt(
+                buttonWidth * buttonWidth + buttonHeight * buttonHeight
+            );
             const multiplySqrt = Math.sqrt(buttonWidth * buttonHeight);
 
             if (diameter + multiplySqrt !== 0) {
-                this.buttonProps['diameterHighlight'].value = diameter + multiplySqrt;
+                this.buttonProps['diameterHighlight'].value =
+                    diameter + multiplySqrt;
             }
 
-            this.button.style.setProperty(this.buttonProps['diameterHighlight'].name, `${this.buttonProps['diameterHighlight'].value}px`);
+            this.button.style.setProperty(
+                this.buttonProps['diameterHighlight'].name,
+                `${this.buttonProps['diameterHighlight'].value}px`
+            );
         }, 0);
     }
 
@@ -84,8 +97,14 @@ class ButtonComponent extends IComponent {
         this.buttonProps['coordinateX'].value = mouseEvent.offsetX;
         this.buttonProps['coordinateY'].value = mouseEvent.offsetY;
 
-        this.button.style.setProperty(this.buttonProps['coordinateX'].name, `${this.buttonProps['coordinateX'].value}px`);
-        this.button.style.setProperty(this.buttonProps['coordinateY'].name, `${this.buttonProps['coordinateY'].value}px`);
+        this.button.style.setProperty(
+            this.buttonProps['coordinateX'].name,
+            `${this.buttonProps['coordinateX'].value}px`
+        );
+        this.button.style.setProperty(
+            this.buttonProps['coordinateY'].name,
+            `${this.buttonProps['coordinateY'].value}px`
+        );
     }
 }
 

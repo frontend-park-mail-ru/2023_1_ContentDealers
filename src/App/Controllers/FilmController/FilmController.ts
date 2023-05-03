@@ -30,7 +30,10 @@ class FilmController extends IController<FilmView, FilmModel> {
         this.trailerSrc = null;
         this.filmSrc = null;
 
-        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
+        EventDispatcher.subscribe(
+            'unmount-all',
+            this.unmountComponent.bind(this)
+        );
 
         // this.view.bindClickEvent(this.handleClick.bind(this));
     }
@@ -46,34 +49,47 @@ class FilmController extends IController<FilmView, FilmModel> {
 
                 switch (opts.type) {
                     case 'film': {
-                        await this.model.getFilm(this.filmId)
-                            .then((data) => {
-                                this.trailerSrc = data.content?.trailerURL || null;
+                        await this.model
+                            .getFilm(this.filmId)
+                            .then(data => {
+                                this.trailerSrc =
+                                    data.content?.trailerURL || null;
                                 this.filmSrc = data?.contentURL || null;
 
                                 this.view.fillFilm(data);
                                 super.mountComponent();
 
-                                this.view.bindClickEvent(this.handleClick.bind(this));
+                                this.view.bindClickEvent(
+                                    this.handleClick.bind(this)
+                                );
                             })
-                            .catch((error) => console.error(error));
+                            .catch(error => console.error(error));
                         break;
                     }
 
                     case 'series': {
-                        await this.model.getSeries(this.filmId)
-                            .then((data) => {
-                                this.trailerSrc = data.content?.trailerURL || null;
+                        await this.model
+                            .getSeries(this.filmId)
+                            .then(data => {
+                                this.trailerSrc =
+                                    data.content?.trailerURL || null;
 
                                 this.view.fillFilm(data);
 
-                                this.view.fillSeasonItems({ count: this.model.getSeasonsCount(), data: { episodes: this.model.getEpisodes(1) } });
+                                this.view.fillSeasonItems({
+                                    count: this.model.getSeasonsCount(),
+                                    data: {
+                                        episodes: this.model.getEpisodes(1),
+                                    },
+                                });
 
                                 super.mountComponent();
 
-                                this.view.bindClickEvent(this.handleClick.bind(this));
+                                this.view.bindClickEvent(
+                                    this.handleClick.bind(this)
+                                );
                             })
-                            .catch((error) => console.error(error));
+                            .catch(error => console.error(error));
                         break;
                     }
 
@@ -105,11 +121,12 @@ class FilmController extends IController<FilmView, FilmModel> {
     }
 
     public addFavoritesButton(): void {
-        this.model.getFavoritesStatus(String(this.filmId))
-            .then((status) => {
+        this.model
+            .getFavoritesStatus(String(this.filmId))
+            .then(status => {
                 this.view.renderFavoritesButton(status);
             })
-            .catch((error) => console.error(error));
+            .catch(error => console.error(error));
     }
 
     public unmountComponent(): void {
@@ -126,13 +143,16 @@ class FilmController extends IController<FilmView, FilmModel> {
         e.preventDefault();
 
         if (this.isMounted) {
-            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
+            const href = (<HTMLElement>e.target)
+                .closest('[href]')
+                ?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 router.goToPath(href);
             }
 
             const target = <HTMLElement>e.target;
-            const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
+            const action = (<HTMLElement>target.closest('[data-action]'))
+                ?.dataset['action'];
 
             switch (action) {
                 case 'subscribe': {
@@ -142,7 +162,9 @@ class FilmController extends IController<FilmView, FilmModel> {
                 case 'trailer': {
                     if (this.trailerSrc) {
                         this.view.newPlayerView(this.model.getFilmTitle());
-                        this.playerController = new PlayerController(<PlayerView>this.view.playerView);
+                        this.playerController = new PlayerController(
+                            <PlayerView>this.view.playerView
+                        );
 
                         this.playerController.mountComponent();
                         this.playerController.setSrc(this.trailerSrc);
@@ -154,7 +176,9 @@ class FilmController extends IController<FilmView, FilmModel> {
                 case 'film': {
                     if (this.filmSrc) {
                         this.view.newPlayerView(this.model.getFilmTitle());
-                        this.playerController = new PlayerController(<PlayerView>this.view.playerView);
+                        this.playerController = new PlayerController(
+                            <PlayerView>this.view.playerView
+                        );
 
                         this.playerController.mountComponent();
                         this.playerController.setSrc(this.filmSrc);
@@ -169,13 +193,15 @@ class FilmController extends IController<FilmView, FilmModel> {
                     };
 
                     if (this.view.isDelete()) {
-                        this.model.deleteFromFavorites(addDeleteFavorites)
-                            .then(() =>{
+                        this.model
+                            .deleteFromFavorites(addDeleteFavorites)
+                            .then(() => {
                                 this.view.toggleBookmark();
                                 console.log('УСПЕШНО УДАЛЕНО');
                             });
                     } else {
-                        this.model.addToFavorites(addDeleteFavorites)
+                        this.model
+                            .addToFavorites(addDeleteFavorites)
                             .then(() => {
                                 this.view.toggleBookmark();
                                 console.log('УСПЕШНО ДОБАВЛЕНО');
@@ -188,14 +214,19 @@ class FilmController extends IController<FilmView, FilmModel> {
                     break;
             }
 
-            const actionStr = (action as unknown as string);
+            const actionStr = action as unknown as string;
             if (actionStr !== undefined) {
-                if (actionStr.startsWith('trailers/') && actionStr.endsWith('.mp4')) {
+                if (
+                    actionStr.startsWith('trailers/') &&
+                    actionStr.endsWith('.mp4')
+                ) {
                     this.filmSrc = actionStr;
 
                     this.view.newPlayerView(this.model.getFilmTitle());
                     this.view.playerView?.showNextButton();
-                    this.playerController = new PlayerController(<PlayerView>this.view.playerView);
+                    this.playerController = new PlayerController(
+                        <PlayerView>this.view.playerView
+                    );
 
                     this.playerController.mountComponent();
                     this.playerController.setSrc(this.filmSrc);
@@ -207,7 +238,9 @@ class FilmController extends IController<FilmView, FilmModel> {
             const actionId = action as unknown as number;
             if (actionId) {
                 this.view.seasonComponent.changeActiveItem(actionId);
-                this.view.seasonComponent.renderCarousel({ episodes: this.model.getEpisodes(actionId) });
+                this.view.seasonComponent.renderCarousel({
+                    episodes: this.model.getEpisodes(actionId),
+                });
                 return;
             }
 

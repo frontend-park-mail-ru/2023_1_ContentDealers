@@ -16,14 +16,14 @@ class PersonModel extends IModel {
     };
 
     private roleMap: { [role: string]: string } = {
-        DIRECTOR:   'Режиссёр',
-        COMPOSER:   'Композитор',
-        DESIGN:     'Дизайнер',
-        EDITOR:     'Редактор',
-        ACTOR:      'Актёр',
-        OPERATOR:   'Оператор',
-        PRODUCER:   'Продюссер',
-        WRITER:     'Сценарист',
+        DIRECTOR: 'Режиссёр',
+        COMPOSER: 'Композитор',
+        DESIGN: 'Дизайнер',
+        EDITOR: 'Редактор',
+        ACTOR: 'Актёр',
+        OPERATOR: 'Оператор',
+        PRODUCER: 'Продюссер',
+        WRITER: 'Сценарист',
     };
 
     public constructor() {
@@ -32,17 +32,19 @@ class PersonModel extends IModel {
 
     private parsePerson(json: any): IPerson {
         return {
-            id:             json.id,
-            name:           json.name,
-            gender:         this.transformGender(json.gender),
-            genres:         this.parseGenres(json.genres),
-            growth:         json.growth,
-            birthPlace:     json.birthplace,
-            avatarURL:      json.avatar_url,
-            age:            json.age,
+            id: json.id,
+            name: json.name,
+            gender: this.transformGender(json.gender),
+            genres: this.parseGenres(json.genres),
+            growth: json.growth,
+            birthPlace: json.birthplace,
+            avatarURL: json.avatar_url,
+            age: json.age,
 
-            roles:          this.parsePersonRoles(json.roles),
-            participatedIn: this.parseParticipatedContents(json.participated_in),
+            roles: this.parsePersonRoles(json.roles),
+            participatedIn: this.parseParticipatedContents(
+                json.participated_in
+            ),
         };
     }
 
@@ -54,21 +56,21 @@ class PersonModel extends IModel {
 
     private parseGenre(genre: any): IGenre {
         return {
-            id:     genre.id,
-            name:   genre.name,
-        }
+            id: genre.id,
+            name: genre.name,
+        };
     }
 
     private parsePersonRoles(roles: any): IRole[] {
         return roles.map((role: any) => {
-           return this.parsePersonRole(role);
+            return this.parsePersonRole(role);
         });
     }
 
     private parsePersonRole(role: any): IRole {
         return {
-            id:     role.id,
-            title:  this.transformRole(role.title),
+            id: role.id,
+            title: this.transformRole(role.title),
         };
     }
 
@@ -80,8 +82,8 @@ class PersonModel extends IModel {
 
     private parseParticipatedContent(content: any): IContent {
         return {
-            id:     content.id,
-            title:  content.title,
+            id: content.id,
+            title: content.title,
         };
     }
 
@@ -100,7 +102,9 @@ class PersonModel extends IModel {
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
 
-        const personData = await this.parsePerson(response.responseBody.body.person);
+        const personData = await this.parsePerson(
+            response.responseBody.body.person
+        );
 
         return Promise.resolve(personData);
     }

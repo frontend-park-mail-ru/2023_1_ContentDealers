@@ -61,7 +61,7 @@ class App {
     private personController: PersonController;
     private mainController: MainController;
     private notFoundController: NotFoundController;
-    private favoritesController: FavoritesController
+    private favoritesController: FavoritesController;
     private genreController: GenreController;
 
     // Models
@@ -71,7 +71,6 @@ class App {
     private selectionModel: SelectionModel;
     private favoritesModel: FavoritesModel;
     private genreModel: GenreModel;
-
 
     // Elements
     private root: HTMLElement;
@@ -91,8 +90,14 @@ class App {
     public run(url: string): void {
         router.start(url);
 
-        this.userModel.authUserByCookie()
-            .then(() => EventDispatcher.emit('user-changed', this.userModel.getCurrentUser()))
+        this.userModel
+            .authUserByCookie()
+            .then(() =>
+                EventDispatcher.emit(
+                    'user-changed',
+                    this.userModel.getCurrentUser()
+                )
+            )
             .catch(() => EventDispatcher.emit('render-signInButton'));
     }
 
@@ -151,15 +156,33 @@ class App {
      */
     private initControllers(): void {
         this.headerController = new HeaderController(this.headerView);
-        this.modalRightController = new ModalRightController(this.modalRightView, this.userModel);
+        this.modalRightController = new ModalRightController(
+            this.modalRightView,
+            this.userModel
+        );
         this.filmController = new FilmController(this.filmView, this.filmModel);
-        this.settingsController = new SettingsController(this.settingsView, this.userModel);
-        this.personController = new PersonController(this.personView, this.personModel);
-        this.mainController = new MainController(this.mainView, { genres: this.genreModel, selections: this.selectionModel });
+        this.settingsController = new SettingsController(
+            this.settingsView,
+            this.userModel
+        );
+        this.personController = new PersonController(
+            this.personView,
+            this.personModel
+        );
+        this.mainController = new MainController(this.mainView, {
+            genres: this.genreModel,
+            selections: this.selectionModel,
+        });
 
         this.notFoundController = new NotFoundController(this.notFoundView);
-        this.favoritesController = new FavoritesController(this.favoritesView, this.favoritesModel);
-        this.genreController = new GenreController(this.genreView, this.genreModel);
+        this.favoritesController = new FavoritesController(
+            this.favoritesView,
+            this.favoritesModel
+        );
+        this.genreController = new GenreController(
+            this.genreView,
+            this.genreModel
+        );
     }
 
     /**
@@ -171,29 +194,31 @@ class App {
         router.setUnknownPageHandler(this.handleRedirectToNotFound.bind(this));
 
         const routes = [
-            { path: paths.main,         handler: this.handleRedirectToMain },
-            { path: paths.catalog,      handler: this.handleRedirectToCatalog },
-            { path: paths.store,        handler: this.handleRedirectToStore },
-            { path: paths.myMovie,      handler: this.handleRedirectToFavorites },
+            { path: paths.main, handler: this.handleRedirectToMain },
+            { path: paths.catalog, handler: this.handleRedirectToCatalog },
+            { path: paths.store, handler: this.handleRedirectToStore },
+            { path: paths.myMovie, handler: this.handleRedirectToFavorites },
 
-            { path: paths.signIn,       handler: this.handleRedirectToSignIn },
-            { path: paths.signUp,       handler: this.handleRedirectToSignUp },
-            { path: paths.logout,       handler: this.handleRedirectToLogout },
-            { path: paths.settings,     handler: this.handleRedirectToSettings },
+            { path: paths.signIn, handler: this.handleRedirectToSignIn },
+            { path: paths.signUp, handler: this.handleRedirectToSignUp },
+            { path: paths.logout, handler: this.handleRedirectToLogout },
+            { path: paths.settings, handler: this.handleRedirectToSettings },
 
-            { path: paths.films,        handler: this.handleRedirectToFilm },
-            { path: paths.series,       handler: this.handleRedirectToSeries },
-            { path: paths.persons,      handler: this.handleRedirectToPerson },
+            { path: paths.films, handler: this.handleRedirectToFilm },
+            { path: paths.series, handler: this.handleRedirectToSeries },
+            { path: paths.persons, handler: this.handleRedirectToPerson },
 
-            { path: paths.genres,       handler: this.handleRedirectToGenre },
-            { path: paths.selections,   handler: this.handleRedirectToSelections },
+            { path: paths.genres, handler: this.handleRedirectToGenre },
+            {
+                path: paths.selections,
+                handler: this.handleRedirectToSelections,
+            },
         ];
 
         routes.forEach(({ path, handler }) => {
             router.addRule(path, handler.bind(this));
         });
     }
-
 
     private handleRedirectToMain(): void {
         EventDispatcher.emit('unmount-all');
@@ -207,7 +232,8 @@ class App {
     }
 
     private handleRedirectToSignIn(): void {
-        this.userModel.authUserByCookie()
+        this.userModel
+            .authUserByCookie()
             .then(() => {
                 router.goToPath(router.getNearestNotAuthUrl());
             })
@@ -218,7 +244,8 @@ class App {
     }
 
     private handleRedirectToSignUp(): void {
-        this.userModel.authUserByCookie()
+        this.userModel
+            .authUserByCookie()
             .then(() => {
                 router.goToPath(router.getNearestNotAuthUrl());
             })
@@ -251,7 +278,8 @@ class App {
     private handleRedirectToFavorites(): void {
         EventDispatcher.emit('unmount-all');
 
-        this.userModel.authUserByCookie()
+        this.userModel
+            .authUserByCookie()
             .then(() => {
                 // mount
                 this.headerController.mountComponent();
@@ -268,7 +296,8 @@ class App {
     private handleRedirectToSettings(): void {
         EventDispatcher.emit('unmount-all');
 
-        this.userModel.authUserByCookie()
+        this.userModel
+            .authUserByCookie()
             .then(() => {
                 // mount
                 this.headerController.mountComponent();
@@ -278,7 +307,10 @@ class App {
                 this.headerView.changeActiveHeaderListItem('#');
                 this.settingsView.changeActiveLeftMenuItem(paths.settings);
 
-                EventDispatcher.emit('user-changed', this.userModel.getCurrentUser());
+                EventDispatcher.emit(
+                    'user-changed',
+                    this.userModel.getCurrentUser()
+                );
             })
             .catch(() => {
                 EventDispatcher.emit('render-signInButton');
@@ -298,22 +330,24 @@ class App {
 
         // mount
         this.headerController.mountComponent();
-        await this.filmController.mountComponent({ id: filmId.toString(), type: 'film' });
+        await this.filmController.mountComponent({
+            id: filmId.toString(),
+            type: 'film',
+        });
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
 
-        this.userModel.authUserByCookie()
-            .then(() => {
-                this.filmView.renderWatchButton();
-                this.filmController.addFavoritesButton();
-            });
+        this.userModel.authUserByCookie().then(() => {
+            this.filmView.renderWatchButton();
+            this.filmController.addFavoritesButton();
+        });
 
         return;
     }
 
     private async handleRedirectToSeries(data: any): Promise<void> {
-        console.log('handleRedirectToSeries')
+        console.log('handleRedirectToSeries');
 
         EventDispatcher.emit('unmount-all');
 
@@ -326,16 +360,18 @@ class App {
 
         // mount
         this.headerController.mountComponent();
-        await this.filmController.mountComponent({ id: filmId.toString(), type: 'series' });
+        await this.filmController.mountComponent({
+            id: filmId.toString(),
+            type: 'series',
+        });
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
 
-        this.userModel.authUserByCookie()
-            .then(() => {
-                this.filmView.renderWatchButton();
-                this.filmController.addFavoritesButton();
-            });
+        this.userModel.authUserByCookie().then(() => {
+            this.filmView.renderWatchButton();
+            this.filmController.addFavoritesButton();
+        });
 
         return;
     }

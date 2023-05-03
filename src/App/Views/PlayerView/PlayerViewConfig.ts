@@ -20,8 +20,14 @@ interface IPlayerData {
 
     closeButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
 
-    progressBar: IComponentDataWithType<ProgressBarComponent, ProgressBarComponentData>;
-    volumeBar: IComponentDataWithType<VolumeBarComponent, VolumeBarComponentData>;
+    progressBar: IComponentDataWithType<
+        ProgressBarComponent,
+        ProgressBarComponentData
+    >;
+    volumeBar: IComponentDataWithType<
+        VolumeBarComponent,
+        VolumeBarComponentData
+    >;
 
     screenButton: IComponentDataWithType<DivComponent, DivComponentData>;
     compressButton: IComponentDataWithType<DivComponent, DivComponentData>;
@@ -63,14 +69,14 @@ const PlayerData: IPlayerData = {
             colorClass: 'gradient-button--grey',
             imgSrc: '/img/icons/close.svg',
             imgWidth: '22px',
-        }
+        },
     },
 
     progressBar: {
         componentType: ProgressBarComponent,
         componentData: {
             class: 'video_progress-bar',
-            barData: { barWidthClass: 'w-100' }
+            barData: { barWidthClass: 'w-100' },
         },
     },
     volumeBar: {

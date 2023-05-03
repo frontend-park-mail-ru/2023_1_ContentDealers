@@ -10,7 +10,8 @@ class LinkComponent extends IComponent {
     public constructor(parent: HTMLElement, data?: LinkComponentData) {
         super(parent, LinkComponentTemplate(data));
 
-        this.link = <HTMLElement>this.element.querySelector('a') || this.element;
+        this.link =
+            <HTMLElement>this.element.querySelector('a') || this.element;
     }
 
     public bindClickEvent(listener: any): void {

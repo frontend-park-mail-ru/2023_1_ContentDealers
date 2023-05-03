@@ -9,8 +9,8 @@ import './GenreView.css';
 import type IGrid from '../../Interfaces/Grid/IGrid';
 
 class GenreView extends IView {
-    private content:        HTMLElement;
-    private contentButton:  HTMLElement;
+    private content: HTMLElement;
+    private contentButton: HTMLElement;
 
     public constructor(parent: HTMLElement) {
         super(parent, GenreTemplate({}));
@@ -26,16 +26,25 @@ class GenreView extends IView {
 
     public fillContent(data: IGrid): void {
         this.element.innerHTML = GenreTemplate({
-            firstTitle: data.title
+            firstTitle: data.title,
         });
 
-        this.content = <HTMLElement>this.element.querySelector('.js-content__item');
-        this.contentButton = <HTMLElement>this.element.querySelector('.js-content-button');
+        this.content = <HTMLElement>(
+            this.element.querySelector('.js-content__item')
+        );
+        this.contentButton = <HTMLElement>(
+            this.element.querySelector('.js-content-button')
+        );
 
         // new ButtonComponent(this.contentButton, FavoritesViewData.contentButton).show();
 
         data.content?.forEach(contentData => {
-            new ContentSearchComponent(this.content, contentData, false, 'picture_size').show();
+            new ContentSearchComponent(
+                this.content,
+                contentData,
+                false,
+                'picture_size'
+            ).show();
         });
     }
 

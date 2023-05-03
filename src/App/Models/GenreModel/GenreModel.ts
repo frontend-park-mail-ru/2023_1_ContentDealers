@@ -1,4 +1,4 @@
-import IModel from "../IModel/IModel";
+import IModel from '../IModel/IModel';
 
 import type IContentSearch from '../../Interfaces/ContentSearch/IContentSearch';
 import type IGrid from '../../Interfaces/Grid/IGrid';
@@ -15,9 +15,9 @@ class GenreModel extends IModel {
 
     private parseData(json: any): IGrid {
         return {
-            title:       json.title,
-            content:     this.parseContent(json.content),
-        }
+            title: json.title,
+            content: this.parseContent(json.content),
+        };
     }
 
     private parseContent(content: any): IContentSearch[] {
@@ -28,23 +28,23 @@ class GenreModel extends IModel {
 
     private parseContentItem(item: any): IContentSearch {
         return {
-            contentId:        item.id,
-            src:              item.preview_url,
-            title:            item.title,
-            isSerial:         item.type == 'series',
+            contentId: item.id,
+            src: item.preview_url,
+            title: item.title,
+            isSerial: item.type == 'series',
         };
     }
 
     private parseGenres(genres: any): IGenre[] {
         return genres.map((genre: any) => {
             return this.parseGenre(genre);
-        })
+        });
     }
 
     private parseGenre(genre: any): IGenre {
         return {
-            id:     genre.id,
-            name:   genre.name,
+            id: genre.id,
+            name: genre.name,
         };
     }
 

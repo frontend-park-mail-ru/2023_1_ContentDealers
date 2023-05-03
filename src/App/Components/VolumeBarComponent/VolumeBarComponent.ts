@@ -20,13 +20,9 @@ class VolumeBarComponent extends IComponent {
 
     private prevVolume = 0.5;
 
-
-
     public volumeStatusContainer: HTMLElement;
     private muteButton: DivComponent;
     private unmuteButton: DivComponent;
-
-
 
     private readonly volumeData = {
         mute: {
@@ -47,7 +43,6 @@ class VolumeBarComponent extends IComponent {
         },
     };
 
-
     private muteHandler = {
         set: (target: any, key: string, value: any): boolean => {
             target[key] = value;
@@ -59,7 +54,6 @@ class VolumeBarComponent extends IComponent {
     };
 
     private muteProxy = new Proxy(this, this.muteHandler);
-
 
     public constructor(parent: HTMLElement, data?: VolumeBarComponentData) {
         super(parent, VolumeBarComponentTemplate({ class: data?.class }));
@@ -78,17 +72,23 @@ class VolumeBarComponent extends IComponent {
         this.bindVolumeButtonClick(this.changeMuteStatus.bind(this));
     }
 
-
     // Init //
     private initVolumeButtons(): void {
-        this.volumeStatusContainer = <HTMLElement>this.element.querySelector('.js-volume') || this.element;
+        this.volumeStatusContainer =
+            <HTMLElement>this.element.querySelector('.js-volume') ||
+            this.element;
 
-        this.muteButton = new this.volumeData.mute.componentType(this.volumeStatusContainer, this.volumeData.mute.componentData);
+        this.muteButton = new this.volumeData.mute.componentType(
+            this.volumeStatusContainer,
+            this.volumeData.mute.componentData
+        );
         this.muteButton.show();
-        this.unmuteButton = new this.volumeData.unmute.componentType(this.volumeStatusContainer, this.volumeData.unmute.componentData);
+        this.unmuteButton = new this.volumeData.unmute.componentType(
+            this.volumeStatusContainer,
+            this.volumeData.unmute.componentData
+        );
         this.unmuteButton.show();
     }
-
 
     // Setters //
     public setUpdateVideoFunc(func: UpdateFunction): void {
@@ -97,7 +97,10 @@ class VolumeBarComponent extends IComponent {
     }
 
     public setMaxMinValues(): void {
-        this.barComponent.setMaxMinValues(this.volumeMinValue, this.volumeMaxValue);
+        this.barComponent.setMaxMinValues(
+            this.volumeMinValue,
+            this.volumeMaxValue
+        );
     }
 
     public setMuteProxy(flag: boolean): void {
@@ -107,7 +110,9 @@ class VolumeBarComponent extends IComponent {
     }
 
     public setHelperText(volume: number): void {
-        this.barComponent.setHelperText(`${Math.round(this.barComponent.toPercentage(volume))}%`);
+        this.barComponent.setHelperText(
+            `${Math.round(this.barComponent.toPercentage(volume))}%`
+        );
     }
 
     public changeMuteStatus(e: Event): void {
@@ -123,7 +128,6 @@ class VolumeBarComponent extends IComponent {
             this.barComponent.callUpdateVideoFunction(this.volumeMinValue);
         }
     }
-
 
     // Functions //
     private rerenderMute(isMute: boolean): void {

@@ -1,8 +1,8 @@
 interface I_REQUEST_METHODS {
-    GET: string,
-    POST: string,
-    PUT: string,
-    DELETE: string,
+    GET: string;
+    POST: string;
+    PUT: string;
+    DELETE: string;
 }
 
 const REQUEST_METHODS: I_REQUEST_METHODS = {
@@ -282,7 +282,7 @@ const config: IConfig = {
                 failure: failureDefaultStatuses,
             },
         },
-    }
+    },
 };
 
 export { REQUEST_METHODS, CsrfTokenName, config, customFailures };

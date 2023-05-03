@@ -9,24 +9,28 @@ import FavoritesModel from '../../Models/FavoritesModel/FavoritesModel';
 import router from '../../Router/Router';
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
-class FavoritesController extends IController<FavoritesView, FavoritesModel>{
+class FavoritesController extends IController<FavoritesView, FavoritesModel> {
     private content: IContentSearch[];
     private actors: IActorSearch[];
 
     public constructor(view: FavoritesView, model: FavoritesModel) {
         super(view, model);
-        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
+        EventDispatcher.subscribe(
+            'unmount-all',
+            this.unmountComponent.bind(this)
+        );
 
         this.view.bindClickEvent(this.handleClick.bind(this));
         this.view.bindChangeEvent(this.handleChange.bind(this));
     }
 
     public async getContent(order: string): Promise<void> {
-        await this.model.getFavoritesContent(order)
-            .then((data) => {
+        await this.model
+            .getFavoritesContent(order)
+            .then(data => {
                 this.content = data;
             })
-            .catch((error) => console.error(error));
+            .catch(error => console.error(error));
 
         return;
     }
@@ -59,7 +63,9 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel>{
         e.preventDefault();
 
         if (this.isMounted) {
-            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
+            const href = (<HTMLElement>e.target)
+                .closest('[href]')
+                ?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 router.goToPath(href);
             }

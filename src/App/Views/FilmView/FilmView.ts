@@ -25,12 +25,12 @@ class FilmView extends IView {
     public playerView: PlayerView | null;
 
     private buttonsContainer: HTMLElement;
-    private subscribeButton:  ButtonComponent;
-    private trailerButton:    ButtonComponent;
-    private filmButton:       ButtonComponent;
-    private favoritesLink:    LinkComponent;
-    private favoritesIcon:    HTMLImageElement;
-    private isInFavorites:    boolean;
+    private subscribeButton: ButtonComponent;
+    private trailerButton: ButtonComponent;
+    private filmButton: ButtonComponent;
+    private favoritesLink: LinkComponent;
+    private favoritesIcon: HTMLImageElement;
+    private isInFavorites: boolean;
 
     private seasons: HTMLElement;
     public seasonComponent: SeasonComponent;
@@ -40,7 +40,10 @@ class FilmView extends IView {
     }
 
     public newPlayerView(title: string): void {
-        this.playerView = new PlayerView(<HTMLElement>this.parent.parentElement, title);
+        this.playerView = new PlayerView(
+            <HTMLElement>this.parent.parentElement,
+            title
+        );
     }
 
     public hide(): void {
@@ -48,13 +51,14 @@ class FilmView extends IView {
         super.hide();
     }
 
-
     public fillFilm(data: IFilm | ISeries): void {
         this.parent.innerHTML = FilmTemplate(data);
         this.element = <HTMLElement>this.parent.firstElementChild;
 
         this.seasons = <HTMLElement>this.element.querySelector('.js-seasons');
-        this.buttonsContainer = <HTMLElement>this.element.querySelector('.film-content__buttons');
+        this.buttonsContainer = <HTMLElement>(
+            this.element.querySelector('.film-content__buttons')
+        );
 
         this.renderButtons();
     }
@@ -67,31 +71,46 @@ class FilmView extends IView {
     }
 
     private renderButtons(): void {
-        this.subscribeButton = new FilmData.subscribeButton.componentType(this.buttonsContainer, FilmData.subscribeButton.componentData);
+        this.subscribeButton = new FilmData.subscribeButton.componentType(
+            this.buttonsContainer,
+            FilmData.subscribeButton.componentData
+        );
         this.subscribeButton.show();
         this.subscribeButton.button.setAttribute('disabled', 'true'); // TODO: return
 
-        this.trailerButton = new FilmData.trailerButton.componentType(this.buttonsContainer, FilmData.trailerButton.componentData);
+        this.trailerButton = new FilmData.trailerButton.componentType(
+            this.buttonsContainer,
+            FilmData.trailerButton.componentData
+        );
         this.trailerButton.show();
     }
 
     public toggleBookmark(): void {
         this.isInFavorites = !this.isInFavorites;
-        this.favoritesIcon.src = (this.isInFavorites ? '/img/icons/bookmark-added.svg' : '/img/icons/bookmark-regular.svg');
-
+        this.favoritesIcon.src = this.isInFavorites
+            ? '/img/icons/bookmark-added.svg'
+            : '/img/icons/bookmark-regular.svg';
     }
 
     public renderWatchButton(): void {
-        this.filmButton = new FilmData.filmButton.componentType(this.buttonsContainer, FilmData.filmButton.componentData);
+        this.filmButton = new FilmData.filmButton.componentType(
+            this.buttonsContainer,
+            FilmData.filmButton.componentData
+        );
         this.filmButton.show();
     }
 
     public renderFavoritesButton(status: boolean): void {
-        this.favoritesLink = new FilmData.favoritesLink.componentType(this.buttonsContainer, FilmData.favoritesLink.componentData);
+        this.favoritesLink = new FilmData.favoritesLink.componentType(
+            this.buttonsContainer,
+            FilmData.favoritesLink.componentData
+        );
         this.favoritesLink.show();
 
         this.isInFavorites = false;
-        this.favoritesIcon = <HTMLImageElement>this.favoritesLink.querySelector('img');
+        this.favoritesIcon = <HTMLImageElement>(
+            this.favoritesLink.querySelector('img')
+        );
 
         if (status) {
             this.toggleBookmark();

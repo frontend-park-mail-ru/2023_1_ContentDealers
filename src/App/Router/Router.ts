@@ -1,4 +1,4 @@
-import paths from "./RouterPaths";
+import paths from './RouterPaths';
 
 interface IRoute {
     rule: RegExp;
@@ -15,14 +15,15 @@ class Router {
 
     public constructor() {
         this.routes = [];
-        this.unknownPageHandler = (): void => console.error('No unknown page handler!');
+        this.unknownPageHandler = (): void =>
+            console.error('No unknown page handler!');
         this.nearestNotAuthUrl = paths.main;
     }
 
     public start(entryPath: string): void {
         history.replaceState({ path: entryPath }, '', entryPath);
 
-        window.addEventListener('popstate', (e) => {
+        window.addEventListener('popstate', e => {
             e.preventDefault();
             this.route();
         });
@@ -45,7 +46,12 @@ class Router {
         const path = this.sanitizeUrl(rawPath);
 
         const tmpPath: string = '/' + path;
-        if (tmpPath !== paths.signIn && tmpPath !== paths.signUp && tmpPath !== paths.settings && tmpPath !== paths.myMovie) {
+        if (
+            tmpPath !== paths.signIn &&
+            tmpPath !== paths.signUp &&
+            tmpPath !== paths.settings &&
+            tmpPath !== paths.myMovie
+        ) {
             this.nearestNotAuthUrl = tmpPath;
         }
 
@@ -75,13 +81,15 @@ class Router {
         const newRoute = {
             rule: this.parseRule(rule),
             handler: handler,
-        }
+        };
         this.routes.push(newRoute);
         return newRoute;
     }
 
     public removeRule(rule: string): void {
-        const index = this.routes.findIndex((route) => route.rule.source === this.parseRule(rule).source);
+        const index = this.routes.findIndex(
+            route => route.rule.source === this.parseRule(rule).source
+        );
         if (index > -1) {
             this.routes.splice(index, 1);
         }
@@ -93,9 +101,9 @@ class Router {
 
     private parseRule(rule: string): RegExp {
         // const uri = this.sanitizeUrl(rule)
-            // .replace(/{\:number}/g, '(\\d+)')
-            // .replace(/{\:word}/g, '(\\w+)')
-            // .replace(/{\:\w+}/g, '(\\w+)');
+        // .replace(/{\:number}/g, '(\\d+)')
+        // .replace(/{\:word}/g, '(\\w+)')
+        // .replace(/{\:\w+}/g, '(\\w+)');
         const uri = this.sanitizeUrl(rule)
             .replace(/{:number}/g, '(\\d+)')
             .replace(/{:word}/g, '(\\w+)')

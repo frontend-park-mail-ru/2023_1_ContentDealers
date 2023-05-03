@@ -21,12 +21,27 @@ import type InputComponentData from '../../Components/InputComponent/InputCompon
 interface IHeaderData {
     logo: IComponentDataWithType<LinkComponent, LinkComponentData>;
     input: IComponentDataWithType<InputComponent, InputComponentData>;
-    actions: IComponentDataWithType<ListComponent<LinkComponent, LinkComponentData>, ListComponentData<LinkComponent, LinkComponentData>>;
-    items: (IComponentDataWithType<LinkComponent, LinkComponentData> | IComponentDataWithType<VerticalSpacerComponent, VerticalSpacerComponentData> | IComponentDataWithType<ButtonComponent, ButtonComponentData>)[];
-    profile: IComponentDataWithType<DropdownButtonComponent, DropdownButtonComponentData>;
+    actions: IComponentDataWithType<
+        ListComponent<LinkComponent, LinkComponentData>,
+        ListComponentData<LinkComponent, LinkComponentData>
+    >;
+    items: (
+        | IComponentDataWithType<LinkComponent, LinkComponentData>
+        | IComponentDataWithType<
+              VerticalSpacerComponent,
+              VerticalSpacerComponentData
+          >
+        | IComponentDataWithType<ButtonComponent, ButtonComponentData>
+    )[];
+    profile: IComponentDataWithType<
+        DropdownButtonComponent,
+        DropdownButtonComponentData
+    >;
     signIn: IComponentDataWithType<LinkComponent, LinkComponentData>;
 
-    [key: string]: IComponentDataWithType<any, any> | IComponentDataWithType<any, any>[]; // TODO enum all types?
+    [key: string]:
+        | IComponentDataWithType<any, any>
+        | IComponentDataWithType<any, any>[]; // TODO enum all types?
 }
 
 const HeaderData: IHeaderData = {
@@ -37,7 +52,7 @@ const HeaderData: IHeaderData = {
             linkClass: 'logo',
             linkImageSrc: '/img/logo/logo.svg',
             linkImageWidth: '40px',
-        }
+        },
     },
     input: {
         componentType: InputComponent,
@@ -47,7 +62,7 @@ const HeaderData: IHeaderData = {
             id: 'query',
             autocomplete: false,
             placeholder: 'Название фильма, сериала или имя актёра, режиссёра',
-        }
+        },
     },
     actions: {
         componentType: ListComponent,
@@ -56,14 +71,13 @@ const HeaderData: IHeaderData = {
             itemClass: 'header-container-action',
             items: [
                 {
-                    componentData:
-                        {
-                            linkHref: '/',
-                            linkClass: 'header-container-action__link',
-                            linkText: 'Главная',
-                            linkTextClass: 'header-container-action-link__text',
-                        },
-                    componentType: LinkComponent
+                    componentData: {
+                        linkHref: '/',
+                        linkClass: 'header-container-action__link',
+                        linkText: 'Главная',
+                        linkTextClass: 'header-container-action-link__text',
+                    },
+                    componentType: LinkComponent,
                 },
                 // TODO: return
                 // {
@@ -87,18 +101,16 @@ const HeaderData: IHeaderData = {
                 //     componentType: LinkComponent
                 // },
                 {
-                    componentData:
-                        {
-                            linkHref: '/my-movie',
-                            linkClass: 'header-container-action__link',
-                            linkText: 'Моё',
-                            linkTextClass: 'header-container-action-link__text',
-                        },
-                    componentType: LinkComponent
+                    componentData: {
+                        linkHref: '/my-movie',
+                        linkClass: 'header-container-action__link',
+                        linkText: 'Моё',
+                        linkTextClass: 'header-container-action-link__text',
+                    },
+                    componentType: LinkComponent,
                 },
             ],
-
-        }
+        },
     },
     items: [
         {
@@ -146,7 +158,7 @@ const HeaderData: IHeaderData = {
                     linkTextClass: 'link-profile__text',
                 },
             ],
-        }
+        },
     },
     signIn: {
         componentType: LinkComponent,
@@ -157,8 +169,8 @@ const HeaderData: IHeaderData = {
             linkImageSrc: '/img/icons/circle-user.svg',
             linkImageWidth: '30px',
             linkText: 'Войти',
-        }
-    }
-}
+        },
+    },
+};
 
 export default HeaderData;

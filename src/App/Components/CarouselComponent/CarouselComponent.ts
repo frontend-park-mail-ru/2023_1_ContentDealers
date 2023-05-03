@@ -17,8 +17,8 @@ class CarouselComponent extends IComponent {
     private readonly item:              HTMLElement | null;
     private readonly btnPrev:           HTMLButtonElement;
     private readonly btnNext:           HTMLButtonElement;
-    private readonly itemWidth:         number;
-    private readonly movePosition:      number;
+    private itemWidth:                  number;
+    private movePosition:               number;
     private readonly itemsCount:        number;
 
     private readonly boundClickEvent = this.onClick.bind(this);
@@ -43,8 +43,14 @@ class CarouselComponent extends IComponent {
         this.btnPrev = this.element.querySelector('.js-category__container__button-left') as HTMLButtonElement;
         this.btnNext = this.element.querySelector('.js-category__container__button-right') as HTMLButtonElement;
 
-        this.itemWidth = 262 + 15;
-        this.movePosition = this.slidesToScroll * this.itemWidth;
+        setTimeout(() => {
+            console.log(this.item?.offsetWidth);
+            this.itemWidth = <number>this.item?.offsetWidth + 15;
+            this.movePosition = this.slidesToScroll * this.itemWidth;
+        }, 0);
+
+        // this.itemWidth = 262 + 15;
+        // this.movePosition = this.slidesToScroll * this.itemWidth;
         this.itemsCount = this.element.querySelectorAll('li').length;
 
         // console.log(this.item!.offsetWidth);

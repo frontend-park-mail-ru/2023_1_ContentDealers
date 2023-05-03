@@ -20,6 +20,10 @@ class CarouselController extends IController<CarouselView, IModel> {
         this.canClick = true;
 
         // consist of picture size and spacing between pictures 850 + 20
+        setTimeout(() => {
+            // TODO
+        });
+
         this.movePosition = 870;
         this.itemsCount = this.view.getItemsCount();
 

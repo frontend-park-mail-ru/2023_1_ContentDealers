@@ -23,7 +23,7 @@ class FilmController extends IController<FilmView, FilmModel> {
     private filmSrc: string | null;
     private playerController: PlayerController;
 
-    constructor(view: FilmView, model: FilmModel) {
+    public constructor(view: FilmView, model: FilmModel) {
         super(view, model);
 
         this.filmId = null;
@@ -33,9 +33,9 @@ class FilmController extends IController<FilmView, FilmModel> {
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
         // this.view.bindClickEvent(this.handleClick.bind(this));
-    };
+    }
 
-    public async mountComponent(opts?: IId) {
+    public async mountComponent(opts?: IId): Promise<void> {
         if (!opts) {
             router.showUnknownPage();
         }
@@ -56,10 +56,7 @@ class FilmController extends IController<FilmView, FilmModel> {
 
                                 this.view.bindClickEvent(this.handleClick.bind(this));
                             })
-                            .catch((error) => {
-                                router.showUnknownPage();
-                                return;
-                            });
+                            .catch((error) => console.error(error));
                         break;
                     }
 
@@ -76,10 +73,7 @@ class FilmController extends IController<FilmView, FilmModel> {
 
                                 this.view.bindClickEvent(this.handleClick.bind(this));
                             })
-                            .catch((error) => {
-                                router.showUnknownPage();
-                                return;
-                            });
+                            .catch((error) => console.error(error));
                         break;
                     }
 
@@ -106,16 +100,17 @@ class FilmController extends IController<FilmView, FilmModel> {
                 //     });
             }
         }
-    };
+
+        return;
+    }
 
     public addFavoritesButton(): void {
         this.model.getFavoritesStatus(String(this.filmId))
             .then((status) => {
                 this.view.renderFavoritesButton(status);
             })
-            .catch((error) => {
-            });
-    };
+            .catch((error) => console.error(error));
+    }
 
     public unmountComponent(): void {
         if (this.isMounted) {
@@ -125,7 +120,7 @@ class FilmController extends IController<FilmView, FilmModel> {
             this.trailerSrc = null;
             this.filmSrc = null;
         }
-    };
+    }
 
     private handleClick(e: Event): void {
         e.preventDefault();
@@ -175,13 +170,13 @@ class FilmController extends IController<FilmView, FilmModel> {
 
                     if (this.view.isDelete()) {
                         this.model.deleteFromFavorites(addDeleteFavorites)
-                            .then((status) =>{
+                            .then(() =>{
                                 this.view.toggleBookmark();
                                 console.log('УСПЕШНО УДАЛЕНО');
                             });
                     } else {
                         this.model.addToFavorites(addDeleteFavorites)
-                            .then((status) => {
+                            .then(() => {
                                 this.view.toggleBookmark();
                                 console.log('УСПЕШНО ДОБАВЛЕНО');
                             });
@@ -218,7 +213,7 @@ class FilmController extends IController<FilmView, FilmModel> {
 
             return;
         }
-    };
+    }
 }
 
 export default FilmController;

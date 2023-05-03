@@ -13,7 +13,7 @@ class CarouselController extends IController<CarouselView, IModel> {
     private readonly itemsCount:     number;
     private canClick:                boolean;
 
-    constructor(view: CarouselView) {
+    public constructor(view: CarouselView) {
         super(view, IModel);
 
         this.position = 0;
@@ -31,7 +31,7 @@ class CarouselController extends IController<CarouselView, IModel> {
 
         this.view.bindClickEvent(this.handleClick.bind(this));
         this.view.bindTransitionEvent(this.handleTransitionEnd.bind(this));
-    };
+    }
 
     private handleClick(e: Event): void {
         e.preventDefault();
@@ -68,7 +68,7 @@ class CarouselController extends IController<CarouselView, IModel> {
 
             return;
         }
-    };
+    }
 
     private handleTransitionEnd(): void {
         const extremeImg: number = Math.ceil(this.itemsCount / 2);
@@ -77,7 +77,7 @@ class CarouselController extends IController<CarouselView, IModel> {
 
         this.view.jump(this.movePosition * this.position);
         this.canClick = true;
-    };
+    }
 }
 
 export default CarouselController;

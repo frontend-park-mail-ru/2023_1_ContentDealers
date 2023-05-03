@@ -12,13 +12,13 @@ class GenreView extends IView {
     private content:        HTMLElement;
     private contentButton:  HTMLElement;
 
-    constructor(parent: HTMLElement) {
+    public constructor(parent: HTMLElement) {
         super(parent, GenreTemplate({}));
-    };
+    }
 
     public bindClickEvent(listener: any): void {
         this.element.addEventListener('click', listener.bind(this));
-    };
+    }
 
     // public bindChangeEvent(listener: any): void {
     //     this.element.addEventListener('change', listener.bind(this));
@@ -37,11 +37,11 @@ class GenreView extends IView {
         data.content?.forEach(contentData => {
             new ContentSearchComponent(this.content, contentData, false, 'picture_size').show();
         });
-    };
+    }
 
     public emptyContent(): void {
         this.content.innerHTML = '';
-    };
+    }
 }
 
 export default GenreView;

@@ -22,7 +22,7 @@ class SettingsView extends IView {
 
     public readonly form: FormComponent;
 
-    constructor(parent: HTMLElement) {
+    public constructor(parent: HTMLElement) {
         super(parent, SettingsTemplate(SettingsData));
 
         this.leftMenuContainer = <HTMLElement>this.element.querySelector('.js-settings__left-menu-container');
@@ -34,26 +34,26 @@ class SettingsView extends IView {
 
         this.form = new SettingsData.formData.componentType(this.settingsFormContainer, SettingsData.formData.componentData);
         this.form.show();
-    };
+    }
 
-    public changeActiveLeftMenuItem(href: string) {
+    public changeActiveLeftMenuItem(href: string): void {
         const listElement = this.leftMenu.getElement();
         listElement.querySelector(`[href="${this.currentActiveItem}"]`)?.parentElement?.classList.remove('settings-left-menu__item--active');
         this.currentActiveItem = href;
         listElement.querySelector(`[href="${href}"]`)?.parentElement?.classList.add('settings-left-menu__item--active');
-    };
+    }
 
-    public show(opts?: { user: IUser }) {
+    public show(opts?: { user: IUser }): void {
         if(!opts) return;
 
         this.form.setDataToFields([{ id: 'email', value: opts.user.email }]);
 
         super.show();
-    };
+    }
 
     public bindClickEvent(listener: any): void {
         this.element.addEventListener('click', listener.bind(this));
-    };
+    }
 }
 
 export default SettingsView;

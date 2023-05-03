@@ -17,7 +17,7 @@ class FormComponent extends IComponent {
     public submitButton: ButtonComponent;
     public links: LinkComponent[];
 
-    constructor(parent: HTMLElement, data?: FormComponentData) {
+    public constructor(parent: HTMLElement, data?: FormComponentData) {
         super(parent, FormComponentTemplate({ formId: data?.formId, enctype: data?.enctype }));
 
         const formContent = <HTMLElement>this.element.querySelector('.js-form__content');
@@ -42,7 +42,7 @@ class FormComponent extends IComponent {
 
             this.links.push(linkElement);
         });
-    };
+    }
 
     public validateEmptyFields(fields: InputComponent[]): boolean {
         return fields.map(field => {
@@ -53,7 +53,7 @@ class FormComponent extends IComponent {
             field.hideErrorMsg();
             return true;
         }).every(isValid => isValid);
-    };
+    }
 
     public validatePasswordFields(): boolean {
         let isValid = true;
@@ -86,7 +86,7 @@ class FormComponent extends IComponent {
         }
 
         return isValid;
-    };
+    }
 
     public validateInputFields(): boolean {
         let isValid = true;
@@ -108,15 +108,15 @@ class FormComponent extends IComponent {
         }
 
         return isValid;
-    };
+    }
 
     public validateWithEmpty(): boolean {
         return this.validateInputFields() && this.validatePasswordFields();
-    };
+    }
 
     public validateWithoutEmpty(): boolean {
         return this.validatePasswordFields();
-    };
+    }
 
     public setDataToFields(fieldsWithValue: { id: string, value: string }[]): void {
         fieldsWithValue.forEach(({id, value}) => {
@@ -126,31 +126,31 @@ class FormComponent extends IComponent {
 
     public findInputComponent(id: string): InputComponent {
         return <inputComponent>this.inputs.find(inputComponent => inputComponent.input.id === id);
-    };
+    }
 
     public bindInputsEvent(listener: any): void {
         this.inputs.forEach((inputComponent) => {
             inputComponent.bindInputEvent(listener);
         });
-    };
+    }
 
     public bindSubmitEvent(listener: any): void {
         this.submitButton.bindClickEvent(listener);
-    };
+    }
 
     public bindLinksEvent(listener: any): void {
         this.links.forEach((linkComponent) => {
             linkComponent.bindClickEvent(listener);
         });
-    };
+    }
 
     public bindFileClickEvent(listener: any): void {
         this.findInputComponent('avatar').bindClickEvent(listener);
-    };
+    }
 
     public bindCheckboxClickEvent(listener: any): void {
         this.findInputComponent('avatar-checkbox').bindClickEvent(listener);
-    };
+    }
 
     public saveDataToStorage(key: string): void {
         const data: { [key: string]: string } = {};
@@ -160,7 +160,7 @@ class FormComponent extends IComponent {
         });
 
         localStorage.setItem(key, JSON.stringify(data));
-    };
+    }
 
     public getDataFromStorage(key: string): void {
         const savedData = localStorage.getItem(key);
@@ -171,7 +171,7 @@ class FormComponent extends IComponent {
                 this.findInputComponent(id).input.value = value;
             });
         }
-    };
+    }
 }
 
 export default FormComponent;

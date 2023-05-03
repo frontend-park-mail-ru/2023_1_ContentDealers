@@ -23,7 +23,7 @@ class CarouselComponent extends IComponent {
 
     private readonly boundClickEvent = this.onClick.bind(this);
 
-    constructor(parent: HTMLElement, data?: CarouselComponentData) {
+    public constructor(parent: HTMLElement, data?: CarouselComponentData) {
         super(parent, CarouselComponentTemplate({}));
 
         this.listContainer = <HTMLElement>this.element.querySelector('.js-category__container__list');
@@ -67,24 +67,26 @@ class CarouselComponent extends IComponent {
         // setTimeout(() => {
         //     this.itemWidth = this.item!.offsetWidth + 15;
         // }, 0);
-    };
+    }
 
-    private setPosition() {
-        this.track!.style.transform = `translateX(${this.position}px)`;
+    private setPosition(): void {
+        if (this.track) {
+            this.track.style.transform = `translateX(${this.position}px)`;
+        }
 
         this.checkBtns();
-    };
+    }
 
-    private checkBtns() {
+    private checkBtns(): void {
         this.btnNext.style.display = this.position <= -(this.itemsCount - this.slidesToShow) * this.itemWidth ? 'none' : 'block';
         this.btnPrev.style.display = this.position === 0 ? 'none' : 'block';
-    };
+    }
 
     public renderList(data: CarouselComponentData): void {
         this.listContainer.innerHTML = '';
 
         if (data.contents) {
-            const listItems = data.contents.map(({id, type, previewURL}, index) => {
+            const listItems = data.contents.map(({id, type, previewURL}) => {
                 return {
                     componentType: LinkComponent,
                     componentData: {
@@ -104,7 +106,7 @@ class CarouselComponent extends IComponent {
         }
 
         if (data.episodes) {
-            const listItems = data.episodes.map(({id, episodeNum, contentURL}, index) => {
+            const listItems = data.episodes.map(({episodeNum, contentURL}, ) => {
                 return {
                     componentType: LinkComponent,
                     componentData: {
@@ -129,7 +131,7 @@ class CarouselComponent extends IComponent {
         }
 
         if (data.genres) {
-            const listItems = data.genres.map(({id, name}, index) => {
+            const listItems = data.genres.map(({id, name}) => {
                 return {
                     componentType: LinkComponent,
                     componentData: {
@@ -149,7 +151,7 @@ class CarouselComponent extends IComponent {
             }).show();
         }
 
-    };
+    }
 
     private onClick(e: Event): void {
         const action = (<HTMLElement>(<HTMLElement>e.target).closest('[data-action]'))?.dataset['action'];
@@ -177,7 +179,7 @@ class CarouselComponent extends IComponent {
                 break;
             }
         }
-    };
+    }
 }
 
 export default CarouselComponent;

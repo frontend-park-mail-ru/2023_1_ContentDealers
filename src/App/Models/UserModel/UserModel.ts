@@ -13,10 +13,10 @@ import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 class UserModel extends IModel {
     private currentUser: IUser | null;
 
-    constructor() {
+    public constructor() {
         super();
         this.currentUser = null;
-    };
+    }
 
     private parseUser(json: any): IUser {
         return {
@@ -24,13 +24,13 @@ class UserModel extends IModel {
             birthDate: json.date_birth,
             avatar: json.avatar_url,
         };
-    };
+    }
 
     public getCurrentUser(): IUser | null {
         return this.currentUser;
-    };
+    }
 
-    public async signInUser(signData: IUserSignIn) {
+    public async signInUser(signData: IUserSignIn): Promise<string> {
         const signInResponse = await Ajax.ajax(config.api.signIn, JSON.stringify(signData));
 
         try {
@@ -49,9 +49,11 @@ class UserModel extends IModel {
 
         if (this.currentUser === null)
             return Promise.reject(signInResponse.responseBody.message);
-    };
 
-    public async signUpUser(signData: IUserSignUp) {
+        return Promise.reject();
+    }
+
+    public async signUpUser(signData: IUserSignUp): Promise<string> {
         const signUpResponse = await Ajax.ajax(config.api.signUp, JSON.stringify(signData));
 
         try {
@@ -73,18 +75,22 @@ class UserModel extends IModel {
         if (this.currentUser === null) {
             return Promise.reject(signUpResponse.responseBody.message);
         }
-    };
 
-    public async logoutUser() {
+        return Promise.reject();
+    }
+
+    public async logoutUser(): Promise<void> {
         const response = await Ajax.ajax(config.api.logout);
         await Ajax.checkResponseStatus(response, config.api.logout);
 
         this.currentUser = null;
 
         EventDispatcher.emit('user-changed', this.currentUser);
-    };
 
-    public async updateUser(user: any) {
+        return;
+    }
+
+    public async updateUser(user: any): Promise<string> {
         const response = await Ajax.ajax(config.api.update, JSON.stringify(user));
 
         try {
@@ -106,9 +112,11 @@ class UserModel extends IModel {
         }
 
         EventDispatcher.emit('user-changed', this.currentUser);
-    };
 
-    public async avatarUpdate(formData: any) {
+        return Promise.reject();
+    }
+
+    public async avatarUpdate(formData: any): Promise<void> {
         const response = await Ajax.ajax(config.api.avatarUpdate, formData);
 
         try {
@@ -124,9 +132,11 @@ class UserModel extends IModel {
         }
 
         EventDispatcher.emit('user-changed', this.currentUser);
-    };
 
-    public async avatarDelete() {
+        return;
+    }
+
+    public async avatarDelete(): Promise<void> {
         const response = await Ajax.ajax(config.api.avatarDelete);
 
         try {
@@ -142,9 +152,11 @@ class UserModel extends IModel {
         }
 
         EventDispatcher.emit('user-changed', this.currentUser);
-    };
 
-    public async authUserByCookie() {
+        return;
+    }
+
+    public async authUserByCookie(): Promise<void> {
         const response = await Ajax.ajax(config.api.profile);
 
         try {
@@ -155,7 +167,9 @@ class UserModel extends IModel {
             this.currentUser = null;
             return Promise.reject();
         }
-    };
+
+        return;
+    }
 }
 
 export default UserModel;

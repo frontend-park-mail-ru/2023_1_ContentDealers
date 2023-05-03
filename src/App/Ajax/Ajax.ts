@@ -4,14 +4,8 @@ import type { IApi } from '../Config/Config';
 interface IRequestParams {
     url: string;
     method: string;
-    headers: {};
+    headers: NonNullable<unknown>;
 }
-
-// interface IResponseBody {
-//     body: {
-//         status: string;
-//     };
-// }
 
 export interface IResponse {
     status: number;
@@ -21,17 +15,14 @@ export interface IResponse {
 class Ajax {
     private csrfToken?: string;
 
-    public async ajax(params: IRequestParams, body?: string | FormData) {
+    public async ajax(params: IRequestParams, body?: string | FormData): Promise<IResponse> {
         const headers = new Headers(params.headers);
 
-        if (params.url === config.api.signIn.url || params.url === config.api.signUp.url) {
-
-        } else {
-            if (params.method !== REQUEST_METHODS.GET) {
-                if (!this.csrfToken) {
-                    await this.getCsrfTokenFromServer();
-                }
-                headers.append('CSRF-Token', this.csrfToken!);
+        if (params.method !== REQUEST_METHODS.GET && params.url !== config.api.signIn.url && params.url !== config.api.signUp.url) {
+            if (!this.csrfToken) {
+                await this.getCsrfTokenFromServer();
+            } else {
+                headers.append('CSRF-Token', this.csrfToken);
             }
         }
 
@@ -58,11 +49,11 @@ class Ajax {
             status: response.status,
             responseBody
         };
-    };
+    }
 
     private setCsrfToken(csrfToken: string): void {
         this.csrfToken =  csrfToken;
-    };
+    }
 
     public async getCsrfTokenFromServer(): Promise<any> {
         const csrfResponse = await fetch(`${config.host}${config.api.csrf.url}`, {
@@ -74,12 +65,13 @@ class Ajax {
         const csrfToken = await csrfResponse.json();
 
         this.setCsrfToken(csrfToken.body['csrf-token']);
+
         return csrfToken;
     }
 
-    public async checkResponseStatus(response: IResponse, conf: IApi) {
+    public async checkResponseStatus(response: IResponse, conf: IApi): Promise<string> {
         if (response.status.toString() in conf.statuses.success) {
-            return Promise.resolve();
+            return Promise.resolve('');
         }
 
         if (response.status.toString() in conf.statuses.failure) {
@@ -100,7 +92,7 @@ class Ajax {
         return Promise.reject({
             msg: 'Неожиданная ошибка',
         });
-    };
+    }
 }
 
 export default new Ajax();

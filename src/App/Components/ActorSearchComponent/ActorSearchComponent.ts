@@ -5,14 +5,14 @@ import type ActorSearchComponentData from './ActorSearchComponentData';
 import './ActorSearchComponent.css';
 
 class ActorSearchComponent extends IComponent {
-    constructor(parent: HTMLElement, data: ActorSearchComponentData, forSearch: boolean) {
+    public constructor(parent: HTMLElement, data: ActorSearchComponentData, forSearch: boolean) {
         super(parent, ActorSearchComponentTemplate({
             personId: data.personId,
             name: data.name,
             description: data.description,
             forSearch: forSearch,
         }));
-    };
+    }
 }
 
 export default ActorSearchComponent;

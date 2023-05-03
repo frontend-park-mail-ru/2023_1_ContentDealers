@@ -19,7 +19,7 @@ class ModalRightView extends IView {
 
     private readonly backButtonContainer: HTMLElement;
 
-    constructor(parent: HTMLElement) {
+    public constructor(parent: HTMLElement) {
         super(parent, ModalRightTemplate({ title: ModalRightData.title }));
 
         this.modalBody = <HTMLElement>this.element.querySelector('.js-modal__body');
@@ -28,20 +28,20 @@ class ModalRightView extends IView {
         new ModalRightData.backButton.componentType(this.backButtonContainer, ModalRightData.backButton.componentData).show();
 
         this.currentView = null;
-    };
+    }
 
     public setSignInView(): void {
         this.currentView = new SignInView(this.modalBody);
-    };
+    }
 
     public setSignUpView(): void {
         this.currentView = new SignUpView(this.modalBody);
-    };
+    }
 
     public show(): void {
         this.parent.classList.add('modal--right--open');
         super.show();
-    };
+    }
 
     public hide(): void {
         this.parent.classList.remove('modal--right--open');
@@ -50,7 +50,7 @@ class ModalRightView extends IView {
             this.currentView = null;
             super.hide();
         }, 200);
-    };
+    }
 
     /**
      * Функция добавления обработчика события нажатия на
@@ -59,7 +59,7 @@ class ModalRightView extends IView {
      */
     public bindClickEvent(listener: any): void {
         this.element.addEventListener('click', listener.bind(this));
-    };
+    }
 }
 
 export default ModalRightView;

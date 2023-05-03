@@ -14,7 +14,7 @@ interface IId {
 class PersonController extends IController<PersonView, PersonModel> {
     private personId: number | null;
 
-    constructor(view: PersonView, model: PersonModel) {
+    public constructor(view: PersonView, model: PersonModel) {
         super(view, model);
 
         this.personId = null;
@@ -22,9 +22,9 @@ class PersonController extends IController<PersonView, PersonModel> {
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
         this.view.bindClickEvent(this.handleClick.bind(this));
-    };
+    }
 
-    public async mountComponent(opts?: IId) {
+    public async mountComponent(opts?: IId): Promise<void> {
         if (!opts) {
             router.showUnknownPage();
         }
@@ -38,13 +38,12 @@ class PersonController extends IController<PersonView, PersonModel> {
                         this.view.fillPerson(data);
                         super.mountComponent();
                     })
-                    .catch((error) => {
-                        router.showUnknownPage();
-                        return;
-                    });
+                    .catch((error) => console.error(error));
             }
         }
-    };
+
+        return;
+    }
 
     public unmountComponent(): void {
         if (this.isMounted) {
@@ -52,7 +51,7 @@ class PersonController extends IController<PersonView, PersonModel> {
 
             this.personId = null;
         }
-    };
+    }
 
     private handleClick(e: Event): void {
         e.preventDefault();

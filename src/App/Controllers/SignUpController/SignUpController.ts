@@ -16,12 +16,12 @@ import paths from '../../Router/RouterPaths';
  * @param  {UserModel} model Объект модели пользователя
  */
 class SignUpController extends IController<SignUpView, UserModel> {
-    constructor(view: SignUpView, model: UserModel) {
+    public constructor(view: SignUpView, model: UserModel) {
         super(view, model);
 
         this.view.form.bindSubmitEvent(this.onSubmit.bind(this));
         this.view.form.bindLinksEvent(this.onRedirect.bind(this));
-    };
+    }
 
     private onInput(e: Event): void {
         e.preventDefault();
@@ -34,7 +34,7 @@ class SignUpController extends IController<SignUpView, UserModel> {
                 this.view.form.submitButton.unblock();
             }
         }
-    };
+    }
 
     private onSubmit(e: Event): void {
         e.preventDefault();
@@ -58,11 +58,9 @@ class SignUpController extends IController<SignUpView, UserModel> {
 
             this.model.signUpUser(userSignUp).then(() => {
                 router.goToPath(paths.main);
-            }).catch((errorMsg) => {
-                this.view.form.findInputComponent('repeat-password').showErrorMsg(errorMsg);
-            });
+            }).catch((errorMsg) => this.view.form.findInputComponent('repeat-password').showErrorMsg(errorMsg));
         }
-    };
+    }
 
     private onRedirect(e: Event): void {
         e.stopPropagation();
@@ -74,15 +72,15 @@ class SignUpController extends IController<SignUpView, UserModel> {
             this.saveFormDataToStorage();
             router.goToPath(href);
         }
-    };
+    }
 
     public saveFormDataToStorage(): void {
         this.view.form.saveDataToStorage('SignUpData');
-    };
+    }
 
     public getFormDataFromStorage(): void {
         this.view.form.getDataFromStorage('SignUpData');
-    };
+    }
 }
 
 export default SignUpController;

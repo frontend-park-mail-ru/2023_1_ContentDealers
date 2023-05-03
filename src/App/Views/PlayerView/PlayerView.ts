@@ -59,7 +59,7 @@ class PlayerView extends IView {
     private readonly currentTimeElement: HTMLElement;
 
 
-    constructor(parent: HTMLElement, title: string) { // TODO: how improve, so many variables
+    public constructor(parent: HTMLElement, title: string) { // TODO: how improve, so many variables
         super(parent, PlayerTemplate({ title: title }));
 
         this.video = <HTMLVideoElement>this.element.querySelector('video');
@@ -96,7 +96,7 @@ class PlayerView extends IView {
         this.compressButton = new PlayerData.compressButton.componentType(this.screenStatusContainer, PlayerData.compressButton.componentData);
 
         this.initialState();
-    };
+    }
 
     private initialState(): void {
         this.closeButton.show();
@@ -108,12 +108,12 @@ class PlayerView extends IView {
 
         this.screenButton.show();
         this.compressButton.show();
-    };
+    }
 
 
     public setCurrentTime(time: number): void {
         this.currentTimeElement.innerText = `${this.progressBar.timeToString(time)} / ${this.progressBar.timeToString(this.video.duration)}`;
-    };
+    }
 
     private setOpacityToElements(opacity: string): void {
         this.title.style.opacity = opacity;
@@ -121,7 +121,7 @@ class PlayerView extends IView {
 
         this.videoPanel.style.opacity = opacity;
         this.bottomFilter.style.opacity = opacity;
-    };
+    }
 
 
     public rerenderPlay(isPlay: boolean): void {
@@ -132,7 +132,7 @@ class PlayerView extends IView {
             this.pauseButton.hide();
             this.playButton.show();
         }
-    };
+    }
 
     public rerenderScreen(isFullScreen: boolean): void {
         if (isFullScreen) {
@@ -146,7 +146,7 @@ class PlayerView extends IView {
 
     private checkVideoPanel(): boolean {
         return Boolean(this.videoPanelContainer.querySelector('.js-video__panel'));
-    };
+    }
 
 
     public showElements(): void {
@@ -172,7 +172,7 @@ class PlayerView extends IView {
                 this.setOpacityToElements(opacity.toString());
             }, this.timeoutTicks);
         }
-    };
+    }
 
     public hideElements(): void {
         if (this.checkVideoPanel()) {
@@ -197,43 +197,43 @@ class PlayerView extends IView {
                 this.setOpacityToElements(opacity.toString());
             }, this.timeoutTicks);
         }
-    };
+    }
 
 
     // Show / hide next button //
     public showNextButton(): void {
         this.nextButton.show();
-    };
+    }
 
     public hideNextButton(): void {
         this.nextButton.hide();
-    };
+    }
 
 
     // Binds //
     public bindPlayButtonClick(listener: any): void {
         this.playStatusContainer.addEventListener('click', listener);
-    };
+    }
 
     public bindNextButtonClick(listener: any): void {
         this.nextButton.div.addEventListener('click', listener);
-    };
+    }
 
     public bindScreenButtonClick(listener: any): void {
         this.screenStatusContainer.addEventListener('click', listener);
-    };
+    }
 
     public bindCloseButtonClick(listener: any): void {
         this.closeButtonContainer.addEventListener('click', listener);
-    };
+    }
 
     public bindVideoClick(listener: any): void {
         this.element.querySelector('.js-video__storage')?.addEventListener('click', listener);
-    };
+    }
 
     public bindMouseMoveEvent(listener: any): void {
         this.element.addEventListener('mousemove', listener);
-    };
+    }
 }
 
 export default PlayerView;

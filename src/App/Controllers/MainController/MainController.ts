@@ -13,7 +13,7 @@ import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 class MainController extends IController<MainView, { genres: GenreModel, selections: SelectionModel }> {
     private carouselController: CarouselController;
 
-    constructor(view: MainView, model: { genres: GenreModel, selections: SelectionModel }) {
+    public constructor(view: MainView, model: { genres: GenreModel, selections: SelectionModel }) {
         super(view, model);
 
         this.carouselController = new CarouselController(this.view.carouselView);
@@ -21,9 +21,9 @@ class MainController extends IController<MainView, { genres: GenreModel, selecti
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
         this.view.bindClickEvent(this.handleClick.bind(this));
-    };
+    }
 
-    public async mountComponent() {
+    public async mountComponent(): Promise<void> {
         if (!this.isMounted) {
             this.carouselController.mountComponent();
             super.mountComponent();
@@ -32,24 +32,20 @@ class MainController extends IController<MainView, { genres: GenreModel, selecti
                 .then((data) => {
                     this.view.fillGenres(data);
                 })
-                .catch((error) => {
-                    router.showUnknownPage(); // TODO: mb not
-                    return;
-                });
+                .catch((error) => console.error(error));
 
             this.model.selections.getSelections()
                 .then((data) => {
                     this.view.fillSelections(data);
                     this.view.bindClickEvent(this.handleClick.bind(this));
                 })
-                .catch(() => {
-                    router.showUnknownPage(); // TODO: mb not
-                    return;
-                });
+                .catch((error) => console.error(error));
         }
-    };
 
-    public unmountComponent() {
+        return;
+    }
+
+    public unmountComponent(): void {
         this.carouselController.unmountComponent();
         super.unmountComponent();
     }
@@ -65,7 +61,7 @@ class MainController extends IController<MainView, { genres: GenreModel, selecti
 
             return;
         }
-    };
+    }
 }
 
 export default MainController;

@@ -14,7 +14,7 @@ class ButtonComponent extends IComponent {
 
     public readonly button: HTMLButtonElement;
 
-    constructor(parent: HTMLElement, data?: ButtonComponentData) {
+    public constructor(parent: HTMLElement, data?: ButtonComponentData) {
         super(parent, ButtonComponentTemplate(data));
 
         this.button = <HTMLButtonElement>this.element.querySelector('button') || <HTMLButtonElement>this.element;
@@ -23,7 +23,7 @@ class ButtonComponent extends IComponent {
         this.setDiameterHighlight();
 
         this.bindMouseMoveEvent(this.onMouseMoveEvent);
-    };
+    }
 
     private setSizeSquare(): void {
         setTimeout(() => {
@@ -36,7 +36,7 @@ class ButtonComponent extends IComponent {
 
             this.button.style.setProperty(this.buttonProps['sizeSquare'].name, `${this.buttonProps['sizeSquare'].value}px`);
         }, 0);
-    };
+    }
 
     private setDiameterHighlight(): void {
         setTimeout(() => {
@@ -56,27 +56,27 @@ class ButtonComponent extends IComponent {
 
     public block(): void {
         this.button.disabled = true;
-    };
+    }
 
     public unblock(): void {
         this.button.disabled = false;
-    };
+    }
 
     public bindClickEvent(listener: any): void {
         this.button.addEventListener('click', listener.bind(this));
-    };
+    }
 
     public unbindClickEvent(listener: any): void {
         this.button.removeEventListener('click', listener.bind(this));
-    };
+    }
 
-    private bindMouseMoveEvent(listener: Function): void {
+    private bindMouseMoveEvent(listener: any): void {
         this.button.addEventListener('mousemove', listener.bind(this));
-    };
+    }
 
-    private unbindMouseMoveEvent(listener: Function): void {
+    private unbindMouseMoveEvent(listener: any): void {
         this.button.removeEventListener('mousemove', listener.bind(this));
-    };
+    }
 
     private onMouseMoveEvent(e: Event): void {
         const mouseEvent = e as MouseEvent;
@@ -86,7 +86,7 @@ class ButtonComponent extends IComponent {
 
         this.button.style.setProperty(this.buttonProps['coordinateX'].name, `${this.buttonProps['coordinateX'].value}px`);
         this.button.style.setProperty(this.buttonProps['coordinateY'].name, `${this.buttonProps['coordinateY'].value}px`);
-    };
+    }
 }
 
 export default ButtonComponent;

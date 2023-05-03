@@ -16,12 +16,12 @@ import paths from '../../Router/RouterPaths';
  * @param  {UserModel} model Объект модели пользователя
  */
 class SignInController extends IController<SignInView, UserModel> {
-    constructor(view: SignInView, model: UserModel) {
+    public constructor(view: SignInView, model: UserModel) {
         super(view, model);
 
         this.view.form.bindSubmitEvent(this.onSubmit.bind(this));
         this.view.form.bindLinksEvent(this.onRedirect.bind(this));
-    };
+    }
 
     private validateFormFields(): boolean {
         const emailField = this.view.form.findInputComponent('email');
@@ -32,15 +32,11 @@ class SignInController extends IController<SignInView, UserModel> {
         }
 
         return this.view.form.validateEmptyFields([emailField, passwordField]);
-    };
+    }
 
     private onInput(e: Event): void {
         e.preventDefault();
-
-        if (this.isMounted) {
-
-        }
-    };
+    }
 
     private onSubmit(e: Event): void {
         e.preventDefault();
@@ -68,7 +64,7 @@ class SignInController extends IController<SignInView, UserModel> {
                 this.view.form.findInputComponent('password').showErrorMsg(errorMsg);
             });
         }
-    };
+    }
 
     private onRedirect(e: Event): void {
         e.stopPropagation();
@@ -80,15 +76,15 @@ class SignInController extends IController<SignInView, UserModel> {
             this.saveFormDataToStorage();
             router.goToPath(href);
         }
-    };
+    }
 
     public saveFormDataToStorage(): void {
         this.view.form.saveDataToStorage('SignInData');
-    };
+    }
 
     public getFormDataFromStorage(): void {
         this.view.form.getDataFromStorage('SignInData');
-    };
+    }
 }
 
 export default SignInController;

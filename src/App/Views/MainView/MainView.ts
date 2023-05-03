@@ -18,7 +18,7 @@ class MainView extends IView {
     private readonly genres: HTMLElement;
     private readonly main: HTMLElement;
 
-    constructor(parent: HTMLElement) {
+    public constructor(parent: HTMLElement) {
         super(parent, MainTemplate({}));
 
         this.article = <HTMLElement>this.element.querySelector('.news');
@@ -26,7 +26,7 @@ class MainView extends IView {
         this.main = <HTMLElement>this.element.querySelector('.categories');
 
         this.carouselView = new CarouselView(this.article);
-    };
+    }
 
     public fillGenres(genres: IGenre[]): void {
         this.genres.innerHTML = '';
@@ -44,7 +44,7 @@ class MainView extends IView {
         // genres.forEach(({ id, name }) => {
         //     // new GenreComponent(this.genres, )
         // });
-    };
+    }
 
     public fillSelections(selections: ISelection[]): void {
         this.main.innerHTML = '';
@@ -52,11 +52,11 @@ class MainView extends IView {
         selections.forEach(({ id, title, content}) => {
             new SeasonComponent(this.main, { id: id.toString(), title: title, data: { contents: <IContent[]>content } }).show();
         });
-    };
+    }
 
     public bindClickEvent(listener: any): void {
         this.element.addEventListener('click', listener);
-    };
+    }
 }
 
 export default MainView;

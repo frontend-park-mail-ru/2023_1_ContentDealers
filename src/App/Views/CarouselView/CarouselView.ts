@@ -16,7 +16,7 @@ class CarouselView extends IView {
     private leftBtn: HTMLButtonElement;
     private rightBtn: HTMLButtonElement;
 
-    constructor(parent: HTMLElement) {
+    public constructor(parent: HTMLElement) {
         super(parent, CarouselTemplate({}));
 
         this.div = document.createElement('div');
@@ -31,17 +31,17 @@ class CarouselView extends IView {
 
         this.leftBtn = <HTMLButtonElement>this.element.querySelector('.js-chevron-left');
         this.rightBtn = <HTMLButtonElement>this.element.querySelector('.js-chevron-right');
-    };
+    }
 
     public setPosition(position: number): void {
         this.div.style.transition = '1s';
         this.div.style.transform = `translateX(${position}px)`;
-    };
+    }
 
     public jump(position: number): void {
         this.div.style.transition = 'none';
         this.div.style.transform = `translateX(${position}px)`;
-    };
+    }
 
     public getItemsCount(): number {
         // The difference is because we add 2 elements at the beginning and at the end
@@ -50,11 +50,11 @@ class CarouselView extends IView {
 
     public bindClickEvent(listener: any): void {
         this.element.addEventListener('click', listener.bind(this));
-    };
+    }
 
     public bindTransitionEvent(listener: any): void {
         this.div.addEventListener('transitionend', listener.bind(this));
-    };
+    }
 }
 
 export default CarouselView;

@@ -37,7 +37,7 @@ class HeaderView extends IView {
 
     public searchView: SearchView;
 
-    constructor(parent: HTMLElement) {
+    public constructor(parent: HTMLElement) {
         super(parent, HeaderTemplate({}));
 
         // Initialize fields
@@ -65,7 +65,7 @@ class HeaderView extends IView {
 
         this.items.querySelector('.subscribe-button')?.setAttribute('disabled', 'true'); // TODO: return
         this.searchIcon = <HTMLImageElement>this.items.querySelector('img');
-    };
+    }
 
     public toggleMiddle(isSearch: boolean): void {
         if (!isSearch) {
@@ -85,7 +85,7 @@ class HeaderView extends IView {
         listElement.querySelector(`[href="${this.currentActiveItem}"]`)?.parentElement?.classList.remove('active');
         this.currentActiveItem = href;
         listElement.querySelector(`[href="${href}"]`)?.parentElement?.classList.add('active');
-    };
+    }
 
     /**
      * Функция изменения элемента в хэдере
@@ -109,11 +109,11 @@ class HeaderView extends IView {
 
         const profile = new component.componentType(this.profile, component.componentData);
         profile.show();
-    };
+    }
 
     public getInputValue(): string {
         return (<HTMLInputElement>this.element.querySelector('#query')).value;
-    };
+    }
 
     /**
      * Функция добавления обработчика события нажатия на хедер
@@ -122,11 +122,11 @@ class HeaderView extends IView {
      */
     public bindClickEvent(listener: any): void {
         this.element.addEventListener('click', listener);
-    };
+    }
 
     public bindInputEvent(listener: any): void {
         this.element.addEventListener('input', listener);
-    };
+    }
 
     public bindKeyPressEvent(listener: any): void {
         this.element.addEventListener('keydown', listener);

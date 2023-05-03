@@ -35,15 +35,15 @@ class FilmView extends IView {
     private seasons: HTMLElement;
     public seasonComponent: SeasonComponent;
 
-    constructor(parent: HTMLElement) {
+    public constructor(parent: HTMLElement) {
         super(parent, FilmTemplate({}));
-    };
+    }
 
     public newPlayerView(title: string): void {
         this.playerView = new PlayerView(<HTMLElement>this.parent.parentElement, title);
-    };
+    }
 
-    public hide() {
+    public hide(): void {
         this.playerView = null;
         super.hide();
     }
@@ -57,14 +57,14 @@ class FilmView extends IView {
         this.buttonsContainer = <HTMLElement>this.element.querySelector('.film-content__buttons');
 
         this.renderButtons();
-    };
+    }
 
     public fillSeasonItems(data: SeasonsComponentData): void {
         // this.seasons.innerHTML = '';
 
         this.seasonComponent = new SeasonComponent(this.seasons, data);
         this.seasonComponent.show();
-    };
+    }
 
     private renderButtons(): void {
         this.subscribeButton = new FilmData.subscribeButton.componentType(this.buttonsContainer, FilmData.subscribeButton.componentData);
@@ -73,18 +73,18 @@ class FilmView extends IView {
 
         this.trailerButton = new FilmData.trailerButton.componentType(this.buttonsContainer, FilmData.trailerButton.componentData);
         this.trailerButton.show();
-    };
+    }
 
     public toggleBookmark(): void {
         this.isInFavorites = !this.isInFavorites;
         this.favoritesIcon.src = (this.isInFavorites ? '/img/icons/bookmark-added.svg' : '/img/icons/bookmark-regular.svg');
 
-    };
+    }
 
     public renderWatchButton(): void {
         this.filmButton = new FilmData.filmButton.componentType(this.buttonsContainer, FilmData.filmButton.componentData);
         this.filmButton.show();
-    };
+    }
 
     public renderFavoritesButton(status: boolean): void {
         this.favoritesLink = new FilmData.favoritesLink.componentType(this.buttonsContainer, FilmData.favoritesLink.componentData);
@@ -96,15 +96,15 @@ class FilmView extends IView {
         if (status) {
             this.toggleBookmark();
         }
-    };
+    }
 
     public isDelete(): boolean {
         return this.isInFavorites;
-    };
+    }
 
     public bindClickEvent(listener: any): void {
         this.element.addEventListener('click', listener);
-    };
+    }
 }
 
 export default FilmView;

@@ -1,5 +1,3 @@
-import type IContent from '../Content/IContent';
-
 export default interface IEpisode {
     id: number;
 

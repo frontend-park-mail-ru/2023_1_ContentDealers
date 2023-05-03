@@ -18,14 +18,14 @@ class GenreController extends IController<GenreView, GenreModel>{
     private data:  IGrid;
     private id:    number | null;
 
-    constructor(view: GenreView, model: GenreModel) {
+    public constructor(view: GenreView, model: GenreModel) {
         super(view, model);
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
         this.view.bindClickEvent(this.handleClick.bind(this));
-    };
+    }
 
-    public async mountComponent(opts?: IId) {
+    public async mountComponent(opts?: IId): Promise<void> {
         if (!opts) {
             router.showUnknownPage();
         }
@@ -39,34 +39,30 @@ class GenreController extends IController<GenreView, GenreModel>{
                         .then((data) => {
                             this.data = data;
                         })
-                        .catch((error) => {
-                            router.showUnknownPage();
-                            return;
-                        });
+                        .catch((error) => console.error(error));
                 } else {
                     await this.model.getSelectionsContent(this.id)
                         .then((data) => {
                             this.data = data;
                         })
-                        .catch((error) => {
-                            router.showUnknownPage();
-                            return;
-                        })
+                        .catch((error) => console.error(error));
                 }
                 this.view.fillContent(this.data);
                 super.mountComponent();
             }
         }
-    };
 
-    public unmountComponent() {
+        return;
+    }
+
+    public unmountComponent(): void {
         if (this.isMounted) {
             super.unmountComponent();
             this.data.content = [];
             this.id = null;
             this.view.emptyContent();
         }
-    };
+    }
 
     private handleClick(e: Event): void {
         e.preventDefault();
@@ -88,7 +84,7 @@ class GenreController extends IController<GenreView, GenreModel>{
         //         break;
         //     }
         // }
-    };
+    }
 
     // private async handleChange(e: Event) {
     //     await this.getContent((e.target as HTMLSelectElement).value);

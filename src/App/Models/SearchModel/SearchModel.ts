@@ -9,22 +9,22 @@ import Ajax from '../../Ajax/Ajax';
 import { config } from '../../Config/Config';
 
 class FilmModel extends IModel {
-    constructor() {
+    public constructor() {
         super();
-    };
+    }
 
     private parseSearchResult(json: any): ISearch {
         return {
             content:    this.parseContentForSearch(json.content),
             actors:     this.parseActorsForSearch(json.persons),
         };
-    };
+    }
 
     private parseContentForSearch(content: any): IContentSearch[] {
         return content.map((item: any) => {
            return this.parseContentItemForSearch(item);
         });
-    };
+    }
 
     private parseContentItemForSearch(item: any): IContentSearch {
         return {
@@ -33,13 +33,13 @@ class FilmModel extends IModel {
             title:            item.title,
             isSerial:         item.type == 'series',
         };
-    };
+    }
 
     private parseActorsForSearch(actors: any): IActorSearch[] {
         return actors.map((actor: any) => {
             return this.parseActorForSearch(actor);
         });
-    };
+    }
 
     private parseActorForSearch(actor: any): IActorSearch {
         return {
@@ -47,10 +47,10 @@ class FilmModel extends IModel {
             name:              actor.name,
             description:       actor.birthplace,
         };
-    };
+    }
 
-    public async getSearchResult(query: string) {
-        let conf = Object.assign({}, config.api.search);
+    public async getSearchResult(query: string): Promise<ISearch> {
+        const conf = Object.assign({}, config.api.search);
         conf.url = conf.url.replace('{query}', query);
 
         const response = await Ajax.ajax(conf);
@@ -59,7 +59,7 @@ class FilmModel extends IModel {
         const searchResult = this.parseSearchResult(response.responseBody.body.search);
 
         return Promise.resolve(searchResult);
-    };
+    }
 }
 
 export default FilmModel;

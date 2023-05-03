@@ -8,9 +8,9 @@ import type ISelection from '../../Interfaces/Selection/ISelection';
 import type IContent from '../../Interfaces/Content/IContent';
 
 class SelectionModel extends IModel {
-    constructor() {
+    public constructor() {
         super();
-    };
+    }
 
     private parseSelections(json: any): ISelection[] {
         return json.map((selection: any) => {
@@ -24,13 +24,13 @@ class SelectionModel extends IModel {
             title:      selection.title,
             content:    this.parseSelectionContents(selection.content),
         };
-    };
+    }
 
     private parseSelectionContents(selectionContents: any): IContent[] {
         return selectionContents.map((selectionContent: any) => {
            return this.parseSelectionContent(selectionContent);
         });
-    };
+    }
 
     private parseSelectionContent(selectionContent: any): IContent {
         return {
@@ -45,20 +45,20 @@ class SelectionModel extends IModel {
             previewURL:     selectionContent.preview_url,
             type:           this.parseContentType(selectionContent.type),
         };
-    };
+    }
 
     private parseContentType(type: string): string {
         return (type === 'film') ? `${type}s` : type;
-    };
+    }
 
-    public async getSelections() {
+    public async getSelections(): Promise<ISelection[]> {
         const response = await Ajax.ajax(config.api.selections);
         await Ajax.checkResponseStatus(response, config.api.selections);
 
         const selectionData = this.parseSelections(response.responseBody.body.selections);
 
         return Promise.resolve(selectionData);
-    };
+    }
 }
 
 export default SelectionModel;

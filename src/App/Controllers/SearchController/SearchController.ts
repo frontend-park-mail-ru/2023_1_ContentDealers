@@ -15,54 +15,57 @@ class SearchController extends IController<SearchView, SearchModel> {
     private actors: IActorSearch[];
     private lastQuery: string;
 
-    constructor(view: SearchView, model: SearchModel) {
+    public constructor(view: SearchView, model: SearchModel) {
         super(view, model);
         this.lastQuery = '';
 
         this.view.bindClickEvent(this.handleClick.bind(this));
-    };
+    }
 
-    public async getSearchResult(query: string) {
+    public async getSearchResult(query: string): Promise<void> {
         await this.model.getSearchResult(query)
               .then((data) => {
                 this.content = data.content;
                 this.actors = data.actors;
                 this.lastQuery = query;
               })
-              .catch((error) => {
-              });
-    };
+              .catch((error) => console.error(error));
 
-    public async mountComponent() {
+        return;
+    }
+
+    public async mountComponent(): Promise<void> {
         if (!this.isMounted) {
             await this.getSearchResult(this.lastQuery);
             this.renderItems();
             super.mountComponent();
         }
-    };
+
+        return;
+    }
 
     public renderItems(): void {
         this.view.fillContent(this.content);
         this.view.fillActors(this.actors);
-    };
+    }
 
     public unRenderItems(): void {
         this.view.emptyContent();
         this.view.emptyActors();
-    };
+    }
 
-    public unmountComponent() {
+    public unmountComponent(): void {
         if (this.isMounted) {
             super.unmountComponent();
             this.unRenderItems();
             this.content = [];
             this.actors = [];
         }
-    };
+    }
 
     public setTitle(title: string): void {
         this.view.setTitle(title);
-    };
+    }
 
     private handleClick(e: Event): void {
         e.preventDefault();
@@ -76,7 +79,7 @@ class SearchController extends IController<SearchView, SearchModel> {
                 EventDispatcher.emit('render-middle-list');
             }
         }
-    };
+    }
 }
 
 export default SearchController;

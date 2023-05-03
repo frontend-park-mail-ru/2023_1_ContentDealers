@@ -24,7 +24,7 @@ import type UserModel from '../../Models/UserModel/UserModel';
 class ModalRightController extends IController<ModalRightView, UserModel> {
     private currentController: SignInController | SignUpController;
 
-    constructor(view: ModalRightView, model: UserModel) {
+    public constructor(view: ModalRightView, model: UserModel) {
         super(view, model);
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
@@ -44,19 +44,19 @@ class ModalRightController extends IController<ModalRightView, UserModel> {
         });
 
         this.view.bindClickEvent(this.handleClick.bind(this));
-    };
+    }
 
-    public mountComponent() {
+    public mountComponent(): void {
         this.currentController.getFormDataFromStorage();
 
         this.currentController?.mountComponent();
         super.mountComponent();
-    };
+    }
 
-    public unmountComponent() {
+    public unmountComponent(): void {
         this.currentController?.unmountComponent();
         super.unmountComponent();
-    };
+    }
 
     private handleClick(e: Event): void {
         e.preventDefault();
@@ -71,7 +71,7 @@ class ModalRightController extends IController<ModalRightView, UserModel> {
                 router.goToPath(router.getNearestNotAuthUrl());
             }
         }
-    };
+    }
 }
 
 export default ModalRightController;

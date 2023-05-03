@@ -13,50 +13,47 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel>{
     private content: IContentSearch[];
     private actors: IActorSearch[];
 
-    constructor(view: FavoritesView, model: FavoritesModel) {
+    public constructor(view: FavoritesView, model: FavoritesModel) {
         super(view, model);
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
         this.view.bindClickEvent(this.handleClick.bind(this));
         this.view.bindChangeEvent(this.handleChange.bind(this));
-    };
+    }
 
-    public async getContent(order: string) {
+    public async getContent(order: string): Promise<void> {
         await this.model.getFavoritesContent(order)
             .then((data) => {
                 this.content = data;
             })
-            .catch((error) => {
+            .catch((error) => console.error(error));
 
-            });
+        return;
     }
 
-    public async mountComponent() {
+    public async mountComponent(): Promise<void> {
         if (!this.isMounted) {
             await this.getContent('new');
             this.view.fillContent(this.content);
             super.mountComponent();
         }
-    };
 
-    // public renderItems(): void {
-    //     this.view.fillContent(this.content);
-    //     this.view.fillActors(this.actors);
-    // };
+        return;
+    }
 
     public unRenderItems(): void {
         this.view.emptyContent();
         this.view.emptyActors();
-    };
+    }
 
-    public unmountComponent() {
+    public unmountComponent(): void {
         if (this.isMounted) {
             super.unmountComponent();
             this.content = [];
             this.actors = [];
             this.unRenderItems();
         }
-    };
+    }
 
     private handleClick(e: Event): void {
         e.preventDefault();
@@ -67,13 +64,15 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel>{
                 router.goToPath(href);
             }
         }
-    };
+    }
 
-    private async handleChange(e: Event) {
+    private async handleChange(e: Event): Promise<void> {
         await this.getContent((e.target as HTMLSelectElement).value);
         this.unRenderItems();
         this.view.fillContent(this.content);
-    };
+
+        return;
+    }
 }
 
 export default FavoritesController;

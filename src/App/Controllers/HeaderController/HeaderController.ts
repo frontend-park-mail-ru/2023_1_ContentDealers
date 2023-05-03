@@ -24,9 +24,9 @@ class HeaderController extends IController<HeaderView, IModel> {
     private previousCall: number | null;
     private lastCall: number | null;
     private lastCallTimer: number;
-    private timeout: number;
+    private readonly timeout: number;
 
-    constructor(view: HeaderView) {
+    public constructor(view: HeaderView) {
         super(view, IModel);
 
         this.view.bindClickEvent(this.handleClick.bind(this));
@@ -55,7 +55,7 @@ class HeaderController extends IController<HeaderView, IModel> {
             this.view.toggleMiddle(this.isSearch);
             this.isSearch = false;
         });
-    };
+    }
 
     private closeSearch(): void {
         if (!this.isSearch) {
@@ -66,7 +66,7 @@ class HeaderController extends IController<HeaderView, IModel> {
         this.view.toggleMiddle(this.isSearch);
 
         this.isSearch = !this.isSearch;
-    };
+    }
 
     /**
      * Функция обработки нажатия на хедер
@@ -108,7 +108,7 @@ class HeaderController extends IController<HeaderView, IModel> {
 
             return;
         }
-    };
+    }
 
     /**
      * Функция обработки ввода названия
@@ -136,13 +136,13 @@ class HeaderController extends IController<HeaderView, IModel> {
                     this.searchController.renderItems();
                 });
         }, this.timeout);
-    };
+    }
 
     private handleKeyPress(e: KeyboardEvent): void {
         if (e.key === 'Escape') {
             this.closeSearch();
         }
-    };
+    }
 }
 
 export default HeaderController;

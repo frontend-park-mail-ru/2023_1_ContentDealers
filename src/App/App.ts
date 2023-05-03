@@ -80,7 +80,7 @@ class App {
     private content: HTMLElement;
     private modalRight: HTMLElement;
 
-    constructor() {
+    public constructor() {
         this.initPage();
         this.initViews();
         this.initModels();
@@ -88,16 +88,12 @@ class App {
         this.initRoutes();
     }
 
-    public run(url: string) {
+    public run(url: string): void {
         router.start(url);
 
         this.userModel.authUserByCookie()
-            .then(() => {
-                EventDispatcher.emit('user-changed', this.userModel.getCurrentUser());
-            })
-            .catch(() => {
-                EventDispatcher.emit('render-signInButton');
-            });
+            .then(() => EventDispatcher.emit('user-changed', this.userModel.getCurrentUser()))
+            .catch(() => EventDispatcher.emit('render-signInButton'));
     }
 
     /**
@@ -114,7 +110,7 @@ class App {
         this.footer = rootComponent.querySelector('.js-footer');
         this.content = rootComponent.querySelector('.js-content');
         this.modalRight = rootComponent.querySelector('.js-modal--right');
-    };
+    }
 
     /**
      * Функция инициализирует все отображения (views)
@@ -132,7 +128,7 @@ class App {
         this.notFoundView = new NotFoundView(this.content);
         this.favoritesView = new FavoritesView(this.content);
         this.genreView = new GenreView(this.content);
-    };
+    }
 
     /**
      * Функция инициализирует все моедели (models)
@@ -146,7 +142,7 @@ class App {
         this.selectionModel = new SelectionModel();
         this.favoritesModel = new FavoritesModel();
         this.genreModel = new GenreModel();
-    };
+    }
 
     /**
      * Функция инициализирует все контроллеры (controllers)
@@ -164,7 +160,7 @@ class App {
         this.notFoundController = new NotFoundController(this.notFoundView);
         this.favoritesController = new FavoritesController(this.favoritesView, this.favoritesModel);
         this.genreController = new GenreController(this.genreView, this.genreModel);
-    };
+    }
 
     /**
      * Функция задаёт связи между страницами (URL -> обработчик)
@@ -196,7 +192,7 @@ class App {
         routes.forEach(({ path, handler }) => {
             router.addRule(path, handler.bind(this));
         });
-    };
+    }
 
 
     private handleRedirectToMain(): void {
@@ -208,7 +204,7 @@ class App {
 
         // states
         this.headerView.changeActiveHeaderListItem('/');
-    };
+    }
 
     private handleRedirectToSignIn(): void {
         this.userModel.authUserByCookie()
@@ -219,7 +215,7 @@ class App {
                 EventDispatcher.emit('modalRight-setSignIn', this.userModel);
                 this.modalRightController.mountComponent();
             });
-    };
+    }
 
     private handleRedirectToSignUp(): void {
         this.userModel.authUserByCookie()
@@ -230,7 +226,7 @@ class App {
                 EventDispatcher.emit('modalRight-setSignUp', this.userModel);
                 this.modalRightController.mountComponent();
             });
-    };
+    }
 
     private handleRedirectToCatalog(): void {
         EventDispatcher.emit('unmount-all');
@@ -240,7 +236,7 @@ class App {
 
         // states
         this.headerView.changeActiveHeaderListItem('/catalog');
-    };
+    }
 
     private handleRedirectToStore(): void {
         EventDispatcher.emit('unmount-all');
@@ -250,7 +246,7 @@ class App {
 
         // states
         this.headerView.changeActiveHeaderListItem('/store');
-    };
+    }
 
     private handleRedirectToFavorites(): void {
         EventDispatcher.emit('unmount-all');
@@ -267,7 +263,7 @@ class App {
             .catch(() => {
                 router.goToPath(paths.signIn);
             });
-    };
+    }
 
     private handleRedirectToSettings(): void {
         EventDispatcher.emit('unmount-all');
@@ -288,12 +284,12 @@ class App {
                 EventDispatcher.emit('render-signInButton');
                 router.goToPath(router.getNearestNotAuthUrl());
             });
-    };
+    }
 
-    private async handleRedirectToFilm(data: any) {
+    private async handleRedirectToFilm(data: any): Promise<void> {
         EventDispatcher.emit('unmount-all');
 
-        if (!data || !data[0]) {
+        if (!data?.[0]) {
             router.showUnknownPage();
             return;
         }
@@ -312,14 +308,16 @@ class App {
                 this.filmView.renderWatchButton();
                 this.filmController.addFavoritesButton();
             });
-    };
 
-    private async handleRedirectToSeries(data: any) {
+        return;
+    }
+
+    private async handleRedirectToSeries(data: any): Promise<void> {
         console.log('handleRedirectToSeries')
 
         EventDispatcher.emit('unmount-all');
 
-        if (!data || !data[0]) {
+        if (!data?.[0]) {
             router.showUnknownPage();
             return;
         }
@@ -338,12 +336,14 @@ class App {
                 this.filmView.renderWatchButton();
                 this.filmController.addFavoritesButton();
             });
-    };
+
+        return;
+    }
 
     private handleRedirectToPerson(data: any): void {
         EventDispatcher.emit('unmount-all');
 
-        if (!data || !data[0]) {
+        if (!data?.[0]) {
             router.showUnknownPage();
             return;
         }
@@ -356,26 +356,26 @@ class App {
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
-    };
+    }
 
     private handleRedirectToLogout(): void {
         EventDispatcher.emit('redirect', paths.logout);
 
         this.userModel.logoutUser();
         router.goToPath(paths.main);
-    };
+    }
 
     private handleRedirectToNotFound(): void {
         EventDispatcher.emit('unmount-all');
 
         this.headerController.mountComponent();
         this.notFoundController.mountComponent();
-    };
+    }
 
     private handleRedirectToGenre(data: any): void {
         EventDispatcher.emit('unmount-all');
 
-        if (!data || !data[0]) {
+        if (!data?.[0]) {
             router.showUnknownPage();
             return;
         }
@@ -391,12 +391,12 @@ class App {
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
-    };
+    }
 
     private handleRedirectToSelections(data: any): void {
         EventDispatcher.emit('unmount-all');
 
-        if (!data || !data[0]) {
+        if (!data?.[0]) {
             router.showUnknownPage();
             return;
         }
@@ -412,7 +412,7 @@ class App {
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
-    };
+    }
 }
 
 export default App;

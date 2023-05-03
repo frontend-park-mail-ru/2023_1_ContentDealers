@@ -25,7 +25,7 @@ class SeasonComponent extends IComponent {
         items: [],
     };
 
-    constructor(parent: HTMLElement, data?: SeasonsComponentData) {
+    public constructor(parent: HTMLElement, data?: SeasonsComponentData) {
         super(parent, SeasonComponentTemplate({ id: data?.id, title: data?.title, count: data?.count }));
 
         this.numberListContainer = <HTMLElement>this.element.querySelector('.js-number-list');
@@ -38,7 +38,7 @@ class SeasonComponent extends IComponent {
         if (data?.data) {
             this.renderCarousel(data.data);
         }
-    };
+    }
 
     private renderNumbers(count: number): void {
         const numberItems = Array.from({ length: count }, (_, index) => ({
@@ -55,7 +55,7 @@ class SeasonComponent extends IComponent {
         new ListComponent(this.numberListContainer, this.numberListData).show();
 
         this.changeActiveItem(1);
-    };
+    }
 
     public changeActiveItem(id: number): void {
         this.numberListContainer.querySelector(`[data-action="${this.currentItemId}"]`)?.parentElement?.classList.remove('seasons-list__item--active');
@@ -67,7 +67,7 @@ class SeasonComponent extends IComponent {
         this.itemsListContainer.innerHTML = '';
 
         new CarouselComponent(this.itemsListContainer, data).show();
-    };
+    }
 }
 
 export default SeasonComponent;

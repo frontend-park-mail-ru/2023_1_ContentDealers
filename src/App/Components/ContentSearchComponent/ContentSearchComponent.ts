@@ -5,7 +5,7 @@ import type ContentSearchComponentData from './ContentSearchComponentData';
 import './ContentSearchComponent.css';
 
 class ContentSearchComponent extends IComponent {
-    constructor(parent: HTMLElement, data: ContentSearchComponentData, forSearch: boolean, imgClassname: string) {
+    public constructor(parent: HTMLElement, data: ContentSearchComponentData, forSearch: boolean, imgClassname: string) {
         super(parent, ContentSearchComponentTemplate({
             contentId:       data.contentId,
             src:             data.src,
@@ -14,7 +14,7 @@ class ContentSearchComponent extends IComponent {
             forSearch:       forSearch,
             imgClassName:    imgClassname,
         }));
-    };
+    }
 }
 
 export default ContentSearchComponent;

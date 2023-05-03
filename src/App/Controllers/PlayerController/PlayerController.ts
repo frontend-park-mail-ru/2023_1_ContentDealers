@@ -12,35 +12,35 @@ class PlayerController extends IController<PlayerView, IModel> {
     // Bound events //
     private readonly BoundKeyDown = this.onKeyDown.bind(this);
 
-    constructor(view: PlayerView) {
+    public constructor(view: PlayerView) {
         super(view, IModel);
 
         this.view.video.volume = 0.5;
 
         this.addEventListeners();
-    };
+    }
 
 
-    public mountComponent() {
+    public mountComponent(): void {
         super.mountComponent();
 
         document.addEventListener('keydown', this.BoundKeyDown);
 
         this.playerProxy.isPlay = true;
         this.playerProxy.isFullScreen = false;
-    };
+    }
 
 
-    public unmountComponent() {
+    public unmountComponent(): void {
         super.unmountComponent();
 
         document.removeEventListener('keydown', this.BoundKeyDown);
-    };
+    }
 
 
     // Proxy //
     private playerHandler = {
-        set: (target: any, key: string, value: any) => {
+        set: (target: any, key: string, value: any): boolean => {
             target[key] = value;
             switch (key) {
                 case 'isPlay': {
@@ -52,15 +52,12 @@ class PlayerController extends IController<PlayerView, IModel> {
                     this.view.rerenderScreen(value);
                     break;
                 }
-
-                default: {
-
-                }
+                //
+                // default: {
+                //
+                // }
             }
 
-            // if (key === 'isPlay') {
-            //     this.view.rerenderPlay(value);
-            // }
             return true;
         },
     };
@@ -69,21 +66,21 @@ class PlayerController extends IController<PlayerView, IModel> {
 
     private changePlayStatus(): void {
         this.playerProxy.isPlay = !this.playerProxy.isPlay;
-    };
+    }
 
 
     // Setters //
     public setSrc(src: string): void {
         this.view.video.src = src;
-    };
+    }
 
     private setVideoProgress(time: number): void {
         this.view.video.currentTime = time;
-    };
+    }
 
     private setVideoVolume(volume: number): void {
         this.view.video.volume = volume;
-    };
+    }
 
 
     // Listeners //
@@ -120,14 +117,14 @@ class PlayerController extends IController<PlayerView, IModel> {
         this.view.bindScreenButtonClick(this.toggleScreenButton.bind(this));
 
         this.view.bindNextButtonClick(this.onNextButtonClick.bind(this));
-    };
+    }
 
     private initVideo(): void {
         this.view.progressBar.setMaxMinValues(this.view.video.duration);
         this.view.progressBar.setUpdateVideoFunc(this.setVideoProgress.bind(this));
 
         this.view.volumeBar.setUpdateVideoFunc(this.setVideoVolume.bind(this));
-    };
+    }
 
 
     // Handlers //
@@ -142,13 +139,13 @@ class PlayerController extends IController<PlayerView, IModel> {
         } else {
             this.view.video.pause();
         }
-    };
+    }
 
-    private onNextButtonClick(e: Event): void {
+    private onNextButtonClick(): void {
         console.log('onNextButtonClick');
         this.setSrc('trailers/1.mp4');
         // this.initVideo();
-    };
+    }
 
     private toggleScreenButton(e: Event): void {
         e.preventDefault();
@@ -165,19 +162,19 @@ class PlayerController extends IController<PlayerView, IModel> {
                 document.exitFullscreen();
             }
         }
-    };
+    }
 
     private onCloseButtonClick(e: Event): void {
         e.preventDefault();
         e.stopPropagation();
 
         this.unmountComponent();
-    };
+    }
 
     private onVideoClick(e: Event): void {
         e.preventDefault();
 
-        this.onMouseMove(<MouseEvent>e); // TODO: improve??
+        this.onMouseMove(); // TODO: improve??
 
         const target = <HTMLElement>e.target;
 
@@ -185,26 +182,26 @@ class PlayerController extends IController<PlayerView, IModel> {
         if (!panel) {
             this.togglePlayButton(e);
         }
-    };
+    }
 
     private onKeyDown(e: KeyboardEvent): void {
         e.stopPropagation();
 
-        this.onMouseMove(<MouseEvent>(<Event>e)); // TODO: improve??
+        this.onMouseMove(); // TODO: improve??
 
         if (e.code === 'Space') {
             this.togglePlayButton(e);
         }
-    };
+    }
 
-    private onMouseMove(e: MouseEvent): void {
+    private onMouseMove(): void {
         if (this.mouseTimeoutId) {
             window.clearTimeout(this.mouseTimeoutId);
         }
         this.view.showElements();
 
         this.mouseTimeoutId = window.setTimeout(this.view.hideElements.bind(this.view), this.mouseTimeout);
-    };
+    }
 }
 
 export default PlayerController;

@@ -46,7 +46,7 @@ class FilmController extends IController<FilmView, FilmModel> {
 
                 switch (opts.type) {
                     case 'film': {
-                        this.model.getFilm(this.filmId)
+                        await this.model.getFilm(this.filmId)
                             .then((data) => {
                                 this.trailerSrc = data.content?.trailerURL || null;
                                 this.filmSrc = data?.contentURL || null;
@@ -64,7 +64,7 @@ class FilmController extends IController<FilmView, FilmModel> {
                     }
 
                     case 'series': {
-                        this.model.getSeries(this.filmId)
+                        await this.model.getSeries(this.filmId)
                             .then((data) => {
                                 this.trailerSrc = data.content?.trailerURL || null;
 
@@ -108,7 +108,7 @@ class FilmController extends IController<FilmView, FilmModel> {
         }
     };
 
-    public addFavoritesButton() {
+    public addFavoritesButton(): void {
         this.model.getFavoritesStatus(String(this.filmId))
             .then((status) => {
                 this.view.renderFavoritesButton(status);

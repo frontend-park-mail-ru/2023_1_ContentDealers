@@ -147,6 +147,17 @@ const config: IConfig = {
                 failure: failureDefaultStatuses,
             },
         },
+        genres: {
+            url: '/genres',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Жанры успешно получены',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
         person: {
             url: '/persons/{:id}',
             method: REQUEST_METHODS.GET,
@@ -249,7 +260,7 @@ const config: IConfig = {
                 failure: failureDefaultStatuses,
             },
         },
-        genres: {
+        genresById: {
             url: '/genres/{:id}',
             method: REQUEST_METHODS.GET,
             headers: headersWithUnicode,

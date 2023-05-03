@@ -38,7 +38,6 @@ class GenreController extends IController<GenreView, GenreModel>{
                     await this.model.getGenreContent(this.id)
                         .then((data) => {
                             this.data = data;
-                            this.data.title = 'Подборка жанра';
                         })
                         .catch((error) => {
                             router.showUnknownPage();

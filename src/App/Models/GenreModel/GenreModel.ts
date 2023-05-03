@@ -1,7 +1,8 @@
 import IModel from "../IModel/IModel";
 
-import type IContentSearch from "../../Interfaces/ContentSearch/IContentSearch";
+import type IContentSearch from '../../Interfaces/ContentSearch/IContentSearch';
 import type IGrid from '../../Interfaces/Grid/IGrid';
+import type IGenre from '../../Interfaces/Genre/IGenre';
 
 import Ajax from '../../Ajax/Ajax';
 
@@ -34,6 +35,19 @@ class GenreModel extends IModel {
         };
     };
 
+    private parseGenres(genres: any): IGenre[] {
+        return genres.map((genre: any) => {
+            return this.parseGenre(genre);
+        })
+    }
+
+    private parseGenre(genre: any): IGenre {
+        return {
+            id:     genre.id,
+            name:   genre.name,
+        };
+    };
+
     public async getSelectionsContent(id: number) {
         let conf = Object.assign({}, config.api.selectionsById);
         conf.url = conf.url.replace('{:id}', id.toString());
@@ -47,13 +61,24 @@ class GenreModel extends IModel {
     };
 
     public async getGenreContent(id: number) {
-        let conf = Object.assign({}, config.api.genres);
+        let conf = Object.assign({}, config.api.genresById);
         conf.url = conf.url.replace('{:id}', id.toString());
 
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
 
         const content = this.parseData(response.responseBody.body);
+
+        return Promise.resolve(content);
+    };
+
+    public async getAllGenres() {
+        const conf = Object.assign({}, config.api.genres);
+
+        const response = await Ajax.ajax(conf);
+        await Ajax.checkResponseStatus(response, conf);
+
+        const content = this.parseGenres(response.responseBody.body.genres);
 
         return Promise.resolve(content);
     };

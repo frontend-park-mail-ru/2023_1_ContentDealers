@@ -96,7 +96,7 @@
 }
 
 .category__container__item {
-    margin-left: 40vh;
+    margin-left: 8vw;
 
     display: inline-block;
     flex-shrink: 0;
@@ -214,4 +214,8 @@
     display: grid;
     align-items: center;
     justify-content: center;
+}
+
+.genres {
+    margin-top: 40px;
 }

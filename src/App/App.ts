@@ -159,7 +159,7 @@ class App {
         this.filmController = new FilmController(this.filmView, this.filmModel);
         this.settingsController = new SettingsController(this.settingsView, this.userModel);
         this.personController = new PersonController(this.personView, this.personModel);
-        this.mainController = new MainController(this.mainView, { selections: this.selectionModel });
+        this.mainController = new MainController(this.mainView, { genres: this.genreModel, selections: this.selectionModel });
 
         this.notFoundController = new NotFoundController(this.notFoundView);
         this.favoritesController = new FavoritesController(this.favoritesView, this.favoritesModel);

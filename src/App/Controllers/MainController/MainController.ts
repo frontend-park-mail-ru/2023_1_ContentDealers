@@ -30,12 +30,9 @@ class MainController extends IController<MainView, { genres: GenreModel, selecti
 
             this.model.genres.getAllGenres()
                 .then((data) => {
-                    console.log('Genres')
-                    console.log(data);
                     this.view.fillGenres(data);
                 })
                 .catch((error) => {
-                    console.log(error)
                     router.showUnknownPage(); // TODO: mb not
                     return;
                 });

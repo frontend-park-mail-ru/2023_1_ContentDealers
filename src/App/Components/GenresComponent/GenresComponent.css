@@ -8,7 +8,8 @@
     max-height: 100%;
     padding: 0 8%;
     align-items: center;
-    gap: 10px;
+
+    gap: 15px;
 }
 
 .genres-list__item {
@@ -26,8 +27,15 @@
     color: hsla(0,0%,100%,.96);
     cursor: pointer;
     position: relative;
+
+    border: 1px solid;
 }
 
 .genres-list-item__text {
     white-space: nowrap;
+
+    font-size: 18px;
+    line-height: 22px;
+
+    text-transform: capitalize;
 }

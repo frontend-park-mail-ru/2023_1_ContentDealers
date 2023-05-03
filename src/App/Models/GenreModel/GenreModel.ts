@@ -68,6 +68,7 @@ class GenreModel extends IModel {
         await Ajax.checkResponseStatus(response, conf);
 
         const content = this.parseData(response.responseBody.body);
+        content.title = response.responseBody.body.genre.name;
 
         return Promise.resolve(content);
     };

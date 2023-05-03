@@ -36,6 +36,8 @@
 .genre__content-header {
     color: rgba(255,255,255,.96);
     margin-bottom: 20px;
+
+    text-transform: capitalize;
 }
 
 .genre__content-main {

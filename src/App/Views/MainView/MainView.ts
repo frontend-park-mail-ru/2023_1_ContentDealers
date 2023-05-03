@@ -38,7 +38,6 @@ class MainView extends IView {
     public fillGenres(genres: IGenre[]): void {
         this.genres.innerHTML = '';
 
-        console.log('fillGenres')
         new GenresComponent(this.genres, genres).show();
 
 

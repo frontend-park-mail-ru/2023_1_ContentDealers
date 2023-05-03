@@ -117,7 +117,7 @@ class CarouselComponent extends IComponent {
 
             new ListComponent(this.listContainer, {
                 listClass: 'category__container__items',
-                itemClass: 'category__container__item',
+                itemClass: 'category__container__item w-10vh',
                 items: listItems,
             }).show();
         }
@@ -135,6 +135,7 @@ class CarouselComponent extends IComponent {
 
                 this.setPosition();
 
+                e.stopPropagation();
                 break;
             }
 
@@ -145,6 +146,7 @@ class CarouselComponent extends IComponent {
 
                 this.setPosition();
 
+                e.stopPropagation();
                 break;
             }
         }

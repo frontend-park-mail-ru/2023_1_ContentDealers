@@ -199,6 +199,7 @@ class FilmController extends IController<FilmView, FilmModel> {
                     this.filmSrc = actionStr;
 
                     this.view.newPlayerView(this.model.getFilmTitle());
+                    this.view.playerView?.showNextButton();
                     this.playerController = new PlayerController(<PlayerView>this.view.playerView);
 
                     this.playerController.mountComponent();

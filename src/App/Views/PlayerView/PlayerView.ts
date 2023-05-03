@@ -49,6 +49,9 @@ class PlayerView extends IView {
     private playButton: DivComponent;
     private pauseButton: DivComponent;
 
+    private readonly nextButtonContainer: HTMLElement;
+    private nextButton: DivComponent;
+
     private readonly screenStatusContainer: HTMLElement;
     private screenButton: DivComponent;
     private compressButton: DivComponent;
@@ -79,6 +82,9 @@ class PlayerView extends IView {
         this.playStatusContainer = <HTMLElement>this.element.querySelector('.js-video__play-button');
         this.playButton = new PlayerData.playButton.componentType(this.playStatusContainer, PlayerData.playButton.componentData);
         this.pauseButton = new PlayerData.pauseButton.componentType(this.playStatusContainer, PlayerData.pauseButton.componentData);
+
+        this.nextButtonContainer = <HTMLElement>this.element.querySelector('.js-video__next-button');
+        this.nextButton = new PlayerData.nextButton.componentType(this.nextButtonContainer, PlayerData.nextButton.componentData);
 
         this.currentTimeElement = <HTMLElement>this.element.querySelector('.video__duration-time');
 
@@ -142,6 +148,7 @@ class PlayerView extends IView {
         return Boolean(this.videoPanelContainer.querySelector('.js-video__panel'));
     };
 
+
     public showElements(): void {
         if (!this.checkVideoPanel()) {
             this.titleContainer.appendChild(this.title);
@@ -193,9 +200,23 @@ class PlayerView extends IView {
     };
 
 
+    // Show / hide next button //
+    public showNextButton(): void {
+        this.nextButton.show();
+    };
+
+    public hideNextButton(): void {
+        this.nextButton.hide();
+    };
+
+
     // Binds //
     public bindPlayButtonClick(listener: any): void {
         this.playStatusContainer.addEventListener('click', listener);
+    };
+
+    public bindNextButtonClick(listener: any): void {
+        this.nextButton.div.addEventListener('click', listener);
     };
 
     public bindScreenButtonClick(listener: any): void {

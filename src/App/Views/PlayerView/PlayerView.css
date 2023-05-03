@@ -25,6 +25,10 @@
     margin-left: 5px;
 }
 
+.gap-10 {
+    gap: 10px;
+}
+
 .current-background {
     background: #000; /* TODO --current-color */
 }
@@ -168,7 +172,7 @@
     color: rgba(255,255,255,.96);
 }
 
-.video__play-button {
+.video__button {
     align-items: center;
     cursor: pointer;
     -webkit-transition: opacity.15s;
@@ -187,7 +191,7 @@
     background: linear-gradient(26.57deg,#3c1a70 0%,rgba(93,14,245,.83));
 }
 
-.video__play-button:hover {
+.video__button:hover {
     opacity: 0.8;
 }
 

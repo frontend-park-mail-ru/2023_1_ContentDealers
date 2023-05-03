@@ -45,7 +45,10 @@ class ListComponent<Type extends IComponent, Data> extends IComponent {
         const {componentType, componentData} = elem;
 
         const li = document.createElement('li');
-        li.classList.add(this.itemClass || '');
+        this.itemClass?.split(' ').forEach((className) => {
+            li.classList.add(className);
+        });
+        // li.classList.add(this.itemClass || '');
 
         const l = new componentType(li, componentData);
         l.show();

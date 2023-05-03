@@ -19,7 +19,8 @@ interface ISettingsData {
 
 const SettingsData: ISettingsData = {
     title: 'Настройки',
-    description: 'Оставьте контактные данные для получения уведомлений от сервиса и взаимодействия со службой поддержки.',
+    // description: 'Оставьте контактные данные для получения уведомлений от сервиса и взаимодействия со службой поддержки.',
+    description: 'Изменение данных.',
     formTitle: 'Контакты',
     leftMenu: {
         componentData: {

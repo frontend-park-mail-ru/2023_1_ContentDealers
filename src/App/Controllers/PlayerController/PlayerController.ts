@@ -118,6 +118,8 @@ class PlayerController extends IController<PlayerView, IModel> {
         this.view.bindPlayButtonClick(this.togglePlayButton.bind(this));
         this.view.bindMouseMoveEvent(this.onMouseMove.bind(this));
         this.view.bindScreenButtonClick(this.toggleScreenButton.bind(this));
+
+        this.view.bindNextButtonClick(this.onNextButtonClick.bind(this));
     };
 
     private initVideo(): void {
@@ -140,6 +142,12 @@ class PlayerController extends IController<PlayerView, IModel> {
         } else {
             this.view.video.pause();
         }
+    };
+
+    private onNextButtonClick(e: Event): void {
+        console.log('onNextButtonClick');
+        this.setSrc('trailers/1.mp4');
+        // this.initVideo();
     };
 
     private toggleScreenButton(e: Event): void {

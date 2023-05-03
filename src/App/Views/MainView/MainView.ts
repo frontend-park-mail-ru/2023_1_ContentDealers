@@ -10,14 +10,7 @@ import CarouselView from '../CarouselView/CarouselView';
 
 import SeasonComponent from '../../Components/SeasonComponent/SeasonComponent';
 
-
-import ListComponent from '../../Components/ListComponent/ListComponent';
-import type ListComponentData from '../../Components/ListComponent/ListComponentData';
-
-import LinkComponent from '../../Components/LinkComponent/LinkComponent';
-import type LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
-import GenresComponent from "../../Components/GenresComponent/GenresComponent";
-import genresComponent from "../../Components/GenresComponent/GenresComponent";
+import CarouselComponent from "../../Components/CarouselComponent/CarouselComponent";
 
 class MainView extends IView {
     public carouselView: CarouselView;
@@ -38,8 +31,9 @@ class MainView extends IView {
     public fillGenres(genres: IGenre[]): void {
         this.genres.innerHTML = '';
 
-        new GenresComponent(this.genres, genres).show();
+        // new GenresComponent(this.genres, genres).show();
 
+        new CarouselComponent(this.genres, { genres: genres }).show();
 
         // const linkDataItems: LinkComponentData[] = genres.map(({ id, name}) => {
         //     return <LinkComponentData>({ id: id.toString(), linkText: name });

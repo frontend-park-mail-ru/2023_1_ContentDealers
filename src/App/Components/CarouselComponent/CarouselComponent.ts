@@ -128,6 +128,27 @@ class CarouselComponent extends IComponent {
             }).show();
         }
 
+        if (data.genres) {
+            const listItems = data.genres.map(({id, name}, index) => {
+                return {
+                    componentType: LinkComponent,
+                    componentData: {
+                        linkHref: `/genres/${id}`,
+                        linkClass: 'genres-list-item__link',
+
+                        linkText: name,
+                        linkTextClass: 'genres-list-item__text',
+                    },
+                };
+            });
+
+            new ListComponent(this.listContainer, {
+                listClass: 'genres__list',
+                itemClass: 'genres-list__item',
+                items: listItems,
+            }).show();
+        }
+
     };
 
     private onClick(e: Event): void {

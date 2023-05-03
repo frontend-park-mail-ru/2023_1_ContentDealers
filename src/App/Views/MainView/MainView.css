@@ -72,7 +72,7 @@
 }
 
 .category__container__list {
-    overflow: hidden;
+    /*overflow: hidden;*/
 
     position: relative;
     width: 100%;
@@ -80,6 +80,8 @@
     color: hsla(0,0%,100%,.96);
 
     margin-top: 10px;
+
+    transition: .5s;
 }
 
 .category__container__items {

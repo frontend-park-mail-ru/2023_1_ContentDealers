@@ -45,7 +45,7 @@ class Router {
         const path = this.sanitizeUrl(rawPath);
 
         const tmpPath: string = '/' + path;
-        if (tmpPath !== paths.signIn && tmpPath !== paths.signUp && tmpPath !== paths.settings) {
+        if (tmpPath !== paths.signIn && tmpPath !== paths.signUp && tmpPath !== paths.settings && tmpPath !== paths.myMovie) {
             this.nearestNotAuthUrl = tmpPath;
         }
 

@@ -12,11 +12,8 @@ class InputComponent extends IComponent {
         super(parent, InputComponentTemplate(data));
 
         this.input =
-            <HTMLInputElement>this.element.querySelector('input') ||
-            <HTMLInputElement>this.element;
-        this.inputError = <HTMLElement>(
-            this.element.querySelector('[class*=error-msg]')
-        );
+            <HTMLInputElement>this.element.querySelector('input') || <HTMLInputElement>this.element;
+        this.inputError = <HTMLElement>this.element.querySelector('[class*=error-msg]');
     }
 
     public getData(): { id: string; value: string } {

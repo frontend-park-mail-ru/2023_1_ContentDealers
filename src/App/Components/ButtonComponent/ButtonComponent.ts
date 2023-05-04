@@ -50,14 +50,11 @@ class ButtonComponent extends IComponent {
             const buttonWidth = this.button.offsetWidth;
             const buttonHeight = this.button.offsetHeight;
 
-            const diameter = Math.sqrt(
-                buttonWidth * buttonWidth + buttonHeight * buttonHeight
-            );
+            const diameter = Math.sqrt(buttonWidth * buttonWidth + buttonHeight * buttonHeight);
             const multiplySqrt = Math.sqrt(buttonWidth * buttonHeight);
 
             if (diameter + multiplySqrt !== 0) {
-                this.buttonProps['diameterHighlight'].value =
-                    diameter + multiplySqrt;
+                this.buttonProps['diameterHighlight'].value = diameter + multiplySqrt;
             }
 
             this.button.style.setProperty(

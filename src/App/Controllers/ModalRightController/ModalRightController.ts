@@ -27,36 +27,27 @@ class ModalRightController extends IController<ModalRightView, UserModel> {
     public constructor(view: ModalRightView, model: UserModel) {
         super(view, model);
 
-        EventDispatcher.subscribe(
-            'unmount-all',
-            this.unmountComponent.bind(this)
-        );
+        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
-        EventDispatcher.subscribe(
-            'modalRight-setSignIn',
-            (userModel: UserModel) => {
-                this.view.currentView?.hide();
+        EventDispatcher.subscribe('modalRight-setSignIn', (userModel: UserModel) => {
+            this.view.currentView?.hide();
 
-                this.view.setSignInView();
-                this.currentController = new SignInController(
-                    <SignInView>this.view.currentView,
-                    userModel
-                );
-            }
-        );
+            this.view.setSignInView();
+            this.currentController = new SignInController(
+                <SignInView>this.view.currentView,
+                userModel
+            );
+        });
 
-        EventDispatcher.subscribe(
-            'modalRight-setSignUp',
-            (userModel: UserModel) => {
-                this.view.currentView?.hide();
+        EventDispatcher.subscribe('modalRight-setSignUp', (userModel: UserModel) => {
+            this.view.currentView?.hide();
 
-                this.view.setSignUpView();
-                this.currentController = new SignUpController(
-                    <SignUpView>this.view.currentView,
-                    userModel
-                );
-            }
-        );
+            this.view.setSignUpView();
+            this.currentController = new SignUpController(
+                <SignUpView>this.view.currentView,
+                userModel
+            );
+        });
 
         this.view.bindClickEvent(this.handleClick.bind(this));
     }
@@ -77,9 +68,7 @@ class ModalRightController extends IController<ModalRightView, UserModel> {
         e.preventDefault();
         if (this.isMounted) {
             // TODO: check only if click not on modal right, it also click on close btn (not necessary check it?)
-            const modalContent = (<HTMLElement>e.target).closest(
-                '.modal__content'
-            );
+            const modalContent = (<HTMLElement>e.target).closest('.modal__content');
             if (!modalContent) {
                 this.currentController.saveFormDataToStorage();
 

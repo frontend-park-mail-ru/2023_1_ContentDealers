@@ -27,10 +27,7 @@ class CarouselController extends IController<CarouselView, IModel> {
         this.movePosition = 870;
         this.itemsCount = this.view.getItemsCount();
 
-        EventDispatcher.subscribe(
-            'unmount-all',
-            this.unmountComponent.bind(this)
-        );
+        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
         this.view.bindClickEvent(this.handleClick.bind(this));
         this.view.bindTransitionEvent(this.handleTransitionEnd.bind(this));
@@ -39,24 +36,19 @@ class CarouselController extends IController<CarouselView, IModel> {
     private handleClick(e: Event): void {
         e.preventDefault();
         if (this.isMounted) {
-            const href = (<HTMLElement>e.target)
-                .closest('[href]')
-                ?.getAttribute('href');
+            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 router.goToPath(href);
             }
 
             const target = <HTMLElement>e.target;
-            const action = (<HTMLElement>target.closest('[data-action]'))
-                ?.dataset['action'];
+            const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
 
             switch (action) {
                 case 'left': {
                     if (this.canClick) {
                         this.position++;
-                        this.view.setPosition(
-                            this.movePosition * this.position
-                        );
+                        this.view.setPosition(this.movePosition * this.position);
                         this.canClick = false;
                     }
 
@@ -66,9 +58,7 @@ class CarouselController extends IController<CarouselView, IModel> {
                 case 'right': {
                     if (this.canClick) {
                         this.position--;
-                        this.view.setPosition(
-                            this.movePosition * this.position
-                        );
+                        this.view.setPosition(this.movePosition * this.position);
                         this.canClick = false;
                     }
 

@@ -27,21 +27,13 @@ interface IHeaderData {
     >;
     items: (
         | IComponentDataWithType<LinkComponent, LinkComponentData>
-        | IComponentDataWithType<
-              VerticalSpacerComponent,
-              VerticalSpacerComponentData
-          >
+        | IComponentDataWithType<VerticalSpacerComponent, VerticalSpacerComponentData>
         | IComponentDataWithType<ButtonComponent, ButtonComponentData>
     )[];
-    profile: IComponentDataWithType<
-        DropdownButtonComponent,
-        DropdownButtonComponentData
-    >;
+    profile: IComponentDataWithType<DropdownButtonComponent, DropdownButtonComponentData>;
     signIn: IComponentDataWithType<LinkComponent, LinkComponentData>;
 
-    [key: string]:
-        | IComponentDataWithType<any, any>
-        | IComponentDataWithType<any, any>[]; // TODO enum all types?
+    [key: string]: IComponentDataWithType<any, any> | IComponentDataWithType<any, any>[]; // TODO enum all types?
 }
 
 const HeaderData: IHeaderData = {

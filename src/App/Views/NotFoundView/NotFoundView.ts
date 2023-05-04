@@ -12,9 +12,7 @@ class NotFoundView extends IView {
     public constructor(parent: HTMLElement) {
         super(parent, NotFoundTemplate({}));
 
-        const container = <HTMLElement>(
-            this.element.querySelector('.js-space__error')
-        );
+        const container = <HTMLElement>this.element.querySelector('.js-space__error');
 
         this.homeButton = new NotFoundData.homeButton.componentType(
             container,

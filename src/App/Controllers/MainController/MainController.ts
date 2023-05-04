@@ -16,20 +16,12 @@ class MainController extends IController<
 > {
     private carouselController: CarouselController;
 
-    public constructor(
-        view: MainView,
-        model: { genres: GenreModel; selections: SelectionModel }
-    ) {
+    public constructor(view: MainView, model: { genres: GenreModel; selections: SelectionModel }) {
         super(view, model);
 
-        this.carouselController = new CarouselController(
-            this.view.carouselView
-        );
+        this.carouselController = new CarouselController(this.view.carouselView);
 
-        EventDispatcher.subscribe(
-            'unmount-all',
-            this.unmountComponent.bind(this)
-        );
+        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
         this.view.bindClickEvent(this.handleClick.bind(this));
     }
@@ -66,9 +58,7 @@ class MainController extends IController<
     private handleClick(e: Event): void {
         e.preventDefault();
         if (this.isMounted) {
-            const href = (<HTMLElement>e.target)
-                .closest('[href]')
-                ?.getAttribute('href');
+            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 router.goToPath(href);
             }

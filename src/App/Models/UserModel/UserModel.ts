@@ -31,10 +31,7 @@ class UserModel extends IModel {
     }
 
     public async signInUser(signData: IUserSignIn): Promise<string> {
-        const signInResponse = await Ajax.ajax(
-            config.api.signIn,
-            JSON.stringify(signData)
-        );
+        const signInResponse = await Ajax.ajax(config.api.signIn, JSON.stringify(signData));
 
         try {
             await Ajax.checkResponseStatus(signInResponse, config.api.signIn);
@@ -42,42 +39,31 @@ class UserModel extends IModel {
             const profileResponse = await Ajax.ajax(config.api.profile);
             await Ajax.checkResponseStatus(profileResponse, config.api.profile);
 
-            this.currentUser = this.parseUser(
-                profileResponse.responseBody.body.user
-            );
+            this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
         } catch {
             this.currentUser = null;
         }
 
         EventDispatcher.emit('user-changed', this.currentUser);
 
-        if (this.currentUser === null)
-            return Promise.reject(signInResponse.responseBody.message);
+        if (this.currentUser === null) return Promise.reject(signInResponse.responseBody.message);
 
         return Promise.reject();
     }
 
     public async signUpUser(signData: IUserSignUp): Promise<string> {
-        const signUpResponse = await Ajax.ajax(
-            config.api.signUp,
-            JSON.stringify(signData)
-        );
+        const signUpResponse = await Ajax.ajax(config.api.signUp, JSON.stringify(signData));
 
         try {
             await Ajax.checkResponseStatus(signUpResponse, config.api.signUp);
 
-            const signInResponse = await Ajax.ajax(
-                config.api.signIn,
-                JSON.stringify(signData)
-            );
+            const signInResponse = await Ajax.ajax(config.api.signIn, JSON.stringify(signData));
             await Ajax.checkResponseStatus(signInResponse, config.api.signIn);
 
             const profileResponse = await Ajax.ajax(config.api.profile);
             await Ajax.checkResponseStatus(profileResponse, config.api.profile);
 
-            this.currentUser = this.parseUser(
-                profileResponse.responseBody.body.user
-            );
+            this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
         } catch {
             this.currentUser = null;
         }
@@ -102,10 +88,7 @@ class UserModel extends IModel {
     }
 
     public async updateUser(user: any): Promise<string> {
-        const response = await Ajax.ajax(
-            config.api.update,
-            JSON.stringify(user)
-        );
+        const response = await Ajax.ajax(config.api.update, JSON.stringify(user));
 
         try {
             await Ajax.checkResponseStatus(response, config.api.update);
@@ -113,9 +96,7 @@ class UserModel extends IModel {
             const profileResponse = await Ajax.ajax(config.api.profile);
             await Ajax.checkResponseStatus(profileResponse, config.api.profile);
 
-            this.currentUser = this.parseUser(
-                profileResponse.responseBody.body.user
-            );
+            this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
         } catch {
             if (response.status === 400) {
                 const customStatus =
@@ -141,9 +122,7 @@ class UserModel extends IModel {
             const profileResponse = await Ajax.ajax(config.api.profile);
             await Ajax.checkResponseStatus(profileResponse, config.api.profile);
 
-            this.currentUser = this.parseUser(
-                profileResponse.responseBody.body.user
-            );
+            this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
         } catch {
             return Promise.reject();
         }
@@ -162,9 +141,7 @@ class UserModel extends IModel {
             const profileResponse = await Ajax.ajax(config.api.profile);
             await Ajax.checkResponseStatus(profileResponse, config.api.profile);
 
-            this.currentUser = this.parseUser(
-                profileResponse.responseBody.body.user
-            );
+            this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
         } catch {
             return Promise.reject();
         }

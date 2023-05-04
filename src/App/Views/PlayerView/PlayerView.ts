@@ -18,12 +18,10 @@ class PlayerView extends IView {
     private readonly timeoutTicks: number = 10;
 
     private readonly showTimeout: number = 200;
-    private readonly showTimeoutTick: number =
-        this.showTimeout / this.timeoutTicks;
+    private readonly showTimeoutTick: number = this.showTimeout / this.timeoutTicks;
 
     private readonly hideTimeout: number = 500;
-    private readonly hideTimeoutTick: number =
-        this.hideTimeout / this.timeoutTicks;
+    private readonly hideTimeoutTick: number = this.hideTimeout / this.timeoutTicks;
 
     public readonly video: HTMLVideoElement;
 
@@ -64,12 +62,8 @@ class PlayerView extends IView {
 
         this.video = <HTMLVideoElement>this.element.querySelector('video');
 
-        this.titleContainer = <HTMLElement>(
-            this.element.querySelector('.js-video__title-container')
-        );
-        this.title = <HTMLElement>(
-            this.titleContainer.querySelector('.js-video__title-align')
-        );
+        this.titleContainer = <HTMLElement>this.element.querySelector('.js-video__title-container');
+        this.title = <HTMLElement>this.titleContainer.querySelector('.js-video__title-align');
 
         this.bottomFilterContainer = <HTMLElement>(
             this.element.querySelector('.js-video__bottom-filter-container')
@@ -89,9 +83,7 @@ class PlayerView extends IView {
         this.videoPanelContainer = <HTMLElement>(
             this.element.querySelector('.js-video__panel-container')
         );
-        this.videoPanel = <HTMLElement>(
-            this.element.querySelector('.js-video__panel')
-        );
+        this.videoPanel = <HTMLElement>this.element.querySelector('.js-video__panel');
 
         this.progressBarContainer = <HTMLElement>(
             this.element.querySelector('.video__progress-container')
@@ -121,9 +113,7 @@ class PlayerView extends IView {
             PlayerData.nextButton.componentData
         );
 
-        this.currentTimeElement = <HTMLElement>(
-            this.element.querySelector('.video__duration-time')
-        );
+        this.currentTimeElement = <HTMLElement>this.element.querySelector('.video__duration-time');
 
         this.volumeBarContainer = <HTMLElement>(
             this.element.querySelector('.video__volume-container')
@@ -195,9 +185,7 @@ class PlayerView extends IView {
     }
 
     private checkVideoPanel(): boolean {
-        return Boolean(
-            this.videoPanelContainer.querySelector('.js-video__panel')
-        );
+        return Boolean(this.videoPanelContainer.querySelector('.js-video__panel'));
     }
 
     public showElements(): void {
@@ -278,9 +266,7 @@ class PlayerView extends IView {
     }
 
     public bindVideoClick(listener: any): void {
-        this.element
-            .querySelector('.js-video__storage')
-            ?.addEventListener('click', listener);
+        this.element.querySelector('.js-video__storage')?.addEventListener('click', listener);
     }
 
     public bindMouseMoveEvent(listener: any): void {

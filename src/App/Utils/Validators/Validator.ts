@@ -42,10 +42,7 @@ function validateInput(input: { id: string; value: string }): ValidatorResult {
     return validValidator;
 }
 
-function validatePasswords(
-    password: string,
-    repeatPassword: string
-): ValidatorResultPassword {
+function validatePasswords(password: string, repeatPassword: string): ValidatorResultPassword {
     const validatedPassword: ValidatorResult = validateInput({
         id: 'password',
         value: password,

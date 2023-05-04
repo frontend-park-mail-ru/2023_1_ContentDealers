@@ -15,10 +15,7 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel> {
 
     public constructor(view: FavoritesView, model: FavoritesModel) {
         super(view, model);
-        EventDispatcher.subscribe(
-            'unmount-all',
-            this.unmountComponent.bind(this)
-        );
+        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
         this.view.bindClickEvent(this.handleClick.bind(this));
         this.view.bindChangeEvent(this.handleChange.bind(this));
@@ -63,9 +60,7 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel> {
         e.preventDefault();
 
         if (this.isMounted) {
-            const href = (<HTMLElement>e.target)
-                .closest('[href]')
-                ?.getAttribute('href');
+            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 router.goToPath(href);
             }

@@ -48,9 +48,7 @@ class FavoritesModel extends IModel {
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
 
-        const favoritesContent = this.parseContent(
-            response.responseBody.body.content
-        );
+        const favoritesContent = this.parseContent(response.responseBody.body.content);
 
         return Promise.resolve(favoritesContent);
     }

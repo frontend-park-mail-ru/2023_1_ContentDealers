@@ -75,8 +75,7 @@ class VolumeBarComponent extends IComponent {
     // Init //
     private initVolumeButtons(): void {
         this.volumeStatusContainer =
-            <HTMLElement>this.element.querySelector('.js-volume') ||
-            this.element;
+            <HTMLElement>this.element.querySelector('.js-volume') || this.element;
 
         this.muteButton = new this.volumeData.mute.componentType(
             this.volumeStatusContainer,
@@ -97,10 +96,7 @@ class VolumeBarComponent extends IComponent {
     }
 
     public setMaxMinValues(): void {
-        this.barComponent.setMaxMinValues(
-            this.volumeMinValue,
-            this.volumeMaxValue
-        );
+        this.barComponent.setMaxMinValues(this.volumeMinValue, this.volumeMaxValue);
     }
 
     public setMuteProxy(flag: boolean): void {
@@ -110,9 +106,7 @@ class VolumeBarComponent extends IComponent {
     }
 
     public setHelperText(volume: number): void {
-        this.barComponent.setHelperText(
-            `${Math.round(this.barComponent.toPercentage(volume))}%`
-        );
+        this.barComponent.setHelperText(`${Math.round(this.barComponent.toPercentage(volume))}%`);
     }
 
     public changeMuteStatus(e: Event): void {

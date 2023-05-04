@@ -30,10 +30,7 @@ class FilmController extends IController<FilmView, FilmModel> {
         this.trailerSrc = null;
         this.filmSrc = null;
 
-        EventDispatcher.subscribe(
-            'unmount-all',
-            this.unmountComponent.bind(this)
-        );
+        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
         // this.view.bindClickEvent(this.handleClick.bind(this));
     }
@@ -52,16 +49,13 @@ class FilmController extends IController<FilmView, FilmModel> {
                         await this.model
                             .getFilm(this.filmId)
                             .then(data => {
-                                this.trailerSrc =
-                                    data.content?.trailerURL || null;
+                                this.trailerSrc = data.content?.trailerURL || null;
                                 this.filmSrc = data?.contentURL || null;
 
                                 this.view.fillFilm(data);
                                 super.mountComponent();
 
-                                this.view.bindClickEvent(
-                                    this.handleClick.bind(this)
-                                );
+                                this.view.bindClickEvent(this.handleClick.bind(this));
                             })
                             .catch(error => console.error(error));
                         break;
@@ -71,8 +65,7 @@ class FilmController extends IController<FilmView, FilmModel> {
                         await this.model
                             .getSeries(this.filmId)
                             .then(data => {
-                                this.trailerSrc =
-                                    data.content?.trailerURL || null;
+                                this.trailerSrc = data.content?.trailerURL || null;
 
                                 this.view.fillFilm(data);
 
@@ -85,9 +78,7 @@ class FilmController extends IController<FilmView, FilmModel> {
 
                                 super.mountComponent();
 
-                                this.view.bindClickEvent(
-                                    this.handleClick.bind(this)
-                                );
+                                this.view.bindClickEvent(this.handleClick.bind(this));
                             })
                             .catch(error => console.error(error));
                         break;
@@ -143,16 +134,13 @@ class FilmController extends IController<FilmView, FilmModel> {
         e.preventDefault();
 
         if (this.isMounted) {
-            const href = (<HTMLElement>e.target)
-                .closest('[href]')
-                ?.getAttribute('href');
+            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 router.goToPath(href);
             }
 
             const target = <HTMLElement>e.target;
-            const action = (<HTMLElement>target.closest('[data-action]'))
-                ?.dataset['action'];
+            const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
 
             switch (action) {
                 case 'subscribe': {
@@ -193,19 +181,15 @@ class FilmController extends IController<FilmView, FilmModel> {
                     };
 
                     if (this.view.isDelete()) {
-                        this.model
-                            .deleteFromFavorites(addDeleteFavorites)
-                            .then(() => {
-                                this.view.toggleBookmark();
-                                console.log('УСПЕШНО УДАЛЕНО');
-                            });
+                        this.model.deleteFromFavorites(addDeleteFavorites).then(() => {
+                            this.view.toggleBookmark();
+                            console.log('УСПЕШНО УДАЛЕНО');
+                        });
                     } else {
-                        this.model
-                            .addToFavorites(addDeleteFavorites)
-                            .then(() => {
-                                this.view.toggleBookmark();
-                                console.log('УСПЕШНО ДОБАВЛЕНО');
-                            });
+                        this.model.addToFavorites(addDeleteFavorites).then(() => {
+                            this.view.toggleBookmark();
+                            console.log('УСПЕШНО ДОБАВЛЕНО');
+                        });
                     }
 
                     return;
@@ -216,17 +200,12 @@ class FilmController extends IController<FilmView, FilmModel> {
 
             const actionStr = action as unknown as string;
             if (actionStr !== undefined) {
-                if (
-                    actionStr.startsWith('trailers/') &&
-                    actionStr.endsWith('.mp4')
-                ) {
+                if (actionStr.startsWith('trailers/') && actionStr.endsWith('.mp4')) {
                     this.filmSrc = actionStr;
 
                     this.view.newPlayerView(this.model.getFilmTitle());
                     this.view.playerView?.showNextButton();
-                    this.playerController = new PlayerController(
-                        <PlayerView>this.view.playerView
-                    );
+                    this.playerController = new PlayerController(<PlayerView>this.view.playerView);
 
                     this.playerController.mountComponent();
                     this.playerController.setSrc(this.filmSrc);

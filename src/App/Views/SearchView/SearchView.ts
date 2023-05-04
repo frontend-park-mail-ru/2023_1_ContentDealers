@@ -18,15 +18,9 @@ class SearchView extends IView {
     public constructor(parent: HTMLElement) {
         super(parent, SearchTemplate(SearchViewData));
 
-        this.content = <HTMLElement>(
-            this.element.querySelector('.js-content__main')
-        );
-        this.actors = <HTMLElement>(
-            this.element.querySelector('.js-actors__main')
-        );
-        this.title = <HTMLElement>(
-            this.element.querySelector('.js-header__title')
-        );
+        this.content = <HTMLElement>this.element.querySelector('.js-content__main');
+        this.actors = <HTMLElement>this.element.querySelector('.js-actors__main');
+        this.title = <HTMLElement>this.element.querySelector('.js-header__title');
     }
 
     public bindClickEvent(listener: any): void {

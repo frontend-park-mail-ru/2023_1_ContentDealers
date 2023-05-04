@@ -15,8 +15,7 @@ class Router {
 
     public constructor() {
         this.routes = [];
-        this.unknownPageHandler = (): void =>
-            console.error('No unknown page handler!');
+        this.unknownPageHandler = (): void => console.error('No unknown page handler!');
         this.nearestNotAuthUrl = paths.main;
     }
 

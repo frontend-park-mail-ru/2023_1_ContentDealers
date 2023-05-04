@@ -20,10 +20,7 @@ class GenreController extends IController<GenreView, GenreModel> {
 
     public constructor(view: GenreView, model: GenreModel) {
         super(view, model);
-        EventDispatcher.subscribe(
-            'unmount-all',
-            this.unmountComponent.bind(this)
-        );
+        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
         this.view.bindClickEvent(this.handleClick.bind(this));
     }
@@ -73,9 +70,7 @@ class GenreController extends IController<GenreView, GenreModel> {
         e.preventDefault();
 
         if (this.isMounted) {
-            const href = (<HTMLElement>e.target)
-                .closest('[href]')
-                ?.getAttribute('href');
+            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 router.goToPath(href);
             }

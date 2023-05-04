@@ -129,12 +129,8 @@ class FilmModel extends IModel {
         this.title = filmData.content?.title;
 
         if (filmData.content) {
-            filmData.content.actors = this.getFilmActors(
-                filmData.content.persons || []
-            );
-            filmData.content.directors = this.getFilmDirectors(
-                filmData.content.persons || []
-            );
+            filmData.content.actors = this.getFilmActors(filmData.content.persons || []);
+            filmData.content.directors = this.getFilmDirectors(filmData.content.persons || []);
         }
 
         return Promise.resolve(filmData);
@@ -181,18 +177,14 @@ class FilmModel extends IModel {
     }
 
     public getEpisodes(num: number): IEpisode[] {
-        return this.seriesData.episodes.filter(
-            ({ seasonNum }) => seasonNum == num
-        );
+        return this.seriesData.episodes.filter(({ seasonNum }) => seasonNum == num);
     }
 
     public getFilmTitle(): string {
         return <string>this.title;
     }
 
-    public async deleteFromFavorites(
-        data: IFavoritesAddDelete
-    ): Promise<number> {
+    public async deleteFromFavorites(data: IFavoritesAddDelete): Promise<number> {
         const conf = Object.assign({}, config.api.favoritesContentDelete);
 
         const response = await Ajax.ajax(conf, JSON.stringify(data));

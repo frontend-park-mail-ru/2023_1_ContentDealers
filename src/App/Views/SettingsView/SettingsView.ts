@@ -28,9 +28,7 @@ class SettingsView extends IView {
         this.leftMenuContainer = <HTMLElement>(
             this.element.querySelector('.js-settings__left-menu-container')
         );
-        this.settingsFormContainer = <HTMLElement>(
-            this.element.querySelector('.js-settings__form')
-        );
+        this.settingsFormContainer = <HTMLElement>this.element.querySelector('.js-settings__form');
 
         this.leftMenu = new SettingsData.leftMenu.componentType(
             this.leftMenuContainer,
@@ -50,9 +48,7 @@ class SettingsView extends IView {
         const listElement = this.leftMenu.getElement();
         listElement
             .querySelector(`[href="${this.currentActiveItem}"]`)
-            ?.parentElement?.classList.remove(
-                'settings-left-menu__item--active'
-            );
+            ?.parentElement?.classList.remove('settings-left-menu__item--active');
         this.currentActiveItem = href;
         listElement
             .querySelector(`[href="${href}"]`)

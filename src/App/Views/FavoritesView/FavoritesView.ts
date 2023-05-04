@@ -20,18 +20,10 @@ class FavoritesView extends IView {
     public constructor(parent: HTMLElement) {
         super(parent, FavoritesTemplate(FavoritesViewData));
 
-        this.content = <HTMLElement>(
-            this.element.querySelector('.js-content__item')
-        );
-        this.actors = <HTMLElement>(
-            this.element.querySelector('.js-grid__actors')
-        );
-        this.contentButton = <HTMLElement>(
-            this.element.querySelector('.js-content-button')
-        );
-        this.actorsButton = <HTMLElement>(
-            this.element.querySelector('.js-actors-button')
-        );
+        this.content = <HTMLElement>this.element.querySelector('.js-content__item');
+        this.actors = <HTMLElement>this.element.querySelector('.js-grid__actors');
+        this.contentButton = <HTMLElement>this.element.querySelector('.js-content-button');
+        this.actorsButton = <HTMLElement>this.element.querySelector('.js-actors-button');
 
         // new ButtonComponent(this.contentButton, FavoritesViewData.contentButton).show();
         // new ButtonComponent(this.actorsButton, FavoritesViewData.actorsButton).show();
@@ -47,12 +39,7 @@ class FavoritesView extends IView {
 
     public fillContent(data: IContentSearch[]): void {
         data.forEach(contentData => {
-            new ContentSearchComponent(
-                this.content,
-                contentData,
-                false,
-                'picture_size'
-            ).show();
+            new ContentSearchComponent(this.content, contentData, false, 'picture_size').show();
         });
     }
 

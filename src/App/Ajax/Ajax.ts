@@ -15,10 +15,7 @@ export interface IResponse {
 class Ajax {
     private csrfToken?: string;
 
-    public async ajax(
-        params: IRequestParams,
-        body?: string | FormData
-    ): Promise<IResponse> {
+    public async ajax(params: IRequestParams, body?: string | FormData): Promise<IResponse> {
         const headers = new Headers(params.headers);
 
         if (
@@ -44,8 +41,7 @@ class Ajax {
         try {
             responseBody = await response.json();
             if (response.status === 400) {
-                const customStatus =
-                    responseBody.status.toString() as keyof typeof customFailures;
+                const customStatus = responseBody.status.toString() as keyof typeof customFailures;
                 responseBody.message = customFailures[customStatus];
             }
         } catch (error) {
@@ -63,14 +59,11 @@ class Ajax {
     }
 
     public async getCsrfTokenFromServer(): Promise<any> {
-        const csrfResponse = await fetch(
-            `${config.host}${config.api.csrf.url}`,
-            {
-                method: config.api.csrf.method,
-                headers: new Headers(config.api.csrf.headers),
-                credentials: 'include',
-            }
-        );
+        const csrfResponse = await fetch(`${config.host}${config.api.csrf.url}`, {
+            method: config.api.csrf.method,
+            headers: new Headers(config.api.csrf.headers),
+            credentials: 'include',
+        });
 
         const csrfToken = await csrfResponse.json();
 
@@ -79,17 +72,13 @@ class Ajax {
         return csrfToken;
     }
 
-    public async checkResponseStatus(
-        response: IResponse,
-        conf: IApi
-    ): Promise<string> {
+    public async checkResponseStatus(response: IResponse, conf: IApi): Promise<string> {
         if (response.status.toString() in conf.statuses.success) {
             return Promise.resolve('');
         }
 
         if (response.status.toString() in conf.statuses.failure) {
-            const keyStatus =
-                response.status.toString() as keyof typeof conf.statuses.failure;
+            const keyStatus = response.status.toString() as keyof typeof conf.statuses.failure;
 
             if (keyStatus === '400') {
                 const customStatus =

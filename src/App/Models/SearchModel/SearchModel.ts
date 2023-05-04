@@ -56,9 +56,7 @@ class FilmModel extends IModel {
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
 
-        const searchResult = this.parseSearchResult(
-            response.responseBody.body.search
-        );
+        const searchResult = this.parseSearchResult(response.responseBody.body.search);
 
         return Promise.resolve(searchResult);
     }

@@ -42,9 +42,7 @@ class PersonModel extends IModel {
             age: json.age,
 
             roles: this.parsePersonRoles(json.roles),
-            participatedIn: this.parseParticipatedContents(
-                json.participated_in
-            ),
+            participatedIn: this.parseParticipatedContents(json.participated_in),
         };
     }
 
@@ -102,9 +100,7 @@ class PersonModel extends IModel {
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
 
-        const personData = await this.parsePerson(
-            response.responseBody.body.person
-        );
+        const personData = await this.parsePerson(response.responseBody.body.person);
 
         return Promise.resolve(personData);
     }

@@ -73,9 +73,7 @@ class SearchController extends IController<SearchView, SearchModel> {
         e.stopPropagation();
 
         if (this.isMounted) {
-            const href = (<HTMLElement>e.target)
-                .closest('[href]')
-                ?.getAttribute('href');
+            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 this.unmountComponent();
                 router.goToPath(href);

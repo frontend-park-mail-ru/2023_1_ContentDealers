@@ -84,13 +84,9 @@ class PlayerController extends IController<PlayerView, IModel> {
             this.view.video.addEventListener('timeupdate', () => {
                 const currentTime = this.view.video.currentTime;
                 const duration = this.view.video.duration;
-                const buffered = this.view.video.buffered.end(
-                    this.view.video.buffered.length - 1
-                );
+                const buffered = this.view.video.buffered.end(this.view.video.buffered.length - 1);
 
-                this.view.progressBar.updateLoadProgressBar(
-                    (buffered / duration) * 100
-                );
+                this.view.progressBar.updateLoadProgressBar((buffered / duration) * 100);
                 this.view.progressBar.setCurrentValueToBar(currentTime);
                 this.view.setCurrentTime(currentTime);
             });
@@ -118,9 +114,7 @@ class PlayerController extends IController<PlayerView, IModel> {
 
     private initVideo(): void {
         this.view.progressBar.setMaxMinValues(this.view.video.duration);
-        this.view.progressBar.setUpdateVideoFunc(
-            this.setVideoProgress.bind(this)
-        );
+        this.view.progressBar.setUpdateVideoFunc(this.setVideoProgress.bind(this));
 
         this.view.volumeBar.setUpdateVideoFunc(this.setVideoVolume.bind(this));
     }

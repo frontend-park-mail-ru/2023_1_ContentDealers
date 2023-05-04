@@ -92,12 +92,7 @@ class App {
 
         this.userModel
             .authUserByCookie()
-            .then(() =>
-                EventDispatcher.emit(
-                    'user-changed',
-                    this.userModel.getCurrentUser()
-                )
-            )
+            .then(() => EventDispatcher.emit('user-changed', this.userModel.getCurrentUser()))
             .catch(() => EventDispatcher.emit('render-signInButton'));
     }
 
@@ -156,33 +151,18 @@ class App {
      */
     private initControllers(): void {
         this.headerController = new HeaderController(this.headerView);
-        this.modalRightController = new ModalRightController(
-            this.modalRightView,
-            this.userModel
-        );
+        this.modalRightController = new ModalRightController(this.modalRightView, this.userModel);
         this.filmController = new FilmController(this.filmView, this.filmModel);
-        this.settingsController = new SettingsController(
-            this.settingsView,
-            this.userModel
-        );
-        this.personController = new PersonController(
-            this.personView,
-            this.personModel
-        );
+        this.settingsController = new SettingsController(this.settingsView, this.userModel);
+        this.personController = new PersonController(this.personView, this.personModel);
         this.mainController = new MainController(this.mainView, {
             genres: this.genreModel,
             selections: this.selectionModel,
         });
 
         this.notFoundController = new NotFoundController(this.notFoundView);
-        this.favoritesController = new FavoritesController(
-            this.favoritesView,
-            this.favoritesModel
-        );
-        this.genreController = new GenreController(
-            this.genreView,
-            this.genreModel
-        );
+        this.favoritesController = new FavoritesController(this.favoritesView, this.favoritesModel);
+        this.genreController = new GenreController(this.genreView, this.genreModel);
     }
 
     /**
@@ -307,10 +287,7 @@ class App {
                 this.headerView.changeActiveHeaderListItem('#');
                 this.settingsView.changeActiveLeftMenuItem(paths.settings);
 
-                EventDispatcher.emit(
-                    'user-changed',
-                    this.userModel.getCurrentUser()
-                );
+                EventDispatcher.emit('user-changed', this.userModel.getCurrentUser());
             })
             .catch(() => {
                 EventDispatcher.emit('render-signInButton');

@@ -40,28 +40,16 @@ class HeaderView extends IView {
         super(parent, HeaderTemplate({}));
 
         // Initialize fields
-        this.items = <HTMLElement>(
-            this.element.querySelector('.js-header__items')
-        );
-        this.profile = <HTMLElement>(
-            this.element.querySelector('.js-header__profile')
-        );
+        this.items = <HTMLElement>this.element.querySelector('.js-header__items');
+        this.profile = <HTMLElement>this.element.querySelector('.js-header__profile');
         this.logo = <HTMLElement>this.element.querySelector('.js-header__logo');
-        this.middle = <HTMLElement>(
-            this.element.querySelector('.js-header__middle')
-        );
+        this.middle = <HTMLElement>this.element.querySelector('.js-header__middle');
 
         // Render components
-        const logo = new HeaderData.logo.componentType(
-            this.logo,
-            HeaderData.logo.componentData
-        );
+        const logo = new HeaderData.logo.componentType(this.logo, HeaderData.logo.componentData);
         logo.show();
 
-        this.input = new InputComponent(
-            this.middle,
-            HeaderData.input.componentData
-        );
+        this.input = new InputComponent(this.middle, HeaderData.input.componentData);
 
         this.searchView = new SearchView(this.middle);
 
@@ -77,9 +65,7 @@ class HeaderView extends IView {
             component.show();
         });
 
-        this.items
-            .querySelector('.subscribe-button')
-            ?.setAttribute('disabled', 'true'); // TODO: return
+        this.items.querySelector('.subscribe-button')?.setAttribute('disabled', 'true'); // TODO: return
         this.searchIcon = <HTMLImageElement>this.items.querySelector('img');
     }
 
@@ -88,9 +74,7 @@ class HeaderView extends IView {
             this.actions.hide();
             this.input.show();
             this.searchIcon.src = '/img/icons/close.svg';
-            (<HTMLElement>(
-                this.middle.querySelector('.input-field__search')
-            )).focus();
+            (<HTMLElement>this.middle.querySelector('.input-field__search')).focus();
         } else {
             this.input.hide();
             this.actions.show();
@@ -104,9 +88,7 @@ class HeaderView extends IView {
             .querySelector(`[href="${this.currentActiveItem}"]`)
             ?.parentElement?.classList.remove('active');
         this.currentActiveItem = href;
-        listElement
-            .querySelector(`[href="${href}"]`)
-            ?.parentElement?.classList.add('active');
+        listElement.querySelector(`[href="${href}"]`)?.parentElement?.classList.add('active');
     }
 
     /**
@@ -133,10 +115,7 @@ class HeaderView extends IView {
             }
         }
 
-        const profile = new component.componentType(
-            this.profile,
-            component.componentData
-        );
+        const profile = new component.componentType(this.profile, component.componentData);
         profile.show();
     }
 

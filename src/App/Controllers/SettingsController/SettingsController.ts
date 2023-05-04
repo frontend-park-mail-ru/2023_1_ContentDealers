@@ -23,10 +23,7 @@ class SettingsController extends IController<SettingsView, UserModel> {
         this.view.form.bindFileClickEvent(this.onFileClick.bind(this));
         this.view.form.bindCheckboxClickEvent(this.onCheckboxClick.bind(this));
 
-        EventDispatcher.subscribe(
-            'unmount-all',
-            this.unmountComponent.bind(this)
-        );
+        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
     }
 
     public mountComponent(): void {
@@ -52,8 +49,7 @@ class SettingsController extends IController<SettingsView, UserModel> {
     private validate(): boolean {
         const emailComponent = this.view.form.findInputComponent('email');
         const passwordComponent = this.view.form.findInputComponent('password');
-        const repeatPasswordComponent =
-            this.view.form.findInputComponent('repeat-password');
+        const repeatPasswordComponent = this.view.form.findInputComponent('repeat-password');
 
         // const email = emailComponent.input.value;
         const password = passwordComponent.input.value;
@@ -72,14 +68,10 @@ class SettingsController extends IController<SettingsView, UserModel> {
                 return false;
             }
 
-            const validatedPassword = validateInput(
-                passwordComponent.getData()
-            );
+            const validatedPassword = validateInput(passwordComponent.getData());
             if (!validatedPassword.isValid) {
                 passwordComponent.showErrorMsg('');
-                repeatPasswordComponent.showErrorMsg(
-                    validatedPassword.errorMsg
-                );
+                repeatPasswordComponent.showErrorMsg(validatedPassword.errorMsg);
                 return false;
             }
 
@@ -107,54 +99,38 @@ class SettingsController extends IController<SettingsView, UserModel> {
                 }
 
                 const userData: any = {
-                    email: this.view.form.findInputComponent('email').input
-                        .value,
+                    email: this.view.form.findInputComponent('email').input.value,
                     date_birth: '2000-Jan-01',
-                    password:
-                        this.view.form.findInputComponent('password').input
-                            .value,
+                    password: this.view.form.findInputComponent('password').input.value,
                 };
 
-                const fileInput =
-                    this.view.form.findInputComponent('avatar').input;
+                const fileInput = this.view.form.findInputComponent('avatar').input;
                 const formData = new FormData();
 
                 const file = fileInput.files?.[0];
 
                 if (file) {
-                    if (
-                        this.view.form.findInputComponent('avatar-checkbox')
-                            .input.checked
-                    ) {
+                    if (this.view.form.findInputComponent('avatar-checkbox').input.checked) {
                         this.view.form
                             .findInputComponent('repeat-password')
-                            .showErrorMsg(
-                                'Нельзя удалить и поставить аватарку!'
-                            );
+                            .showErrorMsg('Нельзя удалить и поставить аватарку!');
                         return;
                     } else {
                         formData.append('avatar', file);
                         this.model
                             .avatarUpdate(formData)
                             .then(() => {
-                                this.view.form.inputs.forEach(
-                                    inputComponent => {
-                                        inputComponent.hideErrorMsg();
-                                    }
-                                );
+                                this.view.form.inputs.forEach(inputComponent => {
+                                    inputComponent.hideErrorMsg();
+                                });
                             })
                             .catch(({ msg }) =>
-                                this.view.form
-                                    .findInputComponent('avatar')
-                                    .showErrorMsg(msg)
+                                this.view.form.findInputComponent('avatar').showErrorMsg(msg)
                             );
                         return;
                     }
                 } else {
-                    if (
-                        this.view.form.findInputComponent('avatar-checkbox')
-                            .input.checked
-                    ) {
+                    if (this.view.form.findInputComponent('avatar-checkbox').input.checked) {
                         this.model
                             .avatarDelete()
                             .then()
@@ -171,9 +147,7 @@ class SettingsController extends IController<SettingsView, UserModel> {
                         });
                     })
                     .catch(({ msg }) =>
-                        this.view.form
-                            .findInputComponent('email')
-                            .showErrorMsg(msg)
+                        this.view.form.findInputComponent('email').showErrorMsg(msg)
                     );
                 // this.model.avatarUpdate(formData);
             }

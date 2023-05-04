@@ -40,10 +40,7 @@ class FilmView extends IView {
     }
 
     public newPlayerView(title: string): void {
-        this.playerView = new PlayerView(
-            <HTMLElement>this.parent.parentElement,
-            title
-        );
+        this.playerView = new PlayerView(<HTMLElement>this.parent.parentElement, title);
     }
 
     public hide(): void {
@@ -56,9 +53,7 @@ class FilmView extends IView {
         this.element = <HTMLElement>this.parent.firstElementChild;
 
         this.seasons = <HTMLElement>this.element.querySelector('.js-seasons');
-        this.buttonsContainer = <HTMLElement>(
-            this.element.querySelector('.film-content__buttons')
-        );
+        this.buttonsContainer = <HTMLElement>this.element.querySelector('.film-content__buttons');
 
         this.renderButtons();
     }
@@ -108,9 +103,7 @@ class FilmView extends IView {
         this.favoritesLink.show();
 
         this.isInFavorites = false;
-        this.favoritesIcon = <HTMLImageElement>(
-            this.favoritesLink.querySelector('img')
-        );
+        this.favoritesIcon = <HTMLImageElement>this.favoritesLink.querySelector('img');
 
         if (status) {
             this.toggleBookmark();

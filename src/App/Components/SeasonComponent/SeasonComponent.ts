@@ -19,10 +19,7 @@ class SeasonComponent extends IComponent {
 
     private currentItemId: number;
 
-    private numberListData: ListComponentData<
-        LinkComponent,
-        LinkComponentData
-    > = {
+    private numberListData: ListComponentData<LinkComponent, LinkComponentData> = {
         listClass: 'seasons__list',
         itemClass: 'seasons-list__item',
         items: [],
@@ -38,12 +35,8 @@ class SeasonComponent extends IComponent {
             })
         );
 
-        this.numberListContainer = <HTMLElement>(
-            this.element.querySelector('.js-number-list')
-        );
-        this.itemsListContainer = <HTMLElement>(
-            this.element.querySelector('.js-items-list')
-        );
+        this.numberListContainer = <HTMLElement>this.element.querySelector('.js-number-list');
+        this.itemsListContainer = <HTMLElement>this.element.querySelector('.js-items-list');
 
         if (data?.count) {
             this.renderNumbers(data?.count);
@@ -64,8 +57,7 @@ class SeasonComponent extends IComponent {
             },
         }));
 
-        this.numberListData.items =
-            this.numberListData.items?.concat(numberItems);
+        this.numberListData.items = this.numberListData.items?.concat(numberItems);
 
         new ListComponent(this.numberListContainer, this.numberListData).show();
 

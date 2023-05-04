@@ -135,25 +135,17 @@ class BarComponent extends IComponent {
     private initElements(): void {
         this.fullBar = <HTMLElement>this.element.querySelector('.bar__full');
         this.loadBar = <HTMLElement>this.element.querySelector('.bar__load');
-        this.loadProgressBar = <HTMLElement>(
-            this.element.querySelector('.bar-load__progress')
-        );
-        this.currentBar = <HTMLElement>(
-            this.element.querySelector('.bar__current')
-        );
+        this.loadProgressBar = <HTMLElement>this.element.querySelector('.bar-load__progress');
+        this.currentBar = <HTMLElement>this.element.querySelector('.bar__current');
     }
 
     private initHiddenElements(): void {
-        const barHelperDiv = <HTMLElement>(
-            this.element.querySelector('#bar__helper')
-        );
+        const barHelperDiv = <HTMLElement>this.element.querySelector('#bar__helper');
         this.barHelper = new DivComponent(barHelperDiv, {
             divClass: 'bar__helper',
         });
 
-        const currentBarCircleDiv = <HTMLElement>(
-            this.element.querySelector('#bar__current-circle')
-        );
+        const currentBarCircleDiv = <HTMLElement>this.element.querySelector('#bar__current-circle');
         this.currentBarCircle = new DivComponent(currentBarCircleDiv, {
             divClass: 'bar__current-circle',
         });
@@ -264,8 +256,7 @@ class BarComponent extends IComponent {
         const barWidth = barRect.width;
 
         const position = cursorX - barLeft;
-        const percentage =
-            position < 0 ? 0 : (position / barWidth) * this.maxPercentageValue;
+        const percentage = position < 0 ? 0 : (position / barWidth) * this.maxPercentageValue;
 
         return parseFloat(percentage.toFixed(2));
     }
@@ -324,9 +315,7 @@ class BarComponent extends IComponent {
     }
 
     private deleteActiveFromCircle(): void {
-        this.currentBarCircle.div.classList.remove(
-            'bar__current-circle--active'
-        );
+        this.currentBarCircle.div.classList.remove('bar__current-circle--active');
     }
 
     // Events //

@@ -20,14 +20,8 @@ interface IPlayerData {
 
     closeButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
 
-    progressBar: IComponentDataWithType<
-        ProgressBarComponent,
-        ProgressBarComponentData
-    >;
-    volumeBar: IComponentDataWithType<
-        VolumeBarComponent,
-        VolumeBarComponentData
-    >;
+    progressBar: IComponentDataWithType<ProgressBarComponent, ProgressBarComponentData>;
+    volumeBar: IComponentDataWithType<VolumeBarComponent, VolumeBarComponentData>;
 
     screenButton: IComponentDataWithType<DivComponent, DivComponentData>;
     compressButton: IComponentDataWithType<DivComponent, DivComponentData>;

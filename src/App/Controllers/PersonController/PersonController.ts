@@ -19,10 +19,7 @@ class PersonController extends IController<PersonView, PersonModel> {
 
         this.personId = null;
 
-        EventDispatcher.subscribe(
-            'unmount-all',
-            this.unmountComponent.bind(this)
-        );
+        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
         this.view.bindClickEvent(this.handleClick.bind(this));
     }
@@ -61,9 +58,7 @@ class PersonController extends IController<PersonView, PersonModel> {
         e.preventDefault();
 
         if (this.isMounted) {
-            const href = (<HTMLElement>e.target)
-                .closest('[href]')
-                ?.getAttribute('href');
+            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 router.goToPath(href);
             }

@@ -41,9 +41,7 @@ class SignUpController extends IController<SignUpView, UserModel> {
         if (this.isMounted) {
             this.view.form.bindInputsEvent(this.onInput.bind(this));
 
-            const button = <HTMLElement>(
-                (<HTMLElement>e.target).closest('.signUp-button')
-            );
+            const button = <HTMLElement>(<HTMLElement>e.target).closest('.signUp-button');
             if (button.classList.contains('button--disabled')) {
                 // TODO: check if disabled
                 return;
@@ -56,8 +54,7 @@ class SignUpController extends IController<SignUpView, UserModel> {
 
             const userSignUp: IUserSignUp = {
                 email: this.view.form.findInputComponent('email').input.value,
-                password:
-                    this.view.form.findInputComponent('password').input.value,
+                password: this.view.form.findInputComponent('password').input.value,
                 date_birth: '2000-Jan-01',
             };
 
@@ -67,9 +64,7 @@ class SignUpController extends IController<SignUpView, UserModel> {
                     router.goToPath(paths.main);
                 })
                 .catch(errorMsg =>
-                    this.view.form
-                        .findInputComponent('repeat-password')
-                        .showErrorMsg(errorMsg)
+                    this.view.form.findInputComponent('repeat-password').showErrorMsg(errorMsg)
                 );
         }
     }
@@ -79,9 +74,7 @@ class SignUpController extends IController<SignUpView, UserModel> {
         e.preventDefault();
         if (this.isMounted) {
             const target = <HTMLElement>e.target;
-            const href =
-                (<HTMLElement>target.closest('[href]')).getAttribute('href') ||
-                '';
+            const href = (<HTMLElement>target.closest('[href]')).getAttribute('href') || '';
 
             this.saveFormDataToStorage();
             router.goToPath(href);

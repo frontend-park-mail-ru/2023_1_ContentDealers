@@ -8,10 +8,7 @@ import type LinkComponentData from '../../Components/LinkComponent/LinkComponent
 
 interface IFilmData {
     trailerButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
-    subscribeButton: IComponentDataWithType<
-        ButtonComponent,
-        ButtonComponentData
-    >;
+    subscribeButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
     filmButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
     favoritesLink: IComponentDataWithType<LinkComponent, LinkComponentData>;
 }

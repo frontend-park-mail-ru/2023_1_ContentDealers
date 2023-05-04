@@ -39,9 +39,7 @@ class CarouselComponent extends IComponent {
         this.slidesToScroll = 4;
 
         this.container = this.element.querySelector('.js-category__container');
-        this.track = this.element.querySelector(
-            '.js-category__container__list'
-        );
+        this.track = this.element.querySelector('.js-category__container__list');
         this.item = this.element.querySelector('li');
 
         this.btnPrev = this.element.querySelector(
@@ -87,8 +85,7 @@ class CarouselComponent extends IComponent {
 
     private checkBtns(): void {
         this.btnNext.style.display =
-            this.position <=
-            -(this.itemsCount - this.slidesToShow) * this.itemWidth
+            this.position <= -(this.itemsCount - this.slidesToShow) * this.itemWidth
                 ? 'none'
                 : 'block';
         this.btnPrev.style.display = this.position === 0 ? 'none' : 'block';
@@ -104,9 +101,7 @@ class CarouselComponent extends IComponent {
                     componentData: {
                         linkHref: type ? `/${type}/${id}` : '',
 
-                        linkImageSrc: previewURL
-                            ? previewURL
-                            : '/img/notfound/question.jpg',
+                        linkImageSrc: previewURL ? previewURL : '/img/notfound/question.jpg',
                         linkImageClass: 'mw-100',
                     },
                 };
@@ -120,24 +115,22 @@ class CarouselComponent extends IComponent {
         }
 
         if (data.episodes) {
-            const listItems = data.episodes.map(
-                ({ episodeNum, contentURL }) => {
-                    return {
-                        componentType: LinkComponent,
-                        componentData: {
-                            dataAction: contentURL,
+            const listItems = data.episodes.map(({ episodeNum, contentURL }) => {
+                return {
+                    componentType: LinkComponent,
+                    componentData: {
+                        dataAction: contentURL,
 
-                            linkClass: 'season-text',
+                        linkClass: 'season-text',
 
-                            linkImageSrc: '/img/notfound/question.jpg',
-                            linkImageClass: 'mw-100',
+                        linkImageSrc: '/img/notfound/question.jpg',
+                        linkImageClass: 'mw-100',
 
-                            linkText: `${episodeNum} Серия`,
-                            linkTextClass: 'season-text__text',
-                        },
-                    };
-                }
-            );
+                        linkText: `${episodeNum} Серия`,
+                        linkTextClass: 'season-text__text',
+                    },
+                };
+            });
 
             new ListComponent(this.listContainer, {
                 listClass: 'category__container__items',
@@ -169,14 +162,13 @@ class CarouselComponent extends IComponent {
     }
 
     private onClick(e: Event): void {
-        const action = (<HTMLElement>(
-            (<HTMLElement>e.target).closest('[data-action]')
-        ))?.dataset['action'];
+        const action = (<HTMLElement>(<HTMLElement>e.target).closest('[data-action]'))?.dataset[
+            'action'
+        ];
 
         switch (action) {
             case 'btn-left': {
-                const itemsLeft: number =
-                    Math.abs(this.position) / this.itemWidth;
+                const itemsLeft: number = Math.abs(this.position) / this.itemWidth;
 
                 this.position +=
                     itemsLeft >= this.slidesToScroll
@@ -192,9 +184,7 @@ class CarouselComponent extends IComponent {
             case 'btn-right': {
                 const itemsRight: number =
                     this.itemsCount -
-                    (Math.abs(this.position) +
-                        this.slidesToShow * this.itemWidth) /
-                        this.itemWidth;
+                    (Math.abs(this.position) + this.slidesToShow * this.itemWidth) / this.itemWidth;
 
                 this.position -=
                     itemsRight >= this.slidesToScroll

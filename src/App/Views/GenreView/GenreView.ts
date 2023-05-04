@@ -29,22 +29,13 @@ class GenreView extends IView {
             firstTitle: data.title,
         });
 
-        this.content = <HTMLElement>(
-            this.element.querySelector('.js-content__item')
-        );
-        this.contentButton = <HTMLElement>(
-            this.element.querySelector('.js-content-button')
-        );
+        this.content = <HTMLElement>this.element.querySelector('.js-content__item');
+        this.contentButton = <HTMLElement>this.element.querySelector('.js-content-button');
 
         // new ButtonComponent(this.contentButton, FavoritesViewData.contentButton).show();
 
         data.content?.forEach(contentData => {
-            new ContentSearchComponent(
-                this.content,
-                contentData,
-                false,
-                'picture_size'
-            ).show();
+            new ContentSearchComponent(this.content, contentData, false, 'picture_size').show();
         });
     }
 

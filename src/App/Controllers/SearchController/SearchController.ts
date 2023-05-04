@@ -31,8 +31,6 @@ class SearchController extends IController<SearchView, SearchModel> {
                 this.lastQuery = query;
             })
             .catch(error => console.error(error));
-
-        return;
     }
 
     public async mountComponent(): Promise<void> {
@@ -41,8 +39,6 @@ class SearchController extends IController<SearchView, SearchModel> {
             this.renderItems();
             super.mountComponent();
         }
-
-        return;
     }
 
     public renderItems(): void {

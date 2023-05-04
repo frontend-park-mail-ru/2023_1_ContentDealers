@@ -46,7 +46,7 @@ class FilmController extends IController<FilmView, FilmModel> {
 
                 switch (opts.type) {
                     case 'film': {
-                        await this.model
+                        this.model
                             .getFilm(this.filmId)
                             .then(data => {
                                 this.trailerSrc = data.content?.trailerURL || null;
@@ -57,12 +57,12 @@ class FilmController extends IController<FilmView, FilmModel> {
 
                                 this.view.bindClickEvent(this.handleClick.bind(this));
                             })
-                            .catch(error => console.error(error));
+                            .catch(() => router.showUnknownPage());
                         break;
                     }
 
                     case 'series': {
-                        await this.model
+                        this.model
                             .getSeries(this.filmId)
                             .then(data => {
                                 this.trailerSrc = data.content?.trailerURL || null;

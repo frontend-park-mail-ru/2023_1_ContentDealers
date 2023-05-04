@@ -28,8 +28,6 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel> {
                 this.content = data;
             })
             .catch(error => console.error(error));
-
-        return;
     }
 
     public async mountComponent(): Promise<void> {
@@ -38,8 +36,6 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel> {
             this.view.fillContent(this.content);
             super.mountComponent();
         }
-
-        return;
     }
 
     public unRenderItems(): void {
@@ -71,8 +67,6 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel> {
         await this.getContent((e.target as HTMLSelectElement).value);
         this.unRenderItems();
         this.view.fillContent(this.content);
-
-        return;
     }
 }
 

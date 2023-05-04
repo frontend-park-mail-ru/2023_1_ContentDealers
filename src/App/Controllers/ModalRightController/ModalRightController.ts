@@ -1,6 +1,6 @@
 import IController from '../IController/IController';
 
-import type ModalRightView from '../../Views/ModalRightView/ModalRightView';
+import type ModalView from '../../Views/ModalView/ModalView';
 
 import SignInController from '../../Controllers/SignInController/SignInController';
 import type SignInView from '../../Views/SignInView/SignInView';
@@ -21,10 +21,10 @@ import type UserModel from '../../Models/UserModel/UserModel';
  * @param  {HeaderView} view Объект вида компонента правого модального окна
  * @param  {UserModel} model Объект модели пользователя
  */
-class ModalRightController extends IController<ModalRightView, UserModel> {
+class ModalRightController extends IController<ModalView, UserModel> {
     private currentController: SignInController | SignUpController;
 
-    public constructor(view: ModalRightView, model: UserModel) {
+    public constructor(view: ModalView, model: UserModel) {
         super(view, model);
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));

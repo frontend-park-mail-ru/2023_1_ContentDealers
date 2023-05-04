@@ -5,7 +5,7 @@ import RootComponent from './Components/RootComponent/RootComponent';
 import HeaderView from './Views/HeaderView/HeaderView';
 import HeaderController from './Controllers/HeaderController/HeaderController';
 
-import ModalRightView from './Views/ModalRightView/ModalRightView';
+import ModalView from './Views/ModalView/ModalView';
 import ModalRightController from './Controllers/ModalRightController/ModalRightController';
 
 import FilmView from './Views/FilmView/FilmView';
@@ -44,7 +44,7 @@ import EventDispatcher from './EventDispatcher/EventDispatcher';
 class App {
     // Views
     private headerView: HeaderView;
-    private modalRightView: ModalRightView;
+    private modalRightView: ModalView;
     private filmView: FilmView;
     private settingsView: SettingsView;
     private personView: PersonView;
@@ -74,10 +74,11 @@ class App {
 
     // Elements
     private root: HTMLElement;
+    private alert: HTMLElement;
     private header: HTMLElement;
+    private main: HTMLElement;
     private footer: HTMLElement;
-    private content: HTMLElement;
-    private modalRight: HTMLElement;
+    private modal: HTMLElement;
 
     public constructor() {
         this.initPage();
@@ -102,14 +103,26 @@ class App {
      * @return {void}
      */
     private initPage(): void {
+        // const rootComponent = new RootComponent(document.body);
+        // rootComponent.show();
+
+        // this.root = rootComponent.querySelector('.js-root');
+        // this.header = rootComponent.querySelector('.js-header');
+        // this.footer = rootComponent.querySelector('.js-footer');
+        // this.content = rootComponent.querySelector('.js-content');
+        // this.modalRight = rootComponent.querySelector('.js-modal--right');
+
         const rootComponent = new RootComponent(document.body);
         rootComponent.show();
 
-        this.root = rootComponent.querySelector('.js-root');
-        this.header = rootComponent.querySelector('.js-header');
-        this.footer = rootComponent.querySelector('.js-footer');
-        this.content = rootComponent.querySelector('.js-content');
-        this.modalRight = rootComponent.querySelector('.js-modal--right');
+        this.root = rootComponent.querySelector('.ts-root');
+
+        this.alert = rootComponent.querySelector('.ts-alert');
+        this.header = rootComponent.querySelector('.ts-header');
+        this.main = rootComponent.querySelector('.ts-main');
+        this.footer = rootComponent.querySelector('.ts-footer');
+
+        this.modal = rootComponent.querySelector('.ts-modal');
     }
 
     /**
@@ -119,15 +132,16 @@ class App {
      */
     private initViews(): void {
         this.headerView = new HeaderView(this.header);
-        this.modalRightView = new ModalRightView(this.modalRight);
-        this.filmView = new FilmView(this.content);
-        this.settingsView = new SettingsView(this.content);
-        this.personView = new PersonView(this.content);
-        this.mainView = new MainView(this.content);
 
-        this.notFoundView = new NotFoundView(this.content);
-        this.favoritesView = new FavoritesView(this.content);
-        this.genreView = new GenreView(this.content);
+        this.filmView = new FilmView(this.main);
+        this.settingsView = new SettingsView(this.main);
+        this.personView = new PersonView(this.main);
+        this.mainView = new MainView(this.main);
+        this.favoritesView = new FavoritesView(this.main);
+        this.genreView = new GenreView(this.main);
+        this.notFoundView = new NotFoundView(this.main);
+
+        this.modalRightView = new ModalView(this.modal);
     }
 
     /**

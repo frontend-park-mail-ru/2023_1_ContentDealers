@@ -1,8 +1,8 @@
 import IView from '../IView/IView';
 
-import ModalRightTemplate from './ModalRightView.hbs';
-import ModalRightData from './ModalRightViewConfig';
-import './ModalRightView.css';
+import ModalRightTemplate from './ModalView.hbs';
+import ModalRightData from './ModalViewConfig';
+import './ModalView.css';
 
 import SignInView from '../SignInView/SignInView';
 import SignUpView from '../SignUpView/SignUpView';
@@ -13,7 +13,7 @@ import SignUpView from '../SignUpView/SignUpView';
  * @extends {IView}
  * @param {HTMLElement} parent - родительский элемент для правого модального окна
  */
-class ModalRightView extends IView {
+class ModalView extends IView {
     private readonly modalBody: HTMLElement;
     public currentView: SignInView | SignUpView | null;
 
@@ -44,12 +44,12 @@ class ModalRightView extends IView {
     }
 
     public show(): void {
-        this.parent.classList.add('modal--right--open');
+        this.parent.classList.add('modal_open');
         super.show();
     }
 
     public hide(): void {
-        this.parent.classList.remove('modal--right--open');
+        this.parent.classList.remove('modal_open');
 
         setTimeout(() => {
             this.currentView = null;
@@ -67,4 +67,4 @@ class ModalRightView extends IView {
     }
 }
 
-export default ModalRightView;
+export default ModalView;

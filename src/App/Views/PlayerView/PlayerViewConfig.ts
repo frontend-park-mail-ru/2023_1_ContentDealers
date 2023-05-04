@@ -51,7 +51,7 @@ const PlayerData: IPlayerData = {
         componentType: DivComponent,
         componentData: {
             divClass: 'video__button flex-center',
-            title: 'Включить видео',
+            title: 'Следующая серия',
             imgSrc: '/img/icons/player/forward-step.svg',
             imgWidth: '16px',
         },

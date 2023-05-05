@@ -42,7 +42,7 @@ class ButtonComponent extends IComponent {
                 this.buttonProps['sizeSquare'].name,
                 `${this.buttonProps['sizeSquare'].value}px`
             );
-        }, 0);
+        }, 200);
     }
 
     private setDiameterHighlight(): void {
@@ -61,7 +61,7 @@ class ButtonComponent extends IComponent {
                 this.buttonProps['diameterHighlight'].name,
                 `${this.buttonProps['diameterHighlight'].value}px`
             );
-        }, 0);
+        }, 200);
     }
 
     public block(): void {

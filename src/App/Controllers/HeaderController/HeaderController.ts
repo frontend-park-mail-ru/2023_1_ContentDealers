@@ -20,6 +20,8 @@ import SearchModel from '../../Models/SearchModel/SearchModel';
  */
 class HeaderController extends IController<HeaderView, IModel> {
     private searchController: SearchController;
+    private tmpSearchController: SearchController;
+
     private isSearch: boolean;
     private previousCall: number | null;
     private lastCall: number | null;
@@ -37,18 +39,12 @@ class HeaderController extends IController<HeaderView, IModel> {
         this.timeout = 150;
         this.previousCall = null;
         this.lastCall = null;
+
         this.searchController = new SearchController(this.view.searchView, new SearchModel());
+        this.tmpSearchController = new SearchController(this.view.tmpSearchView, new SearchModel());
         this.isSearch = false;
 
-        // this.view.bindClickEvent(this.handleClick.bind(this));
-        // this.view.bindInputEvent(this.handleInput.bind(this));
-        // this.view.bindKeyPressEvent(this.handleKeyPress.bind(this));
-        // this.timeout = 150;
-        // this.previousCall = null;
-        // this.lastCall = null;
-        // this.searchController = new SearchController(this.view.searchView, new SearchModel());
-        // this.isSearch = false;
-        //
+
         // // TODO
         EventDispatcher.subscribe('user-changed', (user: IUser) => {
             if (user) {
@@ -64,6 +60,7 @@ class HeaderController extends IController<HeaderView, IModel> {
         //
         EventDispatcher.subscribe('render-middle-list', () => {
             this.view.toggleMiddle(this.isSearch);
+            this.view.toggleTmpMiddle(this.isSearch);
             this.isSearch = false;
         });
     }
@@ -71,10 +68,13 @@ class HeaderController extends IController<HeaderView, IModel> {
     private closeSearch(): void {
         if (!this.isSearch) {
             this.searchController.mountComponent();
+            this.tmpSearchController.mountComponent();
         } else {
             this.searchController.unmountComponent();
+            this.tmpSearchController.unmountComponent();
         }
         this.view.toggleMiddle(this.isSearch);
+        this.view.toggleTmpMiddle(this.isSearch);
 
         this.isSearch = !this.isSearch;
     }
@@ -98,8 +98,15 @@ class HeaderController extends IController<HeaderView, IModel> {
 
             switch (action) {
                 case 'search': {
+                    console.log('search')
                     this.closeSearch();
 
+                    break;
+                }
+
+                case 'bars': {
+                    console.log('bars')
+                    this.view.showTmpActions();
                     break;
                 }
 

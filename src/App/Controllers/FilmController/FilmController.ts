@@ -46,7 +46,7 @@ class FilmController extends IController<FilmView, FilmModel> {
 
                 switch (opts.type) {
                     case 'film': {
-                        this.model
+                        await this.model
                             .getFilm(this.filmId)
                             .then(data => {
                                 this.trailerSrc = data.content?.trailerURL || null;
@@ -62,7 +62,7 @@ class FilmController extends IController<FilmView, FilmModel> {
                     }
 
                     case 'series': {
-                        this.model
+                        await this.model
                             .getSeries(this.filmId)
                             .then(data => {
                                 this.trailerSrc = data.content?.trailerURL || null;

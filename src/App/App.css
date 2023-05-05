@@ -145,6 +145,4 @@ h1 {
 
 .ml-100 {
     margin-bottom: 0 !important;       /* TODO: delete */
-    margin-left: 100px !important;     /* TODO: delete */
-    min-height: 0;
 }

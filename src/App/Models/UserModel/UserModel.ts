@@ -30,7 +30,7 @@ class UserModel extends IModel {
         return this.currentUser;
     }
 
-    public async signInUser(signData: IUserSignIn): Promise<string> {
+    public async signInUser(signData: IUserSignIn) {
         const signInResponse = await Ajax.ajax(config.api.signIn, JSON.stringify(signData));
 
         try {
@@ -47,11 +47,9 @@ class UserModel extends IModel {
         EventDispatcher.emit('user-changed', this.currentUser);
 
         if (this.currentUser === null) return Promise.reject(signInResponse.responseBody.message);
-
-        return Promise.reject();
     }
 
-    public async signUpUser(signData: IUserSignUp): Promise<string> {
+    public async signUpUser(signData: IUserSignUp) {
         const signUpResponse = await Ajax.ajax(config.api.signUp, JSON.stringify(signData));
 
         try {
@@ -72,8 +70,6 @@ class UserModel extends IModel {
         if (this.currentUser === null) {
             return Promise.reject(signUpResponse.responseBody.message);
         }
-
-        return Promise.reject();
     }
 
     public async logoutUser(): Promise<void> {
@@ -87,7 +83,7 @@ class UserModel extends IModel {
         return;
     }
 
-    public async updateUser(user: any): Promise<string> {
+    public async updateUser(user: any) {
         const response = await Ajax.ajax(config.api.update, JSON.stringify(user));
 
         try {
@@ -109,8 +105,6 @@ class UserModel extends IModel {
         }
 
         EventDispatcher.emit('user-changed', this.currentUser);
-
-        return Promise.reject();
     }
 
     public async avatarUpdate(formData: any): Promise<void> {

@@ -9,8 +9,6 @@
 .modal__close-btn-container {
     display: block;
     top: auto;
-    /*margin-top: 12px;*/
-    /*margin-right: 12px;*/
 
     margin-top: 16px;
     margin-right: 16px;
@@ -104,3 +102,4 @@
     border-radius: 8px;
     box-shadow: 0 1px 4px 0 #000;
 }
+

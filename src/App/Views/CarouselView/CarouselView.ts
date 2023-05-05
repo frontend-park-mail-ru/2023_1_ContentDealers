@@ -36,6 +36,10 @@ class CarouselView extends IView {
         this.rightBtn = <HTMLButtonElement>this.element.querySelector('.js-chevron-right');
     }
 
+    public getLiWidth(): number {
+        return <number>this.element.querySelectorAll('li')[3]!.offsetWidth;
+    };
+
     public setPosition(position: number): void {
         this.div.style.transition = '1s';
         this.div.style.transform = `translateX(${position}px)`;

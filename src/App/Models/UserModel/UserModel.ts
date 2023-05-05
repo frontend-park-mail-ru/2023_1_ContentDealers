@@ -21,7 +21,7 @@ class UserModel extends IModel {
     private parseUser(json: any): IUser {
         return {
             email: json.email,
-            birthDate: json.date_birth,
+            // birthDate: json.date_birth,
             avatar: json.avatar_url,
         };
     }

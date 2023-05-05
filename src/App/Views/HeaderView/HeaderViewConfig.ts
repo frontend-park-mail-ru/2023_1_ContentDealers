@@ -3,8 +3,8 @@ import type IComponentDataWithType from '../../Interfaces/interfaces';
 import ListComponent from '../../Components/ListComponent/ListComponent';
 import type ListComponentData from '../../Components/ListComponent/ListComponentData';
 
-import LinkComponent from '../../Components/LinkComponent/LinkComponent';
-import type LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
+import LinkComponent from '../../Components/Link/LinkComponent';
+import type LinkComponentData from '../../Components/Link/LinkComponentData';
 
 import VerticalSpacerComponent from '../../Components/VerticalSpacerComponent/VerticalSpacerComponent';
 import type VerticalSpacerComponentData from '../../Components/VerticalSpacerComponent/VerticalSpacerComponentData';
@@ -12,113 +12,109 @@ import type VerticalSpacerComponentData from '../../Components/VerticalSpacerCom
 import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
 import type ButtonComponentData from '../../Components/ButtonComponent/ButtonComponentData';
 
-import DropdownButtonComponent from '../../Components/DropdownButtonComponent/DropdownButtonComponent';
-import type DropdownButtonComponentData from '../../Components/DropdownButtonComponent/DropdownButtonComponentData';
-
 import InputComponent from '../../Components/InputComponent/InputComponent';
 import type InputComponentData from '../../Components/InputComponent/InputComponentData';
 
-interface IHeaderData {
-    logo: IComponentDataWithType<LinkComponent, LinkComponentData>;
-    input: IComponentDataWithType<InputComponent, InputComponentData>;
-    actions: IComponentDataWithType<
-        ListComponent<LinkComponent, LinkComponentData>,
-        ListComponentData<LinkComponent, LinkComponentData>
-    >;
-    items: (
-        | IComponentDataWithType<LinkComponent, LinkComponentData>
-        | IComponentDataWithType<VerticalSpacerComponent, VerticalSpacerComponentData>
-        | IComponentDataWithType<ButtonComponent, ButtonComponentData>
-    )[];
-    profile: IComponentDataWithType<DropdownButtonComponent, DropdownButtonComponentData>;
+interface IProfileConfig {
     signIn: IComponentDataWithType<LinkComponent, LinkComponentData>;
+    logged: IComponentDataWithType<LinkComponent, LinkComponentData>;
 
-    [key: string]: IComponentDataWithType<any, any> | IComponentDataWithType<any, any>[]; // TODO enum all types?
+    [key: string]: IComponentDataWithType<LinkComponent, LinkComponentData>;
 }
 
-const HeaderData: IHeaderData = {
-    logo: {
-        componentType: LinkComponent,
-        componentData: {
-            linkHref: '/',
-            linkClass: 'logo',
-            linkImageSrc: '/img/logo/logo.svg',
-            linkImageWidth: '40px',
-        },
-    },
-    input: {
-        componentType: InputComponent,
-        componentData: {
-            inputClass: 'input-field__search',
-            type: 'text',
-            id: 'query',
-            autocomplete: false,
-            placeholder: 'Название фильма, сериала или имя актёра, режиссёра',
-        },
-    },
-    actions: {
-        componentType: ListComponent,
-        componentData: {
-            listClass: 'header-container__action-list',
-            itemClass: 'header-container-action',
-            items: [
-                {
-                    componentData: {
-                        linkHref: '/',
-                        linkClass: 'header-container-action__link',
-                        linkText: 'Главная',
-                        linkTextClass: 'header-container-action-link__text',
-                    },
-                    componentType: LinkComponent,
-                },
-                // TODO: return
-                // {
-                //     componentData:
-                //         {
-                //             linkHref: '/catalog',
-                //             linkClass: 'header-container-action__link',
-                //             linkText: 'Каталог',
-                //             linkTextClass: 'header-container-action-link__text',
-                //         },
-                //     componentType: LinkComponent
-                // },
-                // {
-                //     componentData:
-                //         {
-                //             linkHref: '/store',
-                //             linkClass: 'header-container-action__link',
-                //             linkText: 'Магазин',
-                //             linkTextClass: 'header-container-action-link__text',
-                //         },
-                //     componentType: LinkComponent
-                // },
-                {
-                    componentData: {
-                        linkHref: '/my-movie',
-                        linkClass: 'header-container-action__link',
-                        linkText: 'Моё',
-                        linkTextClass: 'header-container-action-link__text',
-                    },
-                    componentType: LinkComponent,
-                },
-            ],
-        },
-    },
-    items: [
-        {
-            componentData: {
-                linkClass: 'search',
-                linkImageSrc: '/img/icons/search.svg',
-                linkImageWidth: '24px',
-                dataAction: 'search',
-            },
+interface IHeaderConfig {
+    navData: {
+        logo: IComponentDataWithType<LinkComponent, LinkComponentData>;
+        actions: IComponentDataWithType<
+            ListComponent<LinkComponent, LinkComponentData>,
+            ListComponentData<LinkComponent, LinkComponentData>
+        >;
+    };
+
+    navRightData: [
+        search: IComponentDataWithType<LinkComponent, LinkComponentData>,
+        spacer: IComponentDataWithType<VerticalSpacerComponent, VerticalSpacerComponentData>,
+        subscrideButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>,
+        spacer: IComponentDataWithType<VerticalSpacerComponent, VerticalSpacerComponentData>
+    ];
+
+    inputData: IComponentDataWithType<InputComponent, InputComponentData>;
+
+    profileData: IProfileConfig;
+}
+
+const HeaderData: IHeaderConfig = {
+    navData: {
+        logo: {
             componentType: LinkComponent,
+            componentData: {
+                classes: 'header__logo header-logo',
+                img: {
+                    src: '/img/logo/logo.svg',
+                    classes: 'header-logo__img',
+                },
+            },
+        },
+        actions: {
+            componentType: ListComponent,
+            componentData: {
+                listClass: 'header__items',
+                itemClass: 'header__item header-item',
+                items: [
+                    {
+                        componentData: {
+                            href: '/',
+                            classes: 'header-item__link',
+                            text: 'Главная',
+                        },
+                        componentType: LinkComponent,
+                    },
+                    // TODO: return
+                    // {
+                    //     componentData: {
+                    //         href: '/catalog',
+                    //         classes: 'header-item__link',
+                    //         text: 'Каталог',
+                    //     },
+                    //     componentType: LinkComponent,
+                    // },
+                    // {
+                    //     componentData: {
+                    //         href: '/store',
+                    //         classes: 'header-item__link',
+                    //         text: 'Магазин',
+                    //     },
+                    //     componentType: LinkComponent,
+                    // },
+                    {
+                        componentData: {
+                            href: '/my-movie',
+                            classes: 'header-item__link',
+                            text: 'Моё',
+                        },
+                        componentType: LinkComponent,
+                    },
+                ],
+            },
+        },
+    },
+
+    navRightData: [
+        {
+            componentType: LinkComponent,
+            componentData: {
+                dataAction: 'search',
+                img: {
+                    src: '/img/icons/search.svg',
+                    classes: 'search-img',
+                },
+            },
         },
         {
+            componentType: VerticalSpacerComponent,
             componentData: {
                 size: 24,
             },
-            componentType: VerticalSpacerComponent,
         },
         {
             componentData: {
@@ -128,39 +124,47 @@ const HeaderData: IHeaderData = {
             componentType: ButtonComponent,
         },
         {
+            componentType: VerticalSpacerComponent,
             componentData: {
                 size: 24,
             },
-            componentType: VerticalSpacerComponent,
         },
     ],
-    profile: {
-        componentType: DropdownButtonComponent,
+
+    inputData: {
+        componentType: InputComponent,
         componentData: {
-            dataAction: 'profile',
-            avatar: '/img/profile/profile.jpg',
-            items: [
-                {
-                    linkHref: '/settings',
-                    linkClass: 'link-profile',
-                    linkImageSrc: '/img/icons/settings.svg',
-                    linkImageClass: 'link-profile__image',
-                    linkImageWidth: '24px',
-                    linkText: 'Настройки',
-                    linkTextClass: 'link-profile__text',
-                },
-            ],
+            class: 'ml-100',
+            inputClass: 'input-field__search',
+            type: 'text',
+            id: 'query',
+            autocomplete: false,
+            placeholder: 'Название фильма, сериала или имя актёра, режиссёра',
         },
     },
-    signIn: {
-        componentType: LinkComponent,
-        componentData: {
-            dataAction: 'signIn',
-            linkHref: '/signIn',
-            linkClass: 'header__signIn-link',
-            linkImageSrc: '/img/icons/circle-user.svg',
-            linkImageWidth: '30px',
-            linkText: 'Войти',
+
+    profileData: {
+        signIn: {
+            componentType: LinkComponent,
+            componentData: {
+                href: '/signIn',
+                classes: 'header__item header-item__link header-item__link_img',
+                text: 'Войти',
+                img: {
+                    src: '/img/icons/circle-user.svg',
+                    classes: 'signIn-img',
+                },
+            },
+        },
+        logged: {
+            componentType: LinkComponent,
+            componentData: {
+                href: '/settings',
+                img: {
+                    src: '/img/profile/profile.jpg',
+                    classes: 'avatar-img',
+                },
+            },
         },
     },
 };

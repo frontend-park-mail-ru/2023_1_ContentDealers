@@ -30,6 +30,8 @@ class HeaderController extends IController<HeaderView, IModel> {
         super(view, IModel);
 
         this.view.bindClickEvent(this.handleClick.bind(this));
+
+        // TODO: new
         this.view.bindInputEvent(this.handleInput.bind(this));
         this.view.bindKeyPressEvent(this.handleKeyPress.bind(this));
         this.timeout = 150;
@@ -38,19 +40,28 @@ class HeaderController extends IController<HeaderView, IModel> {
         this.searchController = new SearchController(this.view.searchView, new SearchModel());
         this.isSearch = false;
 
-        // TODO
+        // this.view.bindClickEvent(this.handleClick.bind(this));
+        // this.view.bindInputEvent(this.handleInput.bind(this));
+        // this.view.bindKeyPressEvent(this.handleKeyPress.bind(this));
+        // this.timeout = 150;
+        // this.previousCall = null;
+        // this.lastCall = null;
+        // this.searchController = new SearchController(this.view.searchView, new SearchModel());
+        // this.isSearch = false;
+        //
+        // // TODO
         EventDispatcher.subscribe('user-changed', (user: IUser) => {
             if (user) {
-                this.view.changeHeaderProfile('profile', user);
+                this.view.changeProfile('logged', user);
             } else {
-                this.view.changeHeaderProfile('signIn');
+                this.view.changeProfile('signIn');
             }
         });
 
         EventDispatcher.subscribe('render-signInButton', () => {
-            this.view.changeHeaderProfile('signIn');
+            this.view.changeProfile('signIn');
         });
-
+        //
         EventDispatcher.subscribe('render-middle-list', () => {
             this.view.toggleMiddle(this.isSearch);
             this.isSearch = false;
@@ -86,18 +97,9 @@ class HeaderController extends IController<HeaderView, IModel> {
             const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
 
             switch (action) {
-                case 'profile': {
-                    break;
-                }
-
                 case 'search': {
                     this.closeSearch();
 
-                    break;
-                }
-
-                case 'signIn': {
-                    // EventDispatcher.emit('signIn');
                     break;
                 }
 

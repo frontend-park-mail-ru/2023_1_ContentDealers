@@ -41,11 +41,6 @@ interface IHeaderConfig {
     inputData: IComponentDataWithType<InputComponent, InputComponentData>;
 
     profileData: IProfileConfig;
-
-    tmpLogoData: IComponentDataWithType<LinkComponent, LinkComponentData>;
-    tmpData: IComponentDataWithType<LinkComponent, LinkComponentData>[];
-
-    tmpActions: IComponentDataWithType<ListComponent<LinkComponent, LinkComponentData>, ListComponentData<LinkComponent, LinkComponentData>>;
 }
 
 const HeaderData: IHeaderConfig = {
@@ -53,10 +48,10 @@ const HeaderData: IHeaderConfig = {
         logo: {
             componentType: LinkComponent,
             componentData: {
-                classes: 'header__logo header-logo',
+                classes: 'header__logo logo-link',
                 img: {
                     src: '/img/logo/logo.svg',
-                    classes: 'header-logo__img',
+                    classes: 'logo-img',
                 },
             },
         },
@@ -109,6 +104,7 @@ const HeaderData: IHeaderConfig = {
             componentType: LinkComponent,
             componentData: {
                 dataAction: 'search',
+                classes: 'flex-center header-link_img',
                 img: {
                     src: '/img/icons/search.svg',
                     classes: 'search-img',
@@ -153,7 +149,7 @@ const HeaderData: IHeaderConfig = {
             componentType: LinkComponent,
             componentData: {
                 href: '/signIn',
-                classes: 'header__item header-item__link header-item__link_img',
+                classes: 'header-link_img signIn-link',
                 text: 'Войти',
                 img: {
                     src: '/img/icons/circle-user.svg',
@@ -172,98 +168,6 @@ const HeaderData: IHeaderConfig = {
             },
         },
     },
-
-
-    tmpLogoData: {
-        componentType: LinkComponent,
-        componentData: {
-            href: '/',
-            classes: 'tmp-header__logo tmp-header-logo',
-            img: {
-                src: '/img/logo/logo.svg',
-                classes: 'tmp-header-logo__img',
-            },
-        },
-    },
-
-    tmpData: [
-        {
-            componentType: LinkComponent,
-            componentData: {
-                classes: 'tmp-header__search tmp-header-search',
-                dataAction: 'search',
-                img: {
-                    src: '/img/icons/search.svg',
-                    classes: 'tmp-header-search__img',
-                },
-            },
-        },
-        {
-            componentType: LinkComponent,
-            componentData: {
-                href: '/signIn',
-                classes: 'tmp-header__login tmp-header-login',
-                img: {
-                    src: '/img/icons/circle-user.svg',
-                    classes: 'tmp-header-login__img',
-                },
-            },
-        },
-        {
-            componentType: LinkComponent,
-            componentData: {
-                classes: 'tmp-header__bars tmp-header-bars',
-                dataAction: 'bars',
-                img: {
-                    src: '/img/icons/bars.svg',
-                    classes: 'tmp-header-bars__img',
-                },
-            },
-        },
-    ],
-
-    tmpActions: {
-        componentType: ListComponent,
-        componentData: {
-            listClass: 'tmp-header__items',
-            itemClass: 'tmp-header__item tmp-header-item',
-            items: [
-                {
-                    componentData: {
-                        href: '/',
-                        classes: 'tmp-header-item__link tmp-header-item__link_active', // TODO
-                        text: 'Главная',
-                    },
-                    componentType: LinkComponent,
-                },
-                // TODO: return
-                // {
-                //     componentData: {
-                //         href: '/catalog',
-                //         classes: 'tmp-header-item__link',
-                //         text: 'Каталог',
-                //     },
-                //     componentType: LinkComponent,
-                // },
-                // {
-                //     componentData: {
-                //         href: '/store',
-                //         classes: 'tmp-header-item__link',
-                //         text: 'Магазин',
-                //     },
-                //     componentType: LinkComponent,
-                // },
-                {
-                    componentData: {
-                        href: '/my-movie',
-                        classes: 'tmp-header-item__link',
-                        text: 'Моё',
-                    },
-                    componentType: LinkComponent,
-                },
-            ],
-        }
-    }
 };
 
 export default HeaderData;

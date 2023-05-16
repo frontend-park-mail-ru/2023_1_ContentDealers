@@ -1,21 +1,13 @@
 import IView from '../IView/IView';
-// import type IComponentDataWithType from '../../Interfaces/interfaces';
 
-import HeaderTemplate from './HeaderView.hbs';
-import './HeaderView.css';
+import MediaHeaderTemplate from './MediaHeaderView.hbs';
+import './MediaHeaderView.css';
+import MediaHeaderData from './MediaHeaderViewConfig';
 
 import type ListComponent from '../../Components/ListComponent/ListComponent';
 
 import LinkComponent from '../../Components/Link/LinkComponent';
 import type LinkComponentData from '../../Components/Link/LinkComponentData';
-
-// import type LinkComponent from '../../Components/LinkComponent/LinkComponent';
-// import type LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
-
-// import type DropdownButtonComponent from '../../Components/DropdownButtonComponent/DropdownButtonComponent';
-// import type DropdownButtonComponentData from '../../Components/DropdownButtonComponent/DropdownButtonComponentData';
-
-import HeaderData from './HeaderViewConfig';
 
 import SearchView from '../SearchView/SearchView';
 import InputComponent from '../../Components/InputComponent/InputComponent';
@@ -28,12 +20,12 @@ import type IUser from '../../Interfaces/User/IUser';
  * @extends {IView}
  * @param {HTMLElement} parent - родительский элемент для хедера
  */
-class HeaderView extends IView {
-    private readonly activeClass: string = 'header-item__link_active';
+class MediaHeaderView extends IView {
+    private readonly activeClass: string = 'media-header-item__link_active';
 
     // HTMLElements //
+    private readonly header: HTMLElement;
     private readonly nav: HTMLElement;
-    private readonly navRight: HTMLElement;
 
     // Current //
     private currentActiveItem: string | null;
@@ -49,62 +41,51 @@ class HeaderView extends IView {
     public searchView: SearchView;
 
     public constructor(parent: HTMLElement) {
-        super(parent, HeaderTemplate({}));
+        super(parent, MediaHeaderTemplate({}));
 
         // Init containers
-        this.nav = <HTMLElement>this.element.querySelector('.ts-header__nav');
-        this.navRight = <HTMLElement>this.element.querySelector('.ts-header__nav-right');
+        this.header = <HTMLElement>this.element.querySelector('.ts-media-header') || this.element;
+        this.nav = <HTMLElement>this.element.querySelector('.ts-media-header__nav');
 
         this.currentActiveItem = null;
         this.currentProfile = null;
 
-        // Render data
-        this.actionsComponent = new HeaderData.navData.actions.componentType(
-            this.nav,
-            HeaderData.navData.actions.componentData
-        );
-        this.actionsComponent.prepend();
+        this.logoComponent = new MediaHeaderData.logoData.componentType(this.header, MediaHeaderData.logoData.componentData);
+        this.logoComponent.append();
 
-        this.logoComponent = new HeaderData.navData.logo.componentType(
-            this.nav,
-            HeaderData.navData.logo.componentData
+        this.inputComponent = new MediaHeaderData.inputData.componentType(
+            this.header,
+            MediaHeaderData.inputData.componentData
         );
-        this.logoComponent.prepend();
 
-        HeaderData.navRightData.forEach(({ componentType, componentData }) => {
-            new componentType(this.navRight, componentData).append();
+        MediaHeaderData.headerData.forEach(({ componentType, componentData }) => {
+            new componentType(this.header, componentData).append();
         });
 
-        this.inputComponent = new HeaderData.inputData.componentType(
-            this.nav,
-            HeaderData.inputData.componentData
-        );
+        this.searchView = new SearchView(this.header);
 
-        this.searchView = new SearchView(this.nav);
+        this.searchIcon = <HTMLImageElement>this.header.querySelector('.search-img');
 
-        this.searchIcon = <HTMLImageElement>this.navRight.querySelector('.search-img');
+        this.actionsComponent = new MediaHeaderData.actions.componentType(this.nav, MediaHeaderData.actions.componentData);
+    }
 
-        this.element.querySelector('.subscribe-button')?.setAttribute('disabled', 'true'); // TODO: return
-
+    public showActions(): void {
+        this.header.classList.add('tmp-header_active');
+        this.nav.classList.add('tmp-header__nav_active');
+        this.actionsComponent.show();
     }
 
     public toggleMiddle(isSearch: boolean): void {
         if (isSearch) {
             this.logoComponent.hide();
-            this.actionsComponent.hide();
 
             this.inputComponent.prepend();
             this.logoComponent.prepend();
 
             this.searchIcon.src = '/img/icons/close.svg';
-
-            (<HTMLInputElement>this.nav.querySelector('.input-field__search')).focus();
+            (<HTMLInputElement>this.header.querySelector('.input-field__search')).focus();
         } else {
-            this.logoComponent.hide();
             this.inputComponent.hide();
-
-            this.actionsComponent.prepend();
-            this.logoComponent.prepend();
 
             this.searchIcon.src = '/img/icons/search.svg';
         }
@@ -125,11 +106,11 @@ class HeaderView extends IView {
      * @returns {void}
      */
     public changeProfile(profileName: string, data?: IUser): void {
-        if (!(profileName in HeaderData.profileData)) {
+        if (!(profileName in MediaHeaderData.profileData)) {
             return;
         }
 
-        const component = HeaderData.profileData[profileName];
+        const component = MediaHeaderData.profileData[profileName];
 
         if (data?.avatar) {
             // TODO: Misha
@@ -142,7 +123,7 @@ class HeaderView extends IView {
 
         this.currentProfile?.hide();
         this.currentProfile = new component.componentType(
-            this.navRight,
+            this.header,
             component.componentData
         ) as LinkComponent;
         this.currentProfile.append();
@@ -170,4 +151,4 @@ class HeaderView extends IView {
     }
 }
 
-export default HeaderView;
+export default MediaHeaderView;

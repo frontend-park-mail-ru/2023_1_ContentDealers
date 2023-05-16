@@ -5,6 +5,9 @@ import RootComponent from './Components/RootComponent/RootComponent';
 import HeaderView from './Views/HeaderView/HeaderView';
 import HeaderController from './Controllers/HeaderController/HeaderController';
 
+import MediaHeaderView from './Views/MediaHeaderView/MediaHeaderView';
+import MediaHeaderController from './Controllers/MediaHeaderController/MediaHeaderController';
+
 import ModalView from './Views/ModalView/ModalView';
 import ModalRightController from './Controllers/ModalRightController/ModalRightController';
 
@@ -44,6 +47,8 @@ import EventDispatcher from './EventDispatcher/EventDispatcher';
 class App {
     // Views
     private headerView: HeaderView;
+    private mediaHeaderView: MediaHeaderView;
+
     private modalRightView: ModalView;
     private filmView: FilmView;
     private settingsView: SettingsView;
@@ -55,6 +60,7 @@ class App {
 
     // Controllers
     private headerController: HeaderController;
+    private mediaHeaderController: MediaHeaderController;
     private modalRightController: ModalRightController;
     private filmController: FilmController;
     private settingsController: SettingsController;
@@ -91,6 +97,10 @@ class App {
     public run(url: string): void {
         router.start(url);
 
+        // mount
+        this.headerController.mountComponent();
+        this.mediaHeaderController.mountComponent();
+
         this.userModel
             .authUserByCookie()
             .then(() => EventDispatcher.emit('user-changed', this.userModel.getCurrentUser()))
@@ -103,15 +113,6 @@ class App {
      * @return {void}
      */
     private initPage(): void {
-        // const rootComponent = new RootComponent(document.body);
-        // rootComponent.show();
-
-        // this.root = rootComponent.querySelector('.js-root');
-        // this.header = rootComponent.querySelector('.js-header');
-        // this.footer = rootComponent.querySelector('.js-footer');
-        // this.content = rootComponent.querySelector('.js-content');
-        // this.modalRight = rootComponent.querySelector('.js-modal--right');
-
         const rootComponent = new RootComponent(document.body);
         rootComponent.show();
 
@@ -132,6 +133,7 @@ class App {
      */
     private initViews(): void {
         this.headerView = new HeaderView(this.header);
+        this.mediaHeaderView = new MediaHeaderView(this.header);
 
         this.filmView = new FilmView(this.main);
         this.settingsView = new SettingsView(this.main);
@@ -165,6 +167,8 @@ class App {
      */
     private initControllers(): void {
         this.headerController = new HeaderController(this.headerView);
+        this.mediaHeaderController = new MediaHeaderController(this.mediaHeaderView);
+
         this.modalRightController = new ModalRightController(this.modalRightView, this.userModel);
         this.filmController = new FilmController(this.filmView, this.filmModel);
         this.settingsController = new SettingsController(this.settingsView, this.userModel);
@@ -218,7 +222,7 @@ class App {
         EventDispatcher.emit('unmount-all');
 
         // mount
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
         this.mainController.mountComponent();
 
         // states
@@ -253,7 +257,7 @@ class App {
         EventDispatcher.emit('unmount-all');
 
         // mount
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
 
         // states
         this.headerView.changeActiveHeaderListItem('/catalog');
@@ -263,7 +267,7 @@ class App {
         EventDispatcher.emit('unmount-all');
 
         // mount
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
 
         // states
         this.headerView.changeActiveHeaderListItem('/store');
@@ -276,7 +280,7 @@ class App {
             .authUserByCookie()
             .then(() => {
                 // mount
-                this.headerController.mountComponent();
+                // this.headerController.mountComponent();
                 this.favoritesController.mountComponent();
 
                 // states
@@ -294,7 +298,7 @@ class App {
             .authUserByCookie()
             .then(() => {
                 // mount
-                this.headerController.mountComponent();
+                // this.headerController.mountComponent();
                 this.settingsController.mountComponent();
 
                 // states
@@ -320,7 +324,7 @@ class App {
         const filmId = data[0];
 
         // mount
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
         await this.filmController.mountComponent({
             id: filmId.toString(),
             type: 'film',
@@ -350,7 +354,7 @@ class App {
         const filmId = data[0];
 
         // mount
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
         await this.filmController.mountComponent({
             id: filmId.toString(),
             type: 'series',
@@ -378,7 +382,7 @@ class App {
         const personId = data[0];
 
         // mount
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
         this.personController.mountComponent({ id: personId.toString() });
 
         // states
@@ -395,7 +399,7 @@ class App {
     private handleRedirectToNotFound(): void {
         EventDispatcher.emit('unmount-all');
 
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
         this.notFoundController.mountComponent();
     }
 
@@ -410,7 +414,7 @@ class App {
         const genreId = data[0];
 
         // mount
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
         this.genreController.mountComponent({
             id: genreId.toString(),
             forGenre: true,
@@ -431,7 +435,7 @@ class App {
         const genreId = data[0];
 
         // mount
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
         this.genreController.mountComponent({
             id: genreId.toString(),
             forSelections: true,

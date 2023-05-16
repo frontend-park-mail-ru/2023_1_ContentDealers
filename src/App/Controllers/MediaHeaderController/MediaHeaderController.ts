@@ -1,7 +1,7 @@
 import IController from '../IController/IController';
 import IModel from '../../Models/IModel/IModel';
 
-import type HeaderView from '../../Views/HeaderView/HeaderView';
+import type MediaHeaderView from '../../Views/MediaHeaderView/MediaHeaderView';
 
 import type IUser from '../../Interfaces/User/IUser';
 
@@ -18,9 +18,8 @@ import SearchModel from '../../Models/SearchModel/SearchModel';
  * @extends {IController}
  * @param  {HeaderView} view Объект вида компонента хэдер
  */
-class HeaderController extends IController<HeaderView, IModel> {
+class MediaHeaderController extends IController<MediaHeaderView, IModel> {
     private searchController: SearchController;
-    // private tmpSearchController: SearchController;
 
     private isSearch: boolean;
     private previousCall: number | null;
@@ -28,7 +27,7 @@ class HeaderController extends IController<HeaderView, IModel> {
     private lastCallTimer: number;
     private readonly timeout: number;
 
-    public constructor(view: HeaderView) {
+    public constructor(view: MediaHeaderView) {
         super(view, IModel);
 
         this.view.bindClickEvent(this.handleClick.bind(this));
@@ -41,7 +40,6 @@ class HeaderController extends IController<HeaderView, IModel> {
         this.lastCall = null;
 
         this.searchController = new SearchController(this.view.searchView, new SearchModel());
-        // this.tmpSearchController = new SearchController(this.view.tmpSearchView, new SearchModel());
         this.isSearch = false;
 
 
@@ -59,8 +57,8 @@ class HeaderController extends IController<HeaderView, IModel> {
         });
 
         EventDispatcher.subscribe('toggle-search', () => {
-            this.isSearch = !this.isSearch;
-            this.toggleSearch();
+           this.isSearch = !this.isSearch;
+           this.toggleSearch();
         });
     }
 
@@ -100,11 +98,11 @@ class HeaderController extends IController<HeaderView, IModel> {
                     break;
                 }
 
-                // case 'bars': {
-                //     console.log('bars')
-                //     this.view.showTmpActions();
-                //     break;
-                // }
+                case 'bars': {
+                    console.log('bars')
+                    this.view.showActions();
+                    break;
+                }
 
                 default:
                     break;
@@ -151,4 +149,4 @@ class HeaderController extends IController<HeaderView, IModel> {
     }
 }
 
-export default HeaderController;
+export default MediaHeaderController;

@@ -43,9 +43,8 @@
     margin: 0;
 }
 
-.category__block .icon-right,
-.category__block .icon-left {
-    opacity: 0;
+.category__link .icon-right {
+    opacity: 1;
     transition: opacity .15s ease-in-out;
 
     margin-top: 4px;
@@ -60,9 +59,8 @@
     fill: currentColor;
 }
 
-.category:hover .icon-right,
-.category:hover .icon-left {
-    opacity: 1;
+.category__link:hover .icon-right {
+    margin-left: 16px;
 }
 
 .category__container {

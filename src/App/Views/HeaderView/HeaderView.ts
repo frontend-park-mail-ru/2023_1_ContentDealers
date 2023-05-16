@@ -85,7 +85,6 @@ class HeaderView extends IView {
         this.searchIcon = <HTMLImageElement>this.navRight.querySelector('.search-img');
 
         this.element.querySelector('.subscribe-button')?.setAttribute('disabled', 'true'); // TODO: return
-
     }
 
     public toggleMiddle(isSearch: boolean): void {

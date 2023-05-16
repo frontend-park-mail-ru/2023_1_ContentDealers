@@ -6,12 +6,13 @@
 
 @media (min-width: 960px) {
     .header__header {
+        --img-width: 1.44em;
+
         position: relative;
         z-index: 1030;
         display: block;
         padding-right: var(--grid-sides);
         padding-left: var(--grid-sides);
-        --img-width: 1.44em;
     }
 
     @media (max-width: 319px) {
@@ -92,13 +93,11 @@
 
 /* End header header */
 
-
 .header__nav {
     display: flex;
     align-items: center;
     height: var(--current-header-height);
 }
-
 
 /* Start header items */
 
@@ -263,7 +262,6 @@
 
 /* End subscribe button */
 
-
 /* Start link and img styles */
 
 .logo-link {
@@ -309,10 +307,10 @@
 }
 
 .avatar-img {
+    margin-right: 1.5em;
     border-radius: 50%;
     width: 2.5em;
     height: 2.5em;
-    margin-right: 1.5em;
 }
 
 @media (min-width: 960px) {

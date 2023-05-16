@@ -53,7 +53,10 @@ class MediaHeaderView extends IView {
         this.currentActiveItem = null;
         this.currentProfile = null;
 
-        this.logoComponent = new MediaHeaderData.logoData.componentType(this.header, MediaHeaderData.logoData.componentData);
+        this.logoComponent = new MediaHeaderData.logoData.componentType(
+            this.header,
+            MediaHeaderData.logoData.componentData
+        );
         this.logoComponent.append();
 
         this.inputComponent = new MediaHeaderData.inputData.componentType(
@@ -61,10 +64,16 @@ class MediaHeaderView extends IView {
             MediaHeaderData.inputData.componentData
         );
 
-        this.searchComponent = new MediaHeaderData.searchData.componentType(this.header, MediaHeaderData.searchData.componentData);
+        this.searchComponent = new MediaHeaderData.searchData.componentType(
+            this.header,
+            MediaHeaderData.searchData.componentData
+        );
         this.searchComponent.append();
 
-        this.barsComponent = new MediaHeaderData.barsData.componentType(this.header, MediaHeaderData.barsData.componentData);
+        this.barsComponent = new MediaHeaderData.barsData.componentType(
+            this.header,
+            MediaHeaderData.barsData.componentData
+        );
         this.barsComponent.append();
 
         this.searchView = new SearchView(this.header);
@@ -72,7 +81,10 @@ class MediaHeaderView extends IView {
         this.searchIcon = <HTMLImageElement>this.header.querySelector('.search-img');
         this.barsIcon = <HTMLImageElement>this.header.querySelector('.bars-img');
 
-        this.actionsComponent = new MediaHeaderData.actions.componentType(this.nav, MediaHeaderData.actions.componentData);
+        this.actionsComponent = new MediaHeaderData.actions.componentType(
+            this.nav,
+            MediaHeaderData.actions.componentData
+        );
     }
 
     public showActions(): void {

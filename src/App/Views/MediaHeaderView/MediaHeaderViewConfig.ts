@@ -23,7 +23,10 @@ interface IMediaHeaderConfig {
     barsData: IComponentDataWithType<LinkComponent, LinkComponentData>;
 
     // headerData: IComponentDataWithType<LinkComponent, LinkComponentData>[];
-    actions: IComponentDataWithType<ListComponent<LinkComponent, LinkComponentData>, ListComponentData<LinkComponent, LinkComponentData>>;
+    actions: IComponentDataWithType<
+        ListComponent<LinkComponent, LinkComponentData>,
+        ListComponentData<LinkComponent, LinkComponentData>
+    >;
 
     inputData: IComponentDataWithType<InputComponent, InputComponentData>;
     profileData: IProfileConfig;
@@ -105,7 +108,7 @@ const MediaHeaderData: IMediaHeaderConfig = {
                     componentType: LinkComponent,
                 },
             ],
-        }
+        },
     },
 
     inputData: {

@@ -45,7 +45,6 @@ class MediaHeaderController extends IController<MediaHeaderView, IModel> {
         this.isSearch = false;
         this.isOpen = false;
 
-
         // // TODO
         EventDispatcher.subscribe('user-changed', (user: IUser) => {
             if (user) {
@@ -60,8 +59,8 @@ class MediaHeaderController extends IController<MediaHeaderView, IModel> {
         });
 
         EventDispatcher.subscribe('toggle-search', () => {
-           this.isSearch = !this.isSearch;
-           this.toggleSearch();
+            this.isSearch = !this.isSearch;
+            this.toggleSearch();
         });
     }
 
@@ -106,14 +105,14 @@ class MediaHeaderController extends IController<MediaHeaderView, IModel> {
 
             switch (action) {
                 case 'search': {
-                    console.log('search')
+                    console.log('search');
                     EventDispatcher.emit('toggle-search');
 
                     break;
                 }
 
                 case 'bars': {
-                    console.log('bars')
+                    console.log('bars');
                     this.isOpen = !this.isOpen;
                     this.toggleBar();
                     break;

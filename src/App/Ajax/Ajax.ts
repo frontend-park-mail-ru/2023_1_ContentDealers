@@ -19,7 +19,6 @@ class Ajax {
         const headers = new Headers(params.headers);
 
         if (params.url === config.api.signIn.url || params.url === config.api.signUp.url) {
-
         } else {
             if (params.method !== REQUEST_METHODS.GET) {
                 if (!this.csrfToken) {
@@ -32,7 +31,6 @@ class Ajax {
         //     await this.getCsrfTokenFromServer();
         //     headers.append('CSRF-Token', this.csrfToken!);
         // }
-
 
         const response = await fetch(`${config.host}${params.url}`, {
             method: params.method,

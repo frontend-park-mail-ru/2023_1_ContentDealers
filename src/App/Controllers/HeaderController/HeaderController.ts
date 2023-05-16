@@ -42,7 +42,6 @@ class HeaderController extends IController<HeaderView, IModel> {
         this.searchController = new SearchController(this.view.searchView, new SearchModel());
         this.isSearch = false;
 
-
         // // TODO
         EventDispatcher.subscribe('user-changed', (user: IUser) => {
             if (user) {
@@ -91,7 +90,7 @@ class HeaderController extends IController<HeaderView, IModel> {
 
             switch (action) {
                 case 'search': {
-                    console.log('search')
+                    console.log('search');
                     // this.closeSearch();
                     EventDispatcher.emit('toggle-search');
 

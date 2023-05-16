@@ -20,7 +20,6 @@ import SearchModel from '../../Models/SearchModel/SearchModel';
  */
 class HeaderController extends IController<HeaderView, IModel> {
     private searchController: SearchController;
-    // private tmpSearchController: SearchController;
 
     private isSearch: boolean;
     private previousCall: number | null;
@@ -41,7 +40,6 @@ class HeaderController extends IController<HeaderView, IModel> {
         this.lastCall = null;
 
         this.searchController = new SearchController(this.view.searchView, new SearchModel());
-        // this.tmpSearchController = new SearchController(this.view.tmpSearchView, new SearchModel());
         this.isSearch = false;
 
 
@@ -99,12 +97,6 @@ class HeaderController extends IController<HeaderView, IModel> {
 
                     break;
                 }
-
-                // case 'bars': {
-                //     console.log('bars')
-                //     this.view.showTmpActions();
-                //     break;
-                // }
 
                 default:
                     break;

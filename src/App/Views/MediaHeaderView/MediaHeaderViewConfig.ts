@@ -18,7 +18,11 @@ interface IProfileConfig {
 
 interface IMediaHeaderConfig {
     logoData: IComponentDataWithType<LinkComponent, LinkComponentData>;
-    headerData: IComponentDataWithType<LinkComponent, LinkComponentData>[];
+
+    searchData: IComponentDataWithType<LinkComponent, LinkComponentData>;
+    barsData: IComponentDataWithType<LinkComponent, LinkComponentData>;
+
+    // headerData: IComponentDataWithType<LinkComponent, LinkComponentData>[];
     actions: IComponentDataWithType<ListComponent<LinkComponent, LinkComponentData>, ListComponentData<LinkComponent, LinkComponentData>>;
 
     inputData: IComponentDataWithType<InputComponent, InputComponentData>;
@@ -37,30 +41,30 @@ const MediaHeaderData: IMediaHeaderConfig = {
             },
         },
     },
-    headerData: [
-        {
-            componentType: LinkComponent,
-            componentData: {
-                classes: 'media-header__link',
-                dataAction: 'search',
-                img: {
-                    src: '/img/icons/search.svg',
-                    classes: 'search-img',
-                },
+
+    searchData: {
+        componentType: LinkComponent,
+        componentData: {
+            classes: 'media-header__link',
+            dataAction: 'search',
+            img: {
+                src: '/img/icons/search.svg',
+                classes: 'search-img',
             },
         },
-        {
-            componentType: LinkComponent,
-            componentData: {
-                classes: 'media-header__link',
-                dataAction: 'bars',
-                img: {
-                    src: '/img/icons/bars.svg',
-                    classes: 'bars-img',
-                },
+    },
+    barsData: {
+        componentType: LinkComponent,
+        componentData: {
+            classes: 'media-header__link',
+            dataAction: 'bars',
+            img: {
+                src: '/img/icons/bars.svg',
+                classes: 'bars-img',
             },
         },
-    ],
+    },
+
     actions: {
         componentType: ListComponent,
         componentData: {

@@ -298,14 +298,27 @@
 }
 
 .signIn-img {
-    margin-right: 0.55em;
+    margin-right: 1.5em;
     width: var(--img-width);
+}
+
+@media (min-width: 960px) {
+    .signIn-img {
+        margin-right: 0.55em;
+    }
 }
 
 .avatar-img {
     border-radius: 50%;
     width: 2.5em;
     height: 2.5em;
+    margin-right: 1.5em;
+}
+
+@media (min-width: 960px) {
+    .avatar-img {
+        margin-right: 0;
+    }
 }
 
 /* End link and img styles */

@@ -22,6 +22,8 @@ class MediaHeaderController extends IController<MediaHeaderView, IModel> {
     private searchController: SearchController;
 
     private isSearch: boolean;
+    private isOpen: boolean;
+
     private previousCall: number | null;
     private lastCall: number | null;
     private lastCallTimer: number;
@@ -41,6 +43,7 @@ class MediaHeaderController extends IController<MediaHeaderView, IModel> {
 
         this.searchController = new SearchController(this.view.searchView, new SearchModel());
         this.isSearch = false;
+        this.isOpen = false;
 
 
         // // TODO
@@ -72,6 +75,14 @@ class MediaHeaderController extends IController<MediaHeaderView, IModel> {
         }
     }
 
+    private toggleBar(): void {
+        if (this.isOpen) {
+            this.view.showActions();
+        } else {
+            this.view.hideActions();
+        }
+    }
+
     /**
      * Функция обработки нажатия на хедер
      * (приватное поле класса)
@@ -83,6 +94,10 @@ class MediaHeaderController extends IController<MediaHeaderView, IModel> {
         if (this.isMounted) {
             const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
+                if (this.isOpen) {
+                    this.isOpen = !this.isOpen;
+                    this.toggleBar();
+                }
                 router.goToPath(href);
             }
 
@@ -92,7 +107,6 @@ class MediaHeaderController extends IController<MediaHeaderView, IModel> {
             switch (action) {
                 case 'search': {
                     console.log('search')
-                    // this.closeSearch();
                     EventDispatcher.emit('toggle-search');
 
                     break;
@@ -100,7 +114,8 @@ class MediaHeaderController extends IController<MediaHeaderView, IModel> {
 
                 case 'bars': {
                     console.log('bars')
-                    this.view.showActions();
+                    this.isOpen = !this.isOpen;
+                    this.toggleBar();
                     break;
                 }
 

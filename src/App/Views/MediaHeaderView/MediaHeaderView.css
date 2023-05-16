@@ -228,7 +228,7 @@
     margin-bottom: 0
 }
 
-.media-header__item__link {
+.media-header-item__link {
     font-size: 16px;
     line-height: 22px;
     font-family: SansSerif,sans-serif;
@@ -257,7 +257,6 @@
 /* Start same link and img styles for two headers */
 
 .bars-img {
-    margin-right: 1.5em;
     width: var(--img-width);
     cursor: pointer;
 }

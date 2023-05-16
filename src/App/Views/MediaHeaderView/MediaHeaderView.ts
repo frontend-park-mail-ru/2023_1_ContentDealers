@@ -33,10 +33,13 @@ class MediaHeaderView extends IView {
 
     // Components //
     private logoComponent: LinkComponent;
+    private searchComponent: LinkComponent;
+    private barsComponent: LinkComponent;
     private actionsComponent: ListComponent<LinkComponent, LinkComponentData>;
     private inputComponent: InputComponent;
 
     private searchIcon: HTMLImageElement;
+    private barsIcon: HTMLImageElement;
 
     public searchView: SearchView;
 
@@ -58,21 +61,44 @@ class MediaHeaderView extends IView {
             MediaHeaderData.inputData.componentData
         );
 
-        MediaHeaderData.headerData.forEach(({ componentType, componentData }) => {
-            new componentType(this.header, componentData).append();
-        });
+        this.searchComponent = new MediaHeaderData.searchData.componentType(this.header, MediaHeaderData.searchData.componentData);
+        this.searchComponent.append();
+
+        this.barsComponent = new MediaHeaderData.barsData.componentType(this.header, MediaHeaderData.barsData.componentData);
+        this.barsComponent.append();
 
         this.searchView = new SearchView(this.header);
 
         this.searchIcon = <HTMLImageElement>this.header.querySelector('.search-img');
+        this.barsIcon = <HTMLImageElement>this.header.querySelector('.bars-img');
 
         this.actionsComponent = new MediaHeaderData.actions.componentType(this.nav, MediaHeaderData.actions.componentData);
     }
 
     public showActions(): void {
-        this.header.classList.add('tmp-header_active');
-        this.nav.classList.add('tmp-header__nav_active');
+        this.header.classList.add('media-header_active');
+        this.nav.classList.add('media-header__nav_active');
+
         this.actionsComponent.show();
+
+        this.barsIcon.src = '/img/icons/close.svg';
+
+        this.searchComponent.hide();
+        this.currentProfile?.hide();
+    }
+
+    public hideActions(): void {
+        this.header.classList.remove('media-header_active');
+        this.nav.classList.remove('media-header__nav_active');
+
+        this.actionsComponent.hide();
+
+        this.barsIcon.src = '/img/icons/bars.svg';
+
+        this.barsComponent.hide();
+        this.searchComponent.append();
+        this.currentProfile?.append();
+        this.barsComponent.append();
     }
 
     public toggleMiddle(isSearch: boolean): void {
@@ -122,11 +148,15 @@ class MediaHeaderView extends IView {
         }
 
         this.currentProfile?.hide();
+        this.barsComponent.hide();
+
         this.currentProfile = new component.componentType(
             this.header,
             component.componentData
         ) as LinkComponent;
+
         this.currentProfile.append();
+        this.barsComponent.append();
     }
 
     public getInputValue(): string {

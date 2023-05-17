@@ -18,8 +18,7 @@ class Ajax {
     public async ajax(params: IRequestParams, body?: string | FormData) {
         const headers = new Headers(params.headers);
 
-        if (params.url === config.api.signIn.url || params.url === config.api.signUp.url) {
-        } else {
+        if (!config.isAuthUrl(params.url)) {
             if (params.method !== REQUEST_METHODS.GET) {
                 if (!this.csrfToken) {
                     await this.getCsrfTokenFromServer();
@@ -27,10 +26,6 @@ class Ajax {
                 headers.append('CSRF-Token', this.csrfToken!);
             }
         }
-        // if (params.method !== REQUEST_METHODS.GET) {
-        //     await this.getCsrfTokenFromServer();
-        //     headers.append('CSRF-Token', this.csrfToken!);
-        // }
 
         const response = await fetch(`${config.host}${params.url}`, {
             method: params.method,

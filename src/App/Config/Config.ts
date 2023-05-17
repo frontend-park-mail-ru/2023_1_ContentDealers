@@ -52,6 +52,11 @@ export interface IApi {
 interface IConfig {
     host: string;
     api: { [index: string]: IApi };
+    isAuthUrl: (url: string) => boolean;
+}
+
+function isAuthUrl(url: string): boolean {
+    return url === 'signin' || url === 'signup';
 }
 
 const config: IConfig = {
@@ -283,6 +288,7 @@ const config: IConfig = {
             },
         },
     },
+    isAuthUrl,
 };
 
 export { REQUEST_METHODS, CsrfTokenName, config, customFailures };

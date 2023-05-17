@@ -17,19 +17,25 @@ class ModalView extends IView {
     private readonly modalBody: HTMLElement;
     public currentView: SignInView | SignUpView | null;
 
-    private readonly backButtonContainer: HTMLElement;
+    private readonly closeButtonModal: HTMLElement;
+    private readonly closeButtonModalBody: HTMLElement;
 
     public constructor(parent: HTMLElement) {
         super(parent, ModalRightTemplate({ title: ModalRightData.title }));
 
-        this.modalBody = <HTMLElement>this.element.querySelector('.js-modal__body');
-
-        this.backButtonContainer = <HTMLElement>(
-            this.element.querySelector('.js-modal__close-btn-container')
+        this.closeButtonModal = <HTMLElement>this.element.querySelector('.ts-modal__close-btn');
+        this.modalBody = <HTMLElement>this.element.querySelector('.ts-modal-body__container');
+        this.closeButtonModalBody = <HTMLElement>(
+            this.element.querySelector('.ts-modal-content__close-btn')
         );
-        new ModalRightData.backButton.componentType(
-            this.backButtonContainer,
-            ModalRightData.backButton.componentData
+
+        new ModalRightData.closeButton.componentType(
+            this.closeButtonModal,
+            ModalRightData.closeButton.componentData
+        ).show();
+        new ModalRightData.closeButton.componentType(
+            this.closeButtonModalBody,
+            ModalRightData.closeButton.componentData
         ).show();
 
         this.currentView = null;
@@ -63,7 +69,15 @@ class ModalView extends IView {
      * @returns {void}
      */
     public bindClickEvent(listener: any): void {
-        this.element.addEventListener('click', listener.bind(this));
+        this.element.addEventListener('click', listener);
+    }
+
+    public bindCloseButtonModalEvent(listener: any): void {
+        this.closeButtonModal.addEventListener('click', listener);
+    }
+
+    public bindCloseButtonModalBodyEvent(listener: any): void {
+        this.closeButtonModalBody.addEventListener('click', listener);
     }
 }
 

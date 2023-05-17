@@ -2,104 +2,148 @@
     position: static;
     display: flex;
     justify-content: flex-end;
-    height: 100%;
     overflow: hidden;
+    height: 100%;
 }
 
-.modal__close-btn-container {
-    display: block;
-    top: auto;
-
-    margin-top: 16px;
-    margin-right: 16px;
-}
+/* Start modal close button */
 
 .modal__close-btn {
-    background: rgba(139,136,146,.32);
-    backdrop-filter: blur(16px);
-
-    padding: 10px;
-
-    border-radius: 50%;
-    position: relative;
-
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: none;
 }
 
-.modal__close-btn-image {
-    width: 32px;
+@media (min-width: 960px) {
+    .modal__close-btn {
+        top: auto;
+        display: block;
+        margin-top: 12px;
+        margin-right: 12px;
+    }
 }
+
+/* End modal close button */
+
+/* Start modal content */
 
 .modal__content {
-    background-color: #101011;
-    color: rgba(255,255,255,.96);
-
-    min-height: 100vh;
-    min-width: 720px;
-    width: 45%;
-    max-width: 900px;
-    padding-bottom: 40px;
-
-    box-sizing: border-box;
-    overflow-y: scroll;
-    overflow-x: hidden;
     position: relative;
-    max-height: 100%;
-    /*width: 100%;*/
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-bottom: 90px;
+    width: 100%;
     height: 100%;
-    /*background-color: #f5f4f6;*/
-    /*color: #000;*/
-    /*padding-bottom: 90px;*/
+    max-height: 100%;
+    box-sizing: border-box;
+    background-color: #101011;
 }
 
-.modal__header-container {
-    background-color: #1b1a1d;
-    color: rgba(255,255,255,.96);
-
-    max-width: 1114px;
-    /*padding-left: 10px;*/
-    /*padding-right: 10px;*/
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 30px;
-    height: 60px;
+@media (min-width: 960px) {
+    .modal__content {
+        padding-bottom: 40px;
+        width: 45%;
+        min-width: 720px;
+        min-height: 100vh;
+        max-width: 900px;
+    }
 }
+
+/* End modal content */
+
+/* Start modal content close button */
+
+.modal-content__close-btn {
+    position: absolute;
+    right: 15px;
+    top: 4px;
+    z-index: 1080;
+    color: #000;
+}
+
+@media (min-width: 960px) {
+    .modal-content__close-btn {
+        display: none;
+    }
+}
+
+/* End modal content close button */
+
+/* Start modal header */
 
 .modal__header {
+    padding-right: 15px;
+    padding-left: 15px;
+    height: 48px;
+    background-color: #fff;
+}
+
+@media (min-width: 960px) {
+    .modal__header {
+        margin-right: auto;
+        margin-left: auto;
+        padding: 10px 30px;
+        height: 60px;
+        max-width: 1114px;
+    }
+}
+
+.modal-header {
+    color: rgba(255, 255, 255, 0.96);
+    background-color: #1b1a1d;
+}
+
+.modal-header__title {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
     height: 100%;
 }
 
-.modal__title {
-    font-size: 16px;
-    line-height: 24px;
-    font-family: SansSerif,sans-serif;
-    letter-spacing: 2px;
-
-    text-transform: uppercase;
+.modal-header__text {
     margin: 0;
+    font-family: "SansSerif", sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-.modal__body-container {
-    color: rgba(255,255,255,.96);
-
-    padding-left: 80px;
-    padding-right: 80px;
-    padding-top: 40px;
+@media (min-width: 960px) {
+    .modal-header__text {
+        font-family: "SansSerif", sans-serif;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 1px;
+    }
 }
 
-.modal__body {
+/* End modal header */
+
+/* Start modal body */
+
+@media (min-width: 960px) {
+    .modal__body {
+        padding-top: 40px;
+        padding-right: 80px;
+        padding-left: 80px;
+    }
+}
+
+.modal-body {
+    color: rgba(255, 255, 255, 0.96);
+}
+
+.modal-body__container {
+    padding: 20px 15px;
     background: #1b1a1d;
-
-    padding: 32px 40px;
-    border-radius: 8px;
-    box-shadow: 0 1px 4px 0 #000;
 }
 
+@media (min-width: 960px) {
+    .modal-body__container {
+        border-radius: 8px;
+        padding: 32px 40px;
+        box-shadow: 0 1px 4px 0 #000;
+    }
+}
+
+/* End modal body */

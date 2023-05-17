@@ -9,7 +9,7 @@ import MediaHeaderView from './Views/MediaHeaderView/MediaHeaderView';
 import MediaHeaderController from './Controllers/MediaHeaderController/MediaHeaderController';
 
 import ModalView from './Views/ModalView/ModalView';
-import ModalRightController from './Controllers/ModalRightController/ModalRightController';
+import ModalController from './Controllers/ModalController/ModalController';
 
 import FilmView from './Views/FilmView/FilmView';
 import FilmController from './Controllers/FilmController/FilmController';
@@ -61,7 +61,7 @@ class App {
     // Controllers
     private headerController: HeaderController;
     private mediaHeaderController: MediaHeaderController;
-    private modalRightController: ModalRightController;
+    private modalRightController: ModalController;
     private filmController: FilmController;
     private settingsController: SettingsController;
     private personController: PersonController;
@@ -169,7 +169,7 @@ class App {
         this.headerController = new HeaderController(this.headerView);
         this.mediaHeaderController = new MediaHeaderController(this.mediaHeaderView);
 
-        this.modalRightController = new ModalRightController(this.modalRightView, this.userModel);
+        this.modalRightController = new ModalController(this.modalRightView, this.userModel);
         this.filmController = new FilmController(this.filmView, this.filmModel);
         this.settingsController = new SettingsController(this.settingsView, this.userModel);
         this.personController = new PersonController(this.personView, this.personModel);
@@ -236,7 +236,7 @@ class App {
                 router.goToPath(router.getNearestNotAuthUrl());
             })
             .catch(() => {
-                EventDispatcher.emit('modalRight-setSignIn', this.userModel);
+                EventDispatcher.emit('modal-setSignIn', this.userModel);
                 this.modalRightController.mountComponent();
             });
     }
@@ -248,7 +248,7 @@ class App {
                 router.goToPath(router.getNearestNotAuthUrl());
             })
             .catch(() => {
-                EventDispatcher.emit('modalRight-setSignUp', this.userModel);
+                EventDispatcher.emit('modal-setSignUp', this.userModel);
                 this.modalRightController.mountComponent();
             });
     }

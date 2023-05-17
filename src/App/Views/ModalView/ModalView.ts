@@ -6,6 +6,7 @@ import './ModalView.css';
 
 import SignInView from '../SignInView/SignInView';
 import SignUpView from '../SignUpView/SignUpView';
+import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 /**
  * Отображение правого модального окна
@@ -21,7 +22,7 @@ class ModalView extends IView {
     private readonly closeButtonModalBody: HTMLElement;
 
     public constructor(parent: HTMLElement) {
-        super(parent, ModalRightTemplate({ title: ModalRightData.title }));
+        super(parent, ModalRightTemplate({}));
 
         this.closeButtonModal = <HTMLElement>this.element.querySelector('.ts-modal__close-btn');
         this.modalBody = <HTMLElement>this.element.querySelector('.ts-modal-body__container');
@@ -37,6 +38,10 @@ class ModalView extends IView {
             this.closeButtonModalBody,
             ModalRightData.closeButton.componentData
         ).show();
+
+        EventDispatcher.subscribe('modal-change-title', (title: string) => {
+            this.changeTitle(title);
+        });
 
         this.currentView = null;
     }
@@ -61,6 +66,11 @@ class ModalView extends IView {
             this.currentView = null;
             super.hide();
         }, 200);
+    }
+
+    public changeTitle(title: string): void {
+        const titleContainer = <HTMLElement>this.element.querySelector('.ts-modal-header__text');
+        titleContainer.textContent = title;
     }
 
     /**

@@ -10,7 +10,7 @@ interface ISignInData {
 }
 
 const SignInData: ISignInData = {
-    title: 'Войдите или зарегистрируйтесь',
+    title: 'Войти',
     description: 'Чтобы начать пользоваться серависом Filmium',
     formData: {
         componentType: FormComponent,

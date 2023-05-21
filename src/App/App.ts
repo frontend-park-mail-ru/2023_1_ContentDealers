@@ -11,8 +11,8 @@ import MediaHeaderController from './Controllers/MediaHeaderController/MediaHead
 import ModalView from './Views/ModalView/ModalView';
 import ModalController from './Controllers/ModalController/ModalController';
 
-import FilmView from './Views/FilmView/FilmView';
-import FilmController from './Controllers/FilmController/FilmController';
+import ContentView from './Views/ContentView/ContentView';
+import ContentController from './Controllers/ContentController/ContentController';
 
 import SettingsView from './Views/SettingsView/SettingsView';
 import SettingsController from './Controllers/SettingsController/SettingsController';
@@ -32,8 +32,11 @@ import FavoritesController from './Controllers/FavoritesController/FavoritesCont
 import GenreView from './Views/GenreView/GenreView';
 import GenreController from './Controllers/GenreController/GenreController';
 
+import PlayerView from './Views/PlayerView/PlayerView';
+import PlayerController from './Controllers/PlayerController/PlayerController';
+
 import UserModel from './Models/UserModel/UserModel';
-import FilmModel from './Models/FilmModel/FilmModel';
+import ContentModel from './Models/ContentModel/ContentModel';
 import PersonModel from './Models/PersonModel/PersonModel';
 import SelectionModel from './Models/SelectionModel/SelectionModel';
 import FavoritesModel from './Models/FavoritesModel/FavoritesModel';
@@ -43,6 +46,7 @@ import router from './Router/Router';
 import paths from './Router/RouterPaths';
 
 import EventDispatcher from './EventDispatcher/EventDispatcher';
+import CardsModel from './Models/CardsModel/CardsModel';
 
 class App {
     // Views
@@ -50,7 +54,7 @@ class App {
     private mediaHeaderView: MediaHeaderView;
 
     private modalRightView: ModalView;
-    private filmView: FilmView;
+    private contentView: ContentView;
     private settingsView: SettingsView;
     private personView: PersonView;
     private mainView: MainView;
@@ -58,11 +62,14 @@ class App {
     private favoritesView: FavoritesView;
     private genreView: GenreView;
 
+    private playerView: PlayerView;
+
+
     // Controllers
     private headerController: HeaderController;
     private mediaHeaderController: MediaHeaderController;
     private modalRightController: ModalController;
-    private filmController: FilmController;
+    private contentController: ContentController;
     private settingsController: SettingsController;
     private personController: PersonController;
     private mainController: MainController;
@@ -70,13 +77,16 @@ class App {
     private favoritesController: FavoritesController;
     private genreController: GenreController;
 
+    private playerController: PlayerController;
+
     // Models
     private userModel: UserModel;
-    private filmModel: FilmModel;
+    private filmModel: ContentModel;
     private personModel: PersonModel;
     private selectionModel: SelectionModel;
     private favoritesModel: FavoritesModel;
     private genreModel: GenreModel;
+    private cardsModel: CardsModel;
 
     // Elements
     private root: HTMLElement;
@@ -92,6 +102,19 @@ class App {
         this.initModels();
         this.initControllers();
         this.initRoutes();
+
+        EventDispatcher.subscribe('start-player', ({ title: title, src: src }) => {
+            console.log('In event')
+            this.newPlayer(title, src);
+        });
+    }
+
+    private newPlayer(title: string, src: string): void {
+        this.playerView = new PlayerView(this.root, title);
+        this.playerController = new PlayerController(this.playerView);
+
+        this.playerController.mountComponent();
+        this.playerController.setSrc(src);
     }
 
     public run(url: string): void {
@@ -135,7 +158,7 @@ class App {
         this.headerView = new HeaderView(this.header);
         this.mediaHeaderView = new MediaHeaderView(this.header);
 
-        this.filmView = new FilmView(this.main);
+        this.contentView = new ContentView(this.main);
         this.settingsView = new SettingsView(this.main);
         this.personView = new PersonView(this.main);
         this.mainView = new MainView(this.main);
@@ -153,11 +176,12 @@ class App {
      */
     private initModels(): void {
         this.userModel = new UserModel();
-        this.filmModel = new FilmModel();
+        this.filmModel = new ContentModel();
         this.personModel = new PersonModel();
         this.selectionModel = new SelectionModel();
         this.favoritesModel = new FavoritesModel();
         this.genreModel = new GenreModel();
+        this.cardsModel = new CardsModel();
     }
 
     /**
@@ -170,12 +194,13 @@ class App {
         this.mediaHeaderController = new MediaHeaderController(this.mediaHeaderView);
 
         this.modalRightController = new ModalController(this.modalRightView, this.userModel);
-        this.filmController = new FilmController(this.filmView, this.filmModel);
+        this.contentController = new ContentController(this.contentView, { content: this.filmModel, cards: this.cardsModel });
         this.settingsController = new SettingsController(this.settingsView, this.userModel);
         this.personController = new PersonController(this.personView, this.personModel);
         this.mainController = new MainController(this.mainView, {
             genres: this.genreModel,
             selections: this.selectionModel,
+            cards: this.cardsModel,
         });
 
         this.notFoundController = new NotFoundController(this.notFoundView);
@@ -325,7 +350,7 @@ class App {
 
         // mount
         // this.headerController.mountComponent();
-        await this.filmController.mountComponent({
+        await this.contentController.mountComponent({
             id: filmId.toString(),
             type: 'film',
         });
@@ -334,8 +359,8 @@ class App {
         this.headerView.changeActiveHeaderListItem('#');
 
         this.userModel.authUserByCookie().then(() => {
-            this.filmView.renderWatchButton();
-            this.filmController.addFavoritesButton();
+            this.contentController.addWatchButton();
+            this.contentController.addFavoritesButton();
         });
 
         return;
@@ -355,7 +380,7 @@ class App {
 
         // mount
         // this.headerController.mountComponent();
-        await this.filmController.mountComponent({
+        await this.contentController.mountComponent({
             id: filmId.toString(),
             type: 'series',
         });
@@ -364,8 +389,8 @@ class App {
         this.headerView.changeActiveHeaderListItem('#');
 
         this.userModel.authUserByCookie().then(() => {
-            this.filmView.renderWatchButton();
-            this.filmController.addFavoritesButton();
+            this.contentController.addWatchButton();
+            this.contentController.addFavoritesButton();
         });
 
         return;

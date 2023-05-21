@@ -56,13 +56,12 @@ interface IConfig {
 }
 
 function isAuthUrl(url: string): boolean {
-    return url === 'signin' || url === 'signup';
+    return url === config.api.signIn.url || url === config.api.signUp.url;
 }
 
 const config: IConfig = {
-    // host: 'http://89.208.199.170/',
-    host: 'https://filmium.ru/api',
-    // host: 'http://89.208.199.170:8100/api',
+    // host: 'https://filmium.ru/api',
+    host: 'http://89.208.199.170:8100/api',
     api: {
         csrf: {
             url: '/user/csrf',
@@ -137,6 +136,17 @@ const config: IConfig = {
             statuses: {
                 success: {
                     '200': 'Данные о сериале успешно получены',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        seasons: {
+            url: '/series/{:seriesId}/seasons/{:seasonsId}',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Данные о сезоне успешно получены',
                 },
                 failure: failureDefaultStatuses,
             },

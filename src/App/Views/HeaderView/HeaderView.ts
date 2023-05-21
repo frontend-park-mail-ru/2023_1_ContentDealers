@@ -1,5 +1,4 @@
 import IView from '../IView/IView';
-// import type IComponentDataWithType from '../../Interfaces/interfaces';
 
 import HeaderTemplate from './HeaderView.hbs';
 import './HeaderView.css';
@@ -8,12 +7,6 @@ import type ListComponent from '../../Components/ListComponent/ListComponent';
 
 import LinkComponent from '../../Components/Link/LinkComponent';
 import type LinkComponentData from '../../Components/Link/LinkComponentData';
-
-// import type LinkComponent from '../../Components/LinkComponent/LinkComponent';
-// import type LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
-
-// import type DropdownButtonComponent from '../../Components/DropdownButtonComponent/DropdownButtonComponent';
-// import type DropdownButtonComponentData from '../../Components/DropdownButtonComponent/DropdownButtonComponentData';
 
 import HeaderData from './HeaderViewConfig';
 

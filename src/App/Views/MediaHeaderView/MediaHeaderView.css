@@ -118,6 +118,7 @@
     z-index: 3;
     overflow-y: auto;
     height: calc(100vh - var(--current-header-height));
+    display: none;
 }
 
 .media-header_active {
@@ -125,6 +126,7 @@
 }
 
 .media-header__nav_active {
+    display: block;
     background-color: #1b1a1d;
 }
 

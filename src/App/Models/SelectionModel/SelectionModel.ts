@@ -6,8 +6,11 @@ import Ajax from '../../Ajax/Ajax';
 
 import type ISelection from '../../Interfaces/Selection/ISelection';
 import type IContent from '../../Interfaces/Content/IContent';
+import type { ContentType } from '../../Interfaces/Content/IContent';
 
 class SelectionModel extends IModel {
+    private selections: ISelection[];
+
     public constructor() {
         super();
     }
@@ -22,7 +25,9 @@ class SelectionModel extends IModel {
         return {
             id: selection.id,
             title: selection.title,
-            content: this.parseSelectionContents(selection.content),
+            contents: this.parseSelectionContents(selection.content),
+
+            href: `/selections/${selection.id}`,
         };
     }
 
@@ -34,6 +39,7 @@ class SelectionModel extends IModel {
 
     private parseSelectionContent(selectionContent: any): IContent {
         return {
+            href: this.receiveContentHref(selectionContent.id as number, selectionContent.type as ContentType),
             id: selectionContent.id,
             title: selectionContent.title,
             description: selectionContent.description,
@@ -43,21 +49,22 @@ class SelectionModel extends IModel {
             ageLimit: selectionContent.age_limit,
             trailerURL: selectionContent.trailer_url,
             previewURL: selectionContent.preview_url,
-            type: this.parseContentType(selectionContent.type),
+            type: <ContentType>(selectionContent.type),
         };
     }
 
-    private parseContentType(type: string): string {
-        return type === 'film' ? `${type}s` : type;
+    private receiveContentHref(id: number, type: ContentType): string {
+        return type === 'film' ? `/${type}s/${id}` : `/${type}/${id}`;
     }
 
     public async getSelections(): Promise<ISelection[]> {
         const response = await Ajax.ajax(config.api.selections);
         await Ajax.checkResponseStatus(response, config.api.selections);
 
-        const selectionData = this.parseSelections(response.responseBody.body.selections);
+        this.selections = this.parseSelections(response.responseBody.body.selections);
+        console.log(this.selections)
 
-        return Promise.resolve(selectionData);
+        return Promise.resolve(this.selections);
     }
 }
 

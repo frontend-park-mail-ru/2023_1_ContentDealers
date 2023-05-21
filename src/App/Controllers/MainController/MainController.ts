@@ -9,14 +9,15 @@ import GenreModel from '../../Models/GenreModel/GenreModel';
 
 import router from '../../Router/Router';
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
+import CardsModel from '../../Models/CardsModel/CardsModel';
 
 class MainController extends IController<
     MainView,
-    { genres: GenreModel; selections: SelectionModel }
+    { genres: GenreModel; selections: SelectionModel, cards: CardsModel }
 > {
     private carouselController: CarouselController;
 
-    public constructor(view: MainView, model: { genres: GenreModel; selections: SelectionModel }) {
+    public constructor(view: MainView, model: { genres: GenreModel, selections: SelectionModel, cards: CardsModel }) {
         super(view, model);
 
         this.carouselController = new CarouselController(this.view.carouselView);
@@ -40,9 +41,19 @@ class MainController extends IController<
 
             this.model.selections
                 .getSelections()
-                .then(data => {
-                    this.view.fillSelections(data);
+                .then((selections) => {
+                    this.view.clearSelections();
+                    selections.forEach(({ href = '', title = '', contents}) => {
+                        const cardsData = this.model.cards.contentsToCards(contents, 'card__h-radius');
+                        cardsData.forEach((cardsData) => {
+                            cardsData.onClick = (e: Event) => this.onLinkClick(e); // TODO
+                        });
+
+                        this.view.newSelection(href, title, cardsData);
+                    });
+
                     this.view.bindClickEvent(this.handleClick.bind(this));
+
                 })
                 .catch(error => console.error(error));
         }
@@ -55,16 +66,18 @@ class MainController extends IController<
         super.unmountComponent();
     }
 
-    private handleClick(e: Event): void {
+    private onLinkClick(e: Event): void {
         e.preventDefault();
-        if (this.isMounted) {
-            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
-            if (href !== undefined && href !== null) {
-                router.goToPath(href);
-            }
+        e.stopPropagation();
 
-            return;
+        const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
+        if (href !== undefined && href !== null) {
+            router.goToPath(href);
         }
+    }
+
+    private handleClick(e: Event): void {
+
     }
 }
 

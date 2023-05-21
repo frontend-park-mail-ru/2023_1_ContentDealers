@@ -55,6 +55,7 @@ class ContentController extends IController<
                             const sources = this.model.content.getSources(1);
 
                             EventDispatcher.emit('start-player', {
+                                id: this.model.content.getId(),
                                 title: this.model.content.getTitle(),
                                 src: sources[index],
                                 seasonData: {
@@ -105,14 +106,14 @@ class ContentController extends IController<
         }
     }
 
-    public startPlayer(src: string, extraTitle?: string): void {
+    public startPlayer(id: number, isFilm: boolean, src: string, extraTitle?: string): void {
         if (this.isMounted) {
             let title = this.model.content.getTitle();
             if (extraTitle) {
                 title += `\n ${extraTitle}`; // TODO: how to add \n? \n not helps, &nbsp; too
             }
 
-            EventDispatcher.emit('start-player', { title, src });
+            EventDispatcher.emit('start-player', { id, isFilm, title, src });
         }
     }
 
@@ -121,7 +122,7 @@ class ContentController extends IController<
         e.stopPropagation();
 
         if (this.isMounted) {
-            this.startPlayer(this.model.content.getTrailerUrl());
+            this.startPlayer(this.model.content.getId(), false, this.model.content.getTrailerUrl());
         }
     }
 
@@ -131,7 +132,7 @@ class ContentController extends IController<
 
         if (this.isMounted) {
             if (this.model.content.isFree()) {
-                this.startPlayer(this.model.content.getWatchUrl());
+                this.startPlayer(this.model.content.getId(), true, this.model.content.getWatchUrl());
             } else {
                 console.log('Not free'); // TODO
             }
@@ -180,7 +181,7 @@ class ContentController extends IController<
                         e.preventDefault();
                         e.stopPropagation();
 
-                        this.startPlayer(cardData.action, `${id} сезон ${cardData.footer?.title}`);
+                        this.startPlayer(this.model.content.getId(), false, cardData.action, `${id} сезон ${cardData.footer?.title}`);
                     };
                 });
 

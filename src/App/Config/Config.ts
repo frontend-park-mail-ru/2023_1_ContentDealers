@@ -140,17 +140,17 @@ const config: IConfig = {
                 failure: failureDefaultStatuses,
             },
         },
-        seasons: {
-            url: '/series/{:seriesId}/seasons/{:seasonsId}',
-            method: REQUEST_METHODS.GET,
-            headers: headersWithUnicode,
-            statuses: {
-                success: {
-                    '200': 'Данные о сезоне успешно получены',
-                },
-                failure: failureDefaultStatuses,
-            },
-        },
+        // seasons: {
+        //     url: '/series/{:seriesId}/seasons/{:seasonsId}',
+        //     method: REQUEST_METHODS.GET,
+        //     headers: headersWithUnicode,
+        //     statuses: {
+        //         success: {
+        //             '200': 'Данные о сезоне успешно получены',
+        //         },
+        //         failure: failureDefaultStatuses,
+        //     },
+        // },
         selections: {
             url: '/selections',
             method: REQUEST_METHODS.GET,
@@ -297,6 +297,17 @@ const config: IConfig = {
                 failure: failureDefaultStatuses,
             },
         },
+        updateViewsTime: {
+            url: '/views/update',
+            method: REQUEST_METHODS.POST,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': '',
+                },
+                failure: failureDefaultStatuses,
+            },
+        }
     },
     isAuthUrl,
 };

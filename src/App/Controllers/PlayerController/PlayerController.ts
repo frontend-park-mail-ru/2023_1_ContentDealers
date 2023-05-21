@@ -10,6 +10,9 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
     private readonly mouseTimeout = 3000;
     private mouseTimeoutId: number | undefined;
 
+    private lastUpdateTime: number = 0;
+
+
     // Bound events //
     private readonly BoundKeyDown = this.onKeyDown.bind(this);
 
@@ -90,6 +93,10 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
         this.view.video.addEventListener('loadedmetadata', () => {
             this.view.video.addEventListener('timeupdate', () => {
                 this.updateVideoMetadata();
+
+                if (this.model.getIsFilm()) {
+                    this.handleTimeUpdate();
+                }
             });
         });
 
@@ -121,6 +128,30 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
         this.view.volumeBar.setUpdateVideoFunc(this.setVideoVolume.bind(this));
     }
 
+    private formatTime(seconds: number): string {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = (seconds % 60).toFixed(2);
+
+        const formattedTime = `${minutes}m${remainingSeconds}s`;
+
+        return formattedTime;
+    }
+
+    private handleTimeUpdate(): void {
+        const currentTime = Date.now();
+        const elapsedTime = currentTime - this.lastUpdateTime;
+
+        if (elapsedTime >= 10000) { // 10 seconds
+            this.lastUpdateTime = currentTime;
+
+            this.model.handleTimeUpdate({
+                content_id: this.model.getId(),
+                stop_view: this.formatTime(this.view.video.currentTime),
+                duration: this.formatTime(this.view.video.duration)
+            });
+        }
+    }
+
     // Handlers //
     private togglePlayButton(e: Event): void {
         e.preventDefault();
@@ -148,7 +179,6 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
             } else {
                 this.view.showNextButton();
             }
-
         }
     }
 

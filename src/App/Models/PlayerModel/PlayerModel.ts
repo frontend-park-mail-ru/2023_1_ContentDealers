@@ -1,4 +1,6 @@
 import IModel from '../IModel/IModel';
+import { config } from '../../Config/Config';
+import Ajax from '../../Ajax/Ajax';
 
 interface ISeasonData {
     seasonNum: number;
@@ -8,19 +10,44 @@ interface ISeasonData {
 }
 
 export interface IPlayerData {
+    id: number;
+    isFilm: boolean;
     title: string;
     src: string;
     seasonData?: ISeasonData;
 }
 
 class PlayerModel extends IModel {
+    private id: number;
+
     private playerData: IPlayerData;
     private isSeason: boolean;
+
+    private isFilm: boolean = false;
+
+    private throttleTimeout: number | null = null;
+
 
     public constructor() {
         super();
 
         this.isSeason = false;
+    }
+
+    public setIsFilm(isFilm: boolean): void {
+        this.isFilm = isFilm;
+    }
+
+    public getIsFilm(): boolean {
+        return this.isFilm;
+    }
+
+    public setId(id: number): void {
+        this.id = id;
+    }
+
+    public getId(): number {
+        return this.id;
     }
 
     public setPlayerData(playerData: IPlayerData): void {
@@ -60,16 +87,6 @@ class PlayerModel extends IModel {
     public getIsSeason(): boolean {
         return this.isSeason;
     }
-
-    // public getPrevEpisode(): { title: string, src: string } {
-    //     if (this.playerData.seasonData) {
-    //         return {
-    //             title: `${this.playerData.title} ${this.playerData.seasonData.seasonNum} сезон ${this.playerData.seasonData.episodeNum-1} серия`,
-    //             src: this.playerData.seasonData.sources[this.playerData.seasonData.index - 1],
-    //         };
-    //     }
-    //     return { title: '', src: '' };
-    // }
 
     public updateInfo(index: number): void {
         if (this.playerData.seasonData) {
@@ -121,7 +138,26 @@ class PlayerModel extends IModel {
         this.playerData.seasonData = undefined;
     }
 
-    // public async
+    public async handleTimeUpdate(data: { content_id: number, stop_view: string, duration: string }) {
+        if (this.throttleTimeout === null) {
+            // Execute the updateViewTime function immediately
+            await this.updateViewTime(data);
+
+            // Set the timeout to allow the next call after 10 seconds
+            this.throttleTimeout = window.setTimeout(() => {
+                this.throttleTimeout = null;
+            }, 10000); // 10 seconds
+        }
+    }
+
+    public async updateViewTime(data: { content_id: number, stop_view: string, duration: string }) {
+        const conf = Object.assign({}, config.api.updateViewsTime);
+
+        const response = await Ajax.ajax(conf, JSON.stringify(data));
+        await Ajax.checkResponseStatus(response, conf);
+
+        return Promise.resolve(response.status);
+    }
 }
 
 export default PlayerModel;

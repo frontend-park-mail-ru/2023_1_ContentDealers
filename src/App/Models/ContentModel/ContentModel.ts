@@ -242,21 +242,6 @@ class ContentModel extends IModel {
         return Promise.resolve(this.seriesData);
     }
 
-    // public async getSeason(id: number): Promise<IContent> {
-    //     const conf = Object.assign({}, config.api.seasons);
-    //     conf.url = conf.url.replace('{:seriesId}', this.getId().toString());
-    //     conf.url = conf.url.replace('{:seasonsId}', id.toString());
-    //
-    //     const response = await Ajax.ajax(conf);
-    //     await Ajax.checkResponseStatus(response, conf);
-    //
-    //     console.log(response)
-    //
-    //     // this.seriesData.episodes.push();
-    //     // console.log(this.seriesData)
-    //     return Promise.resolve(<IContent>{});
-    // }
-
     public async getFavoritesStatus(filmId: string): Promise<any> {
         const conf = Object.assign({}, config.api.favoritesContentHas);
         conf.url = conf.url.replace('{:id}', filmId);

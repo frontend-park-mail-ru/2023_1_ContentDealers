@@ -125,7 +125,9 @@ class App {
         }
 
         this.playerView = new PlayerView(this.root, title);
-        this.playerModel.setPlayerData(playerData)
+        this.playerModel.setId(playerData.id);
+        this.playerModel.setIsFilm(playerData.isFilm);
+        this.playerModel.setPlayerData(playerData);
         this.playerController = new PlayerController(this.playerView, this.playerModel);
 
         this.playerController.mountComponent();

@@ -27,7 +27,7 @@ class CardCarouselComponent extends IComponent {
     private scrollPosition: number;
     private maxScrollPosition: number;
 
-    constructor(parent: HTMLElement, data: CardComponentData[]) {
+    public constructor(parent: HTMLElement, data: CardComponentData[]) {
         super(parent, CardCarouselComponentTemplate({}));
 
         // Init HTMLElements //
@@ -36,7 +36,9 @@ class CardCarouselComponent extends IComponent {
         this.rightButton = <HTMLElement>this.element.querySelector('.ts-button-right');
 
         // Render //
-        this.rightOffset = new DivComponent(this.cardsContainer, { divClass: this.rightOffsetClass });
+        this.rightOffset = new DivComponent(this.cardsContainer, {
+            divClass: this.rightOffsetClass,
+        });
         this.rightOffset.show();
         this.leftOffset = new DivComponent(this.cardsContainer, { divClass: this.leftOffsetClass });
         this.leftOffset.show();
@@ -56,7 +58,9 @@ class CardCarouselComponent extends IComponent {
     }
 
     private settingScrollParams(): void {
-        this.railColumns = parseInt(getComputedStyle(this.cardsContainer).getPropertyValue('--rail-columns'));
+        this.railColumns = parseInt(
+            getComputedStyle(this.cardsContainer).getPropertyValue('--rail-columns')
+        );
 
         const firstCard = this.cardsContainer.querySelector('.card');
         this.cardWidth = firstCard ? firstCard.clientWidth : 0;
@@ -66,7 +70,7 @@ class CardCarouselComponent extends IComponent {
 
     public addCards(cardsData: CardComponentData[]): void {
         this.leftOffset.hide();
-        cardsData.forEach((cardData) => {
+        cardsData.forEach(cardData => {
             const cardComponent = new CardComponent(this.cardsContainer, cardData);
             cardComponent.show();
             this.cardComponents.push(cardComponent);
@@ -92,12 +96,13 @@ class CardCarouselComponent extends IComponent {
         // TODO mb remove? (but I need take new value on resize to correct click, but then buttons hides)
         this.settingScrollParams();
 
-        const newScrollPosition = this.scrollPosition + delta * this.cardWidth * (this.railColumns + 1);
+        const newScrollPosition =
+            this.scrollPosition + delta * this.cardWidth * (this.railColumns + 1);
         this.scrollPosition = Math.max(0, Math.min(this.maxScrollPosition, newScrollPosition));
 
         this.cardsContainer.scrollTo({
             left: this.scrollPosition,
-            behavior: 'smooth'
+            behavior: 'smooth',
         });
 
         this.updateButtonVisibility();

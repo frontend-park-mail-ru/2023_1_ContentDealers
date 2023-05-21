@@ -26,10 +26,8 @@ class ContentView extends IView {
     private favoritesLink: LinkComponent;
     private favoritesIcon: HTMLImageElement;
 
-
     private seriesContainer: HTMLElement;
     public seriesComponent: SeriesComponent;
-
 
     public constructor(parent: HTMLElement) {
         super(parent, ContentTemplate({}));
@@ -41,13 +39,18 @@ class ContentView extends IView {
         this.element = <HTMLElement>this.parent.firstElementChild;
 
         this.seriesContainer = <HTMLElement>this.element.querySelector('.ts-series');
-        this.buttonsContainer = <HTMLElement>this.element.querySelector('.ts-film-content__buttons');
+        this.buttonsContainer = <HTMLElement>(
+            this.element.querySelector('.ts-film-content__buttons')
+        );
 
         this.renderButtons();
     }
 
     public fillSeries(seriesData: SeriesComponentData): void {
-        this.seriesComponent = new SeriesComponent(this.seriesContainer, { id: seriesData.id, count: seriesData.count });
+        this.seriesComponent = new SeriesComponent(this.seriesContainer, {
+            id: seriesData.id,
+            count: seriesData.count,
+        });
         this.seriesComponent.show();
     }
 
@@ -67,14 +70,22 @@ class ContentView extends IView {
     }
 
     public toggleBookmark(has: boolean): void {
-        this.favoritesIcon.src = has ? '/img/icons/bookmark-added.svg' : '/img/icons/bookmark-regular.svg';
+        this.favoritesIcon.src = has
+            ? '/img/icons/bookmark-added.svg'
+            : '/img/icons/bookmark-regular.svg';
     }
 
     public renderWatchButton(isFree: boolean): void {
         if (isFree) {
-            this.watchButton = new ContentData.watchButtonFree.componentType(this.buttonsContainer, ContentData.watchButtonFree.componentData);
+            this.watchButton = new ContentData.watchButtonFree.componentType(
+                this.buttonsContainer,
+                ContentData.watchButtonFree.componentData
+            );
         } else {
-            this.watchButton = new ContentData.watchButtonPay.componentType(this.buttonsContainer, ContentData.watchButtonPay.componentData);
+            this.watchButton = new ContentData.watchButtonPay.componentType(
+                this.buttonsContainer,
+                ContentData.watchButtonPay.componentData
+            );
         }
         this.watchButton.show();
     }
@@ -90,7 +101,6 @@ class ContentView extends IView {
 
         this.toggleBookmark(has);
     }
-
 
     // Binds //
     public bindClickEvent(listener: any): void {

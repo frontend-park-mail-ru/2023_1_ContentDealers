@@ -39,7 +39,7 @@ class MainView extends IView {
     }
 
     public clearSelections(): void {
-        this.selectionComponents.forEach((selectionComponent) => {
+        this.selectionComponents.forEach(selectionComponent => {
             selectionComponent.hide();
         });
         this.selectionComponents = [];
@@ -52,7 +52,7 @@ class MainView extends IView {
                 href,
                 title,
             },
-            cardsData: cardsData
+            cardsData: cardsData,
         });
         selectionComponent.show();
 

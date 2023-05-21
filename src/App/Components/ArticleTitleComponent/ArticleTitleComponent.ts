@@ -6,8 +6,8 @@ import './ArticleTitleComponent.css';
 
 import router from '../../Router/Router';
 
-class ArticleTitleComponent extends IComponent{
-    constructor(parent: HTMLElement, data: ArticleTitleComponentData) {
+class ArticleTitleComponent extends IComponent {
+    public constructor(parent: HTMLElement, data: ArticleTitleComponentData) {
         super(parent, ArticleTitleComponentTemplate(data));
 
         this.bindTitleClick(this.onClick.bind(this));

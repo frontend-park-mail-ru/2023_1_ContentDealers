@@ -16,8 +16,11 @@ interface IId {
     type: ContentType;
 }
 
-class ContentController extends IController<ContentView, { content: ContentModel, cards: CardsModel }> {
-    public constructor(view: ContentView, model: { content: ContentModel, cards: CardsModel }) {
+class ContentController extends IController<
+    ContentView,
+    { content: ContentModel; cards: CardsModel }
+> {
+    public constructor(view: ContentView, model: { content: ContentModel; cards: CardsModel }) {
         super(view, model);
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
@@ -38,15 +41,18 @@ class ContentController extends IController<ContentView, { content: ContentModel
                     this.view.fillSeries(this.model.content.getSeriesData());
 
                     // TODO: how improve?
-                    const cardsData = this.model.cards.seasonsToCards(this.model.content.getSeason(1), 'card__v-radius');
-                    cardsData.forEach((cardData) => {
-                        cardData.onClick = (e: Event) => {
+                    const cardsData = this.model.cards.seasonsToCards(
+                        this.model.content.getSeason(1),
+                        'card__v-radius'
+                    );
+                    cardsData.forEach(cardData => {
+                        cardData.onClick = (e: Event): void => {
                             e.preventDefault();
                             e.stopPropagation();
 
-                            this.startPlayer(cardData.action, `1 сезон ${cardData.footer?.title}`)
+                            this.startPlayer(cardData.action, `1 сезон ${cardData.footer?.title}`);
                         };
-                    })
+                    });
 
                     this.view.seriesComponent.createCarousel(cardsData);
                     this.view.seriesComponent.bindHeaderClick(this.onSeriesHeaderClick.bind(this));
@@ -65,7 +71,6 @@ class ContentController extends IController<ContentView, { content: ContentModel
         return;
     }
 
-
     public addWatchButton(): void {
         if (this.isMounted) {
             this.view.renderWatchButton(this.model.content.isFree());
@@ -73,10 +78,12 @@ class ContentController extends IController<ContentView, { content: ContentModel
         }
     }
 
-    public async addFavoritesButton() {
+    public async addFavoritesButton(): Promise<void> {
         if (this.isMounted) {
             try {
-                const has = await this.model.content.getFavoritesStatus(String(this.model.content.getId()));
+                const has = await this.model.content.getFavoritesStatus(
+                    String(this.model.content.getId())
+                );
                 this.view.renderFavoritesButton(has);
                 this.view.bindFavoriteClick(this.onFavoriteClick.bind(this));
             } catch (error) {
@@ -126,15 +133,19 @@ class ContentController extends IController<ContentView, { content: ContentModel
             const favoritesData: IFavoritesAddDelete = { content_id: this.model.content.getId() };
             const has = this.model.content.has();
             if (has) {
-                this.model.content.deleteFromFavorites(favoritesData).then(() => this.view.toggleBookmark(!has));
+                this.model.content
+                    .deleteFromFavorites(favoritesData)
+                    .then(() => this.view.toggleBookmark(!has));
             } else {
-                this.model.content.addToFavorites(favoritesData).then(() => this.view.toggleBookmark(!has));
+                this.model.content
+                    .addToFavorites(favoritesData)
+                    .then(() => this.view.toggleBookmark(!has));
             }
         }
     }
 
-
-    public onSeriesHeaderClick(e: Event): void { // TODO: mb series - view not component?
+    public onSeriesHeaderClick(e: Event): void {
+        // TODO: mb series - view not component?
         e.preventDefault();
         e.stopPropagation();
 
@@ -147,15 +158,18 @@ class ContentController extends IController<ContentView, { content: ContentModel
             if (matches && matches.length > 1) {
                 const id = parseInt(matches[1]);
 
-                const cardsData = this.model.cards.seasonsToCards(this.model.content.getSeason(id), 'card__v-radius');
-                cardsData.forEach((cardData) => {
-                    cardData.onClick = (e: Event) => {
+                const cardsData = this.model.cards.seasonsToCards(
+                    this.model.content.getSeason(id),
+                    'card__v-radius'
+                );
+                cardsData.forEach(cardData => {
+                    cardData.onClick = (e: Event): void => {
                         e.preventDefault();
                         e.stopPropagation();
 
                         this.startPlayer(cardData.action, `${id} сезон ${cardData.footer?.title}`);
                     };
-                })
+                });
 
                 this.view.seriesComponent.createCarousel(cardsData);
                 this.view.seriesComponent.changeActiveItem(id);

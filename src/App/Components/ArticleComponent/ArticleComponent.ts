@@ -8,7 +8,7 @@ import ArticleTitleComponent from '../ArticleTitleComponent/ArticleTitleComponen
 import CardCarouselComponent from '../CardCarouselComponent/CardCarouselComponent';
 
 class ArticleComponent extends IComponent {
-    constructor(parent: HTMLElement, data?: ArticleComponentData) {
+    public constructor(parent: HTMLElement, data?: ArticleComponentData) {
         super(parent, ArticleComponentTemplate({ className: data?.className }));
 
         if (data?.titleData) {

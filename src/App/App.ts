@@ -64,7 +64,6 @@ class App {
 
     private playerView: PlayerView;
 
-
     // Controllers
     private headerController: HeaderController;
     private mediaHeaderController: MediaHeaderController;
@@ -104,7 +103,7 @@ class App {
         this.initRoutes();
 
         EventDispatcher.subscribe('start-player', ({ title: title, src: src }) => {
-            console.log('In event')
+            console.log('In event');
             this.newPlayer(title, src);
         });
     }
@@ -194,7 +193,10 @@ class App {
         this.mediaHeaderController = new MediaHeaderController(this.mediaHeaderView);
 
         this.modalRightController = new ModalController(this.modalRightView, this.userModel);
-        this.contentController = new ContentController(this.contentView, { content: this.filmModel, cards: this.cardsModel });
+        this.contentController = new ContentController(this.contentView, {
+            content: this.filmModel,
+            cards: this.cardsModel,
+        });
         this.settingsController = new SettingsController(this.settingsView, this.userModel);
         this.personController = new PersonController(this.personView, this.personModel);
         this.mainController = new MainController(this.mainView, {

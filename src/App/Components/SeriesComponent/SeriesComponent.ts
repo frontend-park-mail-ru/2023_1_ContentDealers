@@ -14,11 +14,12 @@ import CardCarouselComponent from '../CardCarouselComponent/CardCarouselComponen
 import type CardComponentData from '../CardComponent/CardComponentData';
 
 class SeriesComponent extends IComponent {
-    private readonly numbersListData: { listClass: string, itemClass: string, linkClass: string } = {
-        listClass: 'series__numbers',
-        itemClass: 'series__number series-number',
-        linkClass: 'series-number__link'
-    };
+    private readonly numbersListData: { listClass: string; itemClass: string; linkClass: string } =
+        {
+            listClass: 'series__numbers',
+            itemClass: 'series__number series-number',
+            linkClass: 'series-number__link',
+        };
     private readonly numbersListLessClass = 'less-960';
     private readonly numbersListMoreClass = 'more-960';
 
@@ -31,7 +32,7 @@ class SeriesComponent extends IComponent {
 
     private seriesCardCarouselComponent: CardCarouselComponent;
 
-    constructor(parent: HTMLElement, data: SeriesComponentData) {
+    public constructor(parent: HTMLElement, data: SeriesComponentData) {
         super(parent, SeriesComponentTemplate({}));
 
         this.headerContainer = <HTMLElement>this.element.querySelector('.ts-series-header');
@@ -42,28 +43,31 @@ class SeriesComponent extends IComponent {
         new ListComponent(this.headerContainer, {
             listClass: `${this.numbersListData.listClass} ${this.numbersListLessClass}`,
             itemClass: this.numbersListData.itemClass,
-            items: numbersData
+            items: numbersData,
         }).show();
 
         new ListComponent(this.headerContainer, {
             listClass: `${this.numbersListData.listClass} ${this.numbersListMoreClass}`,
             itemClass: this.numbersListData.itemClass,
-            items: numbersData
+            items: numbersData,
         }).show();
 
         this.changeActiveItem(1);
         this.activeNumberId = 1;
     }
 
-    private receiveNumbersData({ id, count }: SeriesComponentData): IComponentDataWithType<LinkComponent, LinkComponentData>[] {
+    private receiveNumbersData({
+        id,
+        count,
+    }: SeriesComponentData): IComponentDataWithType<LinkComponent, LinkComponentData>[] {
         return Array.from({ length: count }, (_, i) => {
             return {
                 componentType: LinkComponent,
                 componentData: {
                     href: `/series/${id}/seasons/${i + 1}`,
                     text: String(i + 1),
-                    classes: this.numbersListData.linkClass
-                }
+                    classes: this.numbersListData.linkClass,
+                },
             };
         });
     }
@@ -71,21 +75,26 @@ class SeriesComponent extends IComponent {
     public createCarousel(cardsData: CardComponentData[]): void {
         this.seriesCardsContainer.innerHTML = '';
 
-        console.log('createCarousel', )
-        this.seriesCardCarouselComponent = new CardCarouselComponent(this.seriesCardsContainer, cardsData);
+        console.log('createCarousel');
+        this.seriesCardCarouselComponent = new CardCarouselComponent(
+            this.seriesCardsContainer,
+            cardsData
+        );
         this.seriesCardCarouselComponent.show();
     }
 
     public changeActiveItem(id: number): void {
         const toActiveLinks = this.headerContainer.querySelectorAll(`[href$="/seasons/${id}"]`);
-        toActiveLinks.forEach((link) => {
-            (<HTMLElement>link.parentElement).classList.add(this.activeNumberClass)
+        toActiveLinks.forEach(link => {
+            (<HTMLElement>link.parentElement).classList.add(this.activeNumberClass);
         });
 
         if (this.activeNumberId) {
-            const toInactiveLinks = this.headerContainer.querySelectorAll(`[href$="/seasons/${this.activeNumberId}"]`);
-            toInactiveLinks.forEach((link) => {
-                (<HTMLElement>link.parentElement).classList.remove(this.activeNumberClass)
+            const toInactiveLinks = this.headerContainer.querySelectorAll(
+                `[href$="/seasons/${this.activeNumberId}"]`
+            );
+            toInactiveLinks.forEach(link => {
+                (<HTMLElement>link.parentElement).classList.remove(this.activeNumberClass);
             });
         }
 

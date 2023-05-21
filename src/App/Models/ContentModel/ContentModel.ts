@@ -27,9 +27,8 @@ class ContentModel extends IModel {
     private content: IContent;
     private isHas: boolean;
 
-    private filmData:   IFilm;
+    private filmData: IFilm;
     private seriesData: ISeries;
-
 
     public constructor() {
         super();
@@ -61,7 +60,7 @@ class ContentModel extends IModel {
     }
 
     public toggleHas(): boolean {
-        return this.isHas = !this.isHas;
+        return (this.isHas = !this.isHas);
     }
 
     public has(): boolean {
@@ -89,10 +88,9 @@ class ContentModel extends IModel {
     public getSeriesData(): SeriesComponentData {
         return {
             id: this.getId(),
-            count: this.getSeasonsCount()
-        }
+            count: this.getSeasonsCount(),
+        };
     }
-
 
     private parseFilm(json: any): IFilm {
         return {
@@ -127,7 +125,7 @@ class ContentModel extends IModel {
             seasonNum: episode.season_num,
             previewURL: episode.preview_url,
             // title: episode.title,
-            title: `${episode.episode_num} серия`
+            title: `${episode.episode_num} серия`,
         };
     }
 
@@ -202,7 +200,9 @@ class ContentModel extends IModel {
 
     private fillContentData(contentData: IContent): void {
         this.content = contentData;
-        this.type = this.content.type!;
+        if (this.content?.type) {
+            this.type = this.content.type;
+        }
 
         this.content.actors = this.getContentActors(this.content.persons || []);
         this.content.directors = this.getContentDirectors(this.content.persons || []);
@@ -230,9 +230,9 @@ class ContentModel extends IModel {
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
 
-        console.log('response', response)
+        console.log('response', response);
         this.seriesData = this.parseSeries(response.responseBody.body.series);
-        console.log(this.seriesData)
+        console.log(this.seriesData);
 
         this.fillContentData(this.seriesData.content);
         this.seriesData.content = this.content;

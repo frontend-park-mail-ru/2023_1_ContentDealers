@@ -71,7 +71,6 @@ class Ajax {
 
     public async checkResponseStatus(response: IResponse, conf: IApi) {
         if (response.status.toString() in conf.statuses.success) {
-            // return Promise.resolve('');
             return Promise.resolve();
         }
 

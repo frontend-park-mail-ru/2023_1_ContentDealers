@@ -13,24 +13,35 @@ class CardsModel extends IModel {
         super();
     }
 
-    public contentToCard({ href, title, previewURL }: IContent, orientationClass: FigureOrientationClass): CardComponentData {
+    public contentToCard(
+        { href, title, previewURL }: IContent,
+        orientationClass: FigureOrientationClass
+    ): CardComponentData {
         return {
             href,
             title,
             imageSrc: previewURL as string,
             figureOrientationClass: orientationClass,
             action: '',
-            onClick: () => {},
+            onClick: (): void => {
+                console.log('Nothing');
+            },
         };
     }
 
-    public contentsToCards(contents: IContent[], orientationClass: FigureOrientationClass): CardComponentData[] {
-        return contents.map((content) => {
+    public contentsToCards(
+        contents: IContent[],
+        orientationClass: FigureOrientationClass
+    ): CardComponentData[] {
+        return contents.map(content => {
             return this.contentToCard(content, orientationClass);
         });
     }
 
-    public seasonToCard({ previewURL, title, contentURL }: IEpisode, orientationClass: FigureOrientationClass): CardComponentData {
+    public seasonToCard(
+        { previewURL, title, contentURL }: IEpisode,
+        orientationClass: FigureOrientationClass
+    ): CardComponentData {
         return {
             imageSrc: previewURL,
             figureOrientationClass: orientationClass,
@@ -38,12 +49,17 @@ class CardsModel extends IModel {
             footer: {
                 title: title as string,
             },
-            onClick: () => {},
+            onClick: (): void => {
+                console.log('Nothing');
+            },
         };
     }
 
-    public seasonsToCards(seasons: IEpisode[], orientationClass: FigureOrientationClass): CardComponentData[] {
-        return seasons.map((episode) => {
+    public seasonsToCards(
+        seasons: IEpisode[],
+        orientationClass: FigureOrientationClass
+    ): CardComponentData[] {
+        return seasons.map(episode => {
             return this.seasonToCard(episode, orientationClass);
         });
     }

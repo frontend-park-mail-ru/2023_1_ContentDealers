@@ -13,5 +13,5 @@ export default interface CardComponentData {
     };
 
     action: string;
-    onClick: Function;
+    onClick: object;
 }

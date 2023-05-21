@@ -13,18 +13,19 @@ import CardsModel from '../../Models/CardsModel/CardsModel';
 
 class MainController extends IController<
     MainView,
-    { genres: GenreModel; selections: SelectionModel, cards: CardsModel }
+    { genres: GenreModel; selections: SelectionModel; cards: CardsModel }
 > {
     private carouselController: CarouselController;
 
-    public constructor(view: MainView, model: { genres: GenreModel, selections: SelectionModel, cards: CardsModel }) {
+    public constructor(
+        view: MainView,
+        model: { genres: GenreModel; selections: SelectionModel; cards: CardsModel }
+    ) {
         super(view, model);
 
         this.carouselController = new CarouselController(this.view.carouselView);
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
-
-        this.view.bindClickEvent(this.handleClick.bind(this));
     }
 
     public async mountComponent(): Promise<void> {
@@ -41,19 +42,19 @@ class MainController extends IController<
 
             this.model.selections
                 .getSelections()
-                .then((selections) => {
+                .then(selections => {
                     this.view.clearSelections();
-                    selections.forEach(({ href = '', title = '', contents}) => {
-                        const cardsData = this.model.cards.contentsToCards(contents, 'card__h-radius');
-                        cardsData.forEach((cardsData) => {
-                            cardsData.onClick = (e: Event) => this.onLinkClick(e); // TODO
+                    selections.forEach(({ href = '', title = '', contents }) => {
+                        const cardsData = this.model.cards.contentsToCards(
+                            contents,
+                            'card__h-radius'
+                        );
+                        cardsData.forEach(cardsData => {
+                            cardsData.onClick = (e: Event): void => this.onLinkClick(e); // TODO
                         });
 
                         this.view.newSelection(href, title, cardsData);
                     });
-
-                    this.view.bindClickEvent(this.handleClick.bind(this));
-
                 })
                 .catch(error => console.error(error));
         }
@@ -74,10 +75,6 @@ class MainController extends IController<
         if (href !== undefined && href !== null) {
             router.goToPath(href);
         }
-    }
-
-    private handleClick(e: Event): void {
-
     }
 }
 

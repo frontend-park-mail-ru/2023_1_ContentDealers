@@ -5,8 +5,8 @@
 }
 
 .card__link {
-    display: block;
     position: relative;
+    display: block;
     width: 100%;
     height: 100%;
     text-decoration: none;
@@ -14,62 +14,62 @@
 }
 
 .card__title {
-    position: absolute!important;
-    clip: rect(1px,1px,1px,1px);
-    padding: 0!important;
-    border: 0!important;
-    height: 1px!important;
-    width: 1px!important;
-    min-height: 0!important;
-    min-width: 0!important;
+    position: absolute !important;
     overflow: hidden;
+    border: 0 !important;
+    padding: 0 !important;
+    width: 1px !important;
+    height: 1px !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    clip: rect(1px, 1px, 1px, 1px);
 }
-
 
 /* Start card figure */
 
 .card__figure {
     --card-top-offset: 6px;
     --card-bottom-offset: 24px;
-    font-family: "SansSerif",sans-serif;
-    font-size: 14px;
-    line-height: 16px;
+
     position: relative;
     width: 100%;
     height: 100%;
+    font-family: "SansSerif", sans-serif;
+    font-size: 14px;
+    line-height: 16px;
 }
 
-@media(min-width: 375px) {
+@media (min-width: 375px) {
     .card__figure {
-        font-size:15px;
+        font-size: 15px;
         line-height: 18px;
     }
 }
 
-@media(min-width: 600px) {
+@media (min-width: 600px) {
     .card__figure {
-        font-size:16px;
+        font-size: 16px;
         line-height: 20px;
     }
 }
 
-@media(min-width: 1320px) {
+@media (min-width: 1320px) {
     .card__figure {
-        font-size:18px;
+        font-size: 18px;
         line-height: 22px;
     }
 }
 
-@media(min-width: 1720px) {
+@media (min-width: 1720px) {
     .card__figure {
-        font-size:20px;
+        font-size: 20px;
         line-height: 26px;
     }
 }
 
-@media(min-width: 960px) {
+@media (min-width: 960px) {
     .card__figure {
-        margin-top:var(--card-top-offset);
+        margin-top: var(--card-top-offset);
         margin-bottom: var(--card-bottom-offset);
     }
 }
@@ -81,51 +81,53 @@
 
 /* End card figure */
 
-
 /* Start card figure h-radius */
 
 .card__h-radius {
     --radius: 10px
+;
 }
 
-@media(min-width: 375px) {
+@media (min-width: 375px) {
     .card__h-radius {
-        --radius:12px
+        --radius: 12px
+    ;
     }
 }
 
-@media(min-width: 600px) {
+@media (min-width: 600px) {
     .card__h-radius {
-        --radius:14px
+        --radius: 14px
+    ;
     }
 }
 
-@media(min-width: 1320px) {
+@media (min-width: 1320px) {
     .card__h-radius {
-        --radius:16px
+        --radius: 16px
+    ;
     }
 }
 
-@media(min-width: 1920px) {
+@media (min-width: 1920px) {
     .card__h-radius {
-        --radius:20px
+        --radius: 20px
+    ;
     }
 }
 
-@media(min-width: 960px) {
+@media (min-width: 960px) {
     .card__h-radius:hover .card-content {
-        -webkit-transform:scale(1.02)translatez(0);
-        transform: scale(1.02)translatez(0);
-        -webkit-box-shadow: 0 12px 12px 0 rgba(0,0,0,.15),0 6px 6px 0 rgba(0,0,0,.15);
-        box-shadow: 0 12px 12px 0 rgba(0,0,0,.15),0 6px 6px 0 rgba(0,0,0,.15)
+        box-shadow: 0 12px 12px 0 rgba(0, 0, 0, 0.15), 0 6px 6px 0 rgba(0, 0, 0, 0.15);
+        transform: scale(1.02) translateZ(0);
     }
 }
 
 .card__h-radius .card-content {
-    border-radius: var(--radius)
+    border-radius: var(--radius);
 }
 
-.card__h-radius .card-content_border:after {
+.card__h-radius .card-content_border::after {
     border-radius: var(--radius);
 }
 
@@ -143,39 +145,39 @@
 
 /* End card figure h-radius */
 
-
 /* Start card figure w-radius */
 
 .card__v-radius {
     --radius: 8px
+;
 }
 
-@media(min-width: 375px) {
+@media (min-width: 375px) {
     .card__v-radius {
-        --radius:10px
+        --radius: 10px
+    ;
     }
 }
 
-@media(min-width: 1320px) {
+@media (min-width: 1320px) {
     .card__v-radius {
-        --radius:12px
+        --radius: 12px
+    ;
     }
 }
 
-@media(min-width: 960px) {
+@media (min-width: 960px) {
     .card__v-radius:hover .card-content {
-        -webkit-transform:scale(1.02)translatez(0);
-        transform: scale(1.02)translatez(0);
-        -webkit-box-shadow: 0 12px 12px 0 rgba(0,0,0,.15),0 6px 6px 0 rgba(0,0,0,.15);
-        box-shadow: 0 12px 12px 0 rgba(0,0,0,.15),0 6px 6px 0 rgba(0,0,0,.15)
+        box-shadow: 0 12px 12px 0 rgba(0, 0, 0, 0.15), 0 6px 6px 0 rgba(0, 0, 0, 0.15);
+        transform: scale(1.02) translateZ(0);
     }
 }
 
 .card__v-radius .card-content {
-    border-radius: var(--radius)
+    border-radius: var(--radius);
 }
 
-.card__v-radius .card-content_border:after {
+.card__v-radius .card-content_border::after {
     border-radius: var(--radius);
 }
 
@@ -199,7 +201,7 @@
 
 .card__container {
     position: relative;
-    width: 100%
+    width: 100%;
 }
 
 /* Start card content */
@@ -207,62 +209,51 @@
 .card__content {
     position: relative;
     display: block;
+    overflow: hidden;
+    outline: none;
+    border: none;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    border: none;
-    outline: none;
 }
 
 .card__content_bg {
-    background: rgba(59,58,62,.48)
+    background: rgba(59, 58, 62, 0.48);
 }
 
 .card-content {
-    -webkit-transition: -webkit-transform.25s ease-out,-webkit-box-shadow.25s ease-out;
-    transition: -webkit-transform.25s ease-out,-webkit-box-shadow.25s ease-out;
-    -o-transition: transform.25s ease-out,box-shadow.25s ease-out;
-    transition: transform.25s ease-out,box-shadow.25s ease-out,-webkit-transform.25s ease-out,-webkit-box-shadow.25s ease-out
+    transition: -webkit-transform0.25s ease-out, -webkit-box-shadow0.25s ease-out;
+    transition: transform0.25s ease-out, box-shadow0.25s ease-out, -webkit-transform0.25s ease-out, -webkit-box-shadow0.25s ease-out;
 }
 
-.card-content_after:after {
+.card-content_after::after {
     content: "";
-    display: block;
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
+    display: block;
     border: 1px solid;
 }
 
-.card-content_border:after {
-    border-color: rgba(255,255,255,.1)
+.card-content_border::after {
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 /* End card content */
 
-
 /* Start card image */
 
 .card__image {
-    -o-object-fit: cover;
-    object-fit: cover;
     color: transparent;
+    object-fit: cover;
 }
 
 .card__image_position {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
 }
 
 /* End card image */
-
 
 /* Start card footer */
 
@@ -270,77 +261,76 @@
     display: flex;
     justify-content: space-between;
     overflow: hidden;
-    padding-top: 4px
+    padding-top: 4px;
 }
 
-@media(min-width: 375px) {
+@media (min-width: 375px) {
     .card__footer {
-        padding-top:5px
+        padding-top: 5px;
     }
 }
 
-@media(min-width: 600px) {
+@media (min-width: 600px) {
     .card__footer {
-        padding-top:6px
+        padding-top: 6px;
     }
 }
 
-@media(min-width: 1320px) {
+@media (min-width: 1320px) {
     .card__footer {
-        padding-top:8px
+        padding-top: 8px;
     }
 }
 
 .card__text,
 .card-footer__title {
     overflow: hidden;
-    -o-text-overflow: ellipsis;
+    white-space: nowrap;
     text-overflow: ellipsis;
-    white-space: nowrap
 }
 
-.card-footer__description:first-letter {
+.card-footer__description::first-letter {
     text-transform: uppercase;
 }
 
 .card-footer__description {
-    color: rgba(255,255,255,.4);
     padding-top: 2px;
+    color: rgba(255, 255, 255, 0.4);
 }
 
 .card-footer-description {
-    font-family: "SansSerif",sans-serif;
+    overflow: hidden;
+    font-family: "SansSerif", sans-serif;
     font-size: 12px;
     line-height: 14px;
     white-space: break-spaces;
-    overflow: hidden
 }
 
-@media(min-width: 375px) {
+@media (min-width: 375px) {
     .card-footer-description {
-        font-size:13px;
-        line-height: 16px
+        font-size: 13px;
+        line-height: 16px;
     }
 }
 
-@media(min-width: 600px) {
+@media (min-width: 600px) {
     .card-footer-description {
-        font-size:14px;
-        line-height: 16px
+        font-size: 14px;
+        line-height: 16px;
     }
 }
 
-@media(min-width: 1320px) {
+@media (min-width: 1320px) {
     .card-footer-description {
-        font-size:15px;
-        line-height: 18px
+        font-size: 15px;
+        line-height: 18px;
     }
 }
 
-@media(min-width: 1720px) {
+@media (min-width: 1720px) {
     .card-footer-description {
-        font-size:16px;
-        line-height: 20px
+        font-size: 16px;
+        line-height: 20px;
     }
 }
 
@@ -351,5 +341,5 @@
 }
 
 .white-78 {
-    color: rgba(255,255,255,.78);
+    color: rgba(255, 255, 255, 0.78);
 }

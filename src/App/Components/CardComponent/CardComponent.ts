@@ -5,7 +5,7 @@ import type CardComponentData from './CardComponentData';
 import './CardComponent.css';
 
 class CardComponent extends IComponent {
-    constructor(parent: HTMLElement, data?: CardComponentData) {
+    public constructor(parent: HTMLElement, data?: CardComponentData) {
         super(parent, CardComponentTemplate(data));
         this.setImageSource(data?.imageSrc);
 

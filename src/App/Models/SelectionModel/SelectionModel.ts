@@ -39,7 +39,10 @@ class SelectionModel extends IModel {
 
     private parseSelectionContent(selectionContent: any): IContent {
         return {
-            href: this.receiveContentHref(selectionContent.id as number, selectionContent.type as ContentType),
+            href: this.receiveContentHref(
+                selectionContent.id as number,
+                selectionContent.type as ContentType
+            ),
             id: selectionContent.id,
             title: selectionContent.title,
             description: selectionContent.description,
@@ -49,7 +52,7 @@ class SelectionModel extends IModel {
             ageLimit: selectionContent.age_limit,
             trailerURL: selectionContent.trailer_url,
             previewURL: selectionContent.preview_url,
-            type: <ContentType>(selectionContent.type),
+            type: <ContentType>selectionContent.type,
         };
     }
 
@@ -62,7 +65,7 @@ class SelectionModel extends IModel {
         await Ajax.checkResponseStatus(response, config.api.selections);
 
         this.selections = this.parseSelections(response.responseBody.body.selections);
-        console.log(this.selections)
+        console.log(this.selections);
 
         return Promise.resolve(this.selections);
     }

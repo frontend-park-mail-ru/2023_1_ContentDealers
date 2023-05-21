@@ -8,7 +8,7 @@ const MainViewData: IMainViewConfig = {
     selectionConfig: {
         className: 'article_position article_rail',
         titleData: {},
-    }
-}
+    },
+};
 
 export default MainViewData;

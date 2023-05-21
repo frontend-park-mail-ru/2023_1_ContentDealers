@@ -10,6 +10,7 @@ import router from '../../Router/Router';
 
 import type IFavoritesAddDelete from '../../Interfaces/FavoritesAddDelete/IFavoritesAddDelete';
 import CardsModel from '../../Models/CardsModel/CardsModel';
+import PlayerModel from '../../Models/PlayerModel/PlayerModel';
 
 interface IId {
     id: number;
@@ -18,9 +19,9 @@ interface IId {
 
 class ContentController extends IController<
     ContentView,
-    { content: ContentModel; cards: CardsModel }
+    { content: ContentModel; cards: CardsModel, player: PlayerModel }
 > {
-    public constructor(view: ContentView, model: { content: ContentModel; cards: CardsModel }) {
+    public constructor(view: ContentView, model: { content: ContentModel; cards: CardsModel, player: PlayerModel }) {
         super(view, model);
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
@@ -45,12 +46,24 @@ class ContentController extends IController<
                         this.model.content.getSeason(1),
                         'card__v-radius'
                     );
-                    cardsData.forEach(cardData => {
+                    cardsData.forEach((cardData, index) => {
                         cardData.onClick = (e: Event): void => {
                             e.preventDefault();
                             e.stopPropagation();
 
-                            this.startPlayer(cardData.action, `1 сезон ${cardData.footer?.title}`);
+                            console.log('Hello')
+                            const sources = this.model.content.getSources(1);
+
+                            EventDispatcher.emit('start-player', {
+                                title: this.model.content.getTitle(),
+                                src: sources[index],
+                                seasonData: {
+                                    sources: sources,
+                                    index: index,
+                                    seasonNum: 1,
+                                    episodeNum: index + 1
+                                }
+                            });
                         };
                     });
 

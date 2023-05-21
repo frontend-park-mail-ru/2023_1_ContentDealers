@@ -2,24 +2,33 @@ import IModel from '../../Models/IModel/IModel';
 import IController from '../IController/IController';
 
 import type PlayerView from '../../Views/PlayerView/PlayerView';
+import PlayerModel from '../../Models/PlayerModel/PlayerModel';
 
-class PlayerController extends IController<PlayerView, IModel> {
+import EventDispatcher from '../../EventDispatcher/EventDispatcher';
+
+class PlayerController extends IController<PlayerView, PlayerModel> {
     private readonly mouseTimeout = 3000;
     private mouseTimeoutId: number | undefined;
 
     // Bound events //
     private readonly BoundKeyDown = this.onKeyDown.bind(this);
 
-    public constructor(view: PlayerView) {
-        super(view, IModel);
+    public constructor(view: PlayerView, model: PlayerModel) {
+        super(view, model);
 
         this.view.video.volume = 0.5;
 
         this.addEventListeners();
+
+        this.setSrc(this.model.getSrc());
     }
 
     public mountComponent(): void {
         super.mountComponent();
+
+        if (this.model.getIsSeason()) {
+            this.togglePrevNextButtons();
+        }
 
         document.addEventListener('keydown', this.BoundKeyDown);
 
@@ -29,6 +38,8 @@ class PlayerController extends IController<PlayerView, IModel> {
 
     public unmountComponent(): void {
         super.unmountComponent();
+
+        this.model.clearData();
 
         document.removeEventListener('keydown', this.BoundKeyDown);
     }
@@ -47,10 +58,6 @@ class PlayerController extends IController<PlayerView, IModel> {
                     this.view.rerenderScreen(value);
                     break;
                 }
-                //
-                // default: {
-                //
-                // }
             }
 
             return true;
@@ -82,13 +89,7 @@ class PlayerController extends IController<PlayerView, IModel> {
 
         this.view.video.addEventListener('loadedmetadata', () => {
             this.view.video.addEventListener('timeupdate', () => {
-                const currentTime = this.view.video.currentTime;
-                const duration = this.view.video.duration;
-                const buffered = this.view.video.buffered.end(this.view.video.buffered.length - 1);
-
-                this.view.progressBar.updateLoadProgressBar((buffered / duration) * 100);
-                this.view.progressBar.setCurrentValueToBar(currentTime);
-                this.view.setCurrentTime(currentTime);
+                this.updateVideoMetadata();
             });
         });
 
@@ -109,6 +110,7 @@ class PlayerController extends IController<PlayerView, IModel> {
         this.view.bindMouseMoveEvent(this.onMouseMove.bind(this));
         this.view.bindScreenButtonClick(this.toggleScreenButton.bind(this));
 
+        this.view.bindPrevButtonClick(this.onPrevButtonClick.bind(this));
         this.view.bindNextButtonClick(this.onNextButtonClick.bind(this));
     }
 
@@ -133,10 +135,66 @@ class PlayerController extends IController<PlayerView, IModel> {
         }
     }
 
-    private onNextButtonClick(): void {
+    private togglePrevNextButtons(): void {
+        if (this.model.getIsSeason()) {
+            if (this.model.isLeft()) {
+                this.view.hidePrevButton();
+            } else {
+                this.view.showPrevButton();
+            }
+
+            if (this.model.isRight()) {
+                this.view.hideNextButton()
+            } else {
+                this.view.showNextButton();
+            }
+
+        }
+    }
+
+    private updateVideoMetadata(): void {
+        const currentTime = this.view.video.currentTime;
+        const duration = this.view.video.duration;
+        const buffered =
+            this.view.video.buffered?.length > 0
+                ? this.view.video.buffered.end(this.view.video.buffered.length - 1)
+                : 0;
+
+        this.view.progressBar.updateLoadProgressBar((buffered / duration) * 100);
+        this.view.progressBar.setCurrentValueToBar(currentTime);
+        this.view.setCurrentTime(currentTime);
+    }
+
+    private onPrevButtonClick(e: Event): void {
+        e.preventDefault();
+        e.stopPropagation();
+
+        this.model.updateInfo(this.model.getPrevIndex())
+
+        this.view.changeTitle(this.model.getTitle());
+        this.setSrc(this.model.getSrc());
+        if (!this.playerProxy.isPlay) {
+            this.playerProxy.isPlay = true;
+        }
+
+        this.togglePrevNextButtons();
+    }
+
+    private onNextButtonClick(e: Event): void {
+        e.preventDefault();
+        e.stopPropagation();
+
         console.log('onNextButtonClick');
-        this.setSrc('trailers/1.mp4');
-        // this.initVideo();
+
+        this.model.updateInfo(this.model.getNextIndex())
+
+        this.view.changeTitle(this.model.getTitle());
+        this.setSrc(this.model.getSrc());
+        if (!this.playerProxy.isPlay) {
+            this.playerProxy.isPlay = true;
+        }
+
+        this.togglePrevNextButtons();
     }
 
     private toggleScreenButton(e: Event): void {

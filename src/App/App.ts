@@ -41,12 +41,15 @@ import PersonModel from './Models/PersonModel/PersonModel';
 import SelectionModel from './Models/SelectionModel/SelectionModel';
 import FavoritesModel from './Models/FavoritesModel/FavoritesModel';
 import GenreModel from './Models/GenreModel/GenreModel';
+import CardsModel from './Models/CardsModel/CardsModel';
+import PlayerModel from './Models/PlayerModel/PlayerModel';
+
+import type { IPlayerData } from './Models/PlayerModel/PlayerModel';
 
 import router from './Router/Router';
 import paths from './Router/RouterPaths';
 
 import EventDispatcher from './EventDispatcher/EventDispatcher';
-import CardsModel from './Models/CardsModel/CardsModel';
 
 class App {
     // Views
@@ -86,6 +89,7 @@ class App {
     private favoritesModel: FavoritesModel;
     private genreModel: GenreModel;
     private cardsModel: CardsModel;
+    private playerModel: PlayerModel;
 
     // Elements
     private root: HTMLElement;
@@ -102,18 +106,29 @@ class App {
         this.initControllers();
         this.initRoutes();
 
-        EventDispatcher.subscribe('start-player', ({ title: title, src: src }) => {
+        EventDispatcher.subscribe('start-player', (playerData: IPlayerData) => {
             console.log('In event');
-            this.newPlayer(title, src);
+            this.newPlayer(playerData);
         });
+
+        // EventDispatcher.subscribe('start-player-series', ({ title, sources, seasonNum, episodeNum } : { title: string, sources: string[], seasonNum: number, episodeNum: number }) => {
+        //     this.newPlayer(`${title} ${seasonNum} сезон ${episodeNum} серия`, sources[episodeNum-1]);
+        //     this.playerController.setData(title, sources, seasonNum, episodeNum);
+        // });
     }
 
-    private newPlayer(title: string, src: string): void {
+
+    private newPlayer(playerData: IPlayerData): void {
+        let title = playerData.title;
+        if (playerData.seasonData) {
+            title += `${playerData.seasonData.seasonNum} сезон ${playerData.seasonData.episodeNum} серия`;
+        }
+
         this.playerView = new PlayerView(this.root, title);
-        this.playerController = new PlayerController(this.playerView);
+        this.playerModel.setPlayerData(playerData)
+        this.playerController = new PlayerController(this.playerView, this.playerModel);
 
         this.playerController.mountComponent();
-        this.playerController.setSrc(src);
     }
 
     public run(url: string): void {
@@ -181,6 +196,7 @@ class App {
         this.favoritesModel = new FavoritesModel();
         this.genreModel = new GenreModel();
         this.cardsModel = new CardsModel();
+        this.playerModel = new PlayerModel();
     }
 
     /**
@@ -196,6 +212,7 @@ class App {
         this.contentController = new ContentController(this.contentView, {
             content: this.filmModel,
             cards: this.cardsModel,
+            player: this.playerModel,
         });
         this.settingsController = new SettingsController(this.settingsView, this.userModel);
         this.personController = new PersonController(this.personView, this.personModel);

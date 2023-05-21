@@ -76,14 +76,16 @@ class ContentModel extends IModel {
         return this.type === this.ContentTypes.series;
     }
 
-    // public getSeriesData(): SeasonsComponentData {
-    //     return {
-    //         count: this.getSeasonsCount(),
-    //         data: {
-    //             episodes: this.getEpisodes(1),
-    //         },
-    //     };
-    // }
+    public getSources(seasonId: number): string[] {
+        const episodes = this.getSeason(seasonId);
+
+        const sources: string[] = [];
+        episodes.forEach(({ contentURL }) => {
+            sources.push(contentURL);
+        });
+
+        return sources;
+    }
 
     public getSeriesData(): SeriesComponentData {
         return {

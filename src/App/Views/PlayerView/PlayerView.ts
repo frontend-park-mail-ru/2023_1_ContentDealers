@@ -47,8 +47,13 @@ class PlayerView extends IView {
     private playButton: DivComponent;
     private pauseButton: DivComponent;
 
+    private readonly prevButtonContainer: HTMLElement;
+    private prevButton: DivComponent;
+    private isPrevButton: boolean;
+
     private readonly nextButtonContainer: HTMLElement;
     private nextButton: DivComponent;
+    private isNextButton: boolean;
 
     private readonly screenStatusContainer: HTMLElement;
     private screenButton: DivComponent;
@@ -105,6 +110,15 @@ class PlayerView extends IView {
             PlayerData.pauseButton.componentData
         );
 
+        this.prevButtonContainer = <HTMLElement>(
+            this.element.querySelector('.js-video__prev-button')
+        );
+        this.prevButton = new PlayerData.prevButton.componentType(
+            this.prevButtonContainer,
+            PlayerData.prevButton.componentData
+        );
+        this.isPrevButton = false;
+
         this.nextButtonContainer = <HTMLElement>(
             this.element.querySelector('.js-video__next-button')
         );
@@ -112,6 +126,7 @@ class PlayerView extends IView {
             this.nextButtonContainer,
             PlayerData.nextButton.componentData
         );
+        this.isNextButton = false;
 
         this.currentTimeElement = <HTMLElement>this.element.querySelector('.video__duration-time');
 
@@ -154,6 +169,10 @@ class PlayerView extends IView {
         this.currentTimeElement.innerText = `${this.progressBar.timeToString(
             time
         )} / ${this.progressBar.timeToString(this.video.duration)}`;
+    }
+
+    public changeTitle(title: string): void {
+        (<HTMLElement>this.element.querySelector('.ts-title')).innerHTML = title;
     }
 
     private setOpacityToElements(opacity: string): void {
@@ -239,18 +258,42 @@ class PlayerView extends IView {
         }
     }
 
-    // Show / hide next button //
+    // Show / hide prev / next button //
+    public showPrevButton(): void {
+        if (!this.isPrevButton) {
+            this.isPrevButton = true;
+            this.prevButton.show();
+        }
+    }
+
+    public hidePrevButton(): void {
+        if (this.isPrevButton) {
+            this.isPrevButton = false;
+            this.prevButton.hide();
+        }
+    }
+
     public showNextButton(): void {
-        this.nextButton.show();
+        if (!this.isNextButton) {
+            this.isNextButton = true;
+            this.nextButton.show();
+        }
     }
 
     public hideNextButton(): void {
-        this.nextButton.hide();
+        if (this.isNextButton) {
+            this.isNextButton = false;
+            this.nextButton.hide();
+        }
     }
 
     // Binds //
     public bindPlayButtonClick(listener: any): void {
         this.playStatusContainer.addEventListener('click', listener);
+    }
+
+    public bindPrevButtonClick(listener: any): void {
+        this.prevButton.div.addEventListener('click', listener);
     }
 
     public bindNextButtonClick(listener: any): void {

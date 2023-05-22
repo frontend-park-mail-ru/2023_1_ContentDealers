@@ -36,6 +36,14 @@ class IComponent {
         this.parent.appendChild(this.element);
     }
 
+    public prepend(): void {
+        this.parent.prepend(this.element);
+    }
+
+    public append(): void {
+        this.parent.append(this.element);
+    }
+
     public hide(): void {
         this.parent.removeChild(this.element);
     }

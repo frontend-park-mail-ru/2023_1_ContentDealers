@@ -1,21 +1,19 @@
 import IView from '../IView/IView';
-import type IComponentDataWithType from '../../Interfaces/interfaces';
 
 import HeaderTemplate from './HeaderView.hbs';
 import './HeaderView.css';
 
 import type ListComponent from '../../Components/ListComponent/ListComponent';
 
-import type LinkComponent from '../../Components/LinkComponent/LinkComponent';
-import type LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
-
-import type DropdownButtonComponent from '../../Components/DropdownButtonComponent/DropdownButtonComponent';
-import type DropdownButtonComponentData from '../../Components/DropdownButtonComponent/DropdownButtonComponentData';
+import LinkComponent from '../../Components/Link/LinkComponent';
+import type LinkComponentData from '../../Components/Link/LinkComponentData';
 
 import HeaderData from './HeaderViewConfig';
 
 import SearchView from '../SearchView/SearchView';
 import InputComponent from '../../Components/InputComponent/InputComponent';
+
+import type IUser from '../../Interfaces/User/IUser';
 
 /**
  * Отображение хедера приложения
@@ -24,99 +22,122 @@ import InputComponent from '../../Components/InputComponent/InputComponent';
  * @param {HTMLElement} parent - родительский элемент для хедера
  */
 class HeaderView extends IView {
-    private readonly items: HTMLElement;
-    private readonly profile: HTMLElement;
-    private readonly logo: HTMLElement;
-    private readonly middle: HTMLElement;
-    private input: InputComponent;
-    private searchIcon: HTMLImageElement;
+    private readonly activeClass: string = 'header-item__link_active';
 
-    private actions: ListComponent<LinkComponent, LinkComponentData>;
+    // HTMLElements //
+    private readonly nav: HTMLElement;
+    private readonly navRight: HTMLElement;
+
+    // Current //
     private currentActiveItem: string | null;
+    private currentProfile: LinkComponent | null;
+
+    // Components //
+    private logoComponent: LinkComponent;
+    private actionsComponent: ListComponent<LinkComponent, LinkComponentData>;
+    private inputComponent: InputComponent;
+
+    private searchIcon: HTMLImageElement;
 
     public searchView: SearchView;
 
     public constructor(parent: HTMLElement) {
         super(parent, HeaderTemplate({}));
 
-        // Initialize fields
-        this.items = <HTMLElement>this.element.querySelector('.js-header__items');
-        this.profile = <HTMLElement>this.element.querySelector('.js-header__profile');
-        this.logo = <HTMLElement>this.element.querySelector('.js-header__logo');
-        this.middle = <HTMLElement>this.element.querySelector('.js-header__middle');
+        // Init containers
+        this.nav = <HTMLElement>this.element.querySelector('.ts-header__nav');
+        this.navRight = <HTMLElement>this.element.querySelector('.ts-header__nav-right');
 
-        // Render components
-        const logo = new HeaderData.logo.componentType(this.logo, HeaderData.logo.componentData);
-        logo.show();
-
-        this.input = new InputComponent(this.middle, HeaderData.input.componentData);
-
-        this.searchView = new SearchView(this.middle);
-
-        this.actions = new HeaderData.actions.componentType(
-            this.middle,
-            HeaderData.actions.componentData
-        );
-        this.actions.show();
         this.currentActiveItem = null;
+        this.currentProfile = null;
 
-        HeaderData.items.forEach(({ componentType, componentData }) => {
-            const component = new componentType(this.items, componentData);
-            component.show();
+        // Render data
+        this.actionsComponent = new HeaderData.navData.actions.componentType(
+            this.nav,
+            HeaderData.navData.actions.componentData
+        );
+        this.actionsComponent.prepend();
+
+        this.logoComponent = new HeaderData.navData.logo.componentType(
+            this.nav,
+            HeaderData.navData.logo.componentData
+        );
+        this.logoComponent.prepend();
+
+        HeaderData.navRightData.forEach(({ componentType, componentData }) => {
+            new componentType(this.navRight, componentData).append();
         });
 
-        this.items.querySelector('.subscribe-button')?.setAttribute('disabled', 'true'); // TODO: return
-        this.searchIcon = <HTMLImageElement>this.items.querySelector('img');
+        this.inputComponent = new HeaderData.inputData.componentType(
+            this.nav,
+            HeaderData.inputData.componentData
+        );
+
+        this.searchView = new SearchView(this.nav);
+
+        this.searchIcon = <HTMLImageElement>this.navRight.querySelector('.search-img');
+
+        this.element.querySelector('.subscribe-button')?.setAttribute('disabled', 'true'); // TODO: return
     }
 
     public toggleMiddle(isSearch: boolean): void {
-        if (!isSearch) {
-            this.actions.hide();
-            this.input.show();
+        if (isSearch) {
+            this.logoComponent.hide();
+            this.actionsComponent.hide();
+
+            this.inputComponent.prepend();
+            this.logoComponent.prepend();
+
             this.searchIcon.src = '/img/icons/close.svg';
-            (<HTMLElement>this.middle.querySelector('.input-field__search')).focus();
+
+            (<HTMLInputElement>this.nav.querySelector('.input-field__search')).focus();
         } else {
-            this.input.hide();
-            this.actions.show();
+            this.logoComponent.hide();
+            this.inputComponent.hide();
+
+            this.actionsComponent.prepend();
+            this.logoComponent.prepend();
+
             this.searchIcon.src = '/img/icons/search.svg';
         }
     }
 
     public changeActiveHeaderListItem(href: string): void {
-        const listElement = this.actions.getElement();
-        listElement
+        this.nav
             .querySelector(`[href="${this.currentActiveItem}"]`)
-            ?.parentElement?.classList.remove('active');
+            ?.classList.remove(this.activeClass);
         this.currentActiveItem = href;
-        listElement.querySelector(`[href="${href}"]`)?.parentElement?.classList.add('active');
+        this.nav.querySelector(`[href="${href}"]`)?.classList.add(this.activeClass);
     }
 
     /**
      * Функция изменения элемента в хэдере
-     * @param  {string} profileItemName - название элемента
-     * @param  {any} data - Данные, необходимые для отрисовки элемента
+     * @param  {string} profileName - название элемента
+     * @param  {IUser} data - Данные, необходимые для отрисовки элемента
      * @returns {void}
      */
-    public changeHeaderProfile(profileItemName: string, data?: any): void {
-        // TODO: mb IUser?
-        if (!(profileItemName in HeaderData)) {
+    public changeProfile(profileName: string, data?: IUser): void {
+        if (!(profileName in HeaderData.profileData)) {
             return;
         }
 
-        const component = HeaderData[profileItemName] as IComponentDataWithType<
-            DropdownButtonComponent,
-            DropdownButtonComponentData
-        >; // TODO improve?
-        this.profile.innerHTML = '';
+        const component = HeaderData.profileData[profileName];
 
         if (data?.avatar) {
+            // TODO: Misha
             if (component.componentData) {
-                component.componentData.avatar = '/' + data.avatar;
+                if (component.componentData.img) {
+                    component.componentData.img.src = '/' + data.avatar;
+                }
             }
         }
 
-        const profile = new component.componentType(this.profile, component.componentData);
-        profile.show();
+        this.currentProfile?.hide();
+        this.currentProfile = new component.componentType(
+            this.navRight,
+            component.componentData
+        ) as LinkComponent;
+        this.currentProfile.append();
     }
 
     public getInputValue(): string {

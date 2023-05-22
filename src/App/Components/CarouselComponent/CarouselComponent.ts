@@ -50,7 +50,6 @@ class CarouselComponent extends IComponent {
         ) as HTMLButtonElement;
 
         setTimeout(() => {
-            console.log(this.item?.offsetWidth);
             this.itemWidth = <number>this.item?.offsetWidth + 15;
             this.movePosition = this.slidesToScroll * this.itemWidth;
         }, 0);
@@ -162,6 +161,8 @@ class CarouselComponent extends IComponent {
     }
 
     private onClick(e: Event): void {
+        console.log('onClick');
+
         const action = (<HTMLElement>(<HTMLElement>e.target).closest('[data-action]'))?.dataset[
             'action'
         ];

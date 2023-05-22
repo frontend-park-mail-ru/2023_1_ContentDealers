@@ -22,7 +22,7 @@ class NotFoundView extends IView {
     }
 
     public bindHomeButtonClick(listener: any): void {
-        this.homeButton.bindClickEvent(listener.bind(this));
+        this.homeButton.bindClickEvent(listener);
     }
 }
 

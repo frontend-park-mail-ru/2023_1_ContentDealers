@@ -15,18 +15,15 @@ export interface IResponse {
 class Ajax {
     private csrfToken?: string;
 
-    public async ajax(params: IRequestParams, body?: string | FormData): Promise<IResponse> {
+    public async ajax(params: IRequestParams, body?: string | FormData) {
         const headers = new Headers(params.headers);
 
-        if (
-            params.method !== REQUEST_METHODS.GET &&
-            params.url !== config.api.signIn.url &&
-            params.url !== config.api.signUp.url
-        ) {
-            if (!this.csrfToken) {
-                await this.getCsrfTokenFromServer();
-            } else {
-                headers.append('CSRF-Token', this.csrfToken);
+        if (!config.isAuthUrl(params.url)) {
+            if (params.method !== REQUEST_METHODS.GET) {
+                if (!this.csrfToken) {
+                    await this.getCsrfTokenFromServer();
+                }
+                headers.append('CSRF-Token', this.csrfToken!);
             }
         }
 
@@ -58,7 +55,7 @@ class Ajax {
         this.csrfToken = csrfToken;
     }
 
-    public async getCsrfTokenFromServer(): Promise<any> {
+    public async getCsrfTokenFromServer() {
         const csrfResponse = await fetch(`${config.host}${config.api.csrf.url}`, {
             method: config.api.csrf.method,
             headers: new Headers(config.api.csrf.headers),
@@ -72,9 +69,9 @@ class Ajax {
         return csrfToken;
     }
 
-    public async checkResponseStatus(response: IResponse, conf: IApi): Promise<string> {
+    public async checkResponseStatus(response: IResponse, conf: IApi) {
         if (response.status.toString() in conf.statuses.success) {
-            return Promise.resolve('');
+            return Promise.resolve();
         }
 
         if (response.status.toString() in conf.statuses.failure) {

@@ -55,7 +55,6 @@ class SignUpController extends IController<SignUpView, UserModel> {
             const userSignUp: IUserSignUp = {
                 email: this.view.form.findInputComponent('email').input.value,
                 password: this.view.form.findInputComponent('password').input.value,
-                date_birth: '2000-Jan-01',
             };
 
             this.model

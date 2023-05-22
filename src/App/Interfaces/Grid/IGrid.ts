@@ -1,7 +1,7 @@
 import type IContentSearch from '../ContentSearch/IContentSearch';
 
 export default interface IGrid {
-    title?: string;
+    title?:     string;
 
-    content?: IContentSearch[];
+    content?:   IContentSearch[];
 }

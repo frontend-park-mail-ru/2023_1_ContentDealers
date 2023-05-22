@@ -19,6 +19,6 @@ const paths = {
 
     genres: '/genres/{:id}',
     selections: '/selections/{:id}',
-};
+}
 
 export default paths;

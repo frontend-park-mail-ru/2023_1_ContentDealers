@@ -24,7 +24,8 @@
 }
 
 .bar-load__progress {
-    left: 0;
+    left: 0;            /* TODO: change */
+    /*width: 22.5357%;    !* TODO: change *!*/
 
     position: absolute;
     height: 100%;
@@ -38,6 +39,8 @@
 }
 
 .bar__current {
+    /*width: 11.8189%;    !* TODO: change *!*/
+
     position: absolute;
     height: 5px;
     left: 0;
@@ -48,6 +51,8 @@
 }
 
 .bar__helper {
+    /*left: 60.8513%;      !* TODO: change *!*/
+
     font-size: 14px;
     line-height: 20px;
     font-family: SansSerif,sans-serif;
@@ -61,6 +66,8 @@
 }
 
 .bar__current-circle {
+    /*left: 11.8189%;     !* TODO: change *!*/
+
     position: absolute;
     width: 14px;
     height: 14px;
@@ -68,9 +75,11 @@
     border-radius: 50%;
     top: 7px;
 
+    /*left: 0;*/
+
     padding: 0;
     border: none;
-    /*transition: left.15s;*/
+    transition: left.15s;
     cursor: pointer;
     box-shadow: 0 2px 8px 0 rgba(0,0,0,.4);
     transform: translatey(-50%)translatex(-50%);
@@ -79,19 +88,8 @@
 
 .bar__current-circle:active,
 .bar__current-circle:hover {
+    -webkit-transition: background-color.15s;
+    -o-transition: background-color.15s;
     transition: background-color.15s;
     background-color: #4f03cd
-}
-
-.bar__current-circle--active {
-    transition: background-color.15s;
-    background-color: #4f03cd
-}
-
-.panel-transition--width {
-    transition: width.15s;
-}
-
-.panel-transition--left {
-    transition: left.15s;
 }

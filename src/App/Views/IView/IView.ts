@@ -20,7 +20,7 @@ class IView {
      */
     protected element: HTMLElement;
 
-    public constructor(parent: HTMLElement, template: string) {
+    constructor(parent: HTMLElement, template: string) {
         this.parent = parent;
 
         const div = document.createElement('div');
@@ -31,7 +31,7 @@ class IView {
         }
 
         this.element = <HTMLElement>div.firstElementChild;
-    }
+    };
 
     /**
      * Функция для отрисовки вида
@@ -40,7 +40,7 @@ class IView {
      */
     public show(): void {
         this.parent.appendChild(this.element);
-    }
+    };
 
     /**
      * Функция для скрытия вида
@@ -49,7 +49,7 @@ class IView {
      */
     public hide(): void {
         this.parent.removeChild(this.element);
-    }
+    };
 }
 
 export default IView;

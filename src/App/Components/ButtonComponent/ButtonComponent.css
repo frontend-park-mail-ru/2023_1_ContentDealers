@@ -16,11 +16,6 @@
 /* Стили для кнопки */
 
 .gradient-button {
-    --coord-x: 0;
-    --coord-y: 0;
-    --size-square: 0;
-    --diameter-highlight: 0;
-
     --inset: 4px;
     --outline-width: 1.5px;
     --mask-gradient: linear-gradient(#5d0ef5 0 0) content-box, linear-gradient(#a076f6 0 0);
@@ -107,14 +102,13 @@
     background: linear-gradient(26.57deg,#3c1a70 0%,rgba(93,14,245,.83));
 }
 
-.gradient-button--blue:hover,
-.gradient-button--grey:hover {
+.gradient-button--blue:hover {
     background: var(--color-hover-gradient-primary-dark)
 }
 
 .gradient-button--grey {
-    background: -o-radial-gradient(var(--coord-x)var(--coord-y),circle,rgba(188,186,193,.32)0%,rgba(139,136,146,.32)100%);
-    background: radial-gradient(circle at var(--coord-x)var(--coord-y),rgba(188,186,193,.32)0%,rgba(139,136,146,.32)100%);
+    background: rgba(139,136,146,.32);
+    backdrop-filter: blur(16px);
 }
 
 .gradient-button--blue:active {

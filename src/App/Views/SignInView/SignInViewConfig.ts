@@ -10,10 +10,10 @@ interface ISignInData {
 }
 
 const SignInData: ISignInData = {
-    title: 'Войти',
+    title: 'Войдите или зарегистрируйтесь',
     description: 'Чтобы начать пользоваться серависом Filmium',
     formData: {
-        componentType: FormComponent,
+       componentType: FormComponent,
         componentData: {
             formId: 'signIn__form',
             inputs: [
@@ -33,17 +33,17 @@ const SignInData: ISignInData = {
             button: {
                 id: 'signIn-submit-btn',
                 text: 'Войти',
-                className: 'signIn-button',
+                className: 'signIn-button'
             },
             links: [
                 {
                     id: 'link-signUp',
                     linkHref: '/signUp',
                     linkText: 'Нет аккаунта? Зарегистрироваться',
-                    linkTextClass: 'link-signUp__text',
+                    linkTextClass: 'link-signUp__text'
                 },
             ],
-        },
+        }
     },
 };
 

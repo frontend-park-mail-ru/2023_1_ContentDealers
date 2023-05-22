@@ -16,9 +16,6 @@ interface IPlayerData {
     playButton: IComponentDataWithType<DivComponent, DivComponentData>;
     pauseButton: IComponentDataWithType<DivComponent, DivComponentData>;
 
-    prevButton: IComponentDataWithType<DivComponent, DivComponentData>;
-    nextButton: IComponentDataWithType<DivComponent, DivComponentData>;
-
     closeButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
 
     progressBar: IComponentDataWithType<ProgressBarComponent, ProgressBarComponentData>;
@@ -48,39 +45,20 @@ const PlayerData: IPlayerData = {
         },
     },
 
-    prevButton: {
-        componentType: DivComponent,
-        componentData: {
-            divClass: 'video__button flex-center',
-            title: 'Следующая серия',
-            imgSrc: '/img/icons/player/backward-step.svg',
-            imgWidth: '16px',
-        },
-    },
-    nextButton: {
-        componentType: DivComponent,
-        componentData: {
-            divClass: 'video__button flex-center',
-            title: 'Следующая серия',
-            imgSrc: '/img/icons/player/forward-step.svg',
-            imgWidth: '16px',
-        },
-    },
-
     closeButton: {
         componentType: ButtonComponent,
         componentData: {
             colorClass: 'gradient-button--grey',
             imgSrc: '/img/icons/close.svg',
             imgWidth: '22px',
-        },
+        }
     },
 
     progressBar: {
         componentType: ProgressBarComponent,
         componentData: {
             class: 'video_progress-bar',
-            barData: { barWidthClass: 'w-100' },
+            barData: { barWidthClass: 'w-100' }
         },
     },
     volumeBar: {

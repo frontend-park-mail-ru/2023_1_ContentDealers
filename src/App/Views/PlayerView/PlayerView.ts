@@ -1,8 +1,9 @@
 import IView from '../IView/IView';
 
-import PlayerTemplate from './PlayerView.hbs';
+import PlayerTemplate from './PlayerView.hbs'
 import PlayerData from './PlayerViewConfig';
 import './PlayerView.css';
+
 
 import type ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
 
@@ -14,6 +15,7 @@ import type DivComponent from '../../Components/DivComponent/DivComponent';
 class PlayerView extends IView {
     private readonly maxOpacity: number = 1;
     private readonly minOpacity: number = 0;
+
 
     private readonly timeoutTicks: number = 10;
 
@@ -47,22 +49,14 @@ class PlayerView extends IView {
     private playButton: DivComponent;
     private pauseButton: DivComponent;
 
-    private readonly prevButtonContainer: HTMLElement;
-    private prevButton: DivComponent;
-    private isPrevButton: boolean;
-
-    private readonly nextButtonContainer: HTMLElement;
-    private nextButton: DivComponent;
-    private isNextButton: boolean;
-
     private readonly screenStatusContainer: HTMLElement;
     private screenButton: DivComponent;
     private compressButton: DivComponent;
 
     private readonly currentTimeElement: HTMLElement;
 
-    public constructor(parent: HTMLElement, title: string) {
-        // TODO: how improve, so many variables
+
+    constructor(parent: HTMLElement, title: string) { // TODO: how improve, so many variables
         super(parent, PlayerTemplate({ title: title }));
 
         this.video = <HTMLVideoElement>this.element.querySelector('video');
@@ -70,88 +64,33 @@ class PlayerView extends IView {
         this.titleContainer = <HTMLElement>this.element.querySelector('.js-video__title-container');
         this.title = <HTMLElement>this.titleContainer.querySelector('.js-video__title-align');
 
-        this.bottomFilterContainer = <HTMLElement>(
-            this.element.querySelector('.js-video__bottom-filter-container')
-        );
-        this.bottomFilter = <HTMLElement>(
-            this.bottomFilterContainer.querySelector('.js-video__bottom-filter')
-        );
+        this.bottomFilterContainer = <HTMLElement>this.element.querySelector('.js-video__bottom-filter-container');
+        this.bottomFilter = <HTMLElement>this.bottomFilterContainer.querySelector('.js-video__bottom-filter');
 
-        this.closeButtonContainer = <HTMLElement>(
-            this.element.querySelector('.js-video__close-button')
-        );
-        this.closeButton = new PlayerData.closeButton.componentType(
-            this.closeButtonContainer,
-            PlayerData.closeButton.componentData
-        );
+        this.closeButtonContainer = <HTMLElement>this.element.querySelector('.js-video__close-button');
+        this.closeButton = new PlayerData.closeButton.componentType(this.closeButtonContainer, PlayerData.closeButton.componentData);
 
-        this.videoPanelContainer = <HTMLElement>(
-            this.element.querySelector('.js-video__panel-container')
-        );
+        this.videoPanelContainer = <HTMLElement>this.element.querySelector('.js-video__panel-container');
         this.videoPanel = <HTMLElement>this.element.querySelector('.js-video__panel');
 
-        this.progressBarContainer = <HTMLElement>(
-            this.element.querySelector('.video__progress-container')
-        );
-        this.progressBar = new PlayerData.progressBar.componentType(
-            this.progressBarContainer,
-            PlayerData.progressBar.componentData
-        );
+        this.progressBarContainer = <HTMLElement>this.element.querySelector('.video__progress-container');
+        this.progressBar = new PlayerData.progressBar.componentType(this.progressBarContainer, PlayerData.progressBar.componentData);
 
-        this.playStatusContainer = <HTMLElement>(
-            this.element.querySelector('.js-video__play-button')
-        );
-        this.playButton = new PlayerData.playButton.componentType(
-            this.playStatusContainer,
-            PlayerData.playButton.componentData
-        );
-        this.pauseButton = new PlayerData.pauseButton.componentType(
-            this.playStatusContainer,
-            PlayerData.pauseButton.componentData
-        );
-
-        this.prevButtonContainer = <HTMLElement>(
-            this.element.querySelector('.js-video__prev-button')
-        );
-        this.prevButton = new PlayerData.prevButton.componentType(
-            this.prevButtonContainer,
-            PlayerData.prevButton.componentData
-        );
-        this.isPrevButton = false;
-
-        this.nextButtonContainer = <HTMLElement>(
-            this.element.querySelector('.js-video__next-button')
-        );
-        this.nextButton = new PlayerData.nextButton.componentType(
-            this.nextButtonContainer,
-            PlayerData.nextButton.componentData
-        );
-        this.isNextButton = false;
+        this.playStatusContainer = <HTMLElement>this.element.querySelector('.js-video__play-button');
+        this.playButton = new PlayerData.playButton.componentType(this.playStatusContainer, PlayerData.playButton.componentData);
+        this.pauseButton = new PlayerData.pauseButton.componentType(this.playStatusContainer, PlayerData.pauseButton.componentData);
 
         this.currentTimeElement = <HTMLElement>this.element.querySelector('.video__duration-time');
 
-        this.volumeBarContainer = <HTMLElement>(
-            this.element.querySelector('.video__volume-container')
-        );
-        this.volumeBar = new PlayerData.volumeBar.componentType(
-            this.volumeBarContainer,
-            PlayerData.volumeBar.componentData
-        );
+        this.volumeBarContainer = <HTMLElement>this.element.querySelector('.video__volume-container');
+        this.volumeBar = new PlayerData.volumeBar.componentType(this.volumeBarContainer, PlayerData.volumeBar.componentData);
 
-        this.screenStatusContainer = <HTMLElement>(
-            this.element.querySelector('.js-video__screen-container')
-        );
-        this.screenButton = new PlayerData.screenButton.componentType(
-            this.screenStatusContainer,
-            PlayerData.screenButton.componentData
-        );
-        this.compressButton = new PlayerData.compressButton.componentType(
-            this.screenStatusContainer,
-            PlayerData.compressButton.componentData
-        );
+        this.screenStatusContainer = <HTMLElement>this.element.querySelector('.js-video__screen-container');
+        this.screenButton = new PlayerData.screenButton.componentType(this.screenStatusContainer, PlayerData.screenButton.componentData);
+        this.compressButton = new PlayerData.compressButton.componentType(this.screenStatusContainer, PlayerData.compressButton.componentData);
 
         this.initialState();
-    }
+    };
 
     private initialState(): void {
         this.closeButton.show();
@@ -163,17 +102,12 @@ class PlayerView extends IView {
 
         this.screenButton.show();
         this.compressButton.show();
-    }
+    };
+
 
     public setCurrentTime(time: number): void {
-        this.currentTimeElement.innerText = `${this.progressBar.timeToString(
-            time
-        )} / ${this.progressBar.timeToString(this.video.duration)}`;
-    }
-
-    public changeTitle(title: string): void {
-        (<HTMLElement>this.element.querySelector('.ts-title')).innerHTML = title;
-    }
+        this.currentTimeElement.innerText = `${this.progressBar.timeToString(time)} / ${this.progressBar.timeToString(this.video.duration)}`;
+    };
 
     private setOpacityToElements(opacity: string): void {
         this.title.style.opacity = opacity;
@@ -181,7 +115,8 @@ class PlayerView extends IView {
 
         this.videoPanel.style.opacity = opacity;
         this.bottomFilter.style.opacity = opacity;
-    }
+    };
+
 
     public rerenderPlay(isPlay: boolean): void {
         if (isPlay) {
@@ -191,7 +126,7 @@ class PlayerView extends IView {
             this.pauseButton.hide();
             this.playButton.show();
         }
-    }
+    };
 
     public rerenderScreen(isFullScreen: boolean): void {
         if (isFullScreen) {
@@ -205,7 +140,7 @@ class PlayerView extends IView {
 
     private checkVideoPanel(): boolean {
         return Boolean(this.videoPanelContainer.querySelector('.js-video__panel'));
-    }
+    };
 
     public showElements(): void {
         if (!this.checkVideoPanel()) {
@@ -221,8 +156,7 @@ class PlayerView extends IView {
             const intervalId = setInterval(() => {
                 opacity += delta;
 
-                if (opacity >= this.maxOpacity) {
-                    // Если opacity больше или равна единице
+                if (opacity >= this.maxOpacity) { // Если opacity больше или равна единице
                     clearInterval(intervalId);
                     opacity = this.maxOpacity;
                 }
@@ -231,7 +165,7 @@ class PlayerView extends IView {
                 this.setOpacityToElements(opacity.toString());
             }, this.timeoutTicks);
         }
-    }
+    };
 
     public hideElements(): void {
         if (this.checkVideoPanel()) {
@@ -242,79 +176,43 @@ class PlayerView extends IView {
             const intervalId = setInterval(() => {
                 opacity -= delta;
 
-                if (opacity <= this.minOpacity) {
-                    // Если opacity меньше или равна нулю
+                if (opacity <= this.minOpacity) { // Если opacity меньше или равна нулю
                     clearInterval(intervalId);
                     this.titleContainer.removeChild(this.title);
                     this.closeButton.hide();
 
                     this.videoPanelContainer.removeChild(this.videoPanel);
                     this.bottomFilterContainer.removeChild(this.bottomFilter);
+
                 }
 
                 // Устанавливаем opacity
                 this.setOpacityToElements(opacity.toString());
             }, this.timeoutTicks);
         }
-    }
+    };
 
-    // Show / hide prev / next button //
-    public showPrevButton(): void {
-        if (!this.isPrevButton) {
-            this.isPrevButton = true;
-            this.prevButton.show();
-        }
-    }
-
-    public hidePrevButton(): void {
-        if (this.isPrevButton) {
-            this.isPrevButton = false;
-            this.prevButton.hide();
-        }
-    }
-
-    public showNextButton(): void {
-        if (!this.isNextButton) {
-            this.isNextButton = true;
-            this.nextButton.show();
-        }
-    }
-
-    public hideNextButton(): void {
-        if (this.isNextButton) {
-            this.isNextButton = false;
-            this.nextButton.hide();
-        }
-    }
 
     // Binds //
     public bindPlayButtonClick(listener: any): void {
         this.playStatusContainer.addEventListener('click', listener);
-    }
-
-    public bindPrevButtonClick(listener: any): void {
-        this.prevButton.div.addEventListener('click', listener);
-    }
-
-    public bindNextButtonClick(listener: any): void {
-        this.nextButton.div.addEventListener('click', listener);
-    }
+    };
 
     public bindScreenButtonClick(listener: any): void {
         this.screenStatusContainer.addEventListener('click', listener);
-    }
+    };
 
     public bindCloseButtonClick(listener: any): void {
         this.closeButtonContainer.addEventListener('click', listener);
-    }
+    };
 
-    public bindVideoClick(listener: any): void {
-        this.element.querySelector('.js-video__storage')?.addEventListener('click', listener);
-    }
+    public bindViewClick(listener: any): void {
+        this.element.addEventListener('click', listener);
+    };
 
     public bindMouseMoveEvent(listener: any): void {
         this.element.addEventListener('mousemove', listener);
-    }
+    };
 }
 
 export default PlayerView;

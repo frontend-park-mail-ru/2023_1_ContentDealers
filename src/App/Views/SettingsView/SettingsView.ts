@@ -14,7 +14,7 @@ import type LinkComponentData from '../../Components/LinkComponent/LinkComponent
 import type IUser from '../../Interfaces/User/IUser';
 
 class SettingsView extends IView {
-    private readonly leftMenuContainer: HTMLElement;
+    private readonly leftMenuContainer: HTMLElement
     private readonly settingsFormContainer: HTMLElement;
 
     private leftMenu: ListComponent<LinkComponent, LinkComponentData>;
@@ -22,50 +22,38 @@ class SettingsView extends IView {
 
     public readonly form: FormComponent;
 
-    public constructor(parent: HTMLElement) {
+    constructor(parent: HTMLElement) {
         super(parent, SettingsTemplate(SettingsData));
 
-        this.leftMenuContainer = <HTMLElement>(
-            this.element.querySelector('.js-settings__left-menu-container')
-        );
+        this.leftMenuContainer = <HTMLElement>this.element.querySelector('.js-settings__left-menu-container');
         this.settingsFormContainer = <HTMLElement>this.element.querySelector('.js-settings__form');
 
-        this.leftMenu = new SettingsData.leftMenu.componentType(
-            this.leftMenuContainer,
-            SettingsData.leftMenu.componentData
-        );
+        this.leftMenu = new SettingsData.leftMenu.componentType(this.leftMenuContainer, SettingsData.leftMenu.componentData);
         this.leftMenu.show();
         this.currentActiveItem = null;
 
-        this.form = new SettingsData.formData.componentType(
-            this.settingsFormContainer,
-            SettingsData.formData.componentData
-        );
+        this.form = new SettingsData.formData.componentType(this.settingsFormContainer, SettingsData.formData.componentData);
         this.form.show();
-    }
+    };
 
-    public changeActiveLeftMenuItem(href: string): void {
+    public changeActiveLeftMenuItem(href: string) {
         const listElement = this.leftMenu.getElement();
-        listElement
-            .querySelector(`[href="${this.currentActiveItem}"]`)
-            ?.parentElement?.classList.remove('settings-left-menu__item--active');
+        listElement.querySelector(`[href="${this.currentActiveItem}"]`)?.parentElement?.classList.remove('settings-left-menu__item--active');
         this.currentActiveItem = href;
-        listElement
-            .querySelector(`[href="${href}"]`)
-            ?.parentElement?.classList.add('settings-left-menu__item--active');
-    }
+        listElement.querySelector(`[href="${href}"]`)?.parentElement?.classList.add('settings-left-menu__item--active');
+    };
 
-    public show(opts?: { user: IUser }): void {
-        if (!opts) return;
+    public show(opts?: { user: IUser }) {
+        if(!opts) return;
 
         this.form.setDataToFields([{ id: 'email', value: opts.user.email }]);
 
         super.show();
-    }
+    };
 
     public bindClickEvent(listener: any): void {
         this.element.addEventListener('click', listener.bind(this));
-    }
+    };
 }
 
 export default SettingsView;

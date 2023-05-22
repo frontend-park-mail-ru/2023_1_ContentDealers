@@ -1,4 +1,4 @@
-import paths from './RouterPaths';
+import paths from "./RouterPaths";
 
 interface IRoute {
     rule: RegExp;
@@ -13,27 +13,27 @@ class Router {
     private unknownPageHandler: UnknownHandler;
     private nearestNotAuthUrl: string;
 
-    public constructor() {
+    constructor() {
         this.routes = [];
-        this.unknownPageHandler = (): void => console.error('No unknown page handler!');
+        this.unknownPageHandler = () => { };
         this.nearestNotAuthUrl = paths.main;
-    }
+    };
 
     public start(entryPath: string): void {
         history.replaceState({ path: entryPath }, '', entryPath);
 
-        window.addEventListener('popstate', e => {
+        window.addEventListener('popstate', (e) => {
             e.preventDefault();
             this.route();
         });
 
         this.route();
-    }
+    };
 
     public goToPath(path: string): void {
         history.pushState({ path: path }, '', path);
         this.route();
-    }
+    };
 
     private route(): void {
         const rawPath = history.state?.path;
@@ -45,12 +45,7 @@ class Router {
         const path = this.sanitizeUrl(rawPath);
 
         const tmpPath: string = '/' + path;
-        if (
-            tmpPath !== paths.signIn &&
-            tmpPath !== paths.signUp &&
-            tmpPath !== paths.settings &&
-            tmpPath !== paths.myMovie
-        ) {
+        if (tmpPath !== paths.signIn && tmpPath !== paths.signUp && tmpPath !== paths.settings) {
             this.nearestNotAuthUrl = tmpPath;
         }
 
@@ -66,54 +61,48 @@ class Router {
             this.unknownPageHandler();
             return;
         }
-    }
+    };
 
     public showUnknownPage(): void {
         this.unknownPageHandler();
-    }
+    };
 
-    public setUnknownPageHandler(handler: UnknownHandler): void {
+    public setUnknownPageHandler(handler: UnknownHandler) {
         this.unknownPageHandler = handler;
-    }
+    };
 
     public addRule(rule: string, handler: RouteHandler): IRoute {
         const newRoute = {
             rule: this.parseRule(rule),
             handler: handler,
-        };
+        }
         this.routes.push(newRoute);
         return newRoute;
     }
 
-    public removeRule(rule: string): void {
-        const index = this.routes.findIndex(
-            route => route.rule.source === this.parseRule(rule).source
-        );
+    public removeRule(rule: string) {
+        const index = this.routes.findIndex((route) => route.rule.source === this.parseRule(rule).source);
         if (index > -1) {
             this.routes.splice(index, 1);
         }
-    }
+    };
 
     public getNearestNotAuthUrl(): string {
         return this.nearestNotAuthUrl;
-    }
+    };
 
     private parseRule(rule: string): RegExp {
-        // const uri = this.sanitizeUrl(rule)
-        // .replace(/{\:number}/g, '(\\d+)')
-        // .replace(/{\:word}/g, '(\\w+)')
-        // .replace(/{\:\w+}/g, '(\\w+)');
-        const uri = this.sanitizeUrl(rule)
-            .replace(/{:number}/g, '(\\d+)')
-            .replace(/{:word}/g, '(\\w+)')
-            .replace(/{:\w+}/g, '(\\w+)');
+        let uri = this.sanitizeUrl(rule)
+            .replace(/{\:number}/g, '(\\d+)')
+            .replace(/{\:word}/g, '(\\w+)')
+            .replace(/{\:\w+}/g, '(\\w+)');
 
         return new RegExp(`^${uri}$`, 'i');
     }
 
     private sanitizeUrl(rule: string): string {
         return rule.replace(/\/$/, '').replace(/^\//, '');
-    }
+    };
 }
 
 const router = new Router();

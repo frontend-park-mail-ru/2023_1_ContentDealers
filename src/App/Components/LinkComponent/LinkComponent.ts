@@ -7,15 +7,15 @@ import './LinkComponent.css';
 class LinkComponent extends IComponent {
     public readonly link: HTMLElement;
 
-    public constructor(parent: HTMLElement, data?: LinkComponentData) {
+    constructor(parent: HTMLElement, data?: LinkComponentData) {
         super(parent, LinkComponentTemplate(data));
 
         this.link = <HTMLElement>this.element.querySelector('a') || this.element;
-    }
+    };
 
     public bindClickEvent(listener: any): void {
         this.link.addEventListener('click', listener.bind(this));
-    }
+    };
 }
 
 export default LinkComponent;

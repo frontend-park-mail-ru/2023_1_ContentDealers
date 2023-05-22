@@ -1,8 +1,8 @@
 import validators from './ValidatorConfig';
 
 export interface ValidatorResult {
-    isValid: boolean;
-    errorMsg: string;
+    isValid:    boolean;
+    errorMsg:  string;
 }
 
 interface ValidatorResultPassword extends ValidatorResult {
@@ -10,13 +10,13 @@ interface ValidatorResultPassword extends ValidatorResult {
 }
 
 const unknownValidator: ValidatorResult = {
-    isValid: false,
-    errorMsg: 'Неизвестный тип поля',
+    isValid:      false,
+    errorMsg:   'Неизвестный тип поля',
 };
 
 const validValidator: ValidatorResult = {
-    isValid: true,
-    errorMsg: '',
+    isValid:      true,
+    errorMsg:     '',
 };
 
 // const emptyValidator: ValidatorResult = {
@@ -24,7 +24,7 @@ const validValidator: ValidatorResult = {
 //     errorMsg:     'Пустое поле',
 // }
 
-function validateInput(input: { id: string; value: string }): ValidatorResult {
+function validateInput(input: { id: string, value: string }): ValidatorResult {
     if (input.id === 'avatar') {
         return validValidator;
     }
@@ -43,24 +43,13 @@ function validateInput(input: { id: string; value: string }): ValidatorResult {
 }
 
 function validatePasswords(password: string, repeatPassword: string): ValidatorResultPassword {
-    const validatedPassword: ValidatorResult = validateInput({
-        id: 'password',
-        value: password,
-    });
+    const validatedPassword: ValidatorResult = validateInput({id: 'password', value: password });
     if (!validatedPassword.isValid) {
-        return {
-            isValid: false,
-            errorMsg: validatedPassword.errorMsg,
-            passwordErrorMsg: validators.get('repeat-password')?.errorMsg,
-        };
+        return { isValid: false, errorMsg: validatedPassword.errorMsg, passwordErrorMsg: validators.get('repeat-password')?.errorMsg };
     }
 
     if (password !== repeatPassword) {
-        return {
-            isValid: false,
-            errorMsg: validatedPassword.errorMsg,
-            passwordErrorMsg: validators.get('repeat-password')?.errorMsg,
-        };
+        return { isValid: false, errorMsg: validatedPassword.errorMsg, passwordErrorMsg: validators.get('repeat-password')?.errorMsg };
     }
 
     return { isValid: true, errorMsg: '' };

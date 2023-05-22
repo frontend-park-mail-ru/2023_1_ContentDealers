@@ -1,6 +1,7 @@
 interface ISearchViewData {
-    firstTitle: string;
-    secondTitle: string;
+    firstTitle: string,
+    secondTitle: string,
+
 }
 
 const SearchViewData: ISearchViewData = {

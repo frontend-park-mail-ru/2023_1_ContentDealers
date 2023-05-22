@@ -14,24 +14,20 @@
     width: max-content;
 
     white-space: nowrap;
-
-    height: 40vw;
 }
 
 .carousel-list__item {
     text-align: center;
     margin: 10px;
     cursor: pointer;
-
-    height: 100%;
 }
 
 .carousel-list__item img {
+    height: 500px;
+    width: 850px;
     border-radius: 20px;
 
     object-fit: cover;
-
-    height: 100%;
 }
 
 .carousel__chevron-left,

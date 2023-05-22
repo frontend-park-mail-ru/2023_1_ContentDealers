@@ -5,14 +5,11 @@ import RootComponent from './Components/RootComponent/RootComponent';
 import HeaderView from './Views/HeaderView/HeaderView';
 import HeaderController from './Controllers/HeaderController/HeaderController';
 
-import MediaHeaderView from './Views/MediaHeaderView/MediaHeaderView';
-import MediaHeaderController from './Controllers/MediaHeaderController/MediaHeaderController';
+import ModalRightView from './Views/ModalRightView/ModalRightView';
+import ModalRightController from './Controllers/ModalRightController/ModalRightController';
 
-import ModalView from './Views/ModalView/ModalView';
-import ModalController from './Controllers/ModalController/ModalController';
-
-import ContentView from './Views/ContentView/ContentView';
-import ContentController from './Controllers/ContentController/ContentController';
+import FilmView from './Views/FilmView/FilmView';
+import FilmController from './Controllers/FilmController/FilmController';
 
 import SettingsView from './Views/SettingsView/SettingsView';
 import SettingsController from './Controllers/SettingsController/SettingsController';
@@ -32,19 +29,12 @@ import FavoritesController from './Controllers/FavoritesController/FavoritesCont
 import GenreView from './Views/GenreView/GenreView';
 import GenreController from './Controllers/GenreController/GenreController';
 
-import PlayerView from './Views/PlayerView/PlayerView';
-import PlayerController from './Controllers/PlayerController/PlayerController';
-
 import UserModel from './Models/UserModel/UserModel';
-import ContentModel from './Models/ContentModel/ContentModel';
+import FilmModel from './Models/FilmModel/FilmModel';
 import PersonModel from './Models/PersonModel/PersonModel';
 import SelectionModel from './Models/SelectionModel/SelectionModel';
 import FavoritesModel from './Models/FavoritesModel/FavoritesModel';
 import GenreModel from './Models/GenreModel/GenreModel';
-import CardsModel from './Models/CardsModel/CardsModel';
-import PlayerModel from './Models/PlayerModel/PlayerModel';
-
-import type { IPlayerData } from './Models/PlayerModel/PlayerModel';
 
 import router from './Router/Router';
 import paths from './Router/RouterPaths';
@@ -54,10 +44,8 @@ import EventDispatcher from './EventDispatcher/EventDispatcher';
 class App {
     // Views
     private headerView: HeaderView;
-    private mediaHeaderView: MediaHeaderView;
-
-    private modalRightView: ModalView;
-    private contentView: ContentView;
+    private modalRightView: ModalRightView;
+    private filmView: FilmView;
     private settingsView: SettingsView;
     private personView: PersonView;
     private mainView: MainView;
@@ -65,86 +53,51 @@ class App {
     private favoritesView: FavoritesView;
     private genreView: GenreView;
 
-    private playerView: PlayerView;
-
     // Controllers
     private headerController: HeaderController;
-    private mediaHeaderController: MediaHeaderController;
-    private modalRightController: ModalController;
-    private contentController: ContentController;
+    private modalRightController: ModalRightController;
+    private filmController: FilmController;
     private settingsController: SettingsController;
     private personController: PersonController;
     private mainController: MainController;
     private notFoundController: NotFoundController;
-    private favoritesController: FavoritesController;
+    private favoritesController: FavoritesController
     private genreController: GenreController;
-
-    private playerController: PlayerController;
 
     // Models
     private userModel: UserModel;
-    private filmModel: ContentModel;
+    private filmModel: FilmModel;
     private personModel: PersonModel;
     private selectionModel: SelectionModel;
     private favoritesModel: FavoritesModel;
     private genreModel: GenreModel;
-    private cardsModel: CardsModel;
-    private playerModel: PlayerModel;
+
 
     // Elements
     private root: HTMLElement;
-    private alert: HTMLElement;
     private header: HTMLElement;
-    private main: HTMLElement;
     private footer: HTMLElement;
-    private modal: HTMLElement;
+    private content: HTMLElement;
+    private modalRight: HTMLElement;
 
-    public constructor() {
+    constructor() {
         this.initPage();
         this.initViews();
         this.initModels();
         this.initControllers();
         this.initRoutes();
-
-        EventDispatcher.subscribe('start-player', (playerData: IPlayerData) => {
-            console.log('In event');
-            this.newPlayer(playerData);
-        });
-
-        // EventDispatcher.subscribe('start-player-series', ({ title, sources, seasonNum, episodeNum } : { title: string, sources: string[], seasonNum: number, episodeNum: number }) => {
-        //     this.newPlayer(`${title} ${seasonNum} сезон ${episodeNum} серия`, sources[episodeNum-1]);
-        //     this.playerController.setData(title, sources, seasonNum, episodeNum);
-        // });
     }
 
-
-    private newPlayer(playerData: IPlayerData): void {
-        let title = playerData.title;
-        if (playerData.seasonData) {
-            title += `${playerData.seasonData.seasonNum} сезон ${playerData.seasonData.episodeNum} серия`;
-        }
-
-        this.playerView = new PlayerView(this.root, title);
-        this.playerModel.setId(playerData.id);
-        this.playerModel.setIsFilm(playerData.isFilm);
-        this.playerModel.setStopView(playerData.stopView)
-        this.playerModel.setPlayerData(playerData);
-        this.playerController = new PlayerController(this.playerView, this.playerModel);
-
-        this.playerController.mountComponent();
-    }
-
-    public run(url: string): void {
+    public run(url: string) {
         router.start(url);
 
-        // mount
-        this.headerController.mountComponent();
-        this.mediaHeaderController.mountComponent();
-
-        this.userModel
-            .authUserByCookie()
-            .then(() => EventDispatcher.emit('user-changed', this.userModel.getCurrentUser()))
-            .catch(() => EventDispatcher.emit('render-signInButton'));
+        this.userModel.authUserByCookie()
+            .then(() => {
+                EventDispatcher.emit('user-changed', this.userModel.getCurrentUser());
+            })
+            .catch(() => {
+                EventDispatcher.emit('render-signInButton');
+            });
     }
 
     /**
@@ -156,15 +109,12 @@ class App {
         const rootComponent = new RootComponent(document.body);
         rootComponent.show();
 
-        this.root = rootComponent.querySelector('.ts-root');
-
-        this.alert = rootComponent.querySelector('.ts-alert');
-        this.header = rootComponent.querySelector('.ts-header');
-        this.main = rootComponent.querySelector('.ts-main');
-        this.footer = rootComponent.querySelector('.ts-footer');
-
-        this.modal = rootComponent.querySelector('.ts-modal');
-    }
+        this.root = rootComponent.querySelector('.js-root');
+        this.header = rootComponent.querySelector('.js-header');
+        this.footer = rootComponent.querySelector('.js-footer');
+        this.content = rootComponent.querySelector('.js-content');
+        this.modalRight = rootComponent.querySelector('.js-modal--right');
+    };
 
     /**
      * Функция инициализирует все отображения (views)
@@ -173,18 +123,16 @@ class App {
      */
     private initViews(): void {
         this.headerView = new HeaderView(this.header);
-        this.mediaHeaderView = new MediaHeaderView(this.header);
+        this.modalRightView = new ModalRightView(this.modalRight);
+        this.filmView = new FilmView(this.content);
+        this.settingsView = new SettingsView(this.content);
+        this.personView = new PersonView(this.content);
+        this.mainView = new MainView(this.content);
 
-        this.contentView = new ContentView(this.main);
-        this.settingsView = new SettingsView(this.main);
-        this.personView = new PersonView(this.main);
-        this.mainView = new MainView(this.main);
-        this.favoritesView = new FavoritesView(this.main);
-        this.genreView = new GenreView(this.main);
-        this.notFoundView = new NotFoundView(this.main);
-
-        this.modalRightView = new ModalView(this.modal);
-    }
+        this.notFoundView = new NotFoundView(this.content);
+        this.favoritesView = new FavoritesView(this.content);
+        this.genreView = new GenreView(this.content);
+    };
 
     /**
      * Функция инициализирует все моедели (models)
@@ -193,14 +141,12 @@ class App {
      */
     private initModels(): void {
         this.userModel = new UserModel();
-        this.filmModel = new ContentModel();
+        this.filmModel = new FilmModel();
         this.personModel = new PersonModel();
         this.selectionModel = new SelectionModel();
         this.favoritesModel = new FavoritesModel();
         this.genreModel = new GenreModel();
-        this.cardsModel = new CardsModel();
-        this.playerModel = new PlayerModel();
-    }
+    };
 
     /**
      * Функция инициализирует все контроллеры (controllers)
@@ -209,26 +155,16 @@ class App {
      */
     private initControllers(): void {
         this.headerController = new HeaderController(this.headerView);
-        this.mediaHeaderController = new MediaHeaderController(this.mediaHeaderView);
-
-        this.modalRightController = new ModalController(this.modalRightView, this.userModel);
-        this.contentController = new ContentController(this.contentView, {
-            content: this.filmModel,
-            cards: this.cardsModel,
-            player: this.playerModel,
-        });
+        this.modalRightController = new ModalRightController(this.modalRightView, this.userModel);
+        this.filmController = new FilmController(this.filmView, this.filmModel);
         this.settingsController = new SettingsController(this.settingsView, this.userModel);
         this.personController = new PersonController(this.personView, this.personModel);
-        this.mainController = new MainController(this.mainView, {
-            genres: this.genreModel,
-            selections: this.selectionModel,
-            cards: this.cardsModel,
-        });
+        this.mainController = new MainController(this.mainView, { selections: this.selectionModel });
 
         this.notFoundController = new NotFoundController(this.notFoundView);
         this.favoritesController = new FavoritesController(this.favoritesView, this.favoritesModel);
         this.genreController = new GenreController(this.genreView, this.genreModel);
-    }
+    };
 
     /**
      * Функция задаёт связи между страницами (URL -> обработчик)
@@ -239,98 +175,90 @@ class App {
         router.setUnknownPageHandler(this.handleRedirectToNotFound.bind(this));
 
         const routes = [
-            { path: paths.main, handler: this.handleRedirectToMain },
-            { path: paths.catalog, handler: this.handleRedirectToCatalog },
-            { path: paths.store, handler: this.handleRedirectToStore },
-            { path: paths.myMovie, handler: this.handleRedirectToFavorites },
+            { path: paths.main,         handler: this.handleRedirectToMain },
+            { path: paths.catalog,      handler: this.handleRedirectToCatalog },
+            { path: paths.store,        handler: this.handleRedirectToStore },
+            { path: paths.myMovie,      handler: this.handleRedirectToFavorites },
 
-            { path: paths.signIn, handler: this.handleRedirectToSignIn },
-            { path: paths.signUp, handler: this.handleRedirectToSignUp },
-            { path: paths.logout, handler: this.handleRedirectToLogout },
-            { path: paths.settings, handler: this.handleRedirectToSettings },
+            { path: paths.signIn,       handler: this.handleRedirectToSignIn },
+            { path: paths.signUp,       handler: this.handleRedirectToSignUp },
+            { path: paths.logout,       handler: this.handleRedirectToLogout },
+            { path: paths.settings,     handler: this.handleRedirectToSettings },
 
-            { path: paths.films, handler: this.handleRedirectToFilm },
-            { path: paths.series, handler: this.handleRedirectToSeries },
-            { path: paths.persons, handler: this.handleRedirectToPerson },
+            { path: paths.films,        handler: this.handleRedirectToFilm },
+            { path: paths.series,       handler: this.handleRedirectToSeries },
+            { path: paths.persons,      handler: this.handleRedirectToPerson },
 
-            { path: paths.genres, handler: this.handleRedirectToGenre },
-            {
-                path: paths.selections,
-                handler: this.handleRedirectToSelections,
-            },
+            { path: paths.genres,       handler: this.handleRedirectToGenre },
+            { path: paths.selections,   handler: this.handleRedirectToSelections },
         ];
 
         routes.forEach(({ path, handler }) => {
             router.addRule(path, handler.bind(this));
         });
-    }
+    };
+
 
     private handleRedirectToMain(): void {
         EventDispatcher.emit('unmount-all');
 
         // mount
-        // this.headerController.mountComponent();
-        this.mainView.clearSelections();
-
-        this.mainController.mountViews()
+        this.headerController.mountComponent();
         this.mainController.mountComponent();
 
         // states
         this.headerView.changeActiveHeaderListItem('/');
-    }
+    };
 
     private handleRedirectToSignIn(): void {
-        this.userModel
-            .authUserByCookie()
+        this.userModel.authUserByCookie()
             .then(() => {
                 router.goToPath(router.getNearestNotAuthUrl());
             })
             .catch(() => {
-                EventDispatcher.emit('modal-setSignIn', this.userModel);
+                EventDispatcher.emit('modalRight-setSignIn', this.userModel);
                 this.modalRightController.mountComponent();
             });
-    }
+    };
 
     private handleRedirectToSignUp(): void {
-        this.userModel
-            .authUserByCookie()
+        this.userModel.authUserByCookie()
             .then(() => {
                 router.goToPath(router.getNearestNotAuthUrl());
             })
             .catch(() => {
-                EventDispatcher.emit('modal-setSignUp', this.userModel);
+                EventDispatcher.emit('modalRight-setSignUp', this.userModel);
                 this.modalRightController.mountComponent();
             });
-    }
+    };
 
     private handleRedirectToCatalog(): void {
         EventDispatcher.emit('unmount-all');
 
         // mount
-        // this.headerController.mountComponent();
+        this.headerController.mountComponent();
 
         // states
         this.headerView.changeActiveHeaderListItem('/catalog');
-    }
+    };
 
     private handleRedirectToStore(): void {
         EventDispatcher.emit('unmount-all');
 
         // mount
-        // this.headerController.mountComponent();
+        this.headerController.mountComponent();
 
         // states
         this.headerView.changeActiveHeaderListItem('/store');
-    }
+    };
 
     private handleRedirectToFavorites(): void {
         EventDispatcher.emit('unmount-all');
 
-        this.userModel
-            .authUserByCookie()
+        this.userModel.authUserByCookie()
             .then(() => {
                 // mount
-                // this.headerController.mountComponent();
+                this.headerController.mountComponent();
                 this.favoritesController.mountComponent();
 
                 // states
@@ -339,16 +267,15 @@ class App {
             .catch(() => {
                 router.goToPath(paths.signIn);
             });
-    }
+    };
 
     private handleRedirectToSettings(): void {
         EventDispatcher.emit('unmount-all');
 
-        this.userModel
-            .authUserByCookie()
+        this.userModel.authUserByCookie()
             .then(() => {
                 // mount
-                // this.headerController.mountComponent();
+                this.headerController.mountComponent();
                 this.settingsController.mountComponent();
 
                 // states
@@ -361,12 +288,12 @@ class App {
                 EventDispatcher.emit('render-signInButton');
                 router.goToPath(router.getNearestNotAuthUrl());
             });
-    }
+    };
 
-    private async handleRedirectToFilm(data: any): Promise<void> {
+    private async handleRedirectToFilm(data: any) {
         EventDispatcher.emit('unmount-all');
 
-        if (!data?.[0]) {
+        if (!data || !data[0]) {
             router.showUnknownPage();
             return;
         }
@@ -374,29 +301,25 @@ class App {
         const filmId = data[0];
 
         // mount
-        // this.headerController.mountComponent();
-        await this.contentController.mountComponent({
-            id: filmId.toString(),
-            type: 'film',
-        });
+        this.headerController.mountComponent();
+        await this.filmController.mountComponent({ id: filmId.toString(), type: 'film' });
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
 
-        this.userModel.authUserByCookie().then(() => {
-            this.contentController.addWatchButton();
-            this.contentController.addFavoritesButton();
-        });
+        this.userModel.authUserByCookie()
+            .then(() => {
+                this.filmView.renderWatchButton();
+                this.filmController.addFavoritesButton();
+            });
+    };
 
-        return;
-    }
-
-    private async handleRedirectToSeries(data: any): Promise<void> {
-        console.log('handleRedirectToSeries');
+    private async handleRedirectToSeries(data: any) {
+        console.log('handleRedirectToSeries')
 
         EventDispatcher.emit('unmount-all');
 
-        if (!data?.[0]) {
+        if (!data || !data[0]) {
             router.showUnknownPage();
             return;
         }
@@ -404,27 +327,23 @@ class App {
         const filmId = data[0];
 
         // mount
-        // this.headerController.mountComponent();
-        await this.contentController.mountComponent({
-            id: filmId.toString(),
-            type: 'series',
-        });
+        this.headerController.mountComponent();
+        await this.filmController.mountComponent({ id: filmId.toString(), type: 'series' });
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
 
-        this.userModel.authUserByCookie().then(() => {
-            this.contentController.addWatchButton();
-            this.contentController.addFavoritesButton();
-        });
-
-        return;
-    }
+        this.userModel.authUserByCookie()
+            .then(() => {
+                this.filmView.renderWatchButton();
+                this.filmController.addFavoritesButton();
+            });
+    };
 
     private handleRedirectToPerson(data: any): void {
         EventDispatcher.emit('unmount-all');
 
-        if (!data?.[0]) {
+        if (!data || !data[0]) {
             router.showUnknownPage();
             return;
         }
@@ -432,31 +351,31 @@ class App {
         const personId = data[0];
 
         // mount
-        // this.headerController.mountComponent();
+        this.headerController.mountComponent();
         this.personController.mountComponent({ id: personId.toString() });
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
-    }
+    };
 
     private handleRedirectToLogout(): void {
         EventDispatcher.emit('redirect', paths.logout);
 
         this.userModel.logoutUser();
         router.goToPath(paths.main);
-    }
+    };
 
     private handleRedirectToNotFound(): void {
         EventDispatcher.emit('unmount-all');
 
-        // this.headerController.mountComponent();
+        this.headerController.mountComponent();
         this.notFoundController.mountComponent();
-    }
+    };
 
     private handleRedirectToGenre(data: any): void {
         EventDispatcher.emit('unmount-all');
 
-        if (!data?.[0]) {
+        if (!data || !data[0]) {
             router.showUnknownPage();
             return;
         }
@@ -464,7 +383,7 @@ class App {
         const genreId = data[0];
 
         // mount
-        // this.headerController.mountComponent();
+        this.headerController.mountComponent();
         this.genreController.mountComponent({
             id: genreId.toString(),
             forGenre: true,
@@ -472,12 +391,12 @@ class App {
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
-    }
+    };
 
     private handleRedirectToSelections(data: any): void {
         EventDispatcher.emit('unmount-all');
 
-        if (!data?.[0]) {
+        if (!data || !data[0]) {
             router.showUnknownPage();
             return;
         }
@@ -485,7 +404,7 @@ class App {
         const genreId = data[0];
 
         // mount
-        // this.headerController.mountComponent();
+        this.headerController.mountComponent();
         this.genreController.mountComponent({
             id: genreId.toString(),
             forSelections: true,
@@ -493,7 +412,7 @@ class App {
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
-    }
+    };
 }
 
 export default App;

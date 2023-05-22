@@ -4,8 +4,14 @@ import type { IApi } from '../Config/Config';
 interface IRequestParams {
     url: string;
     method: string;
-    headers: NonNullable<unknown>;
+    headers: {};
 }
+
+// interface IResponseBody {
+//     body: {
+//         status: string;
+//     };
+// }
 
 export interface IResponse {
     status: number;
@@ -18,7 +24,9 @@ class Ajax {
     public async ajax(params: IRequestParams, body?: string | FormData) {
         const headers = new Headers(params.headers);
 
-        if (!config.isAuthUrl(params.url)) {
+        if (params.url === config.api.signIn.url || params.url === config.api.signUp.url) {
+
+        } else {
             if (params.method !== REQUEST_METHODS.GET) {
                 if (!this.csrfToken) {
                     await this.getCsrfTokenFromServer();
@@ -41,21 +49,22 @@ class Ajax {
                 const customStatus = responseBody.status.toString() as keyof typeof customFailures;
                 responseBody.message = customFailures[customStatus];
             }
-        } catch (error) {
+        }
+        catch (error) {
             responseBody = {};
         }
 
         return {
             status: response.status,
-            responseBody,
+            responseBody
         };
-    }
+    };
 
     private setCsrfToken(csrfToken: string): void {
-        this.csrfToken = csrfToken;
-    }
+        this.csrfToken =  csrfToken;
+    };
 
-    public async getCsrfTokenFromServer() {
+    public async getCsrfTokenFromServer(): Promise<any> {
         const csrfResponse = await fetch(`${config.host}${config.api.csrf.url}`, {
             method: config.api.csrf.method,
             headers: new Headers(config.api.csrf.headers),
@@ -65,7 +74,6 @@ class Ajax {
         const csrfToken = await csrfResponse.json();
 
         this.setCsrfToken(csrfToken.body['csrf-token']);
-
         return csrfToken;
     }
 
@@ -78,8 +86,7 @@ class Ajax {
             const keyStatus = response.status.toString() as keyof typeof conf.statuses.failure;
 
             if (keyStatus === '400') {
-                const customStatus =
-                    response.responseBody.status.toString() as keyof typeof customFailures;
+                const customStatus = response.responseBody.status.toString() as keyof typeof customFailures;
                 return Promise.reject({
                     msg: customFailures[customStatus],
                 });
@@ -93,7 +100,7 @@ class Ajax {
         return Promise.reject({
             msg: 'Неожиданная ошибка',
         });
-    }
+    };
 }
 
 export default new Ajax();

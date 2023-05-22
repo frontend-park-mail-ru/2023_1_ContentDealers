@@ -1,10 +1,10 @@
 import type ButtonComponentData from '../../Components/ButtonComponent/ButtonComponentData';
 
 interface IFavoritesViewData {
-    firstTitle: string;
-    secondTitle: string;
+    firstTitle:    string,
+    secondTitle:   string,
     contentButton: ButtonComponentData;
-    actorsButton: ButtonComponentData;
+    actorsButton:  ButtonComponentData;
 }
 
 const FavoritesViewData: IFavoritesViewData = {
@@ -19,7 +19,7 @@ const FavoritesViewData: IFavoritesViewData = {
         text: 'Показать больше',
         className: 'subscribe-button',
         dataAction: 'loadActors',
-    },
+    }
 };
 
 export default FavoritesViewData;

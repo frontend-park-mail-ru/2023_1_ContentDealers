@@ -4,7 +4,7 @@
             <div class="relative">
                 <div class="relative current-background">
                     <div id="video-controls" class="video relative">
-                        <div class="video__storage js-video__storage">
+                        <div class="video__storage">
                             <div class="video__background"></div>
                             <video id="video-player" autoplay playsinline src="{{ src }}"></video>
                         </div>
@@ -12,7 +12,7 @@
                         <div class="video__title-container js-video__title-container">
                             <div class="video__title-align js-video__title-align">
                                 <div class="video__title">
-                                    <div class="ts-title video-title__text">{{ title }}</div>
+                                    <div class="video-title__text">{{ title }}</div>
                                 </div>
                             </div>
                         </div>
@@ -30,27 +30,21 @@
                                 <div class="video__progress-container"></div>
 
                                 <div class="video__bottom-container">
-                                    <div class="flex-center gap-10">
+                                    <div class="flex-center">
                                         <div>
-                                            <div class="video__button js-video__play-button"></div>
+                                            <div class="video__play-button js-video__play-button"></div>
                                         </div>
                                         <div>
                                             <div class="video__duration-time"></div>
                                         </div>
-                                        <div>
-                                            <div class="js-video__prev-button"></div>
-                                        </div>
-                                        <div>
-                                            <div class="js-video__next-button"></div>
-                                        </div>
                                     </div>
 
                                     <div class="flex-center">
-<!--                                        <div class="ml-5 mr-24"> &lt;!&ndash; TODO div with title in &ndash;&gt;-->
-<!--                                            <div title="Воспроизводится в HD качестве" class="video__quality">-->
-<!--                                                <img src="/img/icons/player/hd.svg" alt="Воспроизводится в HD качестве">-->
-<!--                                            </div>-->
-<!--                                        </div>-->
+                                        <div class="ml-5 mr-24"> <!-- TODO div with title in -->
+                                            <div title="Воспроизводится в HD качестве" class="video__quality">
+                                                <img src="/img/icons/player/hd.svg" alt="Воспроизводится в HD качестве">
+                                            </div>
+                                        </div>
 
                                         <div class="mr-24">
                                             <div class="flex-center">

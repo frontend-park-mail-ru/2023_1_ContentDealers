@@ -31,15 +31,17 @@ class MainController extends IController<
     public async mountViews(): Promise<void> {
         this.model.selections.getViews()
             .then((viewsData) => {
-                const cardsData = this.model.cards.contentsToCards(
-                    viewsData,
-                    'card__h-radius'
-                );
-                cardsData.forEach(cardsData => {
-                    cardsData.onClick = (e: Event): void => this.onLinkClick(e); // TODO
-                });
+                if (viewsData.length) {
+                    const cardsData = this.model.cards.contentsToCards(
+                        viewsData,
+                        'card__h-radius'
+                    );
+                    cardsData.forEach(cardsData => {
+                        cardsData.onClick = (e: Event): void => this.onLinkClick(e); // TODO
+                    });
 
-                this.view.newSelection('', 'Продолжить просмотр', cardsData);
+                    this.view.newSelection('', 'Продолжить просмотр', cardsData);
+                }
             })
             .catch(error => console.error(error));
 

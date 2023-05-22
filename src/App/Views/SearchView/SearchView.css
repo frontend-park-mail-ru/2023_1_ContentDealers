@@ -2,10 +2,10 @@
     position: absolute;
     left: 0;
     right: 0;
+    top: 100%;
     bottom: unset;
     z-index: 1000 !important;
     overflow: hidden;
-    margin-top: 30px;
     padding-top: 30px;
     width: 100%;
     height: auto;

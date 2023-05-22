@@ -5,11 +5,14 @@ import RootComponent from './Components/RootComponent/RootComponent';
 import HeaderView from './Views/HeaderView/HeaderView';
 import HeaderController from './Controllers/HeaderController/HeaderController';
 
-import ModalView from './Views/ModalView/ModalView';
-import ModalRightController from './Controllers/ModalRightController/ModalRightController';
+import MediaHeaderView from './Views/MediaHeaderView/MediaHeaderView';
+import MediaHeaderController from './Controllers/MediaHeaderController/MediaHeaderController';
 
-import FilmView from './Views/FilmView/FilmView';
-import FilmController from './Controllers/FilmController/FilmController';
+import ModalView from './Views/ModalView/ModalView';
+import ModalController from './Controllers/ModalController/ModalController';
+
+import ContentView from './Views/ContentView/ContentView';
+import ContentController from './Controllers/ContentController/ContentController';
 
 import SettingsView from './Views/SettingsView/SettingsView';
 import SettingsController from './Controllers/SettingsController/SettingsController';
@@ -29,15 +32,23 @@ import FavoritesController from './Controllers/FavoritesController/FavoritesCont
 import GenreView from './Views/GenreView/GenreView';
 import GenreController from './Controllers/GenreController/GenreController';
 
+
 import PaymentView from './Views/PaymentView/PaymentView';
 import PaymentController from './Controllers/PaymentController/PaymentController';
 
+import PlayerView from './Views/PlayerView/PlayerView';
+import PlayerController from './Controllers/PlayerController/PlayerController';
+
 import UserModel from './Models/UserModel/UserModel';
-import FilmModel from './Models/FilmModel/FilmModel';
+import ContentModel from './Models/ContentModel/ContentModel';
 import PersonModel from './Models/PersonModel/PersonModel';
 import SelectionModel from './Models/SelectionModel/SelectionModel';
 import FavoritesModel from './Models/FavoritesModel/FavoritesModel';
 import GenreModel from './Models/GenreModel/GenreModel';
+import CardsModel from './Models/CardsModel/CardsModel';
+import PlayerModel from './Models/PlayerModel/PlayerModel';
+
+import type { IPlayerData } from './Models/PlayerModel/PlayerModel';
 
 import HeaderModel from './Models/HeaderModel/HeaderModel';
 
@@ -50,8 +61,10 @@ import headerModel from "./Models/HeaderModel/HeaderModel";
 class App {
     // Views
     private headerView: HeaderView;
+    private mediaHeaderView: MediaHeaderView;
+
     private modalRightView: ModalView;
-    private filmView: FilmView;
+    private contentView: ContentView;
     private settingsView: SettingsView;
     private personView: PersonView;
     private mainView: MainView;
@@ -60,10 +73,13 @@ class App {
     private genreView: GenreView;
     private paymentView: PaymentView;
 
+    private playerView: PlayerView;
+
     // Controllers
     private headerController: HeaderController;
-    private modalRightController: ModalRightController;
-    private filmController: FilmController;
+    private mediaHeaderController: MediaHeaderController;
+    private modalRightController: ModalController;
+    private contentController: ContentController;
     private settingsController: SettingsController;
     private personController: PersonController;
     private mainController: MainController;
@@ -72,14 +88,18 @@ class App {
     private genreController: GenreController;
     private paymentController: PaymentController;
 
+    private playerController: PlayerController;
+
     // Models
     private userModel: UserModel;
-    private filmModel: FilmModel;
+    private filmModel: ContentModel;
     private personModel: PersonModel;
     private selectionModel: SelectionModel;
     private favoritesModel: FavoritesModel;
     private genreModel: GenreModel;
     private headerModel: headerModel;
+    private cardsModel: CardsModel;
+    private playerModel: PlayerModel;
 
     // Elements
     private root: HTMLElement;
@@ -95,6 +115,33 @@ class App {
         this.initModels();
         this.initControllers();
         this.initRoutes();
+
+        EventDispatcher.subscribe('start-player', (playerData: IPlayerData) => {
+            console.log('In event');
+            this.newPlayer(playerData);
+        });
+
+        // EventDispatcher.subscribe('start-player-series', ({ title, sources, seasonNum, episodeNum } : { title: string, sources: string[], seasonNum: number, episodeNum: number }) => {
+        //     this.newPlayer(`${title} ${seasonNum} сезон ${episodeNum} серия`, sources[episodeNum-1]);
+        //     this.playerController.setData(title, sources, seasonNum, episodeNum);
+        // });
+    }
+
+
+    private newPlayer(playerData: IPlayerData): void {
+        let title = playerData.title;
+        if (playerData.seasonData) {
+            title += `${playerData.seasonData.seasonNum} сезон ${playerData.seasonData.episodeNum} серия`;
+        }
+
+        this.playerView = new PlayerView(this.root, title);
+        this.playerModel.setId(playerData.id);
+        this.playerModel.setIsFilm(playerData.isFilm);
+        this.playerModel.setStopView(playerData.stopView)
+        this.playerModel.setPlayerData(playerData);
+        this.playerController = new PlayerController(this.playerView, this.playerModel);
+
+        this.playerController.mountComponent();
     }
 
     public run(url: string): void {
@@ -109,6 +156,10 @@ class App {
         }
         router.start(url);
 
+        // mount
+        this.headerController.mountComponent();
+        this.mediaHeaderController.mountComponent();
+
         this.userModel
             .authUserByCookie()
             .then(() => EventDispatcher.emit('user-changed', this.userModel.getCurrentUser()))
@@ -121,15 +172,6 @@ class App {
      * @return {void}
      */
     private initPage(): void {
-        // const rootComponent = new RootComponent(document.body);
-        // rootComponent.show();
-
-        // this.root = rootComponent.querySelector('.js-root');
-        // this.header = rootComponent.querySelector('.js-header');
-        // this.footer = rootComponent.querySelector('.js-footer');
-        // this.content = rootComponent.querySelector('.js-content');
-        // this.modalRight = rootComponent.querySelector('.js-modal--right');
-
         const rootComponent = new RootComponent(document.body);
         rootComponent.show();
 
@@ -150,8 +192,9 @@ class App {
      */
     private initViews(): void {
         this.headerView = new HeaderView(this.header);
+        this.mediaHeaderView = new MediaHeaderView(this.header);
 
-        this.filmView = new FilmView(this.main);
+        this.contentView = new ContentView(this.main);
         this.settingsView = new SettingsView(this.main);
         this.personView = new PersonView(this.main);
         this.mainView = new MainView(this.main);
@@ -170,12 +213,14 @@ class App {
      */
     private initModels(): void {
         this.userModel = new UserModel();
-        this.filmModel = new FilmModel();
+        this.filmModel = new ContentModel();
         this.personModel = new PersonModel();
         this.selectionModel = new SelectionModel();
         this.favoritesModel = new FavoritesModel();
         this.genreModel = new GenreModel();
         this.headerModel = new HeaderModel();
+        this.cardsModel = new CardsModel();
+        this.playerModel = new PlayerModel();
     }
 
     /**
@@ -185,13 +230,20 @@ class App {
      */
     private initControllers(): void {
         this.headerController = new HeaderController(this.headerView, this.headerModel);
-        this.modalRightController = new ModalRightController(this.modalRightView, this.userModel);
-        this.filmController = new FilmController(this.filmView, this.filmModel);
+        this.mediaHeaderController = new MediaHeaderController(this.mediaHeaderView);
+
+        this.modalRightController = new ModalController(this.modalRightView, this.userModel);
+        this.contentController = new ContentController(this.contentView, {
+            content: this.filmModel,
+            cards: this.cardsModel,
+            player: this.playerModel,
+        });
         this.settingsController = new SettingsController(this.settingsView, this.userModel);
         this.personController = new PersonController(this.personView, this.personModel);
         this.mainController = new MainController(this.mainView, {
             genres: this.genreModel,
             selections: this.selectionModel,
+            cards: this.cardsModel,
         });
 
         this.notFoundController = new NotFoundController(this.notFoundView);
@@ -241,7 +293,10 @@ class App {
         EventDispatcher.emit('unmount-all');
 
         // mount
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
+        this.mainView.clearSelections();
+
+        this.mainController.mountViews()
         this.mainController.mountComponent();
 
         // states
@@ -255,7 +310,7 @@ class App {
                 router.goToPath(router.getNearestNotAuthUrl());
             })
             .catch(() => {
-                EventDispatcher.emit('modalRight-setSignIn', this.userModel);
+                EventDispatcher.emit('modal-setSignIn', this.userModel);
                 this.modalRightController.mountComponent();
             });
     }
@@ -267,7 +322,7 @@ class App {
                 router.goToPath(router.getNearestNotAuthUrl());
             })
             .catch(() => {
-                EventDispatcher.emit('modalRight-setSignUp', this.userModel);
+                EventDispatcher.emit('modal-setSignUp', this.userModel);
                 this.modalRightController.mountComponent();
             });
     }
@@ -276,7 +331,7 @@ class App {
         EventDispatcher.emit('unmount-all');
 
         // mount
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
 
         // states
         this.headerView.changeActiveHeaderListItem('/catalog');
@@ -286,7 +341,7 @@ class App {
         EventDispatcher.emit('unmount-all');
 
         // mount
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
 
         // states
         this.headerView.changeActiveHeaderListItem('/store');
@@ -299,10 +354,14 @@ class App {
             .authUserByCookie()
             .then(() => {
                 // mount
+
                 this.headerController.mountComponent();
                 this.favoritesController.mountComponent({
                     forFavorites: true,
                 });
+
+                // this.headerController.mountComponent();
+
 
                 // states
                 this.headerView.changeActiveHeaderListItem('/my-movie');
@@ -319,7 +378,7 @@ class App {
             .authUserByCookie()
             .then(() => {
                 // mount
-                this.headerController.mountComponent();
+                // this.headerController.mountComponent();
                 this.settingsController.mountComponent();
 
                 // states
@@ -345,8 +404,8 @@ class App {
         const filmId = data[0];
 
         // mount
-        this.headerController.mountComponent();
-        await this.filmController.mountComponent({
+        // this.headerController.mountComponent();
+        await this.contentController.mountComponent({
             id: filmId.toString(),
             type: 'film',
         });
@@ -354,13 +413,13 @@ class App {
         // states
         this.headerView.changeActiveHeaderListItem('#');
 
-        await this.userModel.authUserByCookie()
-            .then(() => {
-            this.filmController.addFavoritesButton();
-            }).catch(error => console.error(error));
+        this.userModel.authUserByCookie().then(() => {
+            this.contentController.addWatchButton();
+            this.contentController.addFavoritesButton();
+        });
 
         const user = this.userModel.getCurrentUser();
-        this.filmView.renderWatchButton(user);
+        // this.contentController.renderWatchButton(user);
         return;
     }
 
@@ -377,8 +436,8 @@ class App {
         const filmId = data[0];
 
         // mount
-        this.headerController.mountComponent();
-        await this.filmController.mountComponent({
+        // this.headerController.mountComponent();
+        await this.contentController.mountComponent({
             id: filmId.toString(),
             type: 'series',
         });
@@ -388,11 +447,11 @@ class App {
 
         await this.userModel.authUserByCookie()
             .then(() => {
-            this.filmController.addFavoritesButton();
+            this.contentController.addFavoritesButton();
             }).catch(error => console.error(error));
 
         const user = this.userModel.getCurrentUser();
-        this.filmView.renderWatchButton(user);
+        // this.contentController.renderWatchButton(user);
 
         return;
     }
@@ -408,7 +467,7 @@ class App {
         const personId = data[0];
 
         // mount
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
         this.personController.mountComponent({ id: personId.toString() });
 
         // states
@@ -425,7 +484,7 @@ class App {
     private handleRedirectToNotFound(): void {
         EventDispatcher.emit('unmount-all');
 
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
         this.notFoundController.mountComponent();
     }
 
@@ -440,7 +499,7 @@ class App {
         const genreId = data[0];
 
         // mount
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
         this.genreController.mountComponent({
             id: genreId.toString(),
             forGenre: true,
@@ -461,7 +520,7 @@ class App {
         const genreId = data[0];
 
         // mount
-        this.headerController.mountComponent();
+        // this.headerController.mountComponent();
         this.genreController.mountComponent({
             id: genreId.toString(),
             forSelections: true,

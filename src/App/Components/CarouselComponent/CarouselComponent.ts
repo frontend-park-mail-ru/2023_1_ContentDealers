@@ -154,6 +154,8 @@ class CarouselComponent extends IComponent {
     }
 
     private onClick(e: Event): void {
+        console.log('onClick');
+
         const action = (<HTMLElement>(<HTMLElement>e.target).closest('[data-action]'))?.dataset[
             'action'
         ];

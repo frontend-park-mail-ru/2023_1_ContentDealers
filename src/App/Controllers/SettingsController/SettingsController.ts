@@ -135,7 +135,6 @@ class SettingsController extends IController<SettingsView, UserModel> {
 
                 const userData: any = {
                     email: this.view.form.findInputComponent('email').input.value,
-                    date_birth: '2000-Jan-01',
                     password: this.view.form.findInputComponent('password').input.value,
                 };
 

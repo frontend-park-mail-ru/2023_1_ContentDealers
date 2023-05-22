@@ -21,7 +21,7 @@ import type UserModel from '../../Models/UserModel/UserModel';
  * @param  {HeaderView} view Объект вида компонента правого модального окна
  * @param  {UserModel} model Объект модели пользователя
  */
-class ModalRightController extends IController<ModalView, UserModel> {
+class ModalController extends IController<ModalView, UserModel> {
     private currentController: SignInController | SignUpController;
 
     public constructor(view: ModalView, model: UserModel) {
@@ -29,7 +29,7 @@ class ModalRightController extends IController<ModalView, UserModel> {
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
-        EventDispatcher.subscribe('modalRight-setSignIn', (userModel: UserModel) => {
+        EventDispatcher.subscribe('modal-setSignIn', (userModel: UserModel) => {
             this.view.currentView?.hide();
 
             this.view.setSignInView();
@@ -39,7 +39,7 @@ class ModalRightController extends IController<ModalView, UserModel> {
             );
         });
 
-        EventDispatcher.subscribe('modalRight-setSignUp', (userModel: UserModel) => {
+        EventDispatcher.subscribe('modal-setSignUp', (userModel: UserModel) => {
             this.view.currentView?.hide();
 
             this.view.setSignUpView();
@@ -50,6 +50,8 @@ class ModalRightController extends IController<ModalView, UserModel> {
         });
 
         this.view.bindClickEvent(this.handleClick.bind(this));
+        this.view.bindCloseButtonModalEvent(this.onCloseButtonClick.bind(this));
+        this.view.bindCloseButtonModalBodyEvent(this.onCloseButtonClick.bind(this));
     }
 
     public mountComponent(): void {
@@ -64,20 +66,33 @@ class ModalRightController extends IController<ModalView, UserModel> {
         super.unmountComponent();
     }
 
+    private closeModal(): void {
+        this.currentController.saveFormDataToStorage();
+
+        this.unmountComponent();
+
+        router.goToPath(router.getNearestNotAuthUrl());
+    }
+
+    private onCloseButtonClick(e: Event): void {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (this.isMounted) {
+            this.closeModal();
+        }
+    }
+
     private handleClick(e: Event): void {
         e.preventDefault();
         if (this.isMounted) {
             // TODO: check only if click not on modal right, it also click on close btn (not necessary check it?)
             const modalContent = (<HTMLElement>e.target).closest('.modal__content');
             if (!modalContent) {
-                this.currentController.saveFormDataToStorage();
-
-                this.unmountComponent();
-
-                router.goToPath(router.getNearestNotAuthUrl());
+                this.closeModal();
             }
         }
     }
 }
 
-export default ModalRightController;
+export default ModalController;

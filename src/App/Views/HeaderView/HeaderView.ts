@@ -1,5 +1,4 @@
 import IView from '../IView/IView';
-// import type IComponentDataWithType from '../../Interfaces/interfaces';
 
 import HeaderTemplate from './HeaderView.hbs';
 import './HeaderView.css';
@@ -8,12 +7,6 @@ import type ListComponent from '../../Components/ListComponent/ListComponent';
 
 import LinkComponent from '../../Components/Link/LinkComponent';
 import type LinkComponentData from '../../Components/Link/LinkComponentData';
-
-// import type LinkComponent from '../../Components/LinkComponent/LinkComponent';
-// import type LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
-
-// import type DropdownButtonComponent from '../../Components/DropdownButtonComponent/DropdownButtonComponent';
-// import type DropdownButtonComponentData from '../../Components/DropdownButtonComponent/DropdownButtonComponentData';
 
 import HeaderData from './HeaderViewConfig';
 
@@ -34,8 +27,6 @@ class HeaderView extends IView {
     // HTMLElements //
     private readonly nav: HTMLElement;
     private readonly navRight: HTMLElement;
-    private readonly tmpHeader: HTMLElement;
-    private readonly tmpNav: HTMLElement;
 
     // Current //
     private currentActiveItem: string | null;
@@ -43,21 +34,14 @@ class HeaderView extends IView {
 
     // Components //
     private logoComponent: LinkComponent;
-    private tmpLogoComponent: LinkComponent;
-
     private actionsComponent: ListComponent<LinkComponent, LinkComponentData>;
-    private tmpActionsComponent: ListComponent<LinkComponent, LinkComponentData>;
-
     private inputComponent: InputComponent;
-    private tmpInputComponent: InputComponent;
 
     private searchIcon: HTMLImageElement;
-    private tmpSearchIcon: HTMLImageElement;
 
     private subscribeButton: HTMLButtonElement | null;
 
     public searchView: SearchView;
-    public tmpSearchView: SearchView;
 
     public constructor(parent: HTMLElement) {
         super(parent, HeaderTemplate({}));
@@ -65,9 +49,6 @@ class HeaderView extends IView {
         // Init containers
         this.nav = <HTMLElement>this.element.querySelector('.ts-header__nav');
         this.navRight = <HTMLElement>this.element.querySelector('.ts-header__nav-right');
-
-        this.tmpHeader = <HTMLElement>this.element.querySelector('.ts-tmp-header');
-        this.tmpNav = <HTMLElement>this.element.querySelector('.ts-tmp-header__nav');
 
         this.currentActiveItem = null;
         this.currentProfile = null;
@@ -93,22 +74,14 @@ class HeaderView extends IView {
             this.nav,
             HeaderData.inputData.componentData
         );
-        this.tmpInputComponent = new HeaderData.inputData.componentType(
-            this.tmpHeader,
-            HeaderData.inputData.componentData
-        );
 
         this.searchView = new SearchView(this.nav);
-        this.tmpSearchView = new SearchView(this.tmpHeader);
 
         this.searchIcon = <HTMLImageElement>this.navRight.querySelector('.search-img');
 
         this.subscribeButton = this.element.querySelector('.subscribe-button');
 
         this.subscribeButton?.setAttribute('disabled', 'true'); // TODO: return
-
-
-        this.renderTmpHeader();
     }
 
     public toggleDisabledButton(data?: IUser): void {
@@ -122,34 +95,8 @@ class HeaderView extends IView {
         }
     }
 
-    public renderTmpHeader(data?: IUser): void {
-        if (data?.avatar) {
-            // TODO: Misha
-            if (HeaderData.tmpData.at(2)?.componentData?.img) {
-                HeaderData.tmpData.at(2)!.componentData!.img!.src = '/' + data.avatar;
-            }
-        }
-
-        this.tmpLogoComponent = new HeaderData.tmpLogoData.componentType(this.tmpHeader, HeaderData.tmpLogoData.componentData);
-        this.tmpLogoComponent.append();
-
-        HeaderData.tmpData.forEach(({ componentType, componentData }) => {
-            new componentType(this.tmpHeader, componentData).append();
-        });
-
-        this.tmpSearchIcon = <HTMLImageElement>this.tmpHeader.querySelector('.tmp-header-search__img');
-
-        this.tmpActionsComponent = new HeaderData.tmpActions.componentType(this.tmpNav, HeaderData.tmpActions.componentData);
-    }
-
-    public showTmpActions(): void {
-        this.tmpHeader.classList.add('tmp-header_active');
-        this.tmpNav.classList.add('tmp-header__nav_active');
-        this.tmpActionsComponent.show();
-    }
-
     public toggleMiddle(isSearch: boolean): void {
-        if (!isSearch) {
+        if (isSearch) {
             this.logoComponent.hide();
             this.actionsComponent.hide();
 
@@ -167,22 +114,6 @@ class HeaderView extends IView {
             this.logoComponent.prepend();
 
             this.searchIcon.src = '/img/icons/search.svg';
-        }
-    }
-
-    public toggleTmpMiddle(isSearch: boolean): void {
-        if (!isSearch) {
-            this.tmpLogoComponent.hide();
-
-            this.tmpInputComponent.prepend();
-            this.tmpLogoComponent.prepend();
-
-            this.tmpSearchIcon.src = '/img/icons/close.svg';
-            (<HTMLInputElement>this.tmpHeader.querySelector('.input-field__search')).focus();
-        } else {
-            this.tmpInputComponent.hide();
-
-            this.tmpSearchIcon.src = '/img/icons/search.svg';
         }
     }
 

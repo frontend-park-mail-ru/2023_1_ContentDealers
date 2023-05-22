@@ -138,6 +138,18 @@ h1 {
     background-color: #16032b;
 }
 
+.white {
+    color: #fff;
+}
+
+.white-96 {
+    color: rgba(255, 255, 255, 0.96);
+}
+
+.d-flex {
+    display: flex;
+}
+
 .flex-center {
     display: flex;
     align-items: center;

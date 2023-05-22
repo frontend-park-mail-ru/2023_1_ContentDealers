@@ -4,13 +4,11 @@ import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
 import type ButtonComponentData from '../../Components/ButtonComponent/ButtonComponentData';
 
 interface IModalRightData {
-    title: string;
-    backButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
+    closeButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
 }
 
 const ModalRightData: IModalRightData = {
-    title: 'Вход или регистрация',
-    backButton: {
+    closeButton: {
         componentType: ButtonComponent,
         componentData: {
             colorClass: 'gradient-button--grey',

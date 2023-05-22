@@ -1,4 +1,4 @@
-<div class="d-contents">
+<div>
     <article class="film">
         {{#with content}}
             <div class="film__background">
@@ -19,7 +19,6 @@
                                 <span class="film-content-rating__text">{{ rating }}</span>
                             </div>
                             <span class="film-content__year">{{ year }}</span>
-                            <!--                    <span class="film-content__type">{{ type }}</span>-->
                             <span class="film-content__country"></span>
                             <span class="film-content__age-limit">{{ ageLimit }}+</span>
                         </div>
@@ -47,7 +46,7 @@
                         </div>
                     </div>
 
-                    <div class="film-content__buttons">
+                    <div class="film-content__buttons ts-film-content__buttons">
 
                     </div>
                 </div>
@@ -55,5 +54,7 @@
         {{/with}}
     </article>
 
-    <div class="d-contents js-seasons"></div>
+    <div class="ts-series"></div>
+
+    <div class="ts-film-about"></div>
 </div>

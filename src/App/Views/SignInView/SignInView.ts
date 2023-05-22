@@ -5,6 +5,7 @@ import SignInData from './SignInViewConfig';
 import './SignInView.css';
 
 import type FormComponent from '../../Components/FormComponent/FormComponent';
+import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 class SignInView extends IView {
     public readonly form: FormComponent;
@@ -17,6 +18,8 @@ class SignInView extends IView {
                 description: SignInData.description,
             })
         );
+
+        EventDispatcher.emit('modal-change-title', SignInData.title);
 
         this.form = new SignInData.formData.componentType(
             this.element,

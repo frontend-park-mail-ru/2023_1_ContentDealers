@@ -21,7 +21,6 @@ import HeaderModel from '../../Models/HeaderModel/HeaderModel';
  */
 class HeaderController extends IController<HeaderView, HeaderModel> {
     private searchController: SearchController;
-    private tmpSearchController: SearchController;
 
     private isSearch: boolean;
     private previousCall: number | null;
@@ -42,9 +41,7 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
         this.lastCall = null;
 
         this.searchController = new SearchController(this.view.searchView, new SearchModel());
-        this.tmpSearchController = new SearchController(this.view.tmpSearchView, new SearchModel());
         this.isSearch = false;
-
 
         // // TODO
         EventDispatcher.subscribe('user-changed', (user: IUser) => {
@@ -61,26 +58,21 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
             this.view.changeProfile('signIn');
             this.view.toggleDisabledButton();
         });
-        //
-        EventDispatcher.subscribe('render-middle-list', () => {
-            this.view.toggleMiddle(this.isSearch);
-            this.view.toggleTmpMiddle(this.isSearch);
-            this.isSearch = false;
+
+        EventDispatcher.subscribe('toggle-search', () => {
+            this.isSearch = !this.isSearch;
+            this.toggleSearch();
         });
     }
 
-    private closeSearch(): void {
-        if (!this.isSearch) {
+    private toggleSearch(): void {
+        if (this.isSearch) {
             this.searchController.mountComponent();
-            this.tmpSearchController.mountComponent();
+            this.view.toggleMiddle(true);
         } else {
             this.searchController.unmountComponent();
-            this.tmpSearchController.unmountComponent();
+            this.view.toggleMiddle(false);
         }
-        this.view.toggleMiddle(this.isSearch);
-        this.view.toggleTmpMiddle(this.isSearch);
-
-        this.isSearch = !this.isSearch;
     }
 
     /**
@@ -102,7 +94,8 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
 
             switch (action) {
                 case 'search': {
-                    this.closeSearch();
+                    // this.closeSearch();
+                    EventDispatcher.emit('toggle-search');
 
                     break;
                 }
@@ -119,11 +112,6 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
                         })
                         .catch(error => console.error(error));
 
-                    break;
-                }
-
-                case 'bars': {
-                    this.view.showTmpActions();
                     break;
                 }
 
@@ -173,7 +161,8 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
 
     private handleKeyPress(e: KeyboardEvent): void {
         if (e.key === 'Escape') {
-            this.closeSearch();
+            // this.closeSearch();
+            EventDispatcher.emit('toggle-search');
         }
     }
 }

@@ -38,7 +38,7 @@ class CarouselView extends IView {
 
     public getLiWidth(): number {
         return <number>this.element.querySelectorAll('li')[3]!.offsetWidth;
-    };
+    }
 
     public setPosition(position: number): void {
         this.div.style.transition = '1s';

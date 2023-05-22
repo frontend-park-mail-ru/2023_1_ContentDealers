@@ -6,14 +6,15 @@ import type ButtonComponentData from '../../Components/ButtonComponent/ButtonCom
 import LinkComponent from '../../Components/LinkComponent/LinkComponent';
 import type LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
 
-interface IFilmData {
+interface IContentData {
     trailerButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
     subscribeButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
-    filmButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
+    watchButtonFree: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
+    watchButtonPay: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
     favoritesLink: IComponentDataWithType<LinkComponent, LinkComponentData>;
 }
 
-const FilmData: IFilmData = {
+const ContentData: IContentData = {
     subscribeButton: {
         componentData: {
             text: 'Оформить подписку',
@@ -22,32 +23,37 @@ const FilmData: IFilmData = {
         },
         componentType: ButtonComponent,
     },
-    filmButton: {
-        componentData: {
-            text: 'Смотреть',
-            // colorClass: 'gradient-button--grey',
-            className: 'film-button',
-            dataAction: 'film',
-        },
-        componentType: ButtonComponent,
-    },
     trailerButton: {
         componentData: {
             text: 'Трейлер',
             colorClass: 'gradient-button--grey',
             className: 'trailer-button',
-            dataAction: 'trailer',
+        },
+        componentType: ButtonComponent,
+    },
+    watchButtonFree: {
+        componentData: {
+            text: 'Смотреть',
+            colorClass: 'gradient-button--grey',
+            className: 'film-button',
+        },
+        componentType: ButtonComponent,
+    },
+    watchButtonPay: {
+        componentData: {
+            text: 'Смотреть по подписке',
+            colorClass: 'gradient-button--grey',
+            className: 'film-button',
         },
         componentType: ButtonComponent,
     },
     favoritesLink: {
         componentData: {
             linkClass: 'favorites',
-            dataAction: 'addToFavorites',
             linkImageSrc: '/img/icons/bookmark-regular.svg',
         },
         componentType: LinkComponent,
     },
 };
 
-export default FilmData;
+export default ContentData;

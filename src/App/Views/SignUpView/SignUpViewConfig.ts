@@ -10,7 +10,7 @@ interface ISignUpData {
 }
 
 const SignUpData: ISignUpData = {
-    title: 'Войдите или зарегистрируйтесь',
+    title: 'Зарегистрироваться',
     description: 'Чтобы начать пользоваться серависом Filmium',
     formData: {
         componentType: FormComponent,
@@ -38,7 +38,7 @@ const SignUpData: ISignUpData = {
             ],
             button: {
                 id: 'signUp-submit-btn',
-                text: 'Войти',
+                text: 'Зарегистрироваться',
                 className: 'signUp-button',
             },
             links: [

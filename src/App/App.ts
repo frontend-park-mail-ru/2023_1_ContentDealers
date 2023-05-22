@@ -147,7 +147,7 @@ class App {
 
     public run(url: string): void {
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js')
+            navigator.serviceWorker.register('/sw.js')
                 .then((registration) => {
                     console.log('Service Worker registered:', registration);
                 })

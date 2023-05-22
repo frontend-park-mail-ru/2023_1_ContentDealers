@@ -87,19 +87,15 @@ class ContentView extends IView {
         this.watchButton.show();
     }
 
-    public renderPayButton(): void {
+    public renderPayButton(disable: boolean): void {
         this.watchButton = new ContentData.watchButtonPay.componentType(
             this.buttonsContainer,
             ContentData.watchButtonPay.componentData
         );
 
-        // this.element.replaceChild()
-
-
-
-        // if (disable) {
-        //     this.watchButton.button.setAttribute('disabled', 'true');
-        // }
+        if (disable) {
+            this.watchButton.button.setAttribute('disabled', 'true');
+        }
 
         this.watchButton.show();
     }

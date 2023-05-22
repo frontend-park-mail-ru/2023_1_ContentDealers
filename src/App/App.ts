@@ -101,6 +101,7 @@ class App {
     private cardsModel: CardsModel;
     private playerModel: PlayerModel;
 
+
     // Elements
     private root: HTMLElement;
     private alert: HTMLElement;
@@ -117,7 +118,7 @@ class App {
         this.initRoutes();
 
         EventDispatcher.subscribe('start-player', (playerData: IPlayerData) => {
-            console.log('In event');
+            // console.log('In event');
             this.newPlayer(playerData);
         });
 
@@ -237,6 +238,7 @@ class App {
             content: this.filmModel,
             cards: this.cardsModel,
             player: this.playerModel,
+            header: this.headerModel
         });
         this.settingsController = new SettingsController(this.settingsView, this.userModel);
         this.personController = new PersonController(this.personView, this.personModel);
@@ -396,6 +398,8 @@ class App {
     private async handleRedirectToFilm(data: any): Promise<void> {
         EventDispatcher.emit('unmount-all');
 
+        console.log('handleRedirectToFilm', data)
+
         if (!data?.[0]) {
             router.showUnknownPage();
             return;
@@ -414,11 +418,13 @@ class App {
         this.headerView.changeActiveHeaderListItem('#');
 
         this.userModel.authUserByCookie().then(() => {
-            this.contentController.addWatchButton();
             this.contentController.addFavoritesButton();
+            this.contentController.addAbout();
         });
 
-        const user = this.userModel.getCurrentUser();
+        this.contentController.addWatchButton(this.userModel.getCurrentUser());
+
+        // const user = this.userModel.getCurrentUser();
         // this.contentController.renderWatchButton(user);
         return;
     }
@@ -445,12 +451,20 @@ class App {
         // states
         this.headerView.changeActiveHeaderListItem('#');
 
-        await this.userModel.authUserByCookie()
-            .then(() => {
-            this.contentController.addFavoritesButton();
-            }).catch(error => console.error(error));
+        // await this.userModel.authUserByCookie()
+        //     .then(() => {
+        //     this.contentController.addFavoritesButton();
+        //     this.contentController.addAbout();
+        //     }).catch(error => console.error(error));
 
-        const user = this.userModel.getCurrentUser();
+        this.userModel.authUserByCookie().then(() => {
+            this.contentController.addFavoritesButton();
+            this.contentController.addAbout();
+        });
+
+        this.contentController.addWatchButton(this.userModel.getCurrentUser());
+
+        // const user = this.userModel.getCurrentUser();
         // this.contentController.renderWatchButton(user);
 
         return;

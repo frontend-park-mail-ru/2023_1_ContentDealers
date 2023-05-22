@@ -42,11 +42,11 @@ class Router {
             return;
         }
 
-        console.log('URL: ', rawPath);
+        // console.log('URL: ', rawPath);
 
         const path = this.sanitizeUrl(rawPath);
 
-        console.log('SANITIZED, ', path);
+        // console.log('SANITIZED, ', path);
 
         const tmpPath: string = '/' + path;
         if (
@@ -59,7 +59,8 @@ class Router {
         }
 
         const foundedPath = this.routes.find(({ rule, handler }) => {
-            const match = path.match(new RegExp(rule, 'u'));
+            // const match = path.match(new RegExp(rule, 'u'));
+            const match = path.match(rule);
 
             if (match) {
                 handler(match.slice(1));
@@ -67,7 +68,7 @@ class Router {
             return match;
         });
 
-        console.log('FOUNDED PATH: ', foundedPath);
+        // console.log('FOUNDED PATH: ', foundedPath);
 
         if (!foundedPath) {
             this.unknownPageHandler();

@@ -2,15 +2,18 @@ import IController from '../IController/IController';
 
 import type { ContentType } from '../../Interfaces/Content/IContent';
 import type ContentView from '../../Views/ContentView/ContentView';
+
 import type ContentModel from '../../Models/ContentModel/ContentModel';
+import CardsModel from '../../Models/CardsModel/CardsModel';
+import PlayerModel from '../../Models/PlayerModel/PlayerModel';
+import HeaderModel from '../../Models/HeaderModel/HeaderModel';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 import router from '../../Router/Router';
 
 import type IFavoritesAddDelete from '../../Interfaces/FavoritesAddDelete/IFavoritesAddDelete';
-import CardsModel from '../../Models/CardsModel/CardsModel';
-import PlayerModel from '../../Models/PlayerModel/PlayerModel';
+import type IUser from '../../Interfaces/User/IUser';
 
 interface IId {
     id: number;
@@ -19,9 +22,9 @@ interface IId {
 
 class ContentController extends IController<
     ContentView,
-    { content: ContentModel; cards: CardsModel, player: PlayerModel }
+    { content: ContentModel; cards: CardsModel, player: PlayerModel, header: HeaderModel }
 > {
-    public constructor(view: ContentView, model: { content: ContentModel; cards: CardsModel, player: PlayerModel }) {
+    public constructor(view: ContentView, model: { content: ContentModel; cards: CardsModel, player: PlayerModel, header: HeaderModel }) {
         super(view, model);
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
@@ -73,15 +76,6 @@ class ContentController extends IController<
 
                 super.mountComponent();
 
-                this.view.renderAbout();
-                await this.bindRatingClick();
-                this.view.aboutComponent.bindDeleteRatingButtonClick(this.onDeleteRatingClick.bind(this));
-
-                const rating = await this.model.content.hasRating(this.model.content.getId());
-                if (rating) {
-                    this.view.aboutComponent.changeActiveStar(rating - 1);
-                }
-
                 this.view.bindClickEvent(this.handleClick.bind(this));
                 this.view.bindTrailerButtonClick(this.onTrailerButtonClick.bind(this));
             } catch (error) {
@@ -91,6 +85,17 @@ class ContentController extends IController<
         }
 
         return;
+    }
+
+    public async addAbout(): Promise<void> {
+        this.view.renderAbout();
+        await this.bindRatingClick();
+        this.view.aboutComponent.bindDeleteRatingButtonClick(this.onDeleteRatingClick.bind(this));
+
+        const rating = await this.model.content.hasRating(this.model.content.getId());
+        if (rating) {
+            this.view.aboutComponent.changeActiveStar(rating - 1);
+        }
     }
 
     private async bindRatingClick() {
@@ -127,10 +132,33 @@ class ContentController extends IController<
         }
     }
 
-    public addWatchButton(): void {
+    public addWatchButton(user: IUser | null): void {
         if (this.isMounted) {
-            this.view.renderWatchButton(this.model.content.isFree());
-            this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
+            console.log('isFree', this.model.content.isFree())
+            console.log('user?.has_sub', user?.has_sub)
+
+            if (this.model.content.isFree() || user?.has_sub) {
+                this.view.renderWatchButton();
+                this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
+            } else {
+                this.view.renderPayButton();
+                this.view.bindWatchButtonClick(this.onSubscribeButtonClick.bind(this));
+            }
+
+            // авторизован, не авторизован, подписан
+
+            if (this.model.content.isFree()) {
+                this.view.renderWatchButton();
+                this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
+            }
+
+            if (user?.has_sub) {
+
+            }
+
+
+            // this.view.renderWatchButton(this.model.content.isFree());
+            // this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
         }
     }
 
@@ -146,6 +174,16 @@ class ContentController extends IController<
                 console.log(error);
             }
         }
+    }
+
+    public onSubscribeButtonClick(e: Event): void {
+        this.model.header.getPaymentLink()
+            .then(data => {
+                if (data.link) {
+                    window.open(data.link, '_self');
+                }
+            })
+            .catch(error => console.error(error));
     }
 
     public startPlayer(id: number, isFilm: boolean, stopView: number, src: string, extraTitle?: string): void {
@@ -233,15 +271,6 @@ class ContentController extends IController<
             }
         }
     }
-
-    // private onStarClick(e: Event): void {
-    //     e.preventDefault();
-    //     e.stopPropagation();
-    //
-    //     if (this.isMounted) {
-    //         this.
-    //     }
-    // }
 
     private handleClick(e: Event): void {
         e.preventDefault();

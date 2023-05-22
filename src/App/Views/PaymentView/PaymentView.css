@@ -1,0 +1,14 @@
+.payment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.payment__picture {
+    width: 150px;
+}
+
+.payment__description {
+    font-size: 26px;
+}

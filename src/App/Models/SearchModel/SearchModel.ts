@@ -15,8 +15,8 @@ class FilmModel extends IModel {
 
     private parseSearchResult(json: any): ISearch {
         return {
-            content: this.parseContentForSearch(json.content),
-            actors: this.parseActorsForSearch(json.persons),
+            content: this.parseContentForSearch(json.content.content),
+            actors: this.parseActorsForSearch(json.persons.persons),
         };
     }
 
@@ -52,6 +52,7 @@ class FilmModel extends IModel {
     public async getSearchResult(query: string): Promise<ISearch> {
         const conf = Object.assign({}, config.api.search);
         conf.url = conf.url.replace('{query}', query);
+        conf.url = conf.url.replace('{limit}', '6');
 
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);

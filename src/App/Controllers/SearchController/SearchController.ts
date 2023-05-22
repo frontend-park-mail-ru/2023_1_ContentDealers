@@ -33,6 +33,14 @@ class SearchController extends IController<SearchView, SearchModel> {
             .catch(error => console.error(error));
     }
 
+    public getContentLength(): number {
+        return this.content.length;
+    }
+
+    public getActorsLength(): number {
+        return this.actors.length;
+    }
+
     public async mountComponent(): Promise<void> {
         if (!this.isMounted) {
             await this.getSearchResult(this.lastQuery);
@@ -62,6 +70,10 @@ class SearchController extends IController<SearchView, SearchModel> {
 
     public setTitle(title: string): void {
         this.view.setTitle(title);
+    }
+
+    public setResultTitle(pattern: string): void {
+        this.view.setResultTitle(pattern);
     }
 
     private handleClick(e: Event): void {

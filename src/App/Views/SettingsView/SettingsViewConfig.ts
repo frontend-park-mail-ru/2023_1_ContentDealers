@@ -35,6 +35,7 @@ const SettingsData: ISettingsData = {
                         linkHref: '/settings',
                         linkClass: 'settings-left-menu-item__link',
                         linkText: 'Основные',
+                        dataAction: 'main',
                     },
                     componentType: LinkComponent,
                 },
@@ -48,15 +49,16 @@ const SettingsData: ISettingsData = {
                 //         },
                 //     componentType: LinkComponent
                 // },
-                // {
-                //     componentData:
-                //         {
-                //             linkHref: '/settings/subscriptions',
-                //             linkClass: 'settings-left-menu-item__link',
-                //             linkText: 'Подписки',
-                //         },
-                //     componentType: LinkComponent
-                // },
+                {
+                    componentData:
+                        {
+                            linkHref: '/settings/subscriptions',
+                            linkClass: 'settings-left-menu-item__link',
+                            linkText: 'Подписки',
+                            dataAction: 'subscriptions',
+                        },
+                    componentType: LinkComponent
+                },
                 {
                     componentData: {
                         linkHref: '/logout',
@@ -65,6 +67,7 @@ const SettingsData: ISettingsData = {
                         linkImageClass: '',
                         linkImageWidth: '24px',
                         linkText: 'Выйти',
+                        dataAction: 'logout',
                     },
                     componentType: LinkComponent,
                 },

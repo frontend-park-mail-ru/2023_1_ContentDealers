@@ -19,6 +19,11 @@ const paths = {
 
     genres: '/genres/{:id}',
     selections: '/selections/{:id}',
+
+    search: '/search/{:str}',
+
+    paymentSuccess: '/payment/success',
+    paymentFailure: '/payment/failure',
 };
 
 export default paths;

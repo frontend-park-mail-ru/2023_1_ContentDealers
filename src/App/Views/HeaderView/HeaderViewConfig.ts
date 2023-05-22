@@ -125,6 +125,7 @@ const HeaderData: IHeaderConfig = {
             componentData: {
                 text: 'Купить подписку',
                 className: 'subscribe-button',
+                dataAction: 'subscribe',
             },
             componentType: ButtonComponent,
         },

@@ -22,21 +22,21 @@ const FilmData: IFilmData = {
         },
         componentType: ButtonComponent,
     },
+    filmButton: {
+        componentData: {
+            text: 'Смотреть',
+            // colorClass: 'gradient-button--grey',
+            className: 'film-button',
+            dataAction: 'film',
+        },
+        componentType: ButtonComponent,
+    },
     trailerButton: {
         componentData: {
             text: 'Трейлер',
             colorClass: 'gradient-button--grey',
             className: 'trailer-button',
             dataAction: 'trailer',
-        },
-        componentType: ButtonComponent,
-    },
-    filmButton: {
-        componentData: {
-            text: 'Смотреть',
-            colorClass: 'gradient-button--grey',
-            className: 'film-button',
-            dataAction: 'film',
         },
         componentType: ButtonComponent,
     },

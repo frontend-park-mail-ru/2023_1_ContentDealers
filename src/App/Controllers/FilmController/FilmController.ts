@@ -2,6 +2,7 @@ import IController from '../IController/IController';
 
 import type FilmView from '../../Views/FilmView/FilmView';
 import type FilmModel from '../../Models/FilmModel/FilmModel';
+import HeaderModel from '../../Models/HeaderModel/HeaderModel';
 
 import PlayerController from '../../Controllers/PlayerController/PlayerController';
 import type PlayerView from '../../Views/PlayerView/PlayerView';
@@ -22,6 +23,7 @@ class FilmController extends IController<FilmView, FilmModel> {
     private trailerSrc: string | null;
     private filmSrc: string | null;
     private playerController: PlayerController;
+    private headerModel: HeaderModel;
 
     public constructor(view: FilmView, model: FilmModel) {
         super(view, model);
@@ -31,6 +33,7 @@ class FilmController extends IController<FilmView, FilmModel> {
         this.filmSrc = null;
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
+        this.headerModel = new HeaderModel();
 
         // this.view.bindClickEvent(this.handleClick.bind(this));
     }
@@ -144,6 +147,14 @@ class FilmController extends IController<FilmView, FilmModel> {
 
             switch (action) {
                 case 'subscribe': {
+                    this.headerModel.getPaymentLink()
+                        .then(data => {
+                            if (data.link) {
+                                window.open(data.link, '_self');
+                            }
+                        })
+                        .catch(error => console.error(error));
+
                     break;
                 }
 

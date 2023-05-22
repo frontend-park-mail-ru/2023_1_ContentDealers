@@ -50,7 +50,6 @@ class CarouselComponent extends IComponent {
         ) as HTMLButtonElement;
 
         setTimeout(() => {
-            console.log(this.item?.offsetWidth);
             this.itemWidth = <number>this.item?.offsetWidth + 15;
             this.movePosition = this.slidesToScroll * this.itemWidth;
         }, 0);
@@ -58,13 +57,6 @@ class CarouselComponent extends IComponent {
         // this.itemWidth = 262 + 15;
         // this.movePosition = this.slidesToScroll * this.itemWidth;
         this.itemsCount = this.element.querySelectorAll('li').length;
-
-        // console.log(this.item!.offsetWidth);
-        // console.log(this.element);
-        // console.log(this.item);
-        // console.log(this.item?.getBoundingClientRect().width);
-        // console.log(this.item!.offsetWidth);
-        // console.log('--------------');
 
         this.element.addEventListener('click', this.boundClickEvent);
 

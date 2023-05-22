@@ -2,5 +2,6 @@
 node_modules
 build
 move.sh
-static/index_bundle.js
+static/index*.js
+static/index*.css
 static/main.css

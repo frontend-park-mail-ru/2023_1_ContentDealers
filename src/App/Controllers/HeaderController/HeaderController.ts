@@ -11,6 +11,7 @@ import router from '../../Router/Router';
 
 import SearchController from '../SearchController/SearchController';
 import SearchModel from '../../Models/SearchModel/SearchModel';
+import HeaderModel from '../../Models/HeaderModel/HeaderModel';
 
 /**
  * Котроллер для хэдера
@@ -18,7 +19,7 @@ import SearchModel from '../../Models/SearchModel/SearchModel';
  * @extends {IController}
  * @param  {HeaderView} view Объект вида компонента хэдер
  */
-class HeaderController extends IController<HeaderView, IModel> {
+class HeaderController extends IController<HeaderView, HeaderModel> {
     private searchController: SearchController;
     private tmpSearchController: SearchController;
 
@@ -28,8 +29,8 @@ class HeaderController extends IController<HeaderView, IModel> {
     private lastCallTimer: number;
     private readonly timeout: number;
 
-    public constructor(view: HeaderView) {
-        super(view, IModel);
+    public constructor(view: HeaderView, model: HeaderModel) {
+        super(view, model);
 
         this.view.bindClickEvent(this.handleClick.bind(this));
 
@@ -49,13 +50,16 @@ class HeaderController extends IController<HeaderView, IModel> {
         EventDispatcher.subscribe('user-changed', (user: IUser) => {
             if (user) {
                 this.view.changeProfile('logged', user);
+                this.view.toggleDisabledButton(user);
             } else {
                 this.view.changeProfile('signIn');
+                this.view.toggleDisabledButton();
             }
         });
 
         EventDispatcher.subscribe('render-signInButton', () => {
             this.view.changeProfile('signIn');
+            this.view.toggleDisabledButton();
         });
         //
         EventDispatcher.subscribe('render-middle-list', () => {
@@ -98,14 +102,27 @@ class HeaderController extends IController<HeaderView, IModel> {
 
             switch (action) {
                 case 'search': {
-                    console.log('search')
                     this.closeSearch();
 
                     break;
                 }
 
+                case 'subscribe': {
+                    if ((e.target as HTMLButtonElement).textContent === 'Подписка активна') {
+                        return;
+                    }
+                    this.model.getPaymentLink()
+                        .then(data => {
+                            if (data.link) {
+                                window.open(data.link, '_self');
+                            }
+                        })
+                        .catch(error => console.error(error));
+
+                    break;
+                }
+
                 case 'bars': {
-                    console.log('bars')
                     this.view.showTmpActions();
                     break;
                 }
@@ -136,14 +153,21 @@ class HeaderController extends IController<HeaderView, IModel> {
             this.searchController
                 .getSearchResult(this.view.getInputValue().split(' ').join('+'))
                 .then(() => {
-                    if ((e.target as HTMLInputElement).value !== '') {
-                        this.searchController.setTitle('Результаты поиска');
+                    if (this.searchController.getContentLength() === 0 &&
+                        this.searchController.getActorsLength() === 0) {
+                        this.searchController.setTitle('Ничего не найдено');
                     } else {
-                        this.searchController.setTitle('Часто ищут');
+                        if ((e.target as HTMLInputElement).value !== '') {
+                            this.searchController.setResultTitle((e.target as HTMLInputElement).value);
+                            // this.searchController.setTitle('Результаты поиска');
+                        } else {
+                            this.searchController.setTitle('Часто ищут');
+                        }
                     }
                     this.searchController.unRenderItems();
                     this.searchController.renderItems();
-                });
+                })
+                .catch(error => console.error(error));
         }, this.timeout);
     }
 

@@ -6,12 +6,13 @@ const srcPath = path.resolve(__dirname, './src/');
 const buildPath = path.resolve(__dirname, './build/');
 const staticPath = path.resolve(__dirname, './static/');
 
-const Handlebars = require('handlebars');
-
 module.exports = {
-    entry: path.resolve(srcPath, 'index.ts'),
+    entry: {
+        index: path.resolve(srcPath, 'index.ts'),
+        // sw: path.resolve(srcPath, 'sw.js'),
+    },
     output: {
-        filename: 'index_bundle.js',
+        filename: '[name]_bundle.[contenthash].js',
         path: staticPath,
         // clean: true,
     },
@@ -43,8 +44,9 @@ module.exports = {
             template: 'index.html',
             filename: path.resolve(buildPath, 'index.html'),
             publicPath: '/static/',
+            cache: false,
         }),
-        new MiniCssExtractPlugin({ filename: "[name].css" }),
+        new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" }),
     ],
 
     devtool: 'inline-source-map',

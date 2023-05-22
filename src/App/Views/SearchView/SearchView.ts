@@ -55,6 +55,22 @@ class SearchView extends IView {
     public setTitle(title: string): void {
         this.title.innerHTML = title;
     }
+
+    public setResultTitle(pattern: string): void {
+        this.title.innerHTML = '';
+
+        const a: HTMLAnchorElement = document.createElement('a');
+        a.href = `/search/${pattern}`;
+        a.innerHTML = 'Результаты поиска';
+        a.classList.add('result__link');
+
+
+        const img: HTMLImageElement = document.createElement('img');
+        img.src = '/img/icons/chevron-right.svg';
+        img.classList.add('icon-right');
+
+        this.title.append(a, img);
+    }
 }
 
 export default SearchView;

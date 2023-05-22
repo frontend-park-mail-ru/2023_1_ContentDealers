@@ -14,6 +14,7 @@ import type SeasonsComponentData from '../../Components/SeasonComponent/SeasonsC
 import LinkComponent from '../../Components/LinkComponent/LinkComponent';
 
 import PlayerView from '../PlayerView/PlayerView';
+import type IUser from '../../Interfaces/User/IUser';
 
 /**
  * Отображение фильма приложения
@@ -55,7 +56,7 @@ class FilmView extends IView {
         this.seasons = <HTMLElement>this.element.querySelector('.js-seasons');
         this.buttonsContainer = <HTMLElement>this.element.querySelector('.film-content__buttons');
 
-        this.renderButtons();
+        // this.renderButtons();
     }
 
     public fillSeasonItems(data: SeasonsComponentData): void {
@@ -66,12 +67,12 @@ class FilmView extends IView {
     }
 
     private renderButtons(): void {
-        this.subscribeButton = new FilmData.subscribeButton.componentType(
-            this.buttonsContainer,
-            FilmData.subscribeButton.componentData
-        );
-        this.subscribeButton.show();
-        this.subscribeButton.button.setAttribute('disabled', 'true'); // TODO: return
+        // this.subscribeButton = new FilmData.subscribeButton.componentType(
+        //     this.buttonsContainer,
+        //     FilmData.subscribeButton.componentData
+        // );
+        // this.subscribeButton.show();
+        // this.subscribeButton.button.setAttribute('disabled', 'true'); // TODO: return
 
         this.trailerButton = new FilmData.trailerButton.componentType(
             this.buttonsContainer,
@@ -87,12 +88,32 @@ class FilmView extends IView {
             : '/img/icons/bookmark-regular.svg';
     }
 
-    public renderWatchButton(): void {
-        this.filmButton = new FilmData.filmButton.componentType(
-            this.buttonsContainer,
-            FilmData.filmButton.componentData
-        );
-        this.filmButton.show();
+    public renderWatchButton(user?: IUser | null): void {
+        console.log(user);
+        if (!user) {
+            this.subscribeButton = new FilmData.subscribeButton.componentType(
+                this.buttonsContainer,
+                FilmData.subscribeButton.componentData
+            );
+            this.subscribeButton.show();
+            this.subscribeButton.button.setAttribute('disabled', 'true');
+        } else {
+            if (user?.has_sub) {
+                this.filmButton = new FilmData.filmButton.componentType(
+                    this.buttonsContainer,
+                    FilmData.filmButton.componentData
+                );
+                this.filmButton.show();
+            } else {
+                this.subscribeButton = new FilmData.subscribeButton.componentType(
+                    this.buttonsContainer,
+                    FilmData.subscribeButton.componentData
+                );
+                this.subscribeButton.show();
+            }
+        }
+
+        this.renderButtons();
     }
 
     public renderFavoritesButton(status: boolean): void {

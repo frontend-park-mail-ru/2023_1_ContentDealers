@@ -54,6 +54,8 @@ class HeaderView extends IView {
     private searchIcon: HTMLImageElement;
     private tmpSearchIcon: HTMLImageElement;
 
+    private subscribeButton: HTMLButtonElement | null;
+
     public searchView: SearchView;
     public tmpSearchView: SearchView;
 
@@ -101,10 +103,23 @@ class HeaderView extends IView {
 
         this.searchIcon = <HTMLImageElement>this.navRight.querySelector('.search-img');
 
-        this.element.querySelector('.subscribe-button')?.setAttribute('disabled', 'true'); // TODO: return
+        this.subscribeButton = this.element.querySelector('.subscribe-button');
+
+        this.subscribeButton?.setAttribute('disabled', 'true'); // TODO: return
 
 
         this.renderTmpHeader();
+    }
+
+    public toggleDisabledButton(data?: IUser): void {
+        if (data) {
+            this.subscribeButton?.removeAttribute('disabled');
+            if (data.has_sub) {
+                this.subscribeButton!.textContent = 'Подписка активна';
+            }
+        } else {
+            this.subscribeButton?.setAttribute('disabled', 'true');
+        }
     }
 
     public renderTmpHeader(data?: IUser): void {

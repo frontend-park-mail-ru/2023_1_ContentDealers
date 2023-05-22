@@ -9,6 +9,12 @@ import FavoritesModel from '../../Models/FavoritesModel/FavoritesModel';
 import router from '../../Router/Router';
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
+interface IId {
+    forFavorites?:    boolean;
+    forSearch?:       boolean;
+    pattern?:         string;
+}
+
 class FavoritesController extends IController<FavoritesView, FavoritesModel> {
     private content: IContentSearch[];
     private actors: IActorSearch[];
@@ -30,11 +36,31 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel> {
             .catch(error => console.error(error));
     }
 
-    public async mountComponent(): Promise<void> {
+    // public async getSearch(pattern: string): Promise<void> {
+    //     await this.model
+    //         .getSearchResult(pattern)
+    //         .then(data => {
+    //             console.log(data);
+    //         })
+    //         .catch(error => console.error(error));
+    // }
+
+    public async mountComponent(opts?: IId): Promise<void> {
+        if (!opts) {
+            router.showUnknownPage();
+        }
+
         if (!this.isMounted) {
-            await this.getContent('new');
-            this.view.fillContent(this.content);
-            super.mountComponent();
+            if (opts?.forFavorites) {
+                await this.getContent('new');
+                this.view.fillContent(this.content);
+                super.mountComponent();
+            } else {
+                // if (opts?.pattern) {
+                //     await this.getSearch(opts.pattern);
+                //     super.mountComponent();
+                // }
+            }
         }
     }
 

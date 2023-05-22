@@ -4,6 +4,7 @@
             <h2 class="favorites__content-header">{{ firstTitle }}</h2>
         </div>
 
+        {{#if forFavorites}}
         <div class="selection-block">
             <div class="selection_right">
                 <select class="selection js-selection">
@@ -12,7 +13,7 @@
                 </select>
             </div>
         </div>
-
+        {{/if}}
         <div class="favorites__content-main">
             <div class="grid__content js-content__item">
                 
@@ -24,9 +25,10 @@
     </div>
 
     <div class="favorites__actors">
-<!--        <h2 class="favorites__actors_header">{{ secondTitle }}</h2>-->
+        <h2 class="favorites__actors_header">{{ secondTitle }}</h2>
         <div class="favorites__actors-main">
             <div class="grid__actors js-grid__actors">
+
             </div>
         </div>
 

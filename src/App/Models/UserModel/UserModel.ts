@@ -20,9 +20,11 @@ class UserModel extends IModel {
 
     private parseUser(json: any): IUser {
         return {
-            email: json.email,
+            email:             json.email,
             // birthDate: json.date_birth,
-            avatar: json.avatar_url,
+            avatar:            json.avatar_url,
+            has_sub:           json.has_sub,
+            sub_expiration:    json.sub_expiration,
         };
     }
 

@@ -29,6 +29,9 @@ import FavoritesController from './Controllers/FavoritesController/FavoritesCont
 import GenreView from './Views/GenreView/GenreView';
 import GenreController from './Controllers/GenreController/GenreController';
 
+import PaymentView from './Views/PaymentView/PaymentView';
+import PaymentController from './Controllers/PaymentController/PaymentController';
+
 import UserModel from './Models/UserModel/UserModel';
 import FilmModel from './Models/FilmModel/FilmModel';
 import PersonModel from './Models/PersonModel/PersonModel';
@@ -36,10 +39,13 @@ import SelectionModel from './Models/SelectionModel/SelectionModel';
 import FavoritesModel from './Models/FavoritesModel/FavoritesModel';
 import GenreModel from './Models/GenreModel/GenreModel';
 
+import HeaderModel from './Models/HeaderModel/HeaderModel';
+
 import router from './Router/Router';
 import paths from './Router/RouterPaths';
 
 import EventDispatcher from './EventDispatcher/EventDispatcher';
+import headerModel from "./Models/HeaderModel/HeaderModel";
 
 class App {
     // Views
@@ -52,6 +58,7 @@ class App {
     private notFoundView: NotFoundView;
     private favoritesView: FavoritesView;
     private genreView: GenreView;
+    private paymentView: PaymentView;
 
     // Controllers
     private headerController: HeaderController;
@@ -63,6 +70,7 @@ class App {
     private notFoundController: NotFoundController;
     private favoritesController: FavoritesController;
     private genreController: GenreController;
+    private paymentController: PaymentController;
 
     // Models
     private userModel: UserModel;
@@ -71,6 +79,7 @@ class App {
     private selectionModel: SelectionModel;
     private favoritesModel: FavoritesModel;
     private genreModel: GenreModel;
+    private headerModel: headerModel;
 
     // Elements
     private root: HTMLElement;
@@ -89,6 +98,15 @@ class App {
     }
 
     public run(url: string): void {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then((registration) => {
+                    console.log('Service Worker registered:', registration);
+                })
+                .catch((error) => {
+                    console.log('Service Worker registration failed:', error);
+                });
+        }
         router.start(url);
 
         this.userModel
@@ -140,6 +158,7 @@ class App {
         this.favoritesView = new FavoritesView(this.main);
         this.genreView = new GenreView(this.main);
         this.notFoundView = new NotFoundView(this.main);
+        this.paymentView = new PaymentView(this.main);
 
         this.modalRightView = new ModalView(this.modal);
     }
@@ -156,6 +175,7 @@ class App {
         this.selectionModel = new SelectionModel();
         this.favoritesModel = new FavoritesModel();
         this.genreModel = new GenreModel();
+        this.headerModel = new HeaderModel();
     }
 
     /**
@@ -164,7 +184,7 @@ class App {
      * @return {void}
      */
     private initControllers(): void {
-        this.headerController = new HeaderController(this.headerView);
+        this.headerController = new HeaderController(this.headerView, this.headerModel);
         this.modalRightController = new ModalRightController(this.modalRightView, this.userModel);
         this.filmController = new FilmController(this.filmView, this.filmModel);
         this.settingsController = new SettingsController(this.settingsView, this.userModel);
@@ -177,6 +197,7 @@ class App {
         this.notFoundController = new NotFoundController(this.notFoundView);
         this.favoritesController = new FavoritesController(this.favoritesView, this.favoritesModel);
         this.genreController = new GenreController(this.genreView, this.genreModel);
+        this.paymentController = new PaymentController(this.paymentView);
     }
 
     /**
@@ -203,10 +224,12 @@ class App {
             { path: paths.persons, handler: this.handleRedirectToPerson },
 
             { path: paths.genres, handler: this.handleRedirectToGenre },
-            {
-                path: paths.selections,
-                handler: this.handleRedirectToSelections,
-            },
+            { path: paths.selections, handler: this.handleRedirectToSelections },
+
+            { path: paths.search, handler: this.handleRedirectToSearchResults },
+
+            { path: paths.paymentSuccess, handler: this.handleRedirectToSuccessPayment },
+            { path: paths.paymentFailure, handler: this.handleRedirectToFailurePayment },
         ];
 
         routes.forEach(({ path, handler }) => {
@@ -277,7 +300,9 @@ class App {
             .then(() => {
                 // mount
                 this.headerController.mountComponent();
-                this.favoritesController.mountComponent();
+                this.favoritesController.mountComponent({
+                    forFavorites: true,
+                });
 
                 // states
                 this.headerView.changeActiveHeaderListItem('/my-movie');
@@ -329,11 +354,13 @@ class App {
         // states
         this.headerView.changeActiveHeaderListItem('#');
 
-        this.userModel.authUserByCookie().then(() => {
-            this.filmView.renderWatchButton();
+        await this.userModel.authUserByCookie()
+            .then(() => {
             this.filmController.addFavoritesButton();
-        });
+            }).catch(error => console.error(error));
 
+        const user = this.userModel.getCurrentUser();
+        this.filmView.renderWatchButton(user);
         return;
     }
 
@@ -359,10 +386,13 @@ class App {
         // states
         this.headerView.changeActiveHeaderListItem('#');
 
-        this.userModel.authUserByCookie().then(() => {
-            this.filmView.renderWatchButton();
+        await this.userModel.authUserByCookie()
+            .then(() => {
             this.filmController.addFavoritesButton();
-        });
+            }).catch(error => console.error(error));
+
+        const user = this.userModel.getCurrentUser();
+        this.filmView.renderWatchButton(user);
 
         return;
     }
@@ -439,6 +469,43 @@ class App {
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
+    }
+
+    private handleRedirectToSearchResults(data: any): void {
+        EventDispatcher.emit('unmount-all');
+
+        if (!data?.[0]) {
+            router.showUnknownPage();
+            return;
+        }
+
+        const searchPattern = data[0];
+
+        this.headerController.mountComponent();
+        this.favoritesController.mountComponent({
+            forSearch: true,
+            pattern: searchPattern,
+        });
+
+        this.headerView.changeActiveHeaderListItem('#');
+    }
+
+    private handleRedirectToSuccessPayment(): void {
+        EventDispatcher.emit('unmount-all');
+
+        this.headerController.mountComponent();
+        this.paymentController.mountComponent({
+            success: true,
+        })
+    }
+
+    private handleRedirectToFailurePayment(): void {
+        EventDispatcher.emit('unmount-all');
+
+        this.headerController.mountComponent();
+        this.paymentController.mountComponent({
+            failure: true,
+        })
     }
 }
 

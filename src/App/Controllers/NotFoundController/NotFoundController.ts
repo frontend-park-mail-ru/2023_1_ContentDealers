@@ -6,6 +6,7 @@ import type NotFoundView from '../../Views/NotFoundView/NotFoundView';
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 import router from '../../Router/Router';
+import paths from '../../Router/RouterPaths';
 
 class NotFoundController extends IController<NotFoundView, IModel> {
     public constructor(view: NotFoundView) {
@@ -19,10 +20,7 @@ class NotFoundController extends IController<NotFoundView, IModel> {
     private handleClick(e: Event): void {
         e.preventDefault();
         if (this.isMounted) {
-            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
-            if (href !== undefined && href !== null) {
-                router.goToPath(href);
-            }
+            router.goToPath(paths.main);
 
             return;
         }

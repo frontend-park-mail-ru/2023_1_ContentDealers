@@ -106,14 +106,15 @@ class ContentController extends IController<
         }
     }
 
-    public startPlayer(id: number, isFilm: boolean, src: string, extraTitle?: string): void {
+    public startPlayer(id: number, isFilm: boolean, stopView: number, src: string, extraTitle?: string): void {
         if (this.isMounted) {
             let title = this.model.content.getTitle();
             if (extraTitle) {
                 title += `\n ${extraTitle}`; // TODO: how to add \n? \n not helps, &nbsp; too
             }
 
-            EventDispatcher.emit('start-player', { id, isFilm, title, src });
+            console.log('startPlayer', stopView)
+            EventDispatcher.emit('start-player', { id, isFilm, stopView, title, src });
         }
     }
 
@@ -122,17 +123,20 @@ class ContentController extends IController<
         e.stopPropagation();
 
         if (this.isMounted) {
-            this.startPlayer(this.model.content.getId(), false, this.model.content.getTrailerUrl());
+            this.startPlayer(this.model.content.getId(), false, 0, this.model.content.getTrailerUrl());
         }
     }
 
-    private onWatchButtonClick(e: Event): void {
+    private async onWatchButtonClick(e: Event): Promise<void> {
         e.preventDefault();
         e.stopPropagation();
 
         if (this.isMounted) {
             if (this.model.content.isFree()) {
-                this.startPlayer(this.model.content.getId(), true, this.model.content.getWatchUrl());
+                const viewHas = await this.model.content.getViewHas();
+                console.log('viewHas', viewHas)
+
+                this.startPlayer(this.model.content.getId(), true, viewHas.view.stopView, this.model.content.getWatchUrl());
             } else {
                 console.log('Not free'); // TODO
             }
@@ -181,7 +185,7 @@ class ContentController extends IController<
                         e.preventDefault();
                         e.stopPropagation();
 
-                        this.startPlayer(this.model.content.getId(), false, cardData.action, `${id} сезон ${cardData.footer?.title}`);
+                        this.startPlayer(this.model.content.getId(), false, 0, cardData.action, `${id} сезон ${cardData.footer?.title}`);
                     };
                 });
 

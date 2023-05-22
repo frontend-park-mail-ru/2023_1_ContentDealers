@@ -9,6 +9,7 @@ import type IRole from '../../Interfaces/Role/IRole';
 import type IEpisode from '../../Interfaces/Episode/IEpisode';
 import type ISeries from '../../Interfaces/Series/ISeries';
 import type IGenre from '../../Interfaces/Genre/IGenre';
+import type IHas from '../../Interfaces/Has/IHas';
 
 import Ajax from '../../Ajax/Ajax';
 
@@ -288,6 +289,56 @@ class ContentModel extends IModel {
         this.isHas = true;
 
         return Promise.resolve(response.status);
+    }
+
+
+    private stringToNumber(timeString: string): number {
+        let timeValue = 0;
+
+        if (timeString.includes("ms")) {
+            const milliseconds = parseInt(timeString.split("ms")[0]);
+            timeValue += milliseconds / 1000;
+        } else {
+            if (timeString.includes("m")) {
+                const minutes = parseInt(timeString.split("m")[0]);
+                timeValue += minutes * 60;
+
+                timeString = timeString.split("m")[1];
+            }
+
+            if (timeString.includes("s")) {
+                const seconds = parseInt(timeString.split("s")[0]);
+                timeValue += seconds;
+            }
+        }
+
+        return timeValue;
+    }
+
+    private parseHas(data: any): IHas {
+        return {
+            has: data.has,
+            view: {
+                contentId: data.view.content_id,
+                duration: this.stringToNumber(data.view.duration),
+                stopView: this.stringToNumber(data.view.stop_view)
+            }
+        }
+    }
+
+    public async getViewHas(): Promise<IHas> {
+        const conf = Object.assign({}, config.api.viewsHas);
+        conf.url = conf.url.replace('{:id}', this.getId().toString());
+
+        const response = await Ajax.ajax(conf);
+        await Ajax.checkResponseStatus(response, conf);
+
+        console.log('response', response)
+        console.log('response.responseBody.body', response.responseBody.body)
+        const has = this.parseHas(response.responseBody.body);
+        console.log('has', has)
+
+        return Promise.resolve(has);
     }
 }
 

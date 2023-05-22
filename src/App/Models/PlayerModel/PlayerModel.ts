@@ -12,6 +12,7 @@ interface ISeasonData {
 export interface IPlayerData {
     id: number;
     isFilm: boolean;
+    stopView: number;
     title: string;
     src: string;
     seasonData?: ISeasonData;
@@ -24,6 +25,7 @@ class PlayerModel extends IModel {
     private isSeason: boolean;
 
     private isFilm: boolean = false;
+    private stopView: number = 0;
 
     private throttleTimeout: number | null = null;
 
@@ -48,6 +50,14 @@ class PlayerModel extends IModel {
 
     public getId(): number {
         return this.id;
+    }
+
+    public setStopView(stopView: number): void {
+        this.stopView = stopView;
+    }
+
+    public getStopView(): number {
+        return this.stopView;
     }
 
     public setPlayerData(playerData: IPlayerData): void {

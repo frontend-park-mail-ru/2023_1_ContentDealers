@@ -11,6 +11,8 @@ import type { ContentType } from '../../Interfaces/Content/IContent';
 class SelectionModel extends IModel {
     private selections: ISelection[];
 
+    private views: IContent[];
+
     public constructor() {
         super();
     }
@@ -68,6 +70,17 @@ class SelectionModel extends IModel {
         console.log(this.selections);
 
         return Promise.resolve(this.selections);
+    }
+
+    public async getViews(): Promise<IContent[]> {
+        const conf = Object.assign({}, config.api.views);
+
+        const response = await Ajax.ajax(conf);
+        await Ajax.checkResponseStatus(response, conf);
+
+        this.views = this.parseSelectionContents(response.responseBody.body.content);
+
+        return Promise.resolve(this.views);
     }
 }
 

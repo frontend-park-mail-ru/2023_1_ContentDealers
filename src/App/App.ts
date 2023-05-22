@@ -127,6 +127,8 @@ class App {
         this.playerView = new PlayerView(this.root, title);
         this.playerModel.setId(playerData.id);
         this.playerModel.setIsFilm(playerData.isFilm);
+        this.playerModel.setStopView(playerData.stopView)
+        console.log('newPlayer', playerData.stopView)
         this.playerModel.setPlayerData(playerData);
         this.playerController = new PlayerController(this.playerView, this.playerModel);
 
@@ -264,12 +266,20 @@ class App {
         });
     }
 
-    private handleRedirectToMain(): void {
+    private async handleRedirectToMain() {
         EventDispatcher.emit('unmount-all');
 
         // mount
         // this.headerController.mountComponent();
-        this.mainController.mountComponent();
+        this.mainView.clearSelections();
+
+        try {
+            await this.userModel.authUserByCookie();
+            await this.mainController.mountViews();
+        } catch {
+
+        }
+        await this.mainController.mountComponent();
 
         // states
         this.headerView.changeActiveHeaderListItem('/');

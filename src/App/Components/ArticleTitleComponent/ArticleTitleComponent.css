@@ -89,18 +89,18 @@
 .article-title__container {
     position: relative;
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: flex-start;
     overflow: hidden;
     width: 100%;
 }
 
-@media (min-width: 960px) {
-    .article-title__container {
-        align-items: center;
-        justify-content: flex-start;
-    }
-}
+/*@media (min-width: 960px) {*/
+/*    .article-title__container {*/
+/*        align-items: center;*/
+/*        justify-content: flex-start;*/
+/*    }*/
+/*}*/
 
 .article-title__text {
     display: flex;
@@ -162,7 +162,7 @@
 
 @media (min-width: 375px) {
     .article-title__arrow-right_position {
-        margin-top: 2px;
+        margin-top: 4px;
     }
 }
 

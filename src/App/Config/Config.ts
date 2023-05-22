@@ -307,6 +307,28 @@ const config: IConfig = {
                 },
                 failure: failureDefaultStatuses,
             },
+        },
+        viewsHas: {
+            url: '/views/content/{:id}/has',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': '',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        views: {
+            url: '/views',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Просмотры успешно получены',
+                },
+                failure: failureDefaultStatuses,
+            },
         }
     },
     isAuthUrl,

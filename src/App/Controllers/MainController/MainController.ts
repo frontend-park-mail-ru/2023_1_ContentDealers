@@ -28,6 +28,24 @@ class MainController extends IController<
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
     }
 
+    public async mountViews(): Promise<void> {
+        this.model.selections.getViews()
+            .then((viewsData) => {
+                const cardsData = this.model.cards.contentsToCards(
+                    viewsData,
+                    'card__h-radius'
+                );
+                cardsData.forEach(cardsData => {
+                    cardsData.onClick = (e: Event): void => this.onLinkClick(e); // TODO
+                });
+
+                this.view.newSelection('', 'Продолжить просмотр', cardsData);
+            })
+            .catch(error => console.error(error));
+
+        return;
+    }
+
     public async mountComponent(): Promise<void> {
         if (!this.isMounted) {
             this.carouselController.mountComponent();
@@ -43,7 +61,6 @@ class MainController extends IController<
             this.model.selections
                 .getSelections()
                 .then(selections => {
-                    this.view.clearSelections();
                     selections.forEach(({ href = '', title = '', contents }) => {
                         const cardsData = this.model.cards.contentsToCards(
                             contents,

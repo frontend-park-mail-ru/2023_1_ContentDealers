@@ -1,0 +1,25 @@
+<div class="card">
+    <a href="{{ href }}" class="card__link">
+        <span class="card__title">{{ title }}</span>
+        <div>
+            <figure class="card__figure card__figure_position {{ figureOrientationClass }} white-78">
+                <div class="card__container card__figure_position">
+                    <div class="card__content card__content_bg card-content card-content_after card-content_border">
+                        <picture class="card__picture d-block">
+                            <img src="{{ imageSrc }}" class="card__image card__image_position" alt="{{ title }}">
+                        </picture>
+                    </div>
+                </div>
+
+                {{#with footer}}
+                <footer class="card__footer card-footer">
+                    <div class="card__text">
+                        <span class="card-footer__title">{{ title }}</span>
+                        <span class="card-footer__description card-footer-description">{{ description }}</span>
+                    </div>
+                </footer>
+                {{/with}}
+            </figure>
+        </div>
+    </a>
+</div>

@@ -25,18 +25,19 @@
     margin-left: 5px;
 }
 
+.gap-10 {
+    gap: 10px;
+}
+
 .current-background {
     background: #000; /* TODO --current-color */
 }
 
-.flex-center {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-align: center;
-    align-items: center;
-}
-
 /* ОБЩИЕ СТИЛИ ДЛЯ ПЛЕЕРА */
+
+.video {
+    user-select: none;
+}
 
 .video__icon {
     display: flex;
@@ -165,7 +166,7 @@
     color: rgba(255,255,255,.96);
 }
 
-.video__play-button {
+.video__button {
     align-items: center;
     cursor: pointer;
     -webkit-transition: opacity.15s;
@@ -184,7 +185,7 @@
     background: linear-gradient(26.57deg,#3c1a70 0%,rgba(93,14,245,.83));
 }
 
-.video__play-button:hover {
+.video__button:hover {
     opacity: 0.8;
 }
 
@@ -220,4 +221,8 @@
     border-radius: 3px;
     cursor: pointer;
     margin-left: 10px;
+}
+
+#video-player {
+    height: 100vh;
 }

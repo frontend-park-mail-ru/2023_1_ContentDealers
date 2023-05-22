@@ -20,53 +20,56 @@ import SearchModel from '../../Models/SearchModel/SearchModel';
  */
 class HeaderController extends IController<HeaderView, IModel> {
     private searchController: SearchController;
+
     private isSearch: boolean;
     private previousCall: number | null;
     private lastCall: number | null;
     private lastCallTimer: number;
-    private timeout: number;
+    private readonly timeout: number;
 
-    constructor(view: HeaderView) {
+    public constructor(view: HeaderView) {
         super(view, IModel);
 
         this.view.bindClickEvent(this.handleClick.bind(this));
+
+        // TODO: new
         this.view.bindInputEvent(this.handleInput.bind(this));
         this.view.bindKeyPressEvent(this.handleKeyPress.bind(this));
         this.timeout = 150;
         this.previousCall = null;
         this.lastCall = null;
+
         this.searchController = new SearchController(this.view.searchView, new SearchModel());
         this.isSearch = false;
 
-        // TODO
+        // // TODO
         EventDispatcher.subscribe('user-changed', (user: IUser) => {
             if (user) {
-                this.view.changeHeaderProfile('profile', user);
+                this.view.changeProfile('logged', user);
             } else {
-                this.view.changeHeaderProfile('signIn');
+                this.view.changeProfile('signIn');
             }
         });
 
         EventDispatcher.subscribe('render-signInButton', () => {
-            this.view.changeHeaderProfile('signIn');
+            this.view.changeProfile('signIn');
         });
 
-        EventDispatcher.subscribe('render-middle-list', () => {
-            this.view.toggleMiddle(this.isSearch);
-            this.isSearch = false;
+        EventDispatcher.subscribe('toggle-search', () => {
+            this.isSearch = !this.isSearch;
+            this.toggleSearch();
         });
-    };
+    }
 
-    private closeSearch(): void {
-        if (!this.isSearch) {
+    private toggleSearch(): void {
+        if (this.isSearch) {
             this.searchController.mountComponent();
+            this.view.toggleMiddle(true);
         } else {
             this.searchController.unmountComponent();
+            this.view.toggleMiddle(false);
         }
-        this.view.toggleMiddle(this.isSearch);
-
-        this.isSearch = !this.isSearch;
-    };
+    }
 
     /**
      * Функция обработки нажатия на хедер
@@ -77,7 +80,6 @@ class HeaderController extends IController<HeaderView, IModel> {
     private handleClick(e: Event): void {
         e.preventDefault();
         if (this.isMounted) {
-
             const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 router.goToPath(href);
@@ -87,18 +89,11 @@ class HeaderController extends IController<HeaderView, IModel> {
             const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
 
             switch (action) {
-                case 'profile': {
-                    break;
-                }
-
                 case 'search': {
-                    this.closeSearch();
+                    console.log('search');
+                    // this.closeSearch();
+                    EventDispatcher.emit('toggle-search');
 
-                    break;
-                }
-
-                case 'signIn': {
-                    // EventDispatcher.emit('signIn');
                     break;
                 }
 
@@ -108,7 +103,7 @@ class HeaderController extends IController<HeaderView, IModel> {
 
             return;
         }
-    };
+    }
 
     /**
      * Функция обработки ввода названия
@@ -125,7 +120,8 @@ class HeaderController extends IController<HeaderView, IModel> {
         }
 
         this.lastCallTimer = setTimeout(() => {
-            this.searchController.getSearchResult(this.view.getInputValue().split(' ').join('+'))
+            this.searchController
+                .getSearchResult(this.view.getInputValue().split(' ').join('+'))
                 .then(() => {
                     if ((e.target as HTMLInputElement).value !== '') {
                         this.searchController.setTitle('Результаты поиска');
@@ -136,13 +132,14 @@ class HeaderController extends IController<HeaderView, IModel> {
                     this.searchController.renderItems();
                 });
         }, this.timeout);
-    };
+    }
 
     private handleKeyPress(e: KeyboardEvent): void {
         if (e.key === 'Escape') {
-            this.closeSearch();
+            // this.closeSearch();
+            EventDispatcher.emit('toggle-search');
         }
-    };
+    }
 }
 
 export default HeaderController;

@@ -9,16 +9,16 @@ import './GenreView.css';
 import type IGrid from '../../Interfaces/Grid/IGrid';
 
 class GenreView extends IView {
-    private content:        HTMLElement;
-    private contentButton:  HTMLElement;
+    private content: HTMLElement;
+    private contentButton: HTMLElement;
 
-    constructor(parent: HTMLElement) {
+    public constructor(parent: HTMLElement) {
         super(parent, GenreTemplate({}));
-    };
+    }
 
     public bindClickEvent(listener: any): void {
         this.element.addEventListener('click', listener.bind(this));
-    };
+    }
 
     // public bindChangeEvent(listener: any): void {
     //     this.element.addEventListener('change', listener.bind(this));
@@ -26,7 +26,7 @@ class GenreView extends IView {
 
     public fillContent(data: IGrid): void {
         this.element.innerHTML = GenreTemplate({
-            firstTitle: data.title
+            firstTitle: data.title,
         });
 
         this.content = <HTMLElement>this.element.querySelector('.js-content__item');
@@ -37,11 +37,11 @@ class GenreView extends IView {
         data.content?.forEach(contentData => {
             new ContentSearchComponent(this.content, contentData, false, 'picture_size').show();
         });
-    };
+    }
 
     public emptyContent(): void {
         this.content.innerHTML = '';
-    };
+    }
 }
 
 export default GenreView;

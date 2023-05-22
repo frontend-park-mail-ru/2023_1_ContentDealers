@@ -1,58 +1,100 @@
 import IController from '../IController/IController';
 
-import type MainView from "../../Views/MainView/MainView";
-import EventDispatcher from "../../EventDispatcher/EventDispatcher";
+import type MainView from '../../Views/MainView/MainView';
+
+import CarouselController from '../CarouselController/CarouselController';
 
 import type SelectionModel from '../../Models/SelectionModel/SelectionModel';
-import router from "../../Router/Router";
-import CarouselController from "../CarouselController/CarouselController";
+import GenreModel from '../../Models/GenreModel/GenreModel';
 
-class MainController extends IController<MainView, { selections: SelectionModel }> {
+import router from '../../Router/Router';
+import EventDispatcher from '../../EventDispatcher/EventDispatcher';
+import CardsModel from '../../Models/CardsModel/CardsModel';
+
+class MainController extends IController<
+    MainView,
+    { genres: GenreModel; selections: SelectionModel; cards: CardsModel }
+> {
     private carouselController: CarouselController;
 
-    constructor(view: MainView, model: { selections: SelectionModel }) {
+    public constructor(
+        view: MainView,
+        model: { genres: GenreModel; selections: SelectionModel; cards: CardsModel }
+    ) {
         super(view, model);
 
         this.carouselController = new CarouselController(this.view.carouselView);
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
+    }
 
-        this.view.bindClickEvent(this.handleClick.bind(this));
-    };
+    public async mountViews(): Promise<void> {
+        this.model.selections.getViews()
+            .then((viewsData) => {
+                if (viewsData.length) {
+                    const cardsData = this.model.cards.contentsToCards(
+                        viewsData,
+                        'card__h-radius'
+                    );
+                    cardsData.forEach(cardsData => {
+                        cardsData.onClick = (e: Event): void => this.onLinkClick(e); // TODO
+                    });
 
-    public async mountComponent() {
+                    this.view.newSelection('', 'Продолжить просмотр', cardsData);
+                }
+            })
+            .catch(error => console.error(error));
+
+        return;
+    }
+
+    public async mountComponent(): Promise<void> {
         if (!this.isMounted) {
             this.carouselController.mountComponent();
             super.mountComponent();
 
-            this.model.selections.getSelections()
-                .then((data) => {
-                    this.view.fillSelections(data);
-                    this.view.bindClickEvent(this.handleClick.bind(this));
+            this.model.genres
+                .getAllGenres()
+                .then(data => {
+                    this.view.fillGenres(data);
                 })
-                .catch((error) => {
-                    router.showUnknownPage();
-                    return;
-                });
-        }
-    };
+                .catch(error => console.error(error));
 
-    public unmountComponent() {
+            this.model.selections
+                .getSelections()
+                .then(selections => {
+                    selections.forEach(({ href = '', title = '', contents }) => {
+                        const cardsData = this.model.cards.contentsToCards(
+                            contents,
+                            'card__h-radius'
+                        );
+                        cardsData.forEach(cardsData => {
+                            cardsData.onClick = (e: Event): void => this.onLinkClick(e); // TODO
+                        });
+
+                        this.view.newSelection(href, title, cardsData);
+                    });
+                })
+                .catch(error => console.error(error));
+        }
+
+        return;
+    }
+
+    public unmountComponent(): void {
         this.carouselController.unmountComponent();
         super.unmountComponent();
     }
 
-    private handleClick(e: Event): void {
+    private onLinkClick(e: Event): void {
         e.preventDefault();
-        if (this.isMounted) {
-            const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
-            if (href !== undefined && href !== null) {
-                router.goToPath(href);
-            }
+        e.stopPropagation();
 
-            return;
+        const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
+        if (href !== undefined && href !== null) {
+            router.goToPath(href);
         }
-    };
+    }
 }
 
 export default MainController;

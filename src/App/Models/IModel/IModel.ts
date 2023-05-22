@@ -5,7 +5,9 @@
  * @virtual
  */
 abstract class IModel {
-    constructor() {}
+    protected constructor() {
+        // Намеренно пустой
+    }
 }
 
 export default IModel;

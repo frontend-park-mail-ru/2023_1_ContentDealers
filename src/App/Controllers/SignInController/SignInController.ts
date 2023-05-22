@@ -16,31 +16,27 @@ import paths from '../../Router/RouterPaths';
  * @param  {UserModel} model Объект модели пользователя
  */
 class SignInController extends IController<SignInView, UserModel> {
-    constructor(view: SignInView, model: UserModel) {
+    public constructor(view: SignInView, model: UserModel) {
         super(view, model);
 
         this.view.form.bindSubmitEvent(this.onSubmit.bind(this));
         this.view.form.bindLinksEvent(this.onRedirect.bind(this));
-    };
+    }
 
     private validateFormFields(): boolean {
         const emailField = this.view.form.findInputComponent('email');
         const passwordField = this.view.form.findInputComponent('password');
 
         if (!emailField || !passwordField) {
-           throw Error('Fields dont exists');
+            throw Error('Fields dont exists');
         }
 
         return this.view.form.validateEmptyFields([emailField, passwordField]);
-    };
+    }
 
     private onInput(e: Event): void {
         e.preventDefault();
-
-        if (this.isMounted) {
-
-        }
-    };
+    }
 
     private onSubmit(e: Event): void {
         e.preventDefault();
@@ -48,7 +44,8 @@ class SignInController extends IController<SignInView, UserModel> {
             this.view.form.bindInputsEvent(this.onInput.bind(this));
 
             const button = <HTMLElement>(<HTMLElement>e.target).closest('.signIn-button');
-            if (button.classList.contains('button--disabled')) { // TODO: check if disabled
+            if (button.classList.contains('button--disabled')) {
+                // TODO: check if disabled
                 return;
             }
 
@@ -61,14 +58,17 @@ class SignInController extends IController<SignInView, UserModel> {
                 password: this.view.form.findInputComponent('password').input.value,
             };
 
-            this.model.signInUser(userSignIn).then(() => {
-                router.goToPath(paths.main);
-            }).catch((errorMsg) => {
-                this.view.form.findInputComponent('email').showErrorMsg('');
-                this.view.form.findInputComponent('password').showErrorMsg(errorMsg);
-            });
+            this.model
+                .signInUser(userSignIn)
+                .then(() => {
+                    router.goToPath(paths.main);
+                })
+                .catch(errorMsg => {
+                    this.view.form.findInputComponent('email').showErrorMsg('');
+                    this.view.form.findInputComponent('password').showErrorMsg(errorMsg);
+                });
         }
-    };
+    }
 
     private onRedirect(e: Event): void {
         e.stopPropagation();
@@ -80,15 +80,15 @@ class SignInController extends IController<SignInView, UserModel> {
             this.saveFormDataToStorage();
             router.goToPath(href);
         }
-    };
+    }
 
     public saveFormDataToStorage(): void {
         this.view.form.saveDataToStorage('SignInData');
-    };
+    }
 
     public getFormDataFromStorage(): void {
         this.view.form.getDataFromStorage('SignInData');
-    };
+    }
 }
 
 export default SignInController;

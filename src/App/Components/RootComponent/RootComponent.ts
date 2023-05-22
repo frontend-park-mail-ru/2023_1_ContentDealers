@@ -4,9 +4,9 @@ import RootComponentTemplate from './RootComponent.hbs';
 import './RootComponent.css';
 
 class RootComponent extends IComponent {
-    constructor(parent: HTMLElement) {
+    public constructor(parent: HTMLElement) {
         super(parent, RootComponentTemplate());
-    };
+    }
 }
 
 export default RootComponent;

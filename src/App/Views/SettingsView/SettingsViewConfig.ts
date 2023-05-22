@@ -1,4 +1,4 @@
-import type IComponentDataWithType from "../../Interfaces/interfaces";
+import type IComponentDataWithType from '../../Interfaces/interfaces';
 
 import ListComponent from '../../Components/ListComponent/ListComponent';
 import type ListComponentData from '../../Components/ListComponent/ListComponentData';
@@ -13,13 +13,17 @@ interface ISettingsData {
     title?: string;
     description?: string;
     formTitle?: string;
-    leftMenu: IComponentDataWithType<ListComponent<LinkComponent, LinkComponentData>, ListComponentData<LinkComponent, LinkComponentData>>;
+    leftMenu: IComponentDataWithType<
+        ListComponent<LinkComponent, LinkComponentData>,
+        ListComponentData<LinkComponent, LinkComponentData>
+    >;
     formData: IComponentDataWithType<FormComponent, FormComponentData>;
 }
 
 const SettingsData: ISettingsData = {
     title: 'Настройки',
-    description: 'Оставьте контактные данные для получения уведомлений от сервиса и взаимодействия со службой поддержки.',
+    // description: 'Оставьте контактные данные для получения уведомлений от сервиса и взаимодействия со службой поддержки.',
+    description: 'Изменение данных.',
     formTitle: 'Контакты',
     leftMenu: {
         componentData: {
@@ -27,13 +31,12 @@ const SettingsData: ISettingsData = {
             itemClass: 'settings-left-menu__item',
             items: [
                 {
-                    componentData:
-                        {
-                            linkHref: '/settings',
-                            linkClass: 'settings-left-menu-item__link',
-                            linkText: 'Основные',
-                        },
-                    componentType: LinkComponent
+                    componentData: {
+                        linkHref: '/settings',
+                        linkClass: 'settings-left-menu-item__link',
+                        linkText: 'Основные',
+                    },
+                    componentType: LinkComponent,
                 },
                 // TODO: return
                 // {
@@ -55,18 +58,17 @@ const SettingsData: ISettingsData = {
                 //     componentType: LinkComponent
                 // },
                 {
-                    componentData:
-                        {
-                            linkHref: '/logout',
-                            linkClass: 'settings-left-menu-item__link',
-                            linkImageSrc: '/img/icons/logout.svg',
-                            linkImageClass: '',
-                            linkImageWidth: '24px',
-                            linkText: 'Выйти',
-                        },
-                    componentType: LinkComponent
-                }
-            ]
+                    componentData: {
+                        linkHref: '/logout',
+                        linkClass: 'settings-left-menu-item__link',
+                        linkImageSrc: '/img/icons/logout.svg',
+                        linkImageClass: '',
+                        linkImageWidth: '24px',
+                        linkText: 'Выйти',
+                    },
+                    componentType: LinkComponent,
+                },
+            ],
         },
         componentType: ListComponent,
     },
@@ -91,7 +93,7 @@ const SettingsData: ISettingsData = {
                     type: 'checkbox',
                     id: 'avatar-checkbox',
                     checkboxText: 'Удалить аватарку?',
-                    class: 'input-checkbox'
+                    class: 'input-checkbox',
                 },
                 {
                     inputClass: 'input-field__input--dark',
@@ -104,12 +106,12 @@ const SettingsData: ISettingsData = {
                     type: 'password',
                     id: 'repeat-password',
                     placeholder: '********',
-                }
+                },
             ],
             button: {
                 id: 'save-submit-btn',
                 text: 'Сохранить',
-                className: 'save-button'
+                className: 'save-button',
             },
             links: [],
         },

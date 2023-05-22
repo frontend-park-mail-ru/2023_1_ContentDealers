@@ -8,26 +8,29 @@ import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 import router from '../../Router/Router';
 
 class CarouselController extends IController<CarouselView, IModel> {
-    private position:                number;
-    private readonly movePosition:   number;
-    private readonly itemsCount:     number;
-    private canClick:                boolean;
+    private position: number;
+    private movePosition: number;
+    private readonly itemsCount: number;
+    private canClick: boolean;
 
-    constructor(view: CarouselView) {
+    public constructor(view: CarouselView) {
         super(view, IModel);
 
         this.position = 0;
         this.canClick = true;
 
         // consist of picture size and spacing between pictures 850 + 20
-        this.movePosition = 870;
+
+        setTimeout(() => {
+            this.movePosition = this.view.getLiWidth() + 50;
+        }, 100);
         this.itemsCount = this.view.getItemsCount();
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
 
         this.view.bindClickEvent(this.handleClick.bind(this));
         this.view.bindTransitionEvent(this.handleTransitionEnd.bind(this));
-    };
+    }
 
     private handleClick(e: Event): void {
         e.preventDefault();
@@ -64,16 +67,16 @@ class CarouselController extends IController<CarouselView, IModel> {
 
             return;
         }
-    };
+    }
 
     private handleTransitionEnd(): void {
         const extremeImg: number = Math.ceil(this.itemsCount / 2);
-        this.position = (this.position === -extremeImg ? 1 : this.position);
-        this.position = (this.position === extremeImg ? -1 : this.position);
+        this.position = this.position === -extremeImg ? 1 : this.position;
+        this.position = this.position === extremeImg ? -1 : this.position;
 
         this.view.jump(this.movePosition * this.position);
         this.canClick = true;
-    };
+    }
 }
 
 export default CarouselController;

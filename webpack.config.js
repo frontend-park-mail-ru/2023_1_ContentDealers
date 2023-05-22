@@ -6,8 +6,6 @@ const srcPath = path.resolve(__dirname, './src/');
 const buildPath = path.resolve(__dirname, './build/');
 const staticPath = path.resolve(__dirname, './static/');
 
-const Handlebars = require('handlebars');
-
 module.exports = {
     entry: path.resolve(srcPath, 'index.ts'),
     output: {

@@ -1,6 +1,18 @@
+@media (max-width: 768px) {
+    .grid__content {
+        --grid-count-images: 3;
+    }
+}
+
+@media (max-width: 360px) {
+    .grid__content {
+        --grid-count-images: 1;
+    }
+}
+
 .grid__content {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(var(--grid-count-images, 5), 1fr);
     gap: 2px 16px;
 }
 

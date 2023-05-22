@@ -1,7 +1,3 @@
-.categories {
-    display: contents;
-}
-
 .category {
     overflow: hidden;
     margin-top: 16px;
@@ -43,9 +39,8 @@
     margin: 0;
 }
 
-.category__block .icon-right,
-.category__block .icon-left {
-    opacity: 0;
+.category__link .icon-right {
+    opacity: 1;
     transition: opacity .15s ease-in-out;
 
     margin-top: 4px;
@@ -60,9 +55,8 @@
     fill: currentColor;
 }
 
-.category:hover .icon-right,
-.category:hover .icon-left {
-    opacity: 1;
+.category__link:hover .icon-right {
+    margin-left: 16px;
 }
 
 .category__container {
@@ -72,7 +66,7 @@
 }
 
 .category__container__list {
-    overflow: hidden;
+    /*overflow: hidden;*/
 
     position: relative;
     width: 100%;
@@ -80,6 +74,8 @@
     color: hsla(0,0%,100%,.96);
 
     margin-top: 10px;
+
+    transition: .5s;
 }
 
 .category__container__items {

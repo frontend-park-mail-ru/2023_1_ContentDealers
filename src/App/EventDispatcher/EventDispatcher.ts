@@ -1,3 +1,5 @@
+type Callback = (arg: any) => void;
+
 /**
  * Класс работы с событиями приложения (cинглтон)
  * @class
@@ -9,11 +11,11 @@ class EventDispatcher {
      * (Приватное поле класса)
      * @type {Map<string, Array<Function>>}
      */
-    private events: Map<string, Array<Function>>;
+    private events: Map<string, Array<Callback>>;
 
-    constructor() {
-        this.events = new Map;
-    };
+    public constructor() {
+        this.events = new Map();
+    }
 
     /**
      * Функция подписки на событие
@@ -21,14 +23,14 @@ class EventDispatcher {
      * @param  {Function} callback - Действие, которое нужно выполнить при срабатывании события
      * @return {void}
      */
-    public subscribe(eventName: string, callback: Function): void {
+    public subscribe(eventName: string, callback: Callback): void {
         const callbackList = this.events.get(eventName);
         if (!callbackList) {
             this.events.set(eventName, [callback]);
             return;
         }
         callbackList.push(callback);
-    };
+    }
 
     /**
      * Функция отписки от события
@@ -36,7 +38,7 @@ class EventDispatcher {
      * @param  {Function} callback - Действие, которое нужно было выполнить при срабатывании события
      * @return {void}
      */
-    public unsubscribe(eventName: string, callback: Function): void {
+    public unsubscribe(eventName: string, callback: Callback): void {
         const callbackList = this.events.get(eventName);
         if (!callbackList) {
             return;
@@ -44,12 +46,11 @@ class EventDispatcher {
 
         this.events.set(
             eventName,
-            callbackList
-                .filter((func) => {
-                    return func !== callback;
-                })
+            callbackList.filter(func => {
+                return func !== callback;
+            })
         );
-    };
+    }
 
     /**
      * Функция вызова события
@@ -61,7 +62,7 @@ class EventDispatcher {
         this.events.get(eventName)?.forEach(callback => {
             callback(data);
         });
-    };
-};
+    }
+}
 
 export default new EventDispatcher();

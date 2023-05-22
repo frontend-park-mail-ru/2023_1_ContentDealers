@@ -51,7 +51,6 @@ class ContentController extends IController<
                             e.preventDefault();
                             e.stopPropagation();
 
-                            console.log('Hello')
                             const sources = this.model.content.getSources(1);
 
                             EventDispatcher.emit('start-player', {
@@ -74,6 +73,15 @@ class ContentController extends IController<
 
                 super.mountComponent();
 
+                this.view.renderAbout();
+                await this.bindRatingClick();
+                this.view.aboutComponent.bindDeleteRatingButtonClick(this.onDeleteRatingClick.bind(this));
+
+                const rating = await this.model.content.hasRating(this.model.content.getId());
+                if (rating) {
+                    this.view.aboutComponent.changeActiveStar(rating - 1);
+                }
+
                 this.view.bindClickEvent(this.handleClick.bind(this));
                 this.view.bindTrailerButtonClick(this.onTrailerButtonClick.bind(this));
             } catch (error) {
@@ -83,6 +91,40 @@ class ContentController extends IController<
         }
 
         return;
+    }
+
+    private async bindRatingClick() {
+        this.view.aboutComponent.stars.forEach((star, index) => {
+            star.addEventListener('click', async (e: Event) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const id = this.model.content.getId();
+                const rating = this.model.content.getMyRating();
+
+                let status: number;
+                if (rating) {
+                    await this.model.content.deleteRating({ content_id: id });
+                    status = await this.model.content.addRating({ content_id: id, rating: index + 1 });
+                } else {
+                    status = await this.model.content.addRating({ content_id: id, rating: index + 1 });
+                }
+
+                if (status === 200) {
+                    this.view.aboutComponent.changeActiveStar(index);
+                }
+            });
+        });
+    }
+
+    private async onDeleteRatingClick(e: Event) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        console.log('this.isMounted', this.isMounted)
+        if (this.isMounted) {
+            await this.model.content.deleteRating({ content_id: this.model.content.getId() });
+        }
     }
 
     public addWatchButton(): void {
@@ -113,7 +155,6 @@ class ContentController extends IController<
                 title += `\n ${extraTitle}`; // TODO: how to add \n? \n not helps, &nbsp; too
             }
 
-            console.log('startPlayer', stopView)
             EventDispatcher.emit('start-player', { id, isFilm, stopView, title, src });
         }
     }
@@ -134,8 +175,6 @@ class ContentController extends IController<
         if (this.isMounted) {
             if (this.model.content.isFree()) {
                 const viewHas = await this.model.content.getViewHas();
-                console.log('viewHas', viewHas)
-
                 this.startPlayer(this.model.content.getId(), true, viewHas.view.stopView, this.model.content.getWatchUrl());
             } else {
                 console.log('Not free'); // TODO
@@ -194,6 +233,15 @@ class ContentController extends IController<
             }
         }
     }
+
+    // private onStarClick(e: Event): void {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //
+    //     if (this.isMounted) {
+    //         this.
+    //     }
+    // }
 
     private handleClick(e: Event): void {
         e.preventDefault();

@@ -67,7 +67,6 @@ class SelectionModel extends IModel {
         await Ajax.checkResponseStatus(response, config.api.selections);
 
         this.selections = this.parseSelections(response.responseBody.body.selections);
-        console.log(this.selections);
 
         return Promise.resolve(this.selections);
     }

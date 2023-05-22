@@ -31,6 +31,8 @@ class ContentModel extends IModel {
     private filmData: IFilm;
     private seriesData: ISeries;
 
+    private myRating: number | null = null;
+
     public constructor() {
         super();
     }
@@ -54,6 +56,10 @@ class ContentModel extends IModel {
         }
 
         return '';
+    }
+
+    public getMyRating(): number | null {
+        return this.myRating;
     }
 
     public isFree(): boolean {
@@ -235,7 +241,6 @@ class ContentModel extends IModel {
 
         console.log('response', response);
         this.seriesData = this.parseSeries(response.responseBody.body.series);
-        console.log(this.seriesData);
 
         this.fillContentData(this.seriesData.content);
         this.seriesData.content = this.content;
@@ -291,6 +296,44 @@ class ContentModel extends IModel {
         return Promise.resolve(response.status);
     }
 
+    public async hasRating(id: number): Promise<number | null> {
+        const conf = Object.assign({}, config.api.hasRating);
+        conf.url = conf.url.replace('{:id}', id.toString());
+
+        const response = await Ajax.ajax(conf);
+        await Ajax.checkResponseStatus(response, conf);
+
+        if (response.responseBody.body.has) {
+            this.myRating = response.responseBody.body.rating;
+        } else {
+            this.myRating = null;
+        }
+
+        return Promise.resolve(this.myRating);
+    }
+
+    public async addRating(data: { content_id: number,  rating: number }): Promise<number> {
+        const conf = Object.assign({}, config.api.addRating);
+
+        const response = await Ajax.ajax(conf, JSON.stringify(data));
+        await Ajax.checkResponseStatus(response, conf);
+
+        this.myRating = data.rating;
+
+        return Promise.resolve(response.status);
+    }
+
+    public async deleteRating(data: { content_id: number }): Promise<number> {
+        const conf = Object.assign({}, config.api.deleteRating);
+
+        const response = await Ajax.ajax(conf, JSON.stringify(data));
+        await Ajax.checkResponseStatus(response, conf);
+
+        this.myRating = null;
+
+        return Promise.resolve(response.status);
+    }
+
 
     private stringToNumber(timeString: string): number {
         let timeValue = 0;
@@ -333,10 +376,7 @@ class ContentModel extends IModel {
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
 
-        console.log('response', response)
-        console.log('response.responseBody.body', response.responseBody.body)
         const has = this.parseHas(response.responseBody.body);
-        console.log('has', has)
 
         return Promise.resolve(has);
     }

@@ -11,6 +11,7 @@ import LinkComponent from '../../Components/LinkComponent/LinkComponent';
 
 import SeriesComponent from '../../Components/SeriesComponent/SeriesComponent';
 import type SeriesComponentData from '../../Components/SeriesComponent/SeriesComponentData';
+import AboutContentComponent from '../../Components/AboutContentComponent/AboutContentComponent';
 
 /**
  * Отображение фильма приложения
@@ -29,6 +30,9 @@ class ContentView extends IView {
     private seriesContainer: HTMLElement;
     public seriesComponent: SeriesComponent;
 
+    private aboutContainer: HTMLElement;
+    public aboutComponent: AboutContentComponent;
+
     public constructor(parent: HTMLElement) {
         super(parent, ContentTemplate({}));
     }
@@ -42,6 +46,7 @@ class ContentView extends IView {
         this.buttonsContainer = <HTMLElement>(
             this.element.querySelector('.ts-film-content__buttons')
         );
+        this.aboutContainer = <HTMLElement>this.element.querySelector('.ts-film-about');
 
         this.renderButtons();
     }
@@ -52,6 +57,11 @@ class ContentView extends IView {
             count: seriesData.count,
         });
         this.seriesComponent.show();
+    }
+
+    public renderAbout(): void {
+        this.aboutComponent = new AboutContentComponent(this.aboutContainer);
+        this.aboutComponent.show();
     }
 
     private renderButtons(): void {

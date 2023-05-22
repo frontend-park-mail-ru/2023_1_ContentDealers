@@ -329,6 +329,39 @@ const config: IConfig = {
                 },
                 failure: failureDefaultStatuses,
             },
+        },
+        addRating: {
+            url: '/rating/add',
+            method: REQUEST_METHODS.POST,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Рейтинг добавлен',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        deleteRating: {
+            url: '/rating/delete',
+            method: REQUEST_METHODS.POST,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Рейтинг удалён',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        hasRating: {
+            url: '/rating/content/{:id}/has',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Рейтинг успешно получен',
+                },
+                failure: failureDefaultStatuses,
+            },
         }
     },
     isAuthUrl,

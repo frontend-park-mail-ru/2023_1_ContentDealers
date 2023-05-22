@@ -27,6 +27,7 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
     private lastCall: number | null;
     private lastCallTimer: number;
     private readonly timeout: number;
+    private readonly body: HTMLElement | null;
 
     public constructor(view: HeaderView, model: HeaderModel) {
         super(view, model);
@@ -42,6 +43,8 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
 
         this.searchController = new SearchController(this.view.searchView, new SearchModel());
         this.isSearch = false;
+
+        this.body = document.querySelector('body');
 
         // // TODO
         EventDispatcher.subscribe('user-changed', (user: IUser) => {
@@ -69,9 +72,11 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
         if (this.isSearch) {
             this.searchController.mountComponent();
             this.view.toggleMiddle(true);
+            this.body!.style.overflow = 'hidden';
         } else {
             this.searchController.unmountComponent();
             this.view.toggleMiddle(false);
+            this.body!.style.removeProperty('overflow');
         }
     }
 

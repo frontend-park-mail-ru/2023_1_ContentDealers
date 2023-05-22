@@ -33,12 +33,6 @@
     background: #000; /* TODO --current-color */
 }
 
-.flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 /* ОБЩИЕ СТИЛИ ДЛЯ ПЛЕЕРА */
 
 .video {

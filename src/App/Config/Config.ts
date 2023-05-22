@@ -1,8 +1,8 @@
 interface I_REQUEST_METHODS {
-    GET: string,
-    POST: string,
-    PUT: string,
-    DELETE: string,
+    GET: string;
+    POST: string;
+    PUT: string;
+    DELETE: string;
 }
 
 const REQUEST_METHODS: I_REQUEST_METHODS = {
@@ -52,12 +52,16 @@ export interface IApi {
 interface IConfig {
     host: string;
     api: { [index: string]: IApi };
+    isAuthUrl: (url: string) => boolean;
+}
+
+function isAuthUrl(url: string): boolean {
+    return url === config.api.signIn.url || url === config.api.signUp.url;
 }
 
 const config: IConfig = {
-    // host: 'http://89.208.199.170/',
-    host: 'http://filmium.ru/api',
-    // host: 'http://89.208.199.170:8100/api',
+    // host: 'https://filmium.ru/api',
+    host: 'http://89.208.199.170:8100/api',
     api: {
         csrf: {
             url: '/user/csrf',
@@ -136,6 +140,17 @@ const config: IConfig = {
                 failure: failureDefaultStatuses,
             },
         },
+        // seasons: {
+        //     url: '/series/{:seriesId}/seasons/{:seasonsId}',
+        //     method: REQUEST_METHODS.GET,
+        //     headers: headersWithUnicode,
+        //     statuses: {
+        //         success: {
+        //             '200': 'Данные о сезоне успешно получены',
+        //         },
+        //         failure: failureDefaultStatuses,
+        //     },
+        // },
         selections: {
             url: '/selections',
             method: REQUEST_METHODS.GET,
@@ -282,7 +297,74 @@ const config: IConfig = {
                 failure: failureDefaultStatuses,
             },
         },
-    }
+        updateViewsTime: {
+            url: '/views/update',
+            method: REQUEST_METHODS.POST,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': '',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        viewsHas: {
+            url: '/views/content/{:id}/has',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': '',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        views: {
+            url: '/views',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Просмотры успешно получены',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        addRating: {
+            url: '/rating/add',
+            method: REQUEST_METHODS.POST,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Рейтинг добавлен',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        deleteRating: {
+            url: '/rating/delete',
+            method: REQUEST_METHODS.POST,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Рейтинг удалён',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        hasRating: {
+            url: '/rating/content/{:id}/has',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Рейтинг успешно получен',
+                },
+                failure: failureDefaultStatuses,
+            },
+        }
+    },
+    isAuthUrl,
 };
 
 export { REQUEST_METHODS, CsrfTokenName, config, customFailures };

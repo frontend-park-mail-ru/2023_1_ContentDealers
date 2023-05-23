@@ -24,7 +24,7 @@ class CarouselController extends IController<CarouselView, IModel> {
         setTimeout(() => {
             this.movePosition = this.view.getLiWidth() + 58;
             console.log(this.movePosition);
-        }, 700);
+        }, 1000);
         this.itemsCount = this.view.getItemsCount();
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));

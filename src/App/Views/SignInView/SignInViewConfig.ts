@@ -30,6 +30,7 @@ const SignInData: ISignInData = {
                     type: 'password',
                     id: 'password',
                     placeholder: '********',
+                    checkboxText: 'показать пароль',
                 },
             ],
             button: {

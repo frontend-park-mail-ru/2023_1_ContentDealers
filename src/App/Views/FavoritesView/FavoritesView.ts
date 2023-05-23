@@ -39,12 +39,13 @@ class FavoritesView extends IView {
         }
     }
 
-    public generateTemplate(forFavorites: boolean): void {
+    public generateTemplate(forFavorites: boolean, pattern?: string): void {
         if (forFavorites) {
             this.element.innerHTML = FavoritesTemplate(FavoritesViewData);
         } else {
             const dataForSearch = Object.assign({}, FavoritesViewData);
             dataForSearch.forFavorites = false;
+            dataForSearch.firstTitle = `Результаты поиска по запросу "${pattern}"`;
             this.element.innerHTML = FavoritesTemplate(dataForSearch);
         }
 

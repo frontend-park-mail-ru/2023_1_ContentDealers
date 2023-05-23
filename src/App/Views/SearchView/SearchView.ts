@@ -67,7 +67,7 @@ class SearchView extends IView {
 
         const img: HTMLImageElement = document.createElement('img');
         img.src = '/img/icons/chevron-right.svg';
-        img.classList.add('icon-right');
+        img.classList.add('right-arrow');
 
         this.title.append(a, img);
     }

@@ -30,6 +30,7 @@ const SignUpData: ISignUpData = {
                     type: 'password',
                     id: 'password',
                     placeholder: '********',
+                    checkboxText: 'показать пароль',
                 },
                 {
                     label: 'Повторите пароль',
@@ -37,6 +38,7 @@ const SignUpData: ISignUpData = {
                     type: 'password',
                     id: 'repeat-password',
                     placeholder: '********',
+                    checkboxText: 'показать пароль',
                 },
             ],
             button: {

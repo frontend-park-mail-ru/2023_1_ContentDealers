@@ -66,8 +66,8 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel> {
                 super.mountComponent();
             } else {
                 this.forFavorites = false;
-                this.view.generateTemplate(this.forFavorites);
                 if (opts?.pattern) {
+                    this.view.generateTemplate(this.forFavorites, opts.pattern);
                     await this.getSearch(opts.pattern);
                     this.view.fillContent(this.content);
                     this.view.fillActors(this.actors);

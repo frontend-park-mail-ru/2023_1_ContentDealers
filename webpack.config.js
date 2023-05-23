@@ -17,9 +17,9 @@ module.exports = {
     output: {
         filename: '[name]_bundle.[contenthash].js',
         path: staticPath,
-        clean: {
-            keep: /img/
-        }
+        // clean: {
+        //     keep: /img/
+        // }
     },
     module: {
         rules: [

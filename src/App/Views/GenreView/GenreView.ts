@@ -20,10 +20,6 @@ class GenreView extends IView {
         this.element.addEventListener('click', listener.bind(this));
     }
 
-    // public bindChangeEvent(listener: any): void {
-    //     this.element.addEventListener('change', listener.bind(this));
-    // };
-
     public fillContent(data: IGrid): void {
         this.element.innerHTML = GenreTemplate({
             firstTitle: data.title,
@@ -31,8 +27,6 @@ class GenreView extends IView {
 
         this.content = <HTMLElement>this.element.querySelector('.js-content__item');
         this.contentButton = <HTMLElement>this.element.querySelector('.js-content-button');
-
-        // new ButtonComponent(this.contentButton, FavoritesViewData.contentButton).show();
 
         data.content?.forEach(contentData => {
             new ContentSearchComponent(this.content, contentData, false, 'picture_size').show();

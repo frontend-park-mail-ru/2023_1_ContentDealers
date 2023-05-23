@@ -23,10 +23,6 @@ const headersWithNoCache: { [index: string]: string } = {
     'Cache-Control': 'no-cache',
 };
 
-// const headersWithEmpty: { [index: string]: string } = {
-//     'Content-Type': ,
-// };
-
 const failureDefaultStatuses: { [index: string]: string } = {
     '400': 'Неверный запрос',
     // '401': 'No Cookie',
@@ -65,7 +61,6 @@ function isAuthUrl(url: string): boolean {
 }
 
 const config: IConfig = {
-    // host: 'http://89.208.199.170/',
     // host: 'https://filmium.ru/api',
     host: 'http://89.208.199.170:8100/api',
     api: {

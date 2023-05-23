@@ -19,11 +19,6 @@ const validValidator: ValidatorResult = {
     errorMsg: '',
 };
 
-// const emptyValidator: ValidatorResult = {
-//     isValid:      false,
-//     errorMsg:     'Пустое поле',
-// }
-
 function validateInput(input: { id: string; value: string }): ValidatorResult {
     if (input.id === 'avatar') {
         return validValidator;

@@ -18,12 +18,14 @@ const SignInData: ISignInData = {
             formId: 'signIn__form',
             inputs: [
                 {
+                    label: 'Почта',
                     inputClass: 'input-field__input--dark',
                     type: 'email',
                     id: 'email',
                     placeholder: 'vasiliy.pupkin@mail.ru',
                 },
                 {
+                    label: 'Пароль',
                     inputClass: 'input-field__input--dark',
                     type: 'password',
                     id: 'password',

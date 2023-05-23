@@ -112,9 +112,8 @@ class Router {
         // .replace(/{\:word}/g, '(\\w+)')
         // .replace(/{\:\w+}/g, '(\\w+)');
         const uri = this.sanitizeUrl(rule)
-            .replace(/{:number}/g, '(\\d+)')
-            .replace(/{:word}/g, '(\\w+)')
-            .replace(/{:\w+}/g, '(\\w+)');
+            .replace(/{:id}/g, '(\\d+)')
+            .replace(/{:\w+}/, '([A-Za-zА-Яа-яЁё]+)');
 
         return new RegExp(`^${uri}$`, 'i');
     }

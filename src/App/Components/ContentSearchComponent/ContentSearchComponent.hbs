@@ -1,11 +1,11 @@
-<a class="film-item film-item_white search_hover {{#if forSearch}}search-item_flex{{/if}}" href="/{{#if isSerial}}series{{else}}films{{/if}}/{{ contentId }}">
+<a class="film-item film-item_white  {{#if forSearch}}search_hover search-item_flex{{else}}favorites_hover{{/if}}"
+   href="/{{#if isSerial}}series{{else}}films{{/if}}/{{ contentId }}">
     <div class="film-item__content">
         <div class="content__picture">
             <img src="{{ src }}" class={{ imgClassName }}>
         </div>
         {{#if forSearch}}
         <div class="content__title">
-<!--            <h3>{{#if isSerial}}S {{/if}} {{ title }}</h3>-->
             <h3>
                 {{#if isSerial}}<img src="/img/icons/clapperboard.svg" width="14px" alt="">{{/if}}
                 {{ title }}</h3>

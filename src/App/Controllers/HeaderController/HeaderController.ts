@@ -44,8 +44,6 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
         this.searchController = new SearchController(this.view.searchView, new SearchModel());
         this.isSearch = false;
 
-        this.body = document.querySelector('body');
-
         // // TODO
         EventDispatcher.subscribe('user-changed', (user: IUser) => {
             if (user) {
@@ -62,6 +60,11 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
             this.view.toggleDisabledButton();
         });
 
+        EventDispatcher.subscribe('render-middle-list', () => {
+            this.isSearch = false;
+            this.view.toggleMiddle(this.isSearch);
+        });
+
         EventDispatcher.subscribe('toggle-search', () => {
             this.isSearch = !this.isSearch;
             this.toggleSearch();
@@ -72,11 +75,11 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
         if (this.isSearch) {
             this.searchController.mountComponent();
             this.view.toggleMiddle(true);
-            this.body!.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
         } else {
             this.searchController.unmountComponent();
             this.view.toggleMiddle(false);
-            this.body!.style.removeProperty('overflow');
+            document.body.style.removeProperty('overflow');
         }
     }
 

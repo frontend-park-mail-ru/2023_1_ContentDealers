@@ -1,4 +1,5 @@
 <div class="input-field {{ class }}">
+    <label for="{{ id }}">{{ label }}</label>
     <input type="{{ type }}" id="{{ id }}" autocomplete={{#if autocomplete}}"on"{{else}}"off"{{/if}} placeholder="{{ placeholder }}" class="input-field__input {{ inputClass }}" {{#if accept}} accept="{{accept}}" {{/if}} />
     {{#if checkboxText }} {{ checkboxText }} {{/if}}
     <div id="{{ id }}-msg" class="input-field__error-msg"></div>

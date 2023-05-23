@@ -84,8 +84,9 @@ class SearchController extends IController<SearchView, SearchModel> {
             const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 this.unmountComponent();
-                router.goToPath(href);
                 EventDispatcher.emit('render-middle-list');
+                document.body.style.removeProperty('overflow');
+                router.goToPath(href);
             }
         }
     }

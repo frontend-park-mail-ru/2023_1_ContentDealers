@@ -18,18 +18,21 @@ const SignUpData: ISignUpData = {
             formId: 'signUp__form',
             inputs: [
                 {
+                    label: 'Почта',
                     inputClass: 'input-field__input--dark',
                     type: 'email',
                     id: 'email',
                     placeholder: 'vasiliy.pupkin@mail.ru',
                 },
                 {
+                    label: 'Пароль',
                     inputClass: 'input-field__input--dark',
                     type: 'password',
                     id: 'password',
                     placeholder: '********',
                 },
                 {
+                    label: 'Повторите пароль',
                     inputClass: 'input-field__input--dark',
                     type: 'password',
                     id: 'repeat-password',

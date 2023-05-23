@@ -47,6 +47,7 @@ import FavoritesModel from './Models/FavoritesModel/FavoritesModel';
 import GenreModel from './Models/GenreModel/GenreModel';
 import CardsModel from './Models/CardsModel/CardsModel';
 import PlayerModel from './Models/PlayerModel/PlayerModel';
+import headerModel from "./Models/HeaderModel/HeaderModel";
 
 import type { IPlayerData } from './Models/PlayerModel/PlayerModel';
 
@@ -56,7 +57,6 @@ import router from './Router/Router';
 import paths from './Router/RouterPaths';
 
 import EventDispatcher from './EventDispatcher/EventDispatcher';
-import headerModel from "./Models/HeaderModel/HeaderModel";
 
 class App {
     // Views
@@ -118,14 +118,8 @@ class App {
         this.initRoutes();
 
         EventDispatcher.subscribe('start-player', (playerData: IPlayerData) => {
-            // console.log('In event');
             this.newPlayer(playerData);
         });
-
-        // EventDispatcher.subscribe('start-player-series', ({ title, sources, seasonNum, episodeNum } : { title: string, sources: string[], seasonNum: number, episodeNum: number }) => {
-        //     this.newPlayer(`${title} ${seasonNum} сезон ${episodeNum} серия`, sources[episodeNum-1]);
-        //     this.playerController.setData(title, sources, seasonNum, episodeNum);
-        // });
     }
 
 
@@ -147,7 +141,7 @@ class App {
 
     public run(url: string): void {
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js')
+            navigator.serviceWorker.register('/sw.js')
                 .then((registration) => {
                     console.log('Service Worker registered:', registration);
                 })
@@ -291,15 +285,19 @@ class App {
         });
     }
 
-    private handleRedirectToMain(): void {
+    private async handleRedirectToMain() {
         EventDispatcher.emit('unmount-all');
 
         // mount
-        // this.headerController.mountComponent();
         this.mainView.clearSelections();
 
-        this.mainController.mountViews()
-        this.mainController.mountComponent();
+        try {
+            await this.mainController.mountViews();
+            await this.mainController.mountRatings();
+            await this.mainController.mountComponent();
+        } catch {
+
+        }
 
         // states
         this.headerView.changeActiveHeaderListItem('/');
@@ -332,18 +330,12 @@ class App {
     private handleRedirectToCatalog(): void {
         EventDispatcher.emit('unmount-all');
 
-        // mount
-        // this.headerController.mountComponent();
-
         // states
         this.headerView.changeActiveHeaderListItem('/catalog');
     }
 
     private handleRedirectToStore(): void {
         EventDispatcher.emit('unmount-all');
-
-        // mount
-        // this.headerController.mountComponent();
 
         // states
         this.headerView.changeActiveHeaderListItem('/store');
@@ -356,14 +348,10 @@ class App {
             .authUserByCookie()
             .then(() => {
                 // mount
-
                 this.headerController.mountComponent();
                 this.favoritesController.mountComponent({
                     forFavorites: true,
                 });
-
-                // this.headerController.mountComponent();
-
 
                 // states
                 this.headerView.changeActiveHeaderListItem('/my-movie');
@@ -380,7 +368,6 @@ class App {
             .authUserByCookie()
             .then(() => {
                 // mount
-                // this.headerController.mountComponent();
                 this.settingsController.mountComponent();
 
                 // states
@@ -398,8 +385,6 @@ class App {
     private async handleRedirectToFilm(data: any): Promise<void> {
         EventDispatcher.emit('unmount-all');
 
-        console.log('handleRedirectToFilm', data)
-
         if (!data?.[0]) {
             router.showUnknownPage();
             return;
@@ -408,7 +393,6 @@ class App {
         const filmId = data[0];
 
         // mount
-        // this.headerController.mountComponent();
         await this.contentController.mountComponent({
             id: filmId.toString(),
             type: 'film',
@@ -424,14 +408,10 @@ class App {
 
         this.contentController.addWatchButton(this.userModel.getCurrentUser());
 
-        // const user = this.userModel.getCurrentUser();
-        // this.contentController.renderWatchButton(user);
         return;
     }
 
     private async handleRedirectToSeries(data: any): Promise<void> {
-        console.log('handleRedirectToSeries');
-
         EventDispatcher.emit('unmount-all');
 
         if (!data?.[0]) {
@@ -442,7 +422,6 @@ class App {
         const filmId = data[0];
 
         // mount
-        // this.headerController.mountComponent();
         await this.contentController.mountComponent({
             id: filmId.toString(),
             type: 'series',
@@ -451,21 +430,12 @@ class App {
         // states
         this.headerView.changeActiveHeaderListItem('#');
 
-        // await this.userModel.authUserByCookie()
-        //     .then(() => {
-        //     this.contentController.addFavoritesButton();
-        //     this.contentController.addAbout();
-        //     }).catch(error => console.error(error));
-
         this.userModel.authUserByCookie().then(() => {
             this.contentController.addFavoritesButton();
             this.contentController.addAbout();
         });
 
         this.contentController.addWatchButton(this.userModel.getCurrentUser());
-
-        // const user = this.userModel.getCurrentUser();
-        // this.contentController.renderWatchButton(user);
 
         return;
     }
@@ -481,7 +451,6 @@ class App {
         const personId = data[0];
 
         // mount
-        // this.headerController.mountComponent();
         this.personController.mountComponent({ id: personId.toString() });
 
         // states
@@ -498,7 +467,7 @@ class App {
     private handleRedirectToNotFound(): void {
         EventDispatcher.emit('unmount-all');
 
-        // this.headerController.mountComponent();
+        // mount
         this.notFoundController.mountComponent();
     }
 
@@ -513,7 +482,6 @@ class App {
         const genreId = data[0];
 
         // mount
-        // this.headerController.mountComponent();
         this.genreController.mountComponent({
             id: genreId.toString(),
             forGenre: true,
@@ -534,7 +502,6 @@ class App {
         const genreId = data[0];
 
         // mount
-        // this.headerController.mountComponent();
         this.genreController.mountComponent({
             id: genreId.toString(),
             forSelections: true,

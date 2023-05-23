@@ -75,24 +75,7 @@ class GenreController extends IController<GenreView, GenreModel> {
                 router.goToPath(href);
             }
         }
-
-        // const target = <HTMLElement>e.target;
-        // const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
-        //
-        // switch (action) {
-        //     case 'loadContent': {
-        //         console.log('LOAD CONTENT');
-        //         this.view.fillContent(this.content);
-        //         break;
-        //     }
-        // }
     }
-
-    // private async handleChange(e: Event) {
-    //     await this.getContent((e.target as HTMLSelectElement).value);
-    //     this.unRenderItems();
-    //     this.view.fillContent(this.content);
-    // };
 }
 
 export default GenreController;

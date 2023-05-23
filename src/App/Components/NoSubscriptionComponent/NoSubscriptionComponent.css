@@ -1,6 +1,13 @@
 .subscription {
+    display: flex;
     flex-direction: row;
     gap: 48px;
+}
+
+.subscription__main {
+    border: 2px solid;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .subscription__title {
@@ -12,15 +19,18 @@
     font-weight: bold;
 }
 
+.subscription__advantages {
+    color: rgba(255,255,255,.96);
+    margin-top: 20px;
+}
+
 .subscription__description {
     color: rgba(255,255,255,.78);
     margin-bottom: 20px;
-    font-size: 14px;
-    line-height: 22;
 }
 
 .description__text {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 28px;
     margin-top: 12px;
     margin-bottom: 20px;

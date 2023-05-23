@@ -126,7 +126,6 @@ class ContentController extends IController<
         e.preventDefault();
         e.stopPropagation();
 
-        console.log('this.isMounted', this.isMounted)
         if (this.isMounted) {
             await this.model.content.deleteRating({ content_id: this.model.content.getId() });
         }
@@ -134,31 +133,18 @@ class ContentController extends IController<
 
     public addWatchButton(user: IUser | null): void {
         if (this.isMounted) {
-            console.log('isFree', this.model.content.isFree())
-            console.log('user?.has_sub', user?.has_sub)
-
-            if (this.model.content.isFree() || user?.has_sub) {
-                this.view.renderWatchButton();
-                this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
+            if (!user || (user && !user.has_sub)) {
+                if (this.model.content.isFree()) {
+                    this.view.renderWatchButton();
+                    this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
+                } else {
+                    this.view.renderPayButton(!user);
+                    this.view.bindWatchButtonClick(this.onSubscribeButtonClick.bind(this));
+                }
             } else {
-                this.view.renderPayButton();
-                this.view.bindWatchButtonClick(this.onSubscribeButtonClick.bind(this));
-            }
-
-            // авторизован, не авторизован, подписан
-
-            if (this.model.content.isFree()) {
                 this.view.renderWatchButton();
                 this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
             }
-
-            if (user?.has_sub) {
-
-            }
-
-
-            // this.view.renderWatchButton(this.model.content.isFree());
-            // this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
         }
     }
 
@@ -211,12 +197,8 @@ class ContentController extends IController<
         e.stopPropagation();
 
         if (this.isMounted) {
-            if (this.model.content.isFree()) {
-                const viewHas = await this.model.content.getViewHas();
-                this.startPlayer(this.model.content.getId(), true, viewHas.view.stopView, this.model.content.getWatchUrl());
-            } else {
-                console.log('Not free'); // TODO
-            }
+            const viewHas = await this.model.content.getViewHas();
+            this.startPlayer(this.model.content.getId(), true, viewHas.view.stopView, this.model.content.getWatchUrl());
         }
     }
 
@@ -274,8 +256,6 @@ class ContentController extends IController<
 
     private handleClick(e: Event): void {
         e.preventDefault();
-        console.log('handleClick');
-
         if (this.isMounted) {
             const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {

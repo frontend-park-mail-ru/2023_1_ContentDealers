@@ -29,7 +29,7 @@ class MainController extends IController<
     }
 
     public async mountViews(): Promise<void> {
-        this.model.selections.getViews()
+        await this.model.selections.getViews()
             .then((viewsData) => {
                 if (viewsData.length) {
                     const cardsData = this.model.cards.contentsToCards(
@@ -48,19 +48,39 @@ class MainController extends IController<
         return;
     }
 
+    public async mountRatings(): Promise<void> {
+        await this.model.selections.getRating()
+            .then((ratingsData) => {
+                if (ratingsData.length) {
+                    const cardsData = this.model.cards.contentsToCards(
+                        ratingsData,
+                        'card__h-radius'
+                    );
+                    cardsData.forEach(cardsData => {
+                        cardsData.onClick = (e: Event): void => this.onLinkClick(e); // TODO
+                    });
+
+                    this.view.newSelection('', 'Оценённые', cardsData);
+                }
+            })
+            .catch(error => console.error(error));
+
+        return;
+    }
+
     public async mountComponent(): Promise<void> {
         if (!this.isMounted) {
             this.carouselController.mountComponent();
             super.mountComponent();
 
-            this.model.genres
+            await this.model.genres
                 .getAllGenres()
                 .then(data => {
                     this.view.fillGenres(data);
                 })
                 .catch(error => console.error(error));
 
-            this.model.selections
+            await this.model.selections
                 .getSelections()
                 .then(selections => {
                     selections.forEach(({ href = '', title = '', contents }) => {

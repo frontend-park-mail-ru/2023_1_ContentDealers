@@ -133,6 +133,12 @@
     cursor: auto
 }
 
+.gradient-button--grey:disabled {
+    background: radial-gradient(circle at var(--coord-x)var(--coord-y),rgba(188,186,193,.32)0%,rgba(139,136,146,.32)100%);
+    opacity: .5;
+    cursor: auto
+}
+
 @-webkit-keyframes gradient {
     0% {
         -webkit-transform: translate(-50%,-50%)rotate(0);

@@ -217,8 +217,6 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
         e.preventDefault();
         e.stopPropagation();
 
-        console.log('onNextButtonClick');
-
         this.model.updateInfo(this.model.getNextIndex())
 
         this.view.changeTitle(this.model.getTitle());

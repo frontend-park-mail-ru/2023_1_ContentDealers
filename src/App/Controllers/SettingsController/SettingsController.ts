@@ -109,6 +109,7 @@ class SettingsController extends IController<SettingsView, UserModel> {
                         if (user?.has_sub) {
                             this.view.showSubscriptions({
                                 title: 'Подписка активна',
+                                advantages: 'Вам открыт эксклюзивный доступ к новинкам в мире кино и сериалов ',
                                 description: `Действительна до ${user.sub_expiration}`,
                             });
                         } else {

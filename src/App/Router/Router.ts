@@ -59,7 +59,6 @@ class Router {
         }
 
         const foundedPath = this.routes.find(({ rule, handler }) => {
-            // const match = path.match(new RegExp(rule, 'u'));
             const match = path.match(rule);
 
             if (match) {
@@ -114,7 +113,6 @@ class Router {
         const uri = this.sanitizeUrl(rule)
             .replace(/{:id}/g, '(\\d+)')
             .replace(/{:\w+}/, '([A-Za-zА-Яа-яЁё]+)');
-
         return new RegExp(`^${uri}$`, 'i');
     }
 

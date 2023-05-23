@@ -105,14 +105,12 @@ class MediaHeaderController extends IController<MediaHeaderView, IModel> {
 
             switch (action) {
                 case 'search': {
-                    console.log('search');
                     EventDispatcher.emit('toggle-search');
 
                     break;
                 }
 
                 case 'bars': {
-                    console.log('bars');
                     this.isOpen = !this.isOpen;
                     this.toggleBar();
                     break;

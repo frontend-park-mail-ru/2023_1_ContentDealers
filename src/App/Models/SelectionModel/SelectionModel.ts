@@ -12,6 +12,7 @@ class SelectionModel extends IModel {
     private selections: ISelection[];
 
     private views: IContent[];
+    private ratings: IContent[];
 
     public constructor() {
         super();
@@ -37,6 +38,12 @@ class SelectionModel extends IModel {
         return selectionContents.map((selectionContent: any) => {
             return this.parseSelectionContent(selectionContent);
         });
+    }
+
+    private parseSelectionsWithRating(selectionsWithRating: any): IContent[] {
+        return selectionsWithRating.map((selectionsWithRating: any) => {
+            return this.parseSelectionContent(selectionsWithRating.content);
+        })
     }
 
     private parseSelectionContent(selectionContent: any): IContent {
@@ -80,6 +87,17 @@ class SelectionModel extends IModel {
         this.views = this.parseSelectionContents(response.responseBody.body.content);
 
         return Promise.resolve(this.views);
+    }
+
+    public async getRating(): Promise<IContent[]> {
+        const conf = Object.assign({}, config.api.rating);
+
+        const response = await Ajax.ajax(conf);
+        await Ajax.checkResponseStatus(response, conf);
+
+        this.ratings = this.parseSelectionsWithRating(response.responseBody.body.content_with_ratings);
+
+        return Promise.resolve(this.ratings);
     }
 }
 

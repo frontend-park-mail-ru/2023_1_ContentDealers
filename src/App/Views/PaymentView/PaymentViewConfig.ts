@@ -5,7 +5,7 @@ interface IPaymentViewData {
 
 const PaymentViewSuccessData: IPaymentViewData = {
     src: 'success.svg',
-    description: 'В Течение нескольких минут подписка будет применена на сайте'
+    description: 'В течение нескольких минут подписка будет применена на сайте'
 }
 
 const PaymentViewFailureData: IPaymentViewData = {

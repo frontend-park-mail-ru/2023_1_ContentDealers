@@ -85,7 +85,6 @@ class SearchController extends IController<SearchView, SearchModel> {
             if (href !== undefined && href !== null) {
                 this.unmountComponent();
                 router.goToPath(href);
-                EventDispatcher.emit('render-middle-list');
             }
         }
     }

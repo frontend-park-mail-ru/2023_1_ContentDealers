@@ -2,6 +2,7 @@
 node_modules
 build
 move.sh
-static/index*.js
-static/index*.css
-static/main.css
+static/*.js
+static/*.css
+static/*.gz
+static/*.txt

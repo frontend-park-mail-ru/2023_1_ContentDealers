@@ -126,7 +126,6 @@ class ContentController extends IController<
         e.preventDefault();
         e.stopPropagation();
 
-        console.log('this.isMounted', this.isMounted)
         if (this.isMounted) {
             await this.model.content.deleteRating({ content_id: this.model.content.getId() });
         }
@@ -257,8 +256,6 @@ class ContentController extends IController<
 
     private handleClick(e: Event): void {
         e.preventDefault();
-        console.log('handleClick');
-
         if (this.isMounted) {
             const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {

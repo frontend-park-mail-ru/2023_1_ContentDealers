@@ -42,11 +42,11 @@ class Router {
             return;
         }
 
-        console.log('URL: ', rawPath);
+        // console.log('URL: ', rawPath);
 
         const path = this.sanitizeUrl(rawPath);
 
-        console.log('SANITIZED, ', path);
+        // console.log('SANITIZED, ', path);
 
         const tmpPath: string = '/' + path;
         if (
@@ -67,7 +67,7 @@ class Router {
             return match;
         });
 
-        console.log('FOUNDED PATH: ', foundedPath);
+        // console.log('FOUNDED PATH: ', foundedPath);
 
         if (!foundedPath) {
             this.unknownPageHandler();
@@ -106,11 +106,14 @@ class Router {
     }
 
     private parseRule(rule: string): RegExp {
+        // const uri = this.sanitizeUrl(rule)
+        // .replace(/{\:number}/g, '(\\d+)')
+        // .replace(/{\:word}/g, '(\\w+)')
+        // .replace(/{\:\w+}/g, '(\\w+)');
         const uri = this.sanitizeUrl(rule)
             .replace(/{:number}/g, '(\\d+)')
-            .replace(/{:\w+}/g, '(\\w+)');
-            // .replace(/[A-Za-zА-Яа-яЁё]+/, '([A-Za-zА-Яа-яЁё]+)');
-
+            .replace(/{:word}/g, '(\\w+)')
+            .replace(/{:\w+}/, '([0-9A-Za-zА-Яа-яЁё]+)');
 
         return new RegExp(`^${uri}$`, 'i');
     }

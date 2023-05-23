@@ -239,7 +239,6 @@ class ContentModel extends IModel {
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
 
-        // console.log('response', response);
         this.seriesData = this.parseSeries(response.responseBody.body.series);
 
         this.fillContentData(this.seriesData.content);

@@ -36,15 +36,6 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel> {
             .catch(error => console.error(error));
     }
 
-    // public async getSearch(pattern: string): Promise<void> {
-    //     await this.model
-    //         .getSearchResult(pattern)
-    //         .then(data => {
-    //             console.log(data);
-    //         })
-    //         .catch(error => console.error(error));
-    // }
-
     public async mountComponent(opts?: IId): Promise<void> {
         if (!opts) {
             router.showUnknownPage();

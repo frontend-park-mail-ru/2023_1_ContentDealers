@@ -118,7 +118,6 @@ class App {
         this.initRoutes();
 
         EventDispatcher.subscribe('start-player', (playerData: IPlayerData) => {
-            // console.log('In event');
             this.newPlayer(playerData);
         });
 
@@ -291,15 +290,20 @@ class App {
         });
     }
 
-    private handleRedirectToMain(): void {
+    private async handleRedirectToMain() {
         EventDispatcher.emit('unmount-all');
 
         // mount
         // this.headerController.mountComponent();
         this.mainView.clearSelections();
 
-        this.mainController.mountViews()
-        this.mainController.mountComponent();
+        try {
+            await this.mainController.mountViews();
+            await this.mainController.mountRatings();
+            await this.mainController.mountComponent();
+        } catch {
+
+        }
 
         // states
         this.headerView.changeActiveHeaderListItem('/');
@@ -398,8 +402,6 @@ class App {
     private async handleRedirectToFilm(data: any): Promise<void> {
         EventDispatcher.emit('unmount-all');
 
-        console.log('handleRedirectToFilm', data)
-
         if (!data?.[0]) {
             router.showUnknownPage();
             return;
@@ -430,8 +432,6 @@ class App {
     }
 
     private async handleRedirectToSeries(data: any): Promise<void> {
-        console.log('handleRedirectToSeries');
-
         EventDispatcher.emit('unmount-all');
 
         if (!data?.[0]) {

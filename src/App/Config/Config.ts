@@ -66,8 +66,8 @@ function isAuthUrl(url: string): boolean {
 
 const config: IConfig = {
     // host: 'http://89.208.199.170/',
-    host: 'https://filmium.ru/api',
-    // host: 'http://89.208.199.170:8100/api',
+    // host: 'https://filmium.ru/api',
+    host: 'http://89.208.199.170:8100/api',
     api: {
         csrf: {
             url: '/user/csrf',
@@ -376,6 +376,17 @@ const config: IConfig = {
             statuses: {
                 success: {
                     '200': 'Рейтинг успешно получен',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        rating: {
+            url: '/rating',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Рейтинги успешно получен',
                 },
                 failure: failureDefaultStatuses,
             },

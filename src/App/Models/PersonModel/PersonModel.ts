@@ -8,6 +8,7 @@ import type IContent from '../../Interfaces/Content/IContent';
 import Ajax from '../../Ajax/Ajax';
 
 import { config } from '../../Config/Config';
+import type { ContentType } from '../../Interfaces/Content/IContent';
 
 class PersonModel extends IModel {
     private genderMap: { [gender: string]: string } = {
@@ -82,7 +83,15 @@ class PersonModel extends IModel {
         return {
             id: content.id,
             title: content.title,
+            href: this.receiveContentHref(
+                content.id as number,
+                content.type as ContentType
+            ),
         };
+    }
+
+    private receiveContentHref(id: number, type: ContentType): string {
+        return type === 'film' ? `/${type}s/${id}` : `/${type}/${id}`;
     }
 
     private transformGender(gender: string): string {

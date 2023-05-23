@@ -97,7 +97,7 @@ class FavoritesModel extends IModel {
     public async getSearchResult(query: string): Promise<ISearch> {
         const conf = Object.assign({}, config.api.search);
         conf.url = conf.url.replace('{query}', query);
-        conf.url = conf.url.replace('{limit}', '100');
+        conf.url = conf.url.replace('{limit}', '20');
 
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);

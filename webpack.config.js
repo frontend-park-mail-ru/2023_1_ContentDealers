@@ -17,6 +17,9 @@ module.exports = {
     output: {
         filename: '[name]_bundle.[contenthash].js',
         path: staticPath,
+        clean: {
+            keep: /img/
+        }
     },
     module: {
         rules: [
@@ -41,7 +44,7 @@ module.exports = {
     optimization: {
         minimize: true,
         minimizer: [new TerserPlugin()],
-        moduleIds: 'hashed',
+        moduleIds: 'deterministic', // Updated option value
     },
     plugins: [
         new HtmlWebpackPlugin({

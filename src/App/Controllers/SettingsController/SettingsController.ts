@@ -8,6 +8,7 @@ import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 import router from '../../Router/Router';
 import { validateInput } from '../../Utils/Validators/Validator';
+import PaymentModel from '../../Models/PaymentModel/PaymentModel';
 
 /**
  * Котроллер для
@@ -15,8 +16,8 @@ import { validateInput } from '../../Utils/Validators/Validator';
  * @extends {IController}
  * @param  {HeaderView} view Объект вида компонента
  */
-class SettingsController extends IController<SettingsView, UserModel> {
-    public constructor(view: SettingsView, model: UserModel) {
+class SettingsController extends IController<SettingsView, { user: UserModel, payment: PaymentModel }> {
+    public constructor(view: SettingsView, model: { user: UserModel, payment: PaymentModel }) {
         super(view, model);
 
         this.view.bindClickEvent(this.handleClick.bind(this));
@@ -28,7 +29,7 @@ class SettingsController extends IController<SettingsView, UserModel> {
 
     public mountComponent(): void {
         if (!this.isMounted) {
-            const user = this.model.getCurrentUser();
+            const user = this.model.user.getCurrentUser();
             if (!user) {
                 return;
             }
@@ -51,7 +52,6 @@ class SettingsController extends IController<SettingsView, UserModel> {
         const passwordComponent = this.view.form.findInputComponent('password');
         const repeatPasswordComponent = this.view.form.findInputComponent('repeat-password');
 
-        // const email = emailComponent.input.value;
         const password = passwordComponent.input.value;
         const repeatPassword = repeatPasswordComponent.input.value;
 
@@ -88,9 +88,6 @@ class SettingsController extends IController<SettingsView, UserModel> {
             const target = <HTMLElement>e.target;
 
             const href = target.closest('[href]')?.getAttribute('href');
-            // if (href !== undefined && href !== null) {
-                // router.goToPath(href);
-            // }
 
             const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
             switch (action) {
@@ -104,13 +101,22 @@ class SettingsController extends IController<SettingsView, UserModel> {
 
                 case 'subscriptions': {
                     if (href) {
-                        const user = this.model.getCurrentUser();
+                        const user = this.model.user.getCurrentUser();
                         this.view.changeActiveLeftMenuItem(href);
                         if (user?.has_sub) {
                             this.view.showSubscriptions({
                                 title: 'Подписка активна',
                                 advantages: 'Вам открыт эксклюзивный доступ к новинкам в мире кино и сериалов ',
                                 description: `Действительна до ${user.sub_expiration}`,
+                            });
+                            this.view.bindRepeatSubscriptionButton(() => {
+                                this.model.payment.getPaymentLink()
+                                    .then(data => {
+                                        if (data.link) {
+                                            window.open(data.link, '_self');
+                                        }
+                                    })
+                                    .catch(error => console.error(error));
                             });
                         } else {
                             this.view.showSubscriptions();
@@ -152,7 +158,7 @@ class SettingsController extends IController<SettingsView, UserModel> {
                         return;
                     } else {
                         formData.append('avatar', file);
-                        this.model
+                        this.model.user
                             .avatarUpdate(formData)
                             .then(() => {
                                 this.view.form.inputs.forEach(inputComponent => {
@@ -166,7 +172,7 @@ class SettingsController extends IController<SettingsView, UserModel> {
                     }
                 } else {
                     if (this.view.form.findInputComponent('avatar-checkbox').input.checked) {
-                        this.model
+                        this.model.user
                             .avatarDelete()
                             .then()
                             .catch(error => console.error(error));
@@ -174,7 +180,7 @@ class SettingsController extends IController<SettingsView, UserModel> {
                     }
                 }
 
-                this.model
+                this.model.user
                     .updateUser(userData)
                     .then(() => {
                         this.view.form.inputs.forEach(inputComponent => {

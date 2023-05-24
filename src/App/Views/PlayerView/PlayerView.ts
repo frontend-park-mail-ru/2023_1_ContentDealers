@@ -289,16 +289,16 @@ class PlayerView extends IView {
 
     public show() {
         const body = document.body;
-        body.classList.remove('body_player-inactive');
-        body.classList.add('body_player-active');
+        body.classList.remove('overflow-auto');
+        body.classList.add('overflow-hidden');
 
         super.show();
     }
 
     public hide() {
         const body = document.body;
-        body.classList.remove('body_player-active');
-        body.classList.add('body_player-inactive');
+        body.classList.remove('overflow-hidden');
+        body.classList.add('overflow-auto');
 
         super.hide();
     }

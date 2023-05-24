@@ -3,14 +3,16 @@ import IController from '../IController/IController';
 import type { ContentType } from '../../Interfaces/Content/IContent';
 import type ContentView from '../../Views/ContentView/ContentView';
 
+import type UserModel from '../../Models/UserModel/UserModel';
 import type ContentModel from '../../Models/ContentModel/ContentModel';
-import CardsModel from '../../Models/CardsModel/CardsModel';
-import PlayerModel from '../../Models/PlayerModel/PlayerModel';
-import HeaderModel from '../../Models/HeaderModel/HeaderModel';
+import type CardsModel from '../../Models/CardsModel/CardsModel';
+import type PlayerModel from '../../Models/PlayerModel/PlayerModel';
+import type PaymentModel from '../../Models/PaymentModel/PaymentModel';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 import router from '../../Router/Router';
+import paths from '../../Router/RouterPaths';
 
 import type IFavoritesAddDelete from '../../Interfaces/FavoritesAddDelete/IFavoritesAddDelete';
 import type IUser from '../../Interfaces/User/IUser';
@@ -22,9 +24,15 @@ interface IId {
 
 class ContentController extends IController<
     ContentView,
-    { content: ContentModel; cards: CardsModel, player: PlayerModel, header: HeaderModel }
+    { user: UserModel, content: ContentModel; cards: CardsModel, player: PlayerModel, payment: PaymentModel }
 > {
-    public constructor(view: ContentView, model: { content: ContentModel; cards: CardsModel, player: PlayerModel, header: HeaderModel }) {
+    public constructor(view: ContentView, model: {
+        user: UserModel,
+        content: ContentModel,
+        cards: CardsModel,
+        player: PlayerModel,
+        payment: PaymentModel
+    }) {
         super(view, model);
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
@@ -45,6 +53,10 @@ class ContentController extends IController<
                     this.view.fillSeries(this.model.content.getSeriesData());
 
                     // TODO: how improve?
+                    const sources = this.model.content.getSources(1);
+                    const isFree = this.model.content.isFree();
+                    console.log('isFree', isFree)
+
                     const cardsData = this.model.cards.seasonsToCards(
                         this.model.content.getSeason(1),
                         'card__v-radius'
@@ -54,19 +66,34 @@ class ContentController extends IController<
                             e.preventDefault();
                             e.stopPropagation();
 
-                            const sources = this.model.content.getSources(1);
+                            if (isFree) {
+                                EventDispatcher.emit('start-player', {
+                                    id: this.model.content.getId(),
+                                    title: this.model.content.getTitle(),
+                                    src: sources[index],
+                                    seasonData: {
+                                        sources: sources,
+                                        index: index,
+                                        seasonNum: 1,
+                                        episodeNum: index + 1
+                                    }
+                                });
+                            } else {
 
-                            EventDispatcher.emit('start-player', {
-                                id: this.model.content.getId(),
-                                title: this.model.content.getTitle(),
-                                src: sources[index],
-                                seasonData: {
-                                    sources: sources,
-                                    index: index,
-                                    seasonNum: 1,
-                                    episodeNum: index + 1
-                                }
-                            });
+                                this.model.user.authUserByCookie()
+                                    .then(() => {
+                                        this.model.payment.getPaymentLink()
+                                            .then(data => {
+                                                if (data.link) {
+                                                    window.open(data.link, '_self');
+                                                }
+                                            })
+                                            .catch(error => console.error(error));
+                                    })
+                                    .catch(() => {
+                                        router.goToPath(paths.signIn);
+                                    });
+                            }
                         };
                     });
 
@@ -133,17 +160,19 @@ class ContentController extends IController<
 
     public addWatchButton(user: IUser | null): void {
         if (this.isMounted) {
-            if (!user || (user && !user.has_sub)) {
-                if (this.model.content.isFree()) {
+            if (!this.model.content.isSeries()) {
+                if (!user || (user && !user.has_sub)) {
+                    if (this.model.content.isFree()) {
+                        this.view.renderWatchButton();
+                        this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
+                    } else {
+                        this.view.renderPayButton(!user);
+                        this.view.bindWatchButtonClick(this.onSubscribeButtonClick.bind(this));
+                    }
+                } else {
                     this.view.renderWatchButton();
                     this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
-                } else {
-                    this.view.renderPayButton(!user);
-                    this.view.bindWatchButtonClick(this.onSubscribeButtonClick.bind(this));
                 }
-            } else {
-                this.view.renderWatchButton();
-                this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
             }
         }
     }
@@ -163,7 +192,7 @@ class ContentController extends IController<
     }
 
     public onSubscribeButtonClick(e: Event): void {
-        this.model.header.getPaymentLink()
+        this.model.payment.getPaymentLink()
             .then(data => {
                 if (data.link) {
                     window.open(data.link, '_self');
@@ -239,12 +268,16 @@ class ContentController extends IController<
                     this.model.content.getSeason(id),
                     'card__v-radius'
                 );
+                const isFree = this.model.content.isFree();
+
                 cardsData.forEach(cardData => {
                     cardData.onClick = (e: Event): void => {
                         e.preventDefault();
                         e.stopPropagation();
 
-                        this.startPlayer(this.model.content.getId(), false, 0, cardData.action, `${id} сезон ${cardData.footer?.title}`);
+                        if (isFree) {
+                            this.startPlayer(this.model.content.getId(), false, 0, cardData.action, `${id} сезон ${cardData.footer?.title}`);
+                        }
                     };
                 });
 

@@ -198,6 +198,22 @@ h1 {
 /* End size */
 
 
+/* Start overflow */
+
+.overflow-hidden {
+    overflow: hidden;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+}
+
+.overflow-auto {
+    overflow: auto;
+}
+
+/* End overflow */
+
+
 /* Start indents */
 
 .ml-100 {

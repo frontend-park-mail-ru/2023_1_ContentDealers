@@ -91,7 +91,9 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
         this.view.video.addEventListener('canplay', this.initVideo.bind(this));
 
         this.view.video.addEventListener('loadedmetadata', () => {
-            this.view.video.currentTime = this.model.getStopView();
+            if (this.model.getIsFilm()) {
+                this.view.video.currentTime = this.model.getStopView();
+            }
 
             this.view.video.addEventListener('timeupdate', () => {
                 this.updateVideoMetadata();

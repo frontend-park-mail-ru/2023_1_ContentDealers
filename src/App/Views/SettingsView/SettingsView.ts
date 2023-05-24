@@ -26,6 +26,8 @@ class SettingsView extends IView {
 
     public readonly form: FormComponent;
 
+    private subscriptionComponent: NoSubscriptionComponent;
+
     public constructor(parent: HTMLElement) {
         super(parent, SettingsTemplate(SettingsData));
 
@@ -63,7 +65,9 @@ class SettingsView extends IView {
 
     public showSubscriptions(data?: NoSubscriptionComponentData): void {
         this.rightMenuContainer.innerHTML = '';
-        new NoSubscriptionComponent(this.rightMenuContainer, data).show();
+
+        this.subscriptionComponent = new NoSubscriptionComponent(this.rightMenuContainer, data);
+        this.subscriptionComponent.show();
     }
 
     public showMain(): void {
@@ -77,6 +81,10 @@ class SettingsView extends IView {
         this.form.setDataToFields([{ id: 'email', value: opts.user.email }]);
 
         super.show();
+    }
+
+    public bindRepeatSubscriptionButton(listener: any): void {
+        this.subscriptionComponent.bindRepeatSubscribeButtonClick(listener);
     }
 
     public bindClickEvent(listener: any): void {

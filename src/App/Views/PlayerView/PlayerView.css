@@ -18,23 +18,6 @@
 /* End fullscreen */
 
 
-/* */
-
-.body_player-active {
-    overflow: hidden;
-    position: fixed;
-    height: 100%;
-    width: 100%;
-}
-
-.body_player-inactive {
-    overflow: auto;
-}
-
-/* */
-
-
-
 /* Start video */
 
 @media(max-width: 959px) {

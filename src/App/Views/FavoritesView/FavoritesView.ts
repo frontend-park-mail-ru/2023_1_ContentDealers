@@ -54,9 +54,6 @@ class FavoritesView extends IView {
         this.contentButton = <HTMLElement>this.element.querySelector('.js-content-button');
         this.actorsButton = <HTMLElement>this.element.querySelector('.js-actors-button');
         this.message = <HTMLElement>this.element.querySelector('.js-content__message');
-
-        // new ButtonComponent(this.contentButton, FavoritesViewData.contentButton).show();
-        // new ButtonComponent(this.actorsButton, FavoritesViewData.actorsButton).show();
     }
 
     public fillContent(data: IContentSearch[]): void {

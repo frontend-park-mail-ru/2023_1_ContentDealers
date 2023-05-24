@@ -22,7 +22,6 @@ interface IMediaHeaderConfig {
     searchData: IComponentDataWithType<LinkComponent, LinkComponentData>;
     barsData: IComponentDataWithType<LinkComponent, LinkComponentData>;
 
-    // headerData: IComponentDataWithType<LinkComponent, LinkComponentData>[];
     actions: IComponentDataWithType<
         ListComponent<LinkComponent, LinkComponentData>,
         ListComponentData<LinkComponent, LinkComponentData>

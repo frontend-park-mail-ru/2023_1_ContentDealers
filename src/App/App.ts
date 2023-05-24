@@ -126,7 +126,7 @@ class App {
     private newPlayer(playerData: IPlayerData): void {
         let title = playerData.title;
         if (playerData.seasonData) {
-            title += `${playerData.seasonData.seasonNum} сезон ${playerData.seasonData.episodeNum} серия`;
+            title += ` ${playerData.seasonData.seasonNum} сезон ${playerData.seasonData.episodeNum} серия`;
         }
 
         this.playerView = new PlayerView(this.root, title);
@@ -292,12 +292,15 @@ class App {
         this.mainView.clearSelections();
 
         try {
+            await this.userModel.authUserByCookie();
+
             await this.mainController.mountViews();
             await this.mainController.mountRatings();
-            await this.mainController.mountComponent();
         } catch {
 
         }
+
+        await this.mainController.mountComponent();
 
         // states
         this.headerView.changeActiveHeaderListItem('/');

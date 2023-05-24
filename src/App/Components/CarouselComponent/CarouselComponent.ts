@@ -58,13 +58,6 @@ class CarouselComponent extends IComponent {
         // this.movePosition = this.slidesToScroll * this.itemWidth;
         this.itemsCount = this.element.querySelectorAll('li').length;
 
-        // console.log(this.item!.offsetWidth);
-        // console.log(this.element);
-        // console.log(this.item);
-        // console.log(this.item?.getBoundingClientRect().width);
-        // console.log(this.item!.offsetWidth);
-        // console.log('--------------');
-
         this.element.addEventListener('click', this.boundClickEvent);
 
         this.checkBtns();

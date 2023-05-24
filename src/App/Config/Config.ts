@@ -18,6 +18,11 @@ const headersWithUnicode: { [index: string]: string } = {
     'Content-Type': 'application/json;charset=utf-8',
 };
 
+const headersWithNoCache: { [index: string]: string } = {
+    'Content-Type': 'application/json;charset=utf-8',
+    'Cache-Control': 'no-cache',
+};
+
 // const headersWithEmpty: { [index: string]: string } = {
 //     'Content-Type': ,
 // };
@@ -60,13 +65,14 @@ function isAuthUrl(url: string): boolean {
 }
 
 const config: IConfig = {
-    // host: 'https://filmium.ru/api',
-    host: 'http://89.208.199.170:8100/api',
+    // host: 'http://89.208.199.170/',
+    host: 'https://filmium.ru/api',
+    // host: 'http://89.208.199.170:8100/api',
     api: {
         csrf: {
             url: '/user/csrf',
             method: REQUEST_METHODS.GET,
-            headers: headersWithUnicode,
+            headers: headersWithNoCache,
             statuses: {
                 success: {
                     '200': '',
@@ -77,7 +83,7 @@ const config: IConfig = {
         signIn: {
             url: '/user/signin',
             method: REQUEST_METHODS.POST,
-            headers: headersWithUnicode,
+            headers: headersWithNoCache,
             statuses: {
                 success: {
                     '200': 'Авторизация успешна',
@@ -88,7 +94,7 @@ const config: IConfig = {
         signUp: {
             url: '/user/signup',
             method: REQUEST_METHODS.POST,
-            headers: headersWithUnicode,
+            headers: headersWithNoCache,
             statuses: {
                 success: {
                     '200': 'Регистрация успешна',
@@ -99,7 +105,7 @@ const config: IConfig = {
         logout: {
             url: '/user/logout',
             method: REQUEST_METHODS.POST,
-            headers: headersWithUnicode,
+            headers: headersWithNoCache,
             statuses: {
                 success: {
                     '200': 'Пользователь вышел',
@@ -110,7 +116,7 @@ const config: IConfig = {
         profile: {
             url: '/user/profile',
             method: REQUEST_METHODS.GET,
-            headers: headersWithUnicode,
+            headers: headersWithNoCache,
             statuses: {
                 success: {
                     '200': 'Данные о пользователе успешно получены',
@@ -187,7 +193,7 @@ const config: IConfig = {
         update: {
             url: '/user/update',
             method: REQUEST_METHODS.POST,
-            headers: headersWithUnicode,
+            headers: headersWithNoCache,
             statuses: {
                 success: {
                     '200': 'Данные успешно обновлены',
@@ -212,7 +218,7 @@ const config: IConfig = {
         avatarDelete: {
             url: '/user/avatar/delete',
             method: REQUEST_METHODS.POST,
-            headers: headersWithUnicode,
+            headers: headersWithNoCache,
             statuses: {
                 success: {
                     '200': 'Аватарка успешно удалена',
@@ -221,9 +227,9 @@ const config: IConfig = {
             },
         },
         search: {
-            url: '/search?query={query}',
+            url: '/search?query={query}&limit={limit}',
             method: REQUEST_METHODS.GET,
-            headers: headersWithUnicode,
+            headers: headersWithNoCache,
             statuses: {
                 success: {
                     '200': 'Данные успешно получены',
@@ -234,7 +240,7 @@ const config: IConfig = {
         favoritesContent: {
             url: '/favorites/content?order={order}',
             method: REQUEST_METHODS.GET,
-            headers: headersWithUnicode,
+            headers: headersWithNoCache,
             statuses: {
                 success: {
                     '200': 'Данные успешно получены',
@@ -245,7 +251,7 @@ const config: IConfig = {
         favoritesContentHas: {
             url: '/favorites/content/{:id}/has',
             method: REQUEST_METHODS.GET,
-            headers: headersWithUnicode,
+            headers: headersWithNoCache,
             statuses: {
                 success: {
                     '200': 'Данные успешно получены',
@@ -256,7 +262,7 @@ const config: IConfig = {
         favoritesContentAdd: {
             url: '/favorites/content/add',
             method: REQUEST_METHODS.POST,
-            headers: headersWithUnicode,
+            headers: headersWithNoCache,
             statuses: {
                 success: {
                     '200': 'Добавлено в избранное',
@@ -267,7 +273,7 @@ const config: IConfig = {
         favoritesContentDelete: {
             url: '/favorites/content/delete',
             method: REQUEST_METHODS.POST,
-            headers: headersWithUnicode,
+            headers: headersWithNoCache,
             statuses: {
                 success: {
                     '200': 'Удалено из избранного',
@@ -296,6 +302,17 @@ const config: IConfig = {
                 },
                 failure: failureDefaultStatuses,
             },
+        },
+        payment: {
+            url: '/payment/link',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithNoCache,
+            statuses: {
+                success: {
+                    '200': 'Данные успешно получены',
+                },
+                failure: failureDefaultStatuses,
+            }
         },
         updateViewsTime: {
             url: '/views/update',

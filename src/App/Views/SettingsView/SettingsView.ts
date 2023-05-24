@@ -8,13 +8,17 @@ import type ListComponent from '../../Components/ListComponent/ListComponent';
 
 import type FormComponent from '../../Components/FormComponent/FormComponent';
 
+import NoSubscriptionComponent from '../../Components/NoSubscriptionComponent/NoSubscriptionComponent';
+
 import type LinkComponent from '../../Components/LinkComponent/LinkComponent';
 import type LinkComponentData from '../../Components/LinkComponent/LinkComponentData';
 
 import type IUser from '../../Interfaces/User/IUser';
+import { type NoSubscriptionComponentData } from "../../Components/NoSubscriptionComponent/NoSubscriptionComponentData";
 
 class SettingsView extends IView {
     private readonly leftMenuContainer: HTMLElement;
+    private readonly rightMenuContainer: HTMLElement;
     private readonly settingsFormContainer: HTMLElement;
 
     private leftMenu: ListComponent<LinkComponent, LinkComponentData>;
@@ -28,6 +32,8 @@ class SettingsView extends IView {
         this.leftMenuContainer = <HTMLElement>(
             this.element.querySelector('.js-settings__left-menu-container')
         );
+        this.rightMenuContainer = <HTMLElement>this.element.querySelector('.js-settings__right');
+
         this.settingsFormContainer = <HTMLElement>this.element.querySelector('.js-settings__form');
 
         this.leftMenu = new SettingsData.leftMenu.componentType(
@@ -38,7 +44,7 @@ class SettingsView extends IView {
         this.currentActiveItem = null;
 
         this.form = new SettingsData.formData.componentType(
-            this.settingsFormContainer,
+            this.rightMenuContainer,
             SettingsData.formData.componentData
         );
         this.form.show();
@@ -53,6 +59,16 @@ class SettingsView extends IView {
         listElement
             .querySelector(`[href="${href}"]`)
             ?.parentElement?.classList.add('settings-left-menu__item--active');
+    }
+
+    public showSubscriptions(data?: NoSubscriptionComponentData): void {
+        this.rightMenuContainer.innerHTML = '';
+        new NoSubscriptionComponent(this.rightMenuContainer, data).show();
+    }
+
+    public showMain(): void {
+        this.rightMenuContainer.innerHTML = '';
+        this.form.show();
     }
 
     public show(opts?: { user: IUser }): void {

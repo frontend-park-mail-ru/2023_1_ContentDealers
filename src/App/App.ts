@@ -32,6 +32,10 @@ import FavoritesController from './Controllers/FavoritesController/FavoritesCont
 import GenreView from './Views/GenreView/GenreView';
 import GenreController from './Controllers/GenreController/GenreController';
 
+
+import PaymentView from './Views/PaymentView/PaymentView';
+import PaymentController from './Controllers/PaymentController/PaymentController';
+
 import PlayerView from './Views/PlayerView/PlayerView';
 import PlayerController from './Controllers/PlayerController/PlayerController';
 
@@ -46,10 +50,13 @@ import PlayerModel from './Models/PlayerModel/PlayerModel';
 
 import type { IPlayerData } from './Models/PlayerModel/PlayerModel';
 
+import HeaderModel from './Models/HeaderModel/HeaderModel';
+
 import router from './Router/Router';
 import paths from './Router/RouterPaths';
 
 import EventDispatcher from './EventDispatcher/EventDispatcher';
+import headerModel from "./Models/HeaderModel/HeaderModel";
 
 class App {
     // Views
@@ -64,6 +71,7 @@ class App {
     private notFoundView: NotFoundView;
     private favoritesView: FavoritesView;
     private genreView: GenreView;
+    private paymentView: PaymentView;
 
     private playerView: PlayerView;
 
@@ -78,6 +86,7 @@ class App {
     private notFoundController: NotFoundController;
     private favoritesController: FavoritesController;
     private genreController: GenreController;
+    private paymentController: PaymentController;
 
     private playerController: PlayerController;
 
@@ -88,8 +97,10 @@ class App {
     private selectionModel: SelectionModel;
     private favoritesModel: FavoritesModel;
     private genreModel: GenreModel;
+    private headerModel: headerModel;
     private cardsModel: CardsModel;
     private playerModel: PlayerModel;
+
 
     // Elements
     private root: HTMLElement;
@@ -107,7 +118,7 @@ class App {
         this.initRoutes();
 
         EventDispatcher.subscribe('start-player', (playerData: IPlayerData) => {
-            console.log('In event');
+            // console.log('In event');
             this.newPlayer(playerData);
         });
 
@@ -135,6 +146,15 @@ class App {
     }
 
     public run(url: string): void {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then((registration) => {
+                    console.log('Service Worker registered:', registration);
+                })
+                .catch((error) => {
+                    console.log('Service Worker registration failed:', error);
+                });
+        }
         router.start(url);
 
         // mount
@@ -182,6 +202,7 @@ class App {
         this.favoritesView = new FavoritesView(this.main);
         this.genreView = new GenreView(this.main);
         this.notFoundView = new NotFoundView(this.main);
+        this.paymentView = new PaymentView(this.main);
 
         this.modalRightView = new ModalView(this.modal);
     }
@@ -198,6 +219,7 @@ class App {
         this.selectionModel = new SelectionModel();
         this.favoritesModel = new FavoritesModel();
         this.genreModel = new GenreModel();
+        this.headerModel = new HeaderModel();
         this.cardsModel = new CardsModel();
         this.playerModel = new PlayerModel();
     }
@@ -208,7 +230,7 @@ class App {
      * @return {void}
      */
     private initControllers(): void {
-        this.headerController = new HeaderController(this.headerView);
+        this.headerController = new HeaderController(this.headerView, this.headerModel);
         this.mediaHeaderController = new MediaHeaderController(this.mediaHeaderView);
 
         this.modalRightController = new ModalController(this.modalRightView, this.userModel);
@@ -216,6 +238,7 @@ class App {
             content: this.filmModel,
             cards: this.cardsModel,
             player: this.playerModel,
+            header: this.headerModel
         });
         this.settingsController = new SettingsController(this.settingsView, this.userModel);
         this.personController = new PersonController(this.personView, this.personModel);
@@ -228,6 +251,7 @@ class App {
         this.notFoundController = new NotFoundController(this.notFoundView);
         this.favoritesController = new FavoritesController(this.favoritesView, this.favoritesModel);
         this.genreController = new GenreController(this.genreView, this.genreModel);
+        this.paymentController = new PaymentController(this.paymentView);
     }
 
     /**
@@ -254,10 +278,12 @@ class App {
             { path: paths.persons, handler: this.handleRedirectToPerson },
 
             { path: paths.genres, handler: this.handleRedirectToGenre },
-            {
-                path: paths.selections,
-                handler: this.handleRedirectToSelections,
-            },
+            { path: paths.selections, handler: this.handleRedirectToSelections },
+
+            { path: paths.search, handler: this.handleRedirectToSearchResults },
+
+            { path: paths.paymentSuccess, handler: this.handleRedirectToSuccessPayment },
+            { path: paths.paymentFailure, handler: this.handleRedirectToFailurePayment },
         ];
 
         routes.forEach(({ path, handler }) => {
@@ -330,8 +356,14 @@ class App {
             .authUserByCookie()
             .then(() => {
                 // mount
+
+                this.headerController.mountComponent();
+                this.favoritesController.mountComponent({
+                    forFavorites: true,
+                });
+
                 // this.headerController.mountComponent();
-                this.favoritesController.mountComponent();
+
 
                 // states
                 this.headerView.changeActiveHeaderListItem('/my-movie');
@@ -366,6 +398,8 @@ class App {
     private async handleRedirectToFilm(data: any): Promise<void> {
         EventDispatcher.emit('unmount-all');
 
+        console.log('handleRedirectToFilm', data)
+
         if (!data?.[0]) {
             router.showUnknownPage();
             return;
@@ -384,10 +418,14 @@ class App {
         this.headerView.changeActiveHeaderListItem('#');
 
         this.userModel.authUserByCookie().then(() => {
-            this.contentController.addWatchButton();
             this.contentController.addFavoritesButton();
+            this.contentController.addAbout();
         });
 
+        this.contentController.addWatchButton(this.userModel.getCurrentUser());
+
+        // const user = this.userModel.getCurrentUser();
+        // this.contentController.renderWatchButton(user);
         return;
     }
 
@@ -413,10 +451,21 @@ class App {
         // states
         this.headerView.changeActiveHeaderListItem('#');
 
+        // await this.userModel.authUserByCookie()
+        //     .then(() => {
+        //     this.contentController.addFavoritesButton();
+        //     this.contentController.addAbout();
+        //     }).catch(error => console.error(error));
+
         this.userModel.authUserByCookie().then(() => {
-            this.contentController.addWatchButton();
             this.contentController.addFavoritesButton();
+            this.contentController.addAbout();
         });
+
+        this.contentController.addWatchButton(this.userModel.getCurrentUser());
+
+        // const user = this.userModel.getCurrentUser();
+        // this.contentController.renderWatchButton(user);
 
         return;
     }
@@ -493,6 +542,43 @@ class App {
 
         // states
         this.headerView.changeActiveHeaderListItem('#');
+    }
+
+    private handleRedirectToSearchResults(data: any): void {
+        EventDispatcher.emit('unmount-all');
+
+        if (!data?.[0]) {
+            router.showUnknownPage();
+            return;
+        }
+
+        const searchPattern = data[0];
+
+        this.headerController.mountComponent();
+        this.favoritesController.mountComponent({
+            forSearch: true,
+            pattern: searchPattern,
+        });
+
+        this.headerView.changeActiveHeaderListItem('#');
+    }
+
+    private handleRedirectToSuccessPayment(): void {
+        EventDispatcher.emit('unmount-all');
+
+        this.headerController.mountComponent();
+        this.paymentController.mountComponent({
+            success: true,
+        })
+    }
+
+    private handleRedirectToFailurePayment(): void {
+        EventDispatcher.emit('unmount-all');
+
+        this.headerController.mountComponent();
+        this.paymentController.mountComponent({
+            failure: true,
+        })
     }
 }
 

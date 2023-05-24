@@ -33,6 +33,14 @@ class SearchController extends IController<SearchView, SearchModel> {
             .catch(error => console.error(error));
     }
 
+    public getContentLength(): number {
+        return this.content.length;
+    }
+
+    public getActorsLength(): number {
+        return this.actors.length;
+    }
+
     public async mountComponent(): Promise<void> {
         if (!this.isMounted) {
             await this.getSearchResult(this.lastQuery);
@@ -64,6 +72,10 @@ class SearchController extends IController<SearchView, SearchModel> {
         this.view.setTitle(title);
     }
 
+    public setResultTitle(pattern: string): void {
+        this.view.setResultTitle(pattern);
+    }
+
     private handleClick(e: Event): void {
         e.preventDefault();
         e.stopPropagation();
@@ -72,8 +84,9 @@ class SearchController extends IController<SearchView, SearchModel> {
             const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 this.unmountComponent();
-                router.goToPath(href);
                 EventDispatcher.emit('render-middle-list');
+                document.body.style.removeProperty('overflow');
+                router.goToPath(href);
             }
         }
     }

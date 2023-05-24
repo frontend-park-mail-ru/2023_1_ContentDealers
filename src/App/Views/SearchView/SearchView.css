@@ -5,10 +5,14 @@
     top: 100%;
     bottom: unset;
     z-index: 1000 !important;
-    overflow: hidden;
     padding-top: 30px;
     width: 100%;
-    height: auto;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.search-view::-webkit-scrollbar {
+    display: none;
 }
 
 .search-view_blur {
@@ -35,7 +39,7 @@
 }
 
 .header__title {
-    display: inline-block;
+    display: flex;
     margin: 0 10px 20px;
     font-size: 30px;
     line-height: 36px;
@@ -73,4 +77,17 @@
     border-bottom: unset;
     color: #fff;
     background-color: unset;
+}
+
+.right-arrow {
+    margin-top: 9px;
+    box-sizing: border-box;
+    width: 24px;
+    height: 24px;
+    padding: 6px;
+}
+
+.result__link {
+    text-decoration: none;
+    color: inherit;
 }

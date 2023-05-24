@@ -12,21 +12,14 @@ import FavoritesViewData from './FavoritesViewConfig';
 import './FavoritesView.css';
 
 class FavoritesView extends IView {
-    private readonly content: HTMLElement;
-    private readonly actors: HTMLElement;
-    private readonly contentButton: HTMLElement;
-    private readonly actorsButton: HTMLElement;
+    private content: HTMLElement;
+    private actors: HTMLElement;
+    private contentButton: HTMLElement;
+    private actorsButton: HTMLElement;
+    private message: HTMLElement;
 
     public constructor(parent: HTMLElement) {
-        super(parent, FavoritesTemplate(FavoritesViewData));
-
-        this.content = <HTMLElement>this.element.querySelector('.js-content__item');
-        this.actors = <HTMLElement>this.element.querySelector('.js-grid__actors');
-        this.contentButton = <HTMLElement>this.element.querySelector('.js-content-button');
-        this.actorsButton = <HTMLElement>this.element.querySelector('.js-actors-button');
-
-        // new ButtonComponent(this.contentButton, FavoritesViewData.contentButton).show();
-        // new ButtonComponent(this.actorsButton, FavoritesViewData.actorsButton).show();
+        super(parent, FavoritesTemplate({}));
     }
 
     public bindClickEvent(listener: any): void {
@@ -35,6 +28,35 @@ class FavoritesView extends IView {
 
     public bindChangeEvent(listener: any): void {
         this.element.addEventListener('change', listener.bind(this));
+    }
+
+    public showMessage(isContentEmpty: boolean): void{
+        if (isContentEmpty) {
+            this.message.innerHTML = 'Oops! Пока что избранное пустое.' +
+                ' Но никогда не знаешь, что может появиться в следующий раз!';
+        } else {
+            this.message.innerHTML = '';
+        }
+    }
+
+    public generateTemplate(forFavorites: boolean, pattern?: string): void {
+        if (forFavorites) {
+            this.element.innerHTML = FavoritesTemplate(FavoritesViewData);
+        } else {
+            const dataForSearch = Object.assign({}, FavoritesViewData);
+            dataForSearch.forFavorites = false;
+            dataForSearch.firstTitle = `Результаты поиска по запросу "${pattern}"`;
+            this.element.innerHTML = FavoritesTemplate(dataForSearch);
+        }
+
+        this.content = <HTMLElement>this.element.querySelector('.js-content__item');
+        this.actors = <HTMLElement>this.element.querySelector('.js-grid__actors');
+        this.contentButton = <HTMLElement>this.element.querySelector('.js-content-button');
+        this.actorsButton = <HTMLElement>this.element.querySelector('.js-actors-button');
+        this.message = <HTMLElement>this.element.querySelector('.js-content__message');
+
+        // new ButtonComponent(this.contentButton, FavoritesViewData.contentButton).show();
+        // new ButtonComponent(this.actorsButton, FavoritesViewData.actorsButton).show();
     }
 
     public fillContent(data: IContentSearch[]): void {

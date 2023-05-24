@@ -88,9 +88,44 @@ class SettingsController extends IController<SettingsView, UserModel> {
             const target = <HTMLElement>e.target;
 
             const href = target.closest('[href]')?.getAttribute('href');
-            if (href !== undefined && href !== null) {
-                router.goToPath(href);
+            // if (href !== undefined && href !== null) {
+                // router.goToPath(href);
+            // }
+
+            const action = (<HTMLElement>target.closest('[data-action]'))?.dataset['action'];
+            switch (action) {
+                case 'main': {
+                    if (href) {
+                        this.view.changeActiveLeftMenuItem(href);
+                        this.view.showMain();
+                    }
+                    break;
+                }
+
+                case 'subscriptions': {
+                    if (href) {
+                        const user = this.model.getCurrentUser();
+                        this.view.changeActiveLeftMenuItem(href);
+                        if (user?.has_sub) {
+                            this.view.showSubscriptions({
+                                title: 'Подписка активна',
+                                description: `Действительна до ${user.sub_expiration}`,
+                            });
+                        } else {
+                            this.view.showSubscriptions();
+                        }
+                    }
+                    break;
+                }
+
+                case 'logout': {
+                    if (href) {
+                        router.goToPath(href);
+                        break;
+                    }
+                }
             }
+
 
             const button = target.closest('#save-submit-btn');
             if (button !== undefined && button !== null) {

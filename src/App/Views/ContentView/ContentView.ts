@@ -13,6 +13,7 @@ import SeriesComponent from '../../Components/SeriesComponent/SeriesComponent';
 import type SeriesComponentData from '../../Components/SeriesComponent/SeriesComponentData';
 import AboutContentComponent from '../../Components/AboutContentComponent/AboutContentComponent';
 
+
 /**
  * Отображение фильма приложения
  * @category Film
@@ -65,13 +66,6 @@ class ContentView extends IView {
     }
 
     private renderButtons(): void {
-        this.subscribeButton = new ContentData.subscribeButton.componentType(
-            this.buttonsContainer,
-            ContentData.subscribeButton.componentData
-        );
-        this.subscribeButton.show();
-        this.subscribeButton.button.setAttribute('disabled', 'true'); // TODO: return
-
         this.trailerButton = new ContentData.trailerButton.componentType(
             this.buttonsContainer,
             ContentData.trailerButton.componentData
@@ -85,18 +79,28 @@ class ContentView extends IView {
             : '/img/icons/bookmark-regular.svg';
     }
 
-    public renderWatchButton(isFree: boolean): void {
-        if (isFree) {
-            this.watchButton = new ContentData.watchButtonFree.componentType(
-                this.buttonsContainer,
-                ContentData.watchButtonFree.componentData
-            );
-        } else {
-            this.watchButton = new ContentData.watchButtonPay.componentType(
-                this.buttonsContainer,
-                ContentData.watchButtonPay.componentData
-            );
-        }
+    public renderWatchButton(): void {
+        this.watchButton = new ContentData.watchButtonFree.componentType(
+            this.buttonsContainer,
+            ContentData.watchButtonFree.componentData
+        );
+        this.watchButton.show();
+    }
+
+    public renderPayButton(): void {
+        this.watchButton = new ContentData.watchButtonPay.componentType(
+            this.buttonsContainer,
+            ContentData.watchButtonPay.componentData
+        );
+
+        // this.element.replaceChild()
+
+
+
+        // if (disable) {
+        //     this.watchButton.button.setAttribute('disabled', 'true');
+        // }
+
         this.watchButton.show();
     }
 
@@ -127,6 +131,10 @@ class ContentView extends IView {
 
     public bindFavoriteClick(listener: any): void {
         this.favoritesLink.bindClickEvent(listener);
+    }
+
+    public bindSubscribeButtonClick(listener: any): void {
+        this.subscribeButton.bindClickEvent(listener);
     }
 }
 

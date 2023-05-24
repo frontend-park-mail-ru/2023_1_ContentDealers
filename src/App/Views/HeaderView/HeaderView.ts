@@ -39,6 +39,8 @@ class HeaderView extends IView {
 
     private searchIcon: HTMLImageElement;
 
+    private subscribeButton: HTMLButtonElement | null;
+
     public searchView: SearchView;
 
     public constructor(parent: HTMLElement) {
@@ -77,7 +79,20 @@ class HeaderView extends IView {
 
         this.searchIcon = <HTMLImageElement>this.navRight.querySelector('.search-img');
 
-        this.element.querySelector('.subscribe-button')?.setAttribute('disabled', 'true'); // TODO: return
+        this.subscribeButton = this.element.querySelector('.subscribe-button');
+
+        this.subscribeButton?.setAttribute('disabled', 'true'); // TODO: return
+    }
+
+    public toggleDisabledButton(data?: IUser): void {
+        if (data) {
+            this.subscribeButton?.removeAttribute('disabled');
+            if (data.has_sub) {
+                this.subscribeButton!.textContent = 'Подписка активна';
+            }
+        } else {
+            this.subscribeButton?.setAttribute('disabled', 'true');
+        }
     }
 
     public toggleMiddle(isSearch: boolean): void {

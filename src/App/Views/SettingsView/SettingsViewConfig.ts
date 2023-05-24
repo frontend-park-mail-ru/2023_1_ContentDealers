@@ -35,6 +35,7 @@ const SettingsData: ISettingsData = {
                         linkHref: '/settings',
                         linkClass: 'settings-left-menu-item__link',
                         linkText: 'Основные',
+                        dataAction: 'main',
                     },
                     componentType: LinkComponent,
                 },
@@ -48,15 +49,16 @@ const SettingsData: ISettingsData = {
                 //         },
                 //     componentType: LinkComponent
                 // },
-                // {
-                //     componentData:
-                //         {
-                //             linkHref: '/settings/subscriptions',
-                //             linkClass: 'settings-left-menu-item__link',
-                //             linkText: 'Подписки',
-                //         },
-                //     componentType: LinkComponent
-                // },
+                {
+                    componentData:
+                        {
+                            linkHref: '/settings/subscriptions',
+                            linkClass: 'settings-left-menu-item__link',
+                            linkText: 'Подписки',
+                            dataAction: 'subscriptions',
+                        },
+                    componentType: LinkComponent
+                },
                 {
                     componentData: {
                         linkHref: '/logout',
@@ -65,6 +67,7 @@ const SettingsData: ISettingsData = {
                         linkImageClass: '',
                         linkImageWidth: '24px',
                         linkText: 'Выйти',
+                        dataAction: 'logout',
                     },
                     componentType: LinkComponent,
                 },
@@ -79,6 +82,7 @@ const SettingsData: ISettingsData = {
             enctype: true,
             inputs: [
                 {
+                    label: 'Введите новую почту',
                     inputClass: 'input-field__input--dark',
                     type: 'email',
                     id: 'email',
@@ -96,16 +100,20 @@ const SettingsData: ISettingsData = {
                     class: 'input-checkbox',
                 },
                 {
+                    label: 'Введите новый пароль',
                     inputClass: 'input-field__input--dark',
                     type: 'password',
                     id: 'password',
                     placeholder: '********',
+                    checkboxText: 'показать пароль',
                 },
                 {
+                    label: 'Повторите пароль',
                     inputClass: 'input-field__input--dark',
                     type: 'password',
                     id: 'repeat-password',
                     placeholder: '********',
+                    checkboxText: 'показать пароль',
                 },
             ],
             button: {

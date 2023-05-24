@@ -18,6 +18,7 @@ interface IId {
 class FavoritesController extends IController<FavoritesView, FavoritesModel> {
     private content: IContentSearch[];
     private actors: IActorSearch[];
+    private forFavorites: boolean;
 
     public constructor(view: FavoritesView, model: FavoritesModel) {
         super(view, model);
@@ -36,14 +37,15 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel> {
             .catch(error => console.error(error));
     }
 
-    // public async getSearch(pattern: string): Promise<void> {
-    //     await this.model
-    //         .getSearchResult(pattern)
-    //         .then(data => {
-    //             console.log(data);
-    //         })
-    //         .catch(error => console.error(error));
-    // }
+    public async getSearch(pattern: string): Promise<void> {
+        await this.model
+            .getSearchResult(pattern)
+            .then(data => {
+                this.content = data.content;
+                this.actors = data.actors;
+            })
+            .catch(error => console.error(error));
+    }
 
     public async mountComponent(opts?: IId): Promise<void> {
         if (!opts) {
@@ -52,21 +54,35 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel> {
 
         if (!this.isMounted) {
             if (opts?.forFavorites) {
+                this.forFavorites = true;
+                this.view.generateTemplate(this.forFavorites);
                 await this.getContent('new');
-                this.view.fillContent(this.content);
+                if (this.content.length === 0) {
+                    this.view.showMessage(true);
+                } else {
+                    this.view.fillContent(this.content);
+                    this.view.showMessage(false);
+                }
                 super.mountComponent();
             } else {
-                // if (opts?.pattern) {
-                //     await this.getSearch(opts.pattern);
-                //     super.mountComponent();
-                // }
+                this.forFavorites = false;
+                if (opts?.pattern) {
+                    this.view.generateTemplate(this.forFavorites, opts.pattern);
+                    await this.getSearch(opts.pattern);
+                    this.view.fillContent(this.content);
+                    this.view.fillActors(this.actors);
+                    super.mountComponent();
+                }
             }
         }
     }
 
     public unRenderItems(): void {
         this.view.emptyContent();
-        this.view.emptyActors();
+
+        if (!this.forFavorites) {
+            this.view.emptyActors();
+        }
     }
 
     public unmountComponent(): void {

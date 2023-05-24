@@ -22,8 +22,9 @@ class CarouselController extends IController<CarouselView, IModel> {
         // consist of picture size and spacing between pictures 850 + 20
 
         setTimeout(() => {
-            this.movePosition = this.view.getLiWidth() + 50;
-        }, 100);
+            this.movePosition = this.view.getLiWidth() + 58;
+            console.log(this.movePosition);
+        }, 1000);
         this.itemsCount = this.view.getItemsCount();
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));

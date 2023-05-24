@@ -82,6 +82,7 @@ const SettingsData: ISettingsData = {
             enctype: true,
             inputs: [
                 {
+                    label: 'Введите новую почту',
                     inputClass: 'input-field__input--dark',
                     type: 'email',
                     id: 'email',
@@ -99,16 +100,20 @@ const SettingsData: ISettingsData = {
                     class: 'input-checkbox',
                 },
                 {
+                    label: 'Введите новый пароль',
                     inputClass: 'input-field__input--dark',
                     type: 'password',
                     id: 'password',
                     placeholder: '********',
+                    checkboxText: 'показать пароль',
                 },
                 {
+                    label: 'Повторите пароль',
                     inputClass: 'input-field__input--dark',
                     type: 'password',
                     id: 'repeat-password',
                     placeholder: '********',
+                    checkboxText: 'показать пароль',
                 },
             ],
             button: {

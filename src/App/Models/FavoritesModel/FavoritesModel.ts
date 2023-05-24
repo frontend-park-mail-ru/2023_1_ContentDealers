@@ -58,54 +58,54 @@ class FavoritesModel extends IModel {
     //
     // }
 
-    // private parseSearchResult(json: any): ISearch {
-    //     return {
-    //         content: this.parseContentForSearch(json.content),
-    //         actors: this.parseActorsForSearch(json.persons),
-    //     };
-    // }
-    //
-    // private parseContentForSearch(content: any): IContentSearch[] {
-    //     return content.map((item: any) => {
-    //         return this.parseContentItemForSearch(item);
-    //     });
-    // }
-    //
-    // private parseContentItemForSearch(item: any): IContentSearch {
-    //     return {
-    //         contentId: item.id,
-    //         src: item.preview_url,
-    //         title: item.title,
-    //         isSerial: item.type == 'series',
-    //     };
-    // }
-    //
-    // private parseActorsForSearch(actors: any): IActorSearch[] {
-    //     return actors.map((actor: any) => {
-    //         return this.parseActorForSearch(actor);
-    //     });
-    // }
-    //
-    // private parseActorForSearch(actor: any): IActorSearch {
-    //     return {
-    //         personId: actor.id,
-    //         name: actor.name,
-    //         description: actor.birthplace,
-    //     };
-    // }
-    //
-    // public async getSearchResult(query: string): Promise<ISearch> {
-    //     const conf = Object.assign({}, config.api.search);
-    //     conf.url = conf.url.replace('{query}', query);
-    //     conf.url = conf.url.replace('{limit}', '100');
-    //
-    //     const response = await Ajax.ajax(conf);
-    //     await Ajax.checkResponseStatus(response, conf);
-    //
-    //     const searchResult = this.parseSearchResult(response.responseBody.body.search);
-    //
-    //     return Promise.resolve(searchResult);
-    // }
+    private parseSearchResult(json: any): ISearch {
+        return {
+            content: this.parseContentForSearch(json.content.content),
+            actors: this.parseActorsForSearch(json.persons.persons),
+        };
+    }
+
+    private parseContentForSearch(content: any): IContentSearch[] {
+        return content.map((item: any) => {
+            return this.parseContentItemForSearch(item);
+        });
+    }
+
+    private parseContentItemForSearch(item: any): IContentSearch {
+        return {
+            contentId: item.id,
+            src: item.preview_url,
+            title: item.title,
+            isSerial: item.type == 'series',
+        };
+    }
+
+    private parseActorsForSearch(actors: any): IActorSearch[] {
+        return actors.map((actor: any) => {
+            return this.parseActorForSearch(actor);
+        });
+    }
+
+    private parseActorForSearch(actor: any): IActorSearch {
+        return {
+            personId: actor.id,
+            name: actor.name,
+            description: actor.birthplace,
+        };
+    }
+
+    public async getSearchResult(query: string): Promise<ISearch> {
+        const conf = Object.assign({}, config.api.search);
+        conf.url = conf.url.replace('{query}', query);
+        conf.url = conf.url.replace('{limit}', '100');
+
+        const response = await Ajax.ajax(conf);
+        await Ajax.checkResponseStatus(response, conf);
+
+        const searchResult = this.parseSearchResult(response.responseBody.body.search);
+
+        return Promise.resolve(searchResult);
+    }
 }
 
 export default FavoritesModel;

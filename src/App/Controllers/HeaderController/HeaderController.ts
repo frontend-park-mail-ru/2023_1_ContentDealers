@@ -27,6 +27,7 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
     private lastCall: number | null;
     private lastCallTimer: number;
     private readonly timeout: number;
+    private readonly body: HTMLElement | null;
 
     public constructor(view: HeaderView, model: HeaderModel) {
         super(view, model);
@@ -59,6 +60,11 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
             this.view.toggleDisabledButton();
         });
 
+        EventDispatcher.subscribe('render-middle-list', () => {
+            this.isSearch = false;
+            this.view.toggleMiddle(this.isSearch);
+        });
+
         EventDispatcher.subscribe('toggle-search', () => {
             this.isSearch = !this.isSearch;
             this.toggleSearch();
@@ -69,9 +75,11 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
         if (this.isSearch) {
             this.searchController.mountComponent();
             this.view.toggleMiddle(true);
+            document.body.style.overflow = 'hidden';
         } else {
             this.searchController.unmountComponent();
             this.view.toggleMiddle(false);
+            document.body.style.removeProperty('overflow');
         }
     }
 

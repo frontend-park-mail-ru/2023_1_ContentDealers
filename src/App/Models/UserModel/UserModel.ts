@@ -22,7 +22,7 @@ class UserModel extends IModel {
         return {
             email:             json.email,
             avatar:            json.avatar_url,
-            has_sub:           json.has_sub,
+            has_sub:           json.hasSub,
             sub_expiration:    json.sub_expiration,
         };
     }

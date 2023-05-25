@@ -403,12 +403,23 @@ class App {
         // states
         this.headerView.changeActiveHeaderListItem('#');
 
-        this.userModel.authUserByCookie().then(() => {
-            this.contentController.addFavoritesButton();
-            this.contentController.addAbout();
-        });
 
-        this.contentController.addWatchButton(this.userModel.getCurrentUser());
+        try {
+            await this.userModel.authUserByCookie();
+            this.contentController.addWatchButton(this.userModel.getCurrentUser());
+            await this.contentController.addFavoritesButton();
+
+            await this.contentController.addAbout();
+        } catch {
+            this.contentController.addWatchButton(this.userModel.getCurrentUser());
+        }
+
+        // this.userModel.authUserByCookie().then(() => {
+        //     this.contentController.addFavoritesButton();
+        //     this.contentController.addAbout();
+        // });
+        //
+        // this.contentController.addWatchButton(this.userModel.getCurrentUser());
 
         return;
     }

@@ -55,44 +55,43 @@ class ContentController extends IController<
                     // TODO: how improve?
                     const sources = this.model.content.getSources(1);
                     const isFree = this.model.content.isFree();
-                    console.log('isFree', isFree)
 
                     const cardsData = this.model.cards.seasonsToCards(
                         this.model.content.getSeason(1),
                         'card__v-radius'
                     );
                     cardsData.forEach((cardData, index) => {
-                        cardData.onClick = (e: Event): void => {
+                        cardData.onClick = async (e: Event) => {
                             e.preventDefault();
                             e.stopPropagation();
 
-                            if (isFree) {
-                                EventDispatcher.emit('start-player', {
-                                    id: this.model.content.getId(),
-                                    title: this.model.content.getTitle(),
-                                    src: sources[index],
-                                    seasonData: {
-                                        sources: sources,
-                                        index: index,
-                                        seasonNum: 1,
-                                        episodeNum: index + 1
-                                    }
-                                });
-                            } else {
 
-                                this.model.user.authUserByCookie()
-                                    .then(() => {
-                                        this.model.payment.getPaymentLink()
-                                            .then(data => {
-                                                if (data.link) {
-                                                    window.open(data.link, '_self');
-                                                }
-                                            })
-                                            .catch(error => console.error(error));
-                                    })
-                                    .catch(() => {
-                                        router.goToPath(paths.signIn);
+                            try {
+                                await this.model.user.authUserByCookie();
+
+                                if (isFree || this.model.user.getCurrentUser()?.has_sub) {
+                                    EventDispatcher.emit('start-player', {
+                                        id: this.model.content.getId(),
+                                        title: this.model.content.getTitle(),
+                                        src: sources[index],
+                                        seasonData: {
+                                            sources: sources,
+                                            index: index,
+                                            seasonNum: 1,
+                                            episodeNum: index + 1
+                                        }
                                     });
+                                } else {
+                                    this.model.payment.getPaymentLink()
+                                        .then(data => {
+                                            if (data.link) {
+                                                window.open(data.link, '_self');
+                                            }
+                                        })
+                                        .catch(error => console.error(error));
+                                }
+                            } catch {
+                                router.goToPath(paths.signIn);
                             }
                         };
                     });
@@ -226,8 +225,16 @@ class ContentController extends IController<
         e.stopPropagation();
 
         if (this.isMounted) {
-            const viewHas = await this.model.content.getViewHas();
-            this.startPlayer(this.model.content.getId(), true, viewHas.view.stopView, this.model.content.getWatchUrl());
+
+            try {
+                await this.model.user.authUserByCookie();
+
+                const viewHas = await this.model.content.getViewHas();
+                this.startPlayer(this.model.content.getId(), true, viewHas.view.stopView, this.model.content.getWatchUrl());
+            } catch {
+                router.goToPath(paths.signIn);
+            }
+
         }
     }
 
@@ -268,15 +275,30 @@ class ContentController extends IController<
                     this.model.content.getSeason(id),
                     'card__v-radius'
                 );
+
                 const isFree = this.model.content.isFree();
 
                 cardsData.forEach(cardData => {
-                    cardData.onClick = (e: Event): void => {
+                    cardData.onClick = async (e: Event) => {
                         e.preventDefault();
                         e.stopPropagation();
 
-                        if (isFree) {
-                            this.startPlayer(this.model.content.getId(), false, 0, cardData.action, `${id} сезон ${cardData.footer?.title}`);
+                        try {
+                            await this.model.user.authUserByCookie();
+
+                            if (isFree || this.model.user.getCurrentUser()?.has_sub) {
+                                this.startPlayer(this.model.content.getId(), false, 0, cardData.action, `${id} сезон ${cardData.footer?.title}`);
+                            } else {
+                                this.model.payment.getPaymentLink()
+                                    .then(data => {
+                                        if (data.link) {
+                                            window.open(data.link, '_self');
+                                        }
+                                    })
+                                    .catch(error => console.error(error));
+                            }
+                        } catch {
+                            router.goToPath(paths.signIn);
                         }
                     };
                 });

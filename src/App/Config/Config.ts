@@ -332,7 +332,7 @@ const config: IConfig = {
             },
         },
         views: {
-            url: '/views',
+            url: '/views?type=part',
             method: REQUEST_METHODS.GET,
             headers: headersWithUnicode,
             statuses: {

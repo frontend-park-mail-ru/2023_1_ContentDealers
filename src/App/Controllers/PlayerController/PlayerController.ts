@@ -147,7 +147,7 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
         const currentTime = Date.now();
         const elapsedTime = currentTime - this.lastUpdateTime;
 
-        if (elapsedTime >= 10000) { // 10 seconds
+        if (elapsedTime >= 5000) {
             this.lastUpdateTime = currentTime;
 
             this.model.handleTimeUpdate({

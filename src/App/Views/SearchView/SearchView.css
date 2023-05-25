@@ -2,7 +2,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: 100%;
+    top: 90%;
     bottom: unset;
     z-index: 1000 !important;
     padding-top: 30px;
@@ -50,7 +50,7 @@
     color: rgba(255, 255, 255, 0.96);
 }
 
-.content__main {
+.search-content__main {
     display: flex;
     flex-wrap: wrap;
 }

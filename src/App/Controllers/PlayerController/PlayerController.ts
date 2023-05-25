@@ -24,6 +24,8 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
         this.addEventListeners();
 
         this.setSrc(this.model.getSrc());
+
+        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
     }
 
     public mountComponent(): void {

@@ -85,6 +85,7 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
                 this.model.user.updateUser({'email': email})
                     .then(() => {
                         // TODO ПОКАЗАТЬ УСПЕШНОЕ СООБЩЕНИЕ ОБНОВЛЕНИЯ ПОЧТЫ
+                        EventDispatcher.emit('show-alert', 'Почта успешно обновлена');
                     })
                     .catch(({ msg }) =>
                         this.view.changeEmailForm.findInputComponent('email').showErrorMsg(msg)
@@ -132,6 +133,7 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
                 this.model.user.updateUser({'password': newPassword})
                     .then(() => {
                         // TODO ПОКАЗАТЬ УСПЕШНОЕ СООБЩЕНИЕ ОБНОВЛЕНИЯ ПАРОЛЯ
+                        EventDispatcher.emit('show-alert', 'Пароль успешно обновлен');
                     })
                     .catch(({ msg }) =>
                         this.view.changePasswordForm.findInputComponent('new-password').showErrorMsg(msg)
@@ -247,6 +249,7 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
                         .avatarDelete()
                         .then(() => {
                             // TODO ПОКАЗАТЬ УСПЕШНОЕ СООБЩЕНИЕ ОБ УДАЛЕНИИ ФОТО, АНАЛОГИЧНО ОБНОВЛЕНИЮ
+                            EventDispatcher.emit('show-alert', 'Аватарка успешно удалена');
                         })
                         .catch(error => console.error(error));
 

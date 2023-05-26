@@ -9,14 +9,12 @@ class AlertComponent extends IComponent {
         super(parent, AlertComponentTemplate({}));
 
         EventDispatcher.subscribe('show-alert', (text: string) => {
-            console.log('Hello', text)
-
             this.setText(text);
             this.prepend();
 
             setTimeout(() => {
                 this.hide();
-            }, 5000);
+            }, 2000);
         });
     }
 

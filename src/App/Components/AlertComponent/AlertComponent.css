@@ -1,13 +1,15 @@
 .alert-msg {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     text-align: center;
     padding: 14px 0;
     z-index: 1070;
 }
 
 .alert-msg_bg {
-    background-color: #1b1a1d
+    background-color: #1b4132
 }
 
 .alert-msg__text {

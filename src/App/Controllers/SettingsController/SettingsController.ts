@@ -84,7 +84,6 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
             .then(() => {
                 this.model.user.updateUser({'email': email})
                     .then(() => {
-                        // TODO ПОКАЗАТЬ УСПЕШНОЕ СООБЩЕНИЕ ОБНОВЛЕНИЯ ПОЧТЫ
                         EventDispatcher.emit('show-alert', 'Почта успешно обновлена');
                     })
                     .catch(({ msg }) =>
@@ -132,7 +131,6 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
             .then(() => {
                 this.model.user.updateUser({'password': newPassword})
                     .then(() => {
-                        // TODO ПОКАЗАТЬ УСПЕШНОЕ СООБЩЕНИЕ ОБНОВЛЕНИЯ ПАРОЛЯ
                         EventDispatcher.emit('show-alert', 'Пароль успешно обновлен');
                     })
                     .catch(({ msg }) =>
@@ -159,8 +157,6 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
             await this.model.user
                 .avatarUpdate(formData)
                 .then(() => {
-                    // TODO ПОКАЗАТЬ УСПЕШНОЕ СООБЩЕНИЕ ОБНОВЛЕНИЯ ФОТО, ХОТЯ ОНО САМО ОБНОВЛЯЕТСЯ
-                    // МБ НЕ НАДО
                     this.view.showAvatarError('');
                 })
                 .catch((msg) => this.view.showAvatarError(msg));
@@ -248,7 +244,6 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
                     this.model.user
                         .avatarDelete()
                         .then(() => {
-                            // TODO ПОКАЗАТЬ УСПЕШНОЕ СООБЩЕНИЕ ОБ УДАЛЕНИИ ФОТО, АНАЛОГИЧНО ОБНОВЛЕНИЮ
                             EventDispatcher.emit('show-alert', 'Аватарка успешно удалена');
                         })
                         .catch(error => console.error(error));

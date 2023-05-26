@@ -373,6 +373,7 @@ class App {
                 // states
                 this.headerView.changeActiveHeaderListItem('#');
                 this.settingsView.changeActiveLeftMenuItem(paths.settings);
+                this.settingsView.changeActiveMiddleMenuItem('/settings/change/email');
 
                 EventDispatcher.emit('user-changed', this.userModel.getCurrentUser());
             })

@@ -470,10 +470,9 @@ class App {
         this.headerView.changeActiveHeaderListItem('#');
     }
 
-    private handleRedirectToLogout(): void {
-        EventDispatcher.emit('redirect', paths.logout);
+    private async handleRedirectToLogout() {
 
-        this.userModel.logoutUser();
+        await this.userModel.logoutUser();
         router.goToPath(paths.main);
     }
 

@@ -115,6 +115,8 @@ class UserModel extends IModel {
             await Ajax.checkResponseStatus(response, config.api.avatarUpdate);
 
             const profileResponse = await Ajax.ajax(config.api.profile);
+            console.log('profileResponse', profileResponse)
+
             await Ajax.checkResponseStatus(profileResponse, config.api.profile);
 
             this.currentUser = this.parseUser(profileResponse.responseBody.body.user);

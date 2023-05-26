@@ -165,8 +165,10 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
                                     inputComponent.hideErrorMsg();
                                 });
                             })
-                            .catch(({ msg }) =>
-                                this.view.form.findInputComponent('avatar').showErrorMsg(msg)
+                            .catch(({ msg }) => {
+                                    console.log('msg', msg);
+                                    this.view.form.findInputComponent('avatar').showErrorMsg(msg);
+                                }
                             );
                         return;
                     }

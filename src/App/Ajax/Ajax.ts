@@ -97,6 +97,7 @@ class Ajax {
             if (keyStatus === '400') {
                 const customStatus =
                     response.responseBody.status.toString() as keyof typeof customFailures;
+
                 return Promise.reject({
                     msg: customFailures[customStatus],
                 });

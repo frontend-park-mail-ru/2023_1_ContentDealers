@@ -385,7 +385,18 @@ const config: IConfig = {
                 },
                 failure: failureDefaultStatuses,
             },
-        }
+        },
+        passwordValidate: {
+            url: '/user/password/validate',
+            method: REQUEST_METHODS.POST,
+            headers: headersWithNoCache,
+            statuses: {
+                success: {
+                    '200': 'Пароль прошёл валидацию',
+                },
+                failure: failureDefaultStatuses,
+            }
+        },
     },
     isAuthUrl,
 };

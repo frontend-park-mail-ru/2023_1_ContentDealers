@@ -100,7 +100,7 @@
     opacity: 1;
 }
 
-.settings__right {
+.settings__middle {
     flex-grow: 1;
 
     display: block;
@@ -122,4 +122,104 @@
 
 #settings__form {
     align-items: baseline;
+}
+
+.settings__middle-menu-container {
+    display: block;
+
+    flex: 0 0 272px;
+    max-width: 272px;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.settings__middle-menu {
+    list-style: none;
+}
+
+.settings-middle-menu__item {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    padding-top: 4px;
+    padding-bottom: 2px;
+    min-height: 28px;
+    margin-bottom: 18px;
+
+    /*color: rgba(255,255,255,.56);*/
+    filter: brightness(0.8);
+}
+
+.settings-middle-menu__item:hover {
+    color: rgba(255,255,255,.96);
+    filter: brightness(1);
+}
+
+.settings-middle-menu__item--active {
+    color: rgba(255,255,255,.96);
+    filter: brightness(1);
+}
+
+.settings-middle-menu-item__link {
+    font-family: SansSerif,sans-serif;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+
+    font-size: 16px;
+    line-height: 20px;
+
+    display: flex;
+    gap: 6px;
+}
+
+.settings-middle-menu__item:after {
+    --menu-item-bullet-size: 10px;
+
+    content: '';
+    position: absolute;
+    background: #8776f9;
+    width: var(--menu-item-bullet-size);
+    height: var(--menu-item-bullet-size);
+    border-radius: 50%;
+    top: 50%;
+    margin-top: calc(var(--menu-item-bullet-size)/-2);
+    opacity: 0;
+
+    left: -30px;
+}
+
+.settings-middle-menu__item--active:after {
+    opacity: 1;
+}
+
+.settings__right-avatar {
+    width: 250px;
+    height: 250px;
+    margin-top: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.settings__right {
+    margin-left: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.input-avatar {
+    display: none;
+}
+
+.middle-menu-row-direction {
+    display: flex;
+    gap: 100px;
+}
+
+.settings-right-error {
+    font-size: 12px;
+    color: red;
 }

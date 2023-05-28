@@ -5,6 +5,7 @@ import IModel from '../../Models/IModel/IModel';
 
 import router from '../../Router/Router';
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
+import paths from '../../Router/RouterPaths';
 
 interface status {
     success?: boolean;
@@ -30,7 +31,18 @@ class PaymentController extends IController<PaymentView, IModel> {
                 this.view.fillData(false);
             }
 
+            this.view.bindHomeButtonClick(this.handleClick.bind(this));
+
             super.mountComponent();
+        }
+    }
+
+    private handleClick(e: Event): void {
+        e.preventDefault();
+        if (this.isMounted) {
+            router.goToPath(paths.main);
+
+            return;
         }
     }
 }

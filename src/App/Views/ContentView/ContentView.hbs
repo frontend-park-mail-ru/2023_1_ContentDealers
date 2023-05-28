@@ -16,9 +16,13 @@
 
                 <div class="content__details">
                     <div class="content__meta content__meta_text white-56">
-                        Рейтинг:
+                        <span>Рейтинг:</span>
                         <div class="content__rating content__rating_background content__rating_position">
-                            <span class="content-rating__number">{{ rating }}</span>
+                            <span class="content-rating__number ts-content-rating">{{ rating }}</span>
+                            <div class="content__person-img">
+                                <img src="/img/icons/person.svg" alt="Число голосов" class="person-img" title="Число голосов">
+                            </div>
+                            <span class="content-rating__count ts-content-count">{{ count }}</span>
                         </div>
                         <span class="content__year">{{ year }}</span>
                         <span class="content__age-limit">{{ ageLimit }}+</span>

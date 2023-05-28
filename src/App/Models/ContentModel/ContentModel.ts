@@ -62,6 +62,14 @@ class ContentModel extends IModel {
         return this.myRating;
     }
 
+    public getDefaultRating(): number {
+        return this.content.rating as number;
+    }
+
+    public getDefaultCount(): number {
+        return this.content.count as number;
+    }
+
     public isFree(): boolean {
         return <boolean>this.content.isFree;
     }
@@ -144,6 +152,7 @@ class ContentModel extends IModel {
             title: content.title,
             description: content.description,
             rating: content.rating,
+            count: content.count_ratings,
             year: content.year,
             persons: this.parsePersonsForFilm(content.persons_roles),
             isFree: content.is_free,
@@ -307,7 +316,7 @@ class ContentModel extends IModel {
         return Promise.resolve(this.myRating);
     }
 
-    public async addRating(data: { content_id: number,  rating: number }): Promise<number> {
+    public async addRating(data: { content_id: number,  rating: number }): Promise<{ status: number, rating: number, count: number }> {
         const conf = Object.assign({}, config.api.addRating);
 
         const response = await Ajax.ajax(conf, JSON.stringify(data));
@@ -315,7 +324,11 @@ class ContentModel extends IModel {
 
         this.myRating = data.rating;
 
-        return Promise.resolve(response.status);
+        return Promise.resolve({
+            status: response.status,
+            rating: response.responseBody.body.new_rating,
+            count:  response.responseBody.body.count_ratings
+        });
     }
 
     public async deleteRating(data: { content_id: number }): Promise<number> {

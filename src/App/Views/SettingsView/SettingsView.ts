@@ -158,7 +158,6 @@ class SettingsView extends IView {
     }
 
     public showAvatarError(error: string): void {
-        console.log(this.rightMenuError);
         this.rightMenuError.innerHTML = error;
     }
 

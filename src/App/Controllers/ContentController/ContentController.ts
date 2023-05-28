@@ -131,18 +131,16 @@ class ContentController extends IController<
                 e.stopPropagation();
 
                 const id = this.model.content.getId();
-                const rating = this.model.content.getMyRating();
+                const myRating = this.model.content.getMyRating();
 
-                let status: number;
-                if (rating) {
-                    await this.model.content.deleteRating({ content_id: id });
-                    status = await this.model.content.addRating({ content_id: id, rating: index + 1 });
-                } else {
-                    status = await this.model.content.addRating({ content_id: id, rating: index + 1 });
+                if (myRating) {
+                    await this.model.content.deleteRating({content_id: id});
                 }
+                const { status, rating, count } = await this.model.content.addRating({ content_id: id, rating: index + 1 });
 
                 if (status === 200) {
                     this.view.aboutComponent.changeActiveStar(index);
+                    this.view.updateRating(rating, count);
                 }
             });
         });
@@ -154,6 +152,7 @@ class ContentController extends IController<
 
         if (this.isMounted) {
             await this.model.content.deleteRating({ content_id: this.model.content.getId() });
+            this.view.updateRating(this.model.content.getDefaultRating(), this.model.content.getDefaultCount());
         }
     }
 

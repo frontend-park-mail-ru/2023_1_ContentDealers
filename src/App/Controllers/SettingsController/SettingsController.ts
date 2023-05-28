@@ -152,6 +152,11 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
         const file = this.avatarInput.files?.[0];
 
         if (file) {
+            if (file.size > 10000000) {
+                this.view.showAvatarError('Размер файла слишком большой');
+                return
+            }
+
             formData.append('avatar', file);
 
             await this.model.user

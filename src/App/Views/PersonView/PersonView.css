@@ -388,3 +388,21 @@
 .person-panel-films-item__link:hover {
     color: #f19e07;
 }
+
+.person__genre {
+    text-underline-offset: 4px;
+    -webkit-text-decoration-color: rgba(139,136,146,.32);
+    text-decoration-color: rgba(139,136,146,.32);
+    color: inherit;
+    white-space: nowrap;
+    -webkit-transition: -webkit-text-decoration-color.2s;
+    transition: -webkit-text-decoration-color.2s;
+    -o-transition: text-decoration-color.2s;
+    transition: text-decoration-color.2s,-webkit-text-decoration-color.2s
+}
+
+.person__genre:hover,
+.person__genre:focus {
+    -webkit-text-decoration-color: rgba(255,255,255,.56);
+    text-decoration-color: rgba(255,255,255,.56)
+}

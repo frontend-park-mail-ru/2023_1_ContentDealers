@@ -61,10 +61,7 @@ class SignUpController extends IController<SignUpView, UserModel> {
                 .signUpUser(userSignUp)
                 .then(() => {
                     router.goToPath(paths.main);
-                })
-                .catch(errorMsg =>
-                    this.view.form.findInputComponent('repeat-password').showErrorMsg(errorMsg)
-                );
+                });
         }
     }
 

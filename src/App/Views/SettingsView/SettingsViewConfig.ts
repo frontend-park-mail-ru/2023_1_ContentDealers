@@ -11,6 +11,7 @@ import type FormComponentData from '../../Components/FormComponent/FormComponent
 import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
 import inputComponent from "../../Components/InputComponent/InputComponent";
 import divComponent from "../../Components/DivComponent/DivComponent";
+import paths from '../../Router/RouterPaths';
 
 interface ISettingsData {
     title?: string;
@@ -28,13 +29,12 @@ interface ISettingsData {
     formChangePasswordData: IComponentDataWithType<FormComponent, FormComponentData>;
 
     rightMenu: any;
+
+    leftActiveItem: string;
+    middleActiveItem: string;
 }
 
 const SettingsData: ISettingsData = {
-    // title: 'Настройки',
-    // description: 'Оставьте контактные данные для получения уведомлений от сервиса и взаимодействия со службой поддержки.',
-    // description: 'Изменение данных.',
-    // formTitle: 'Контакты',
     leftMenu: {
         componentData: {
             listClass: 'settings__left-menu',
@@ -205,7 +205,9 @@ const SettingsData: ISettingsData = {
                 class: 'input-avatar',
             }
         }
-    }
+    },
+    leftActiveItem: paths.settings,
+    middleActiveItem: '/settings/change/email',
 };
 
 export default SettingsData;

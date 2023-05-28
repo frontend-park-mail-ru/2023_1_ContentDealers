@@ -57,14 +57,16 @@ class SettingsView extends IView {
             SettingsData.leftMenu.componentData
         );
         this.leftMenu.show();
-        this.currentLeftActiveItem = null;
+        this.currentLeftActiveItem = SettingsData.leftActiveItem;
+        this.changeActiveLeftMenuItem(this.currentLeftActiveItem);
 
         this.middleMenu = new SettingsData.middleMenu.componentType(
             this.middleMenuUpper,
             SettingsData.middleMenu.componentData
         );
         this.middleMenu.show();
-        this.currentMiddleActiveItem = null;
+        this.currentMiddleActiveItem = SettingsData.middleActiveItem;
+        this.changeActiveMiddleMenuItem(this.currentMiddleActiveItem);
 
         this.changeEmailForm = new SettingsData.formChangeEmailData.componentType(
             this.middleMenuContainer,

@@ -1,4 +1,5 @@
-<div class="payment">
+<div class="payment js-payment">
     <img {{#if src}} src="/img/icons/{{ src }}" {{/if}} class="payment__picture">
+    <div class="payment__status">{{ status }}</div>
     <div class="payment__description">{{ description }}</div>
 </div>

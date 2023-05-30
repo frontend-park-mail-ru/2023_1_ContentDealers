@@ -15,6 +15,7 @@ import type LinkComponentData from '../../Components/LinkComponent/LinkComponent
 
 import type IUser from '../../Interfaces/User/IUser';
 import { type NoSubscriptionComponentData } from "../../Components/NoSubscriptionComponent/NoSubscriptionComponentData";
+import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
 
 class SettingsView extends IView {
     private readonly settingsContent: HTMLElement;
@@ -36,6 +37,8 @@ class SettingsView extends IView {
     public readonly changePasswordForm: FormComponent;
 
     private subscriptionComponent: NoSubscriptionComponent;
+
+    private deleteAvatarButton: ButtonComponent;
 
     public constructor(parent: HTMLElement) {
         super(parent, SettingsTemplate(SettingsData));
@@ -85,10 +88,19 @@ class SettingsView extends IView {
             SettingsData.rightMenu.input.componentData
         ).show();
 
-        new SettingsData.rightMenu.deleteButton.componentType(
+        this.deleteAvatarButton = new SettingsData.rightMenu.deleteButton.componentType(
             this.rightMenuContainer,
             SettingsData.rightMenu.deleteButton.componentData
-        ).show();
+        );
+        this.showDeleteAvatarButton();
+    }
+
+    public showDeleteAvatarButton(): void {
+        this.deleteAvatarButton.show();
+    }
+
+    public hideDeleteAvatarButton(): void {
+        this.deleteAvatarButton.hide();
     }
 
     public setImg(avatar: string): void {

@@ -50,6 +50,10 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
                 return;
             }
 
+            if (user.avatar === 'media/avatars/default_avatar.jpg') {
+                this.view.hideDeleteAvatarButton();
+            }
+
             this.view.show({ user: user });
             this.isMounted = true;
         }
@@ -141,6 +145,7 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
     }
 
     private handleAvatarClick(e: Event): void {
+        console.log('handleAvatarClick')
         e.stopPropagation();
 
         this.avatarInput.click();
@@ -162,6 +167,7 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
             await this.model.user
                 .avatarUpdate(formData)
                 .then(() => {
+                    this.view.showDeleteAvatarButton();
                     this.view.showAvatarError('');
                 })
                 .catch((msg) => this.view.showAvatarError(msg));
@@ -249,6 +255,8 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
                     this.model.user
                         .avatarDelete()
                         .then(() => {
+                            this.view.getAvatarInput().value = '';
+                            this.view.hideDeleteAvatarButton();
                             EventDispatcher.emit('show-alert', 'Аватарка успешно удалена');
                         })
                         .catch(error => console.error(error));

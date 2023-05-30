@@ -111,6 +111,7 @@ class HeaderController extends IController<HeaderView, { user: UserModel, paymen
 
                 case 'subscribe': {
                     if ((e.target as HTMLButtonElement).textContent === 'Подписка активна') {
+                        router.goToPath(paths.settings);
                         return;
                     }
 

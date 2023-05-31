@@ -33,7 +33,7 @@ const failureDefaultStatuses: { [index: string]: string } = {
 const customFailures: { [index: string]: string } = {
     '1': 'Пользователь уже существует',
     '2': 'Неверный формат почты',
-    '3': 'Пароль должен содержать минимум 8 символов, включая только цифры и латинские буквы',
+    '3': 'Пароль должен содержать минимум 8 символов, обязательно включая цифры и латинские буквы',
     '4': 'Неверная почта или пароль',
     '5': 'Размер файла выше максимально допустимого',
     '6': 'Файл не является картинкой формата jpg',
@@ -61,8 +61,8 @@ function isAuthUrl(url: string): boolean {
 }
 
 const config: IConfig = {
-    // host: 'https://filmium.ru/api',
-    host: 'http://89.208.199.170:8100/api',
+    host: 'https://filmium.ru/api',
+    // host: 'http://89.208.199.170:8100/api',
     api: {
         csrf: {
             url: '/user/csrf',

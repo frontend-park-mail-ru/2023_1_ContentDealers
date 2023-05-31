@@ -172,7 +172,10 @@ class PlayerView extends IView {
     }
 
     public changeTitle(title: string): void {
-        (<HTMLElement>this.element.querySelector('.ts-title')).innerHTML = title;
+        this.element.querySelectorAll('.ts-title').forEach((element) => {
+            const titleContainer = element as HTMLElement;
+            titleContainer.innerText = title;
+        });
     }
 
     private setOpacityToElements(opacity: string): void {

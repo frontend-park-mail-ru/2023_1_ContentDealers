@@ -203,11 +203,14 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
     }
 
     private onPrevButtonClick(e: Event): void {
+        console.log('onPrevButtonClick')
         e.preventDefault();
         e.stopPropagation();
 
+        console.log('prevIndex', this.model.getPrevIndex())
         this.model.updateInfo(this.model.getPrevIndex())
 
+        console.log('title', this.model.getTitle())
         this.view.changeTitle(this.model.getTitle());
         this.setSrc(this.model.getSrc());
         if (!this.playerProxy.isPlay) {

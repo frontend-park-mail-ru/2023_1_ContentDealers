@@ -100,8 +100,8 @@ class PlayerModel extends IModel {
 
     public updateInfo(index: number): void {
         if (this.playerData.seasonData) {
-            this.playerData.seasonData.episodeNum = index + 1;
             this.playerData.seasonData.index = index;
+            this.playerData.seasonData.episodeNum = index + 1;
 
             this.playerData.src = this.playerData.seasonData.sources[index];
         }

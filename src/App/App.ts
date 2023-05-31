@@ -297,12 +297,11 @@ class App {
             await this.userModel.authUserByCookie();
 
             await this.mainController.mountViews();
+            await this.mainController.mountComponent();
             await this.mainController.mountRatings();
         } catch {
-
+            await this.mainController.mountComponent();
         }
-
-        await this.mainController.mountComponent();
 
         // states
         this.headerView.changeActiveHeaderListItem('/');

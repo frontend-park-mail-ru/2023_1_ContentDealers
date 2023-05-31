@@ -1,4 +1,3 @@
-import IModel from '../../Models/IModel/IModel';
 import IController from '../IController/IController';
 
 import type PlayerView from '../../Views/PlayerView/PlayerView';
@@ -101,7 +100,13 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
                 this.updateVideoMetadata();
 
                 if (this.model.getIsFilm()) {
-                    this.handleTimeUpdate();
+                    this.handleTimeUpdate(0);
+                    return;
+                }
+
+                if (this.model.getIsSeason()) {
+                    this.handleTimeUpdate(60);
+                    return;
                 }
             });
         });
@@ -143,7 +148,7 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
         return formattedTime;
     }
 
-    private handleTimeUpdate(): void {
+    private handleTimeUpdate(additionalDuration: number): void {
         const currentTime = Date.now();
         const elapsedTime = currentTime - this.lastUpdateTime;
 
@@ -153,7 +158,7 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
             this.model.handleTimeUpdate({
                 content_id: this.model.getId(),
                 stop_view: this.formatTime(this.view.video.currentTime),
-                duration: this.formatTime(this.view.video.duration)
+                duration: this.formatTime(this.view.video.duration + additionalDuration)
             });
         }
     }
@@ -203,14 +208,11 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
     }
 
     private onPrevButtonClick(e: Event): void {
-        console.log('onPrevButtonClick')
         e.preventDefault();
         e.stopPropagation();
 
-        console.log('prevIndex', this.model.getPrevIndex())
         this.model.updateInfo(this.model.getPrevIndex())
 
-        console.log('title', this.model.getTitle())
         this.view.changeTitle(this.model.getTitle());
         this.setSrc(this.model.getSrc());
         if (!this.playerProxy.isPlay) {

@@ -34,6 +34,12 @@ class SelectionModel extends IModel {
         };
     }
 
+    private parseViews(views: any): IContent[] {
+        return views.map((view: any) => {
+            return  this.parseSelectionContent(view.content);
+        })
+    }
+
     private parseSelectionContents(selectionContents: any): IContent[] {
         return selectionContents.map((selectionContent: any) => {
             return this.parseSelectionContent(selectionContent);
@@ -95,7 +101,7 @@ class SelectionModel extends IModel {
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
 
-        this.views = this.parseSelectionContents(response.responseBody.body.content);
+        this.views = this.parseViews(response.responseBody.body.content_with_views);
 
         return Promise.resolve(this.views);
     }

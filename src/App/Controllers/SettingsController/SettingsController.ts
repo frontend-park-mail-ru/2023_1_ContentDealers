@@ -145,7 +145,6 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
     }
 
     private handleAvatarClick(e: Event): void {
-        console.log('handleAvatarClick')
         e.stopPropagation();
 
         this.avatarInput.click();

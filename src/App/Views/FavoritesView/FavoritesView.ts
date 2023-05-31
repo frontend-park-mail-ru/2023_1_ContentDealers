@@ -16,7 +16,6 @@ class FavoritesView extends IView {
     private actors: HTMLElement;
     private contentButton: HTMLElement;
     private actorsButton: HTMLElement;
-    private message: HTMLElement;
 
     public constructor(parent: HTMLElement) {
         super(parent, FavoritesTemplate({}));
@@ -30,18 +29,11 @@ class FavoritesView extends IView {
         this.element.addEventListener('change', listener.bind(this));
     }
 
-    public showMessage(isContentEmpty: boolean): void{
-        if (isContentEmpty) {
-            this.message.innerHTML = 'Oops! Пока что избранное пустое.' +
-                ' Но никогда не знаешь, что может появиться в следующий раз!';
-        } else {
-            this.message.innerHTML = '';
-        }
-    }
-
-    public generateTemplate(forFavorites: boolean, pattern?: string): void {
+    public generateTemplate(forFavorites: boolean, pattern?: string, isEmpty?: boolean): void {
         if (forFavorites) {
-            this.element.innerHTML = FavoritesTemplate(FavoritesViewData);
+            const dataForFavorites = Object.assign({}, FavoritesViewData);
+            dataForFavorites.isEmpty = isEmpty;
+            this.element.innerHTML = FavoritesTemplate(dataForFavorites);
         } else {
             const dataForSearch = Object.assign({}, FavoritesViewData);
             dataForSearch.forFavorites = false;
@@ -53,7 +45,13 @@ class FavoritesView extends IView {
         this.actors = <HTMLElement>this.element.querySelector('.js-grid__actors');
         this.contentButton = <HTMLElement>this.element.querySelector('.js-content-button');
         this.actorsButton = <HTMLElement>this.element.querySelector('.js-actors-button');
-        this.message = <HTMLElement>this.element.querySelector('.js-content__message');
+
+        if (isEmpty) {
+            new FavoritesViewData.emptyButton.componentType(
+                <HTMLElement>this.element.querySelector('.js-favorites__empty'),
+                FavoritesViewData.emptyButton.componentData
+            ).show();
+        }
     }
 
     public fillContent(data: IContentSearch[]): void {

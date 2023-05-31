@@ -138,9 +138,16 @@ class ContentController extends IController<
                 }
                 const { status, rating, count } = await this.model.content.addRating({ content_id: id, rating: index + 1 });
 
+                let transformedRating: string;
+                if (Number.isInteger(rating)) {
+                    transformedRating = rating.toFixed(1);
+                } else {
+                    transformedRating = rating.toString();
+                }
+
                 if (status === 200) {
                     this.view.aboutComponent.changeActiveStar(index);
-                    this.view.updateRating(rating, count);
+                    this.view.updateRating(transformedRating, count);
                 }
             });
         });

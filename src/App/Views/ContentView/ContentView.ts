@@ -38,9 +38,9 @@ class ContentView extends IView {
         super(parent, ContentTemplate({}));
     }
 
-    public updateRating(rating: number, count: number): void {
+    public updateRating(rating: string, count: number): void {
         const ratingContainer = <HTMLElement>this.element.querySelector('.ts-content-rating');
-        ratingContainer.innerText = rating.toString();
+        ratingContainer.innerText = rating;
 
         const countContainer = <HTMLElement>this.element.querySelector('.ts-content-count');
         countContainer.innerText = count.toString();

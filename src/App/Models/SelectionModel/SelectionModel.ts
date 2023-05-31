@@ -55,7 +55,7 @@ class SelectionModel extends IModel {
             id: selectionContent.id,
             title: selectionContent.title,
             description: selectionContent.description,
-            rating: selectionContent.rating,
+            rating: this.parseRating(selectionContent.rating),
             year: selectionContent.year,
             isFree: selectionContent.is_free,
             ageLimit: selectionContent.age_limit,
@@ -63,6 +63,17 @@ class SelectionModel extends IModel {
             previewURL: selectionContent.preview_url,
             type: <ContentType>selectionContent.type,
         };
+    }
+
+    private parseRating(rating: string): string {
+        let transformedRating: string;
+        if (Number.isInteger(rating)) {
+            transformedRating = parseInt(rating).toFixed(1);
+        } else {
+            transformedRating = rating;
+        }
+
+        return transformedRating;
     }
 
     private receiveContentHref(id: number, type: ContentType): string {

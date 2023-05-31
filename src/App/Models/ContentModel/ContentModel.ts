@@ -62,8 +62,8 @@ class ContentModel extends IModel {
         return this.myRating;
     }
 
-    public getDefaultRating(): number {
-        return this.content.rating as number;
+    public getDefaultRating(): string {
+        return this.content.rating as string;
     }
 
     public getDefaultCount(): number {
@@ -151,7 +151,7 @@ class ContentModel extends IModel {
             id: content.id,
             title: content.title,
             description: content.description,
-            rating: content.rating,
+            rating: this.parseRating(content.rating),
             count: content.count_ratings,
             year: content.year,
             persons: this.parsePersonsForFilm(content.persons_roles),
@@ -163,6 +163,17 @@ class ContentModel extends IModel {
             type: content.type,
             genres: this.parseGenresForFilm(content.genres),
         };
+    }
+
+    private parseRating(rating: string): string {
+        let transformedRating: string;
+        if (Number.isInteger(rating)) {
+            transformedRating = parseInt(rating).toFixed(1);
+        } else {
+            transformedRating = rating;
+        }
+
+        return transformedRating;
     }
 
     private parsePersonsForFilm(personsWithRoles: any): IPerson[] {

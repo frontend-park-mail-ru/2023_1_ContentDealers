@@ -58,7 +58,8 @@ class AboutContentComponent extends IComponent {
             star.classList.remove(this.initStarClass);
         });
 
-        if (this.activeStar) {
+        if (this.activeStar !== null) {
+            console.log(this.stars[this.activeStar])
             this.stars[this.activeStar].classList.remove(this.activeStarClass);
         }
 

@@ -11,6 +11,9 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
 
     private lastUpdateTime: number = 0;
 
+    private readonly VideoArrowTimeStep: number = 10;
+    private readonly VideoArrowVolumeStep: number = 0.02;
+
 
     // Bound events //
     private readonly BoundKeyDown = this.onKeyDown.bind(this);
@@ -84,7 +87,7 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
     }
 
     private setVideoVolume(volume: number): void {
-        this.view.video.volume = volume;
+        this.view.video.volume = Math.max(0, Math.min(volume, 1));
     }
 
     // Listeners //
@@ -204,7 +207,10 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
 
         this.view.progressBar.updateLoadProgressBar((buffered / duration) * 100);
         this.view.progressBar.setCurrentValueToBar(currentTime);
-        this.view.setCurrentTime(currentTime);
+
+        if (currentTime) {
+            this.view.setCurrentTime(currentTime);
+        }
     }
 
     private onPrevButtonClick(e: Event): void {
@@ -279,8 +285,38 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
 
         this.onMouseMove(); // TODO: improve??
 
-        if (e.code === 'Space') {
-            this.togglePlayButton(e);
+        const currentTime = this.view.video.currentTime;
+        const currentVolume = this.view.video.volume;
+
+        switch (e.code) {
+            case 'Space':
+                this.togglePlayButton(e);
+                break;
+
+            case 'Escape':
+                this.unmountComponent();
+                break;
+
+            case 'ArrowUp':
+                this.setVideoVolume(currentVolume + this.VideoArrowVolumeStep);
+                this.view.volumeBar.setCurrentValueToBar(currentVolume + this.VideoArrowVolumeStep);
+                break;
+
+            case 'ArrowDown':
+                this.setVideoVolume(currentVolume - this.VideoArrowVolumeStep);
+                this.view.volumeBar.setCurrentValueToBar(currentVolume - this.VideoArrowVolumeStep);
+                break;
+
+            case 'ArrowLeft':
+                this.setVideoProgress(currentTime - this.VideoArrowTimeStep);
+                break;
+
+            case 'ArrowRight':
+                this.setVideoProgress(currentTime + this.VideoArrowTimeStep);
+                break;
+
+            default:
+                break;
         }
     }
 

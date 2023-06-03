@@ -31,8 +31,10 @@ class Router {
     }
 
     public goToPath(path: string): void {
-        history.pushState({ path: path }, '', path);
-        this.route();
+        if (path !== history.state?.path) {
+            history.pushState({path: path}, '', path);
+            this.route();
+        }
     }
 
     private route(): void {

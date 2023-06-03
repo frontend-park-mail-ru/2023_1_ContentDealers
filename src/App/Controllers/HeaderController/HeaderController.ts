@@ -29,7 +29,6 @@ class HeaderController extends IController<HeaderView, { user: UserModel, paymen
     private lastCall: number | null;
     private lastCallTimer: number;
     private readonly timeout: number;
-    private readonly body: HTMLElement | null;
 
     public constructor(view: HeaderView, model: { user: UserModel, payment: PaymentModel }) {
         super(view, model);
@@ -112,6 +111,7 @@ class HeaderController extends IController<HeaderView, { user: UserModel, paymen
                 case 'subscribe': {
                     if ((e.target as HTMLButtonElement).textContent === 'Подписка активна') {
                         router.goToPath(paths.settings);
+                        EventDispatcher.emit('showSubscriptions');
                         return;
                     }
 

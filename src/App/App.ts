@@ -141,12 +141,8 @@ class App {
     public run(url: string): void {
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js')
-                .then((registration) => {
-                    console.log('Service Worker registered:', registration);
-                })
-                .catch((error) => {
-                    console.log('Service Worker registration failed:', error);
-                });
+                .then()
+                .catch();
         }
         router.start(url);
 
@@ -352,7 +348,6 @@ class App {
             .authUserByCookie()
             .then(() => {
                 // mount
-                this.headerController.mountComponent();
                 this.favoritesController.mountComponent({
                     forFavorites: true,
                 });
@@ -534,7 +529,6 @@ class App {
 
         const searchPattern = data[0];
 
-        this.headerController.mountComponent();
         this.favoritesController.mountComponent({
             forSearch: true,
             pattern: searchPattern,

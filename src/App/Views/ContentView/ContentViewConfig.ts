@@ -53,7 +53,7 @@ const ContentData: IContentData = {
     },
     favoritesLink: {
         componentData: {
-            linkClass: 'favorites',
+            linkClass: 'favorites-button',
             linkImageSrc: '/img/icons/bookmark-regular.svg',
         },
         componentType: LinkComponent,

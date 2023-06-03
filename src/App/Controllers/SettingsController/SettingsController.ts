@@ -23,6 +23,7 @@ import InputComponent from '../../Components/InputComponent/InputComponent';
 class SettingsController extends IController<SettingsView, { user: UserModel, payment: PaymentModel }> {
     private isEmailForm: boolean;
     private readonly avatarInput: HTMLInputElement;
+    private isActiveAvatarButton: boolean;
 
     public constructor(view: SettingsView, model: { user: UserModel, payment: PaymentModel }) {
         super(view, model);
@@ -31,6 +32,7 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
         this.view.bindClickEventOnAvatar(this.handleAvatarClick.bind(this));
         this.view.bindChangeEventOnAvatar(this.handleAvatarChange.bind(this));
         this.isEmailForm = true;
+        this.isActiveAvatarButton = true;
 
         this.avatarInput = this.view.getAvatarInput();
 
@@ -41,6 +43,8 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
                 this.view.setImg(user.avatar);
             }
         });
+
+        EventDispatcher.subscribe('showSubscriptions', () => this.showSubscriptionBlock());
     }
 
     public mountComponent(): void {
@@ -50,8 +54,9 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
                 return;
             }
 
-            if (user.avatar === 'media/avatars/default_avatar.jpg') {
+            if (this.isActiveAvatarButton && user.avatar === 'media/avatars/default_avatar.jpg') {
                 this.view.hideDeleteAvatarButton();
+                this.isActiveAvatarButton = false;
             }
 
             this.view.show({ user: user });
@@ -167,9 +172,33 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
                 .avatarUpdate(formData)
                 .then(() => {
                     this.view.showDeleteAvatarButton();
+                    this.isActiveAvatarButton = true;
                     this.view.showAvatarError('');
                 })
                 .catch((msg) => this.view.showAvatarError(msg));
+        }
+    }
+
+    private showSubscriptionBlock(): void {
+        const user = this.model.user.getCurrentUser();
+        this.view.changeActiveLeftMenuItem('/settings/subscriptions');
+        if (user?.has_sub) {
+            this.view.showSubscriptions(this.isEmailForm, {
+                title: 'Подписка активна',
+                advantages: 'Вам открыт эксклюзивный доступ к новинкам в мире кино и сериалов ',
+                description: `Действительна до ${user.sub_expiration}`,
+            });
+            this.view.bindRepeatSubscriptionButton(() => {
+                this.model.payment.getPaymentLink()
+                    .then(data => {
+                        if (data.link) {
+                            window.open(data.link, '_self');
+                        }
+                    })
+                    .catch(error => console.error(error));
+            });
+        } else {
+            this.view.showSubscriptions(this.isEmailForm);
         }
     }
 
@@ -194,26 +223,7 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
 
                 case 'subscriptions': {
                     if (href) {
-                        const user = this.model.user.getCurrentUser();
-                        this.view.changeActiveLeftMenuItem(href);
-                        if (user?.has_sub) {
-                            this.view.showSubscriptions(this.isEmailForm, {
-                                title: 'Подписка активна',
-                                advantages: 'Вам открыт эксклюзивный доступ к новинкам в мире кино и сериалов ',
-                                description: `Действительна до ${user.sub_expiration}`,
-                            });
-                            this.view.bindRepeatSubscriptionButton(() => {
-                                this.model.payment.getPaymentLink()
-                                    .then(data => {
-                                        if (data.link) {
-                                            window.open(data.link, '_self');
-                                        }
-                                    })
-                                    .catch(error => console.error(error));
-                            });
-                        } else {
-                            this.view.showSubscriptions(this.isEmailForm);
-                        }
+                        this.showSubscriptionBlock();
                     }
                     break;
                 }
@@ -256,6 +266,7 @@ class SettingsController extends IController<SettingsView, { user: UserModel, pa
                         .then(() => {
                             this.view.getAvatarInput().value = '';
                             this.view.hideDeleteAvatarButton();
+                            this.isActiveAvatarButton = false;
                             EventDispatcher.emit('show-alert', 'Аватарка успешно удалена');
                         })
                         .catch(error => console.error(error));

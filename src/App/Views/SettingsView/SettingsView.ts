@@ -16,6 +16,7 @@ import type LinkComponentData from '../../Components/LinkComponent/LinkComponent
 import type IUser from '../../Interfaces/User/IUser';
 import { type NoSubscriptionComponentData } from "../../Components/NoSubscriptionComponent/NoSubscriptionComponentData";
 import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
+import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 class SettingsView extends IView {
     private readonly settingsContent: HTMLElement;
@@ -26,6 +27,7 @@ class SettingsView extends IView {
     private readonly rightMenuContainer: HTMLElement;
     private readonly rightMenuAvatar: HTMLImageElement;
     private readonly rightMenuError: HTMLElement;
+    private isMain: boolean;
 
     private leftMenu: ListComponent<LinkComponent, LinkComponentData>;
     private middleMenu: ListComponent<LinkComponent, LinkComponentData>;
@@ -54,6 +56,7 @@ class SettingsView extends IView {
         this.settingsFormContainer = <HTMLElement>this.element.querySelector('.js-settings__form');
         this.rightMenuContainer = <HTMLElement>this.element.querySelector('.js-settings__right');
         this.rightMenuError = <HTMLElement>this.element.querySelector('.js-settings-right-error');
+        this.isMain = true;
 
         this.leftMenu = new SettingsData.leftMenu.componentType(
             this.leftMenuContainer,
@@ -144,18 +147,24 @@ class SettingsView extends IView {
     }
 
     public showSubscriptions(isEmailForm: boolean, data?: NoSubscriptionComponentData): void {
-        this.middleMenu.hide();
-        isEmailForm ? this.changeEmailForm.hide() : this.changePasswordForm.hide();
-        this.subscriptionComponent = new NoSubscriptionComponent(this.middleMenuContainer, data);
-        this.subscriptionComponent.show();
-        this.settingsContent.removeChild(this.rightMenuContainer);
+        if (this.isMain) {
+            this.middleMenu.hide();
+            isEmailForm ? this.changeEmailForm.hide() : this.changePasswordForm.hide();
+            this.subscriptionComponent = new NoSubscriptionComponent(this.middleMenuContainer, data);
+            this.subscriptionComponent.show();
+            this.settingsContent.removeChild(this.rightMenuContainer);
+            this.isMain = !this.isMain;
+        }
     }
 
     public showMain(isEmailForm: boolean): void {
-        this.subscriptionComponent.hide();
-        this.middleMenu.show();
-        isEmailForm ? this.changeEmailForm.show() : this.changePasswordForm.show();
-        this.settingsContent.appendChild(this.rightMenuContainer);
+        if (!this.isMain) {
+            this.subscriptionComponent.hide();
+            this.middleMenu.show();
+            isEmailForm ? this.changeEmailForm.show() : this.changePasswordForm.show();
+            this.settingsContent.appendChild(this.rightMenuContainer);
+            this.isMain = !this.isMain;
+        }
     }
 
     public show(opts?: { user: IUser }): void {

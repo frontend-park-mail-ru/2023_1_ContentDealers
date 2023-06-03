@@ -17,13 +17,14 @@ class CarouselController extends IController<CarouselView, IModel> {
         super(view, IModel);
 
         this.position = 0;
-        this.canClick = true;
+        this.canClick = false;
 
         // consist of picture size and spacing between pictures 850 + 20
 
         setTimeout(() => {
+            this.canClick = true;
             this.movePosition = this.view.getLiWidth() + 44;
-        }, 200);
+        }, 1000);
         this.itemsCount = this.view.getItemsCount();
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));

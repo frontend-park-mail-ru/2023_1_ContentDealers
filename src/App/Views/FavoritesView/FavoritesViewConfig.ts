@@ -1,11 +1,16 @@
+import type IComponentDataWithType from '../../Interfaces/interfaces';
 import type ButtonComponentData from '../../Components/ButtonComponent/ButtonComponentData';
+
+import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
 
 interface IFavoritesViewData {
     firstTitle: string;
     secondTitle: string;
     forFavorites: boolean;
+    isEmpty?: boolean;
     contentButton: ButtonComponentData;
     actorsButton: ButtonComponentData;
+    emptyButton: IComponentDataWithType<ButtonComponent, ButtonComponentData>;
 }
 
 const FavoritesViewData: IFavoritesViewData = {
@@ -21,6 +26,14 @@ const FavoritesViewData: IFavoritesViewData = {
         text: 'Показать больше',
         className: 'subscribe-button',
         dataAction: 'loadActors',
+    },
+    emptyButton: {
+        componentType: ButtonComponent,
+        componentData: {
+            text: 'На главную',
+            className: 'subscribe-button',
+            dataAction: 'goToMain',
+        }
     },
 };
 

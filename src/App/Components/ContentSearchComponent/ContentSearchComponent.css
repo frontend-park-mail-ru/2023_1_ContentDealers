@@ -50,19 +50,19 @@
     flex-wrap: nowrap;
 }
 
-.content__picture {
+.search-content__picture {
     flex-shrink: 0;
     position: relative;
 }
 
-.content__title {
+.search-content__title {
     padding-left: 15px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 
-.content__under-title {
+.search-content__under-title {
     display: flex;
     align-items: flex-end;
     flex-grow: 1;

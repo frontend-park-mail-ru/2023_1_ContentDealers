@@ -37,8 +37,21 @@ class Ajax {
         let responseBody;
         try {
             responseBody = await response.json();
+
             if (response.status === 400) {
-                const customStatus = responseBody.status.toString() as keyof typeof customFailures;
+                const status = responseBody.status.toString();
+                if (status === '10' || status === '11') {
+                    this.csrfToken = undefined;
+
+                    const newRequest: any = await this.ajax(params, body);
+
+                    return {
+                        status: newRequest.status,
+                        responseBody: newRequest.responseBody,
+                    };
+                }
+
+                const customStatus = status as keyof typeof customFailures;
                 responseBody.message = customFailures[customStatus];
             }
         } catch (error) {
@@ -80,6 +93,7 @@ class Ajax {
             if (keyStatus === '400') {
                 const customStatus =
                     response.responseBody.status.toString() as keyof typeof customFailures;
+
                 return Promise.reject({
                     msg: customFailures[customStatus],
                 });

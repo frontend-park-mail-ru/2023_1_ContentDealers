@@ -6,7 +6,7 @@ import Ajax from '../../Ajax/Ajax';
 
 import { config } from '../../Config/Config';
 
-class HeaderModel extends IModel {
+class PaymentModel extends IModel {
     public constructor() {
         super();
     }
@@ -28,4 +28,4 @@ class HeaderModel extends IModel {
     }
 }
 
-export default HeaderModel;
+export default PaymentModel;

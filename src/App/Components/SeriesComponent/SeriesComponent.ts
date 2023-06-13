@@ -75,7 +75,6 @@ class SeriesComponent extends IComponent {
     public createCarousel(cardsData: CardComponentData[]): void {
         this.seriesCardsContainer.innerHTML = '';
 
-        console.log('createCarousel');
         this.seriesCardCarouselComponent = new CardCarouselComponent(
             this.seriesCardsContainer,
             cardsData

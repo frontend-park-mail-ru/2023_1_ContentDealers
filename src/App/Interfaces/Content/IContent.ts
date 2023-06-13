@@ -9,7 +9,8 @@ export default interface IContent {
     id: number;
     title: string;
     description?: string;
-    rating?: number;
+    rating?: string;
+    count?: number;
     year?: number;
     isFree?: boolean;
     persons?: IPerson[];

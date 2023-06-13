@@ -301,13 +301,13 @@ class BarComponent extends IComponent {
 
     // Delete / add classes functions //
     private addTransition(): void {
-        this.currentBar.classList.add('panel-transition--width');
-        this.currentBarCircle.div.classList.add('panel-transition--left');
+        this.currentBar.classList.add('transition-width');
+        this.currentBarCircle.div.classList.add('transition-left');
     }
 
     private deleteTransition(): void {
-        this.currentBar.classList.remove('panel-transition--width');
-        this.currentBarCircle.div.classList.remove('panel-transition--left');
+        this.currentBar.classList.remove('transition-width');
+        this.currentBarCircle.div.classList.remove('transition-left');
     }
 
     private addActiveToCircle(): void {

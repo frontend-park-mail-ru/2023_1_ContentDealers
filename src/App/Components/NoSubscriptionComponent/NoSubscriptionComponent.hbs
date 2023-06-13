@@ -1,12 +1,11 @@
 <div class="subscription">
-    <div class="subscription__main">
+    <div class="subscription__main ts-main">
         <h2 class="subscription__title">{{ title }}</h2>
+        {{#if advantages}}<span class="subscription__advantages">{{ advantages }}</span>{{/if}}
         <div class="subscription__description">
             <div class="description__text">
                 {{ description }}
             </div>
         </div>
     </div>
-
-<!--    <img src="">-->
 </div>

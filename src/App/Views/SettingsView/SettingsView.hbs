@@ -1,19 +1,23 @@
 <main class="settings-container">
     <div class="settings">
-        <h1 class="settings__title">{{ title }}</h1>
-        <div class="settings__content">
+        <div class="settings__content js-settings__content">
             <div class="settings__left-menu-container js-settings__left-menu-container">
 
             </div>
 
-            <div class="settings__right js-settings__right">
-                <div class="settings__form js-settings__form">
-                    <!-- This is the same as in signIn and SignUp -->
-                    <!-- TODO: move two field in form and add classes for it -->
+            <div class="settings__middle js-settings__middle">
+                <div class="settings__middle-menu-container js-settings__middle-menu-container">
 
-                    <h2 class="settings-form__title">{{ formTitle }}</h2>
-                    <p class="settings-form__description"> {{ description }}</p>
                 </div>
+
+                <div class="settings__form js-settings__form">
+
+                </div>
+            </div>
+
+            <div class="settings__right js-settings__right">
+                <div class="settings-right-error js-settings-right-error"></div>
+                <img class="settings__right-avatar js-settings__right-avatar" src="" title="Размер файла не более 10 Мб">
             </div>
         </div>
     </div>

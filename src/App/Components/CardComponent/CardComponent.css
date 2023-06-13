@@ -255,6 +255,76 @@
 
 /* End card image */
 
+
+/* Start card rating */
+
+.card__rating {
+    color: rgba(255,255,255,.96);
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border-radius: 10px;
+    padding: 0 10px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card__rating:last-child {
+    margin-right: 0
+}
+
+.card__rating_background {
+    background-color: #1da14e;
+}
+
+.card-rating .card-rating__number {
+    font-family: "SansSerif",sans-serif;
+    letter-spacing: .05em;
+    font-size: 12px;
+    line-height: 18px
+}
+
+@media(min-width: 375px) {
+    .card-rating .card-rating__number {
+        font-size: 14px;
+        line-height: 20px
+    }
+}
+
+@media(min-width: 600px) {
+    .card-rating .card-rating__number {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+@media(min-width: 1320px) {
+    .card-rating .card-rating__number {
+        font-size: 18px;
+        line-height: 28px;
+    }
+}
+
+@media(min-width: 1720px) {
+    .card-rating .card-rating__number {
+        font-size: 20px;
+        line-height: 30px;
+    }
+}
+
+.card-rating__number {
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: uppercase
+}
+
+/* End card rating */
+
+
 /* Start card footer */
 
 .card__footer {

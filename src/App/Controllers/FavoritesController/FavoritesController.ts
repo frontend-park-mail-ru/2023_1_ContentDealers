@@ -8,6 +8,7 @@ import FavoritesModel from '../../Models/FavoritesModel/FavoritesModel';
 
 import router from '../../Router/Router';
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
+import paths from '../../Router/RouterPaths';
 
 interface IId {
     forFavorites?:    boolean;
@@ -55,13 +56,10 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel> {
         if (!this.isMounted) {
             if (opts?.forFavorites) {
                 this.forFavorites = true;
-                this.view.generateTemplate(this.forFavorites);
                 await this.getContent('new');
-                if (this.content.length === 0) {
-                    this.view.showMessage(true);
-                } else {
+                this.view.generateTemplate(this.forFavorites, '', this.content.length === 0);
+                if (this.content.length !== 0) {
                     this.view.fillContent(this.content);
-                    this.view.showMessage(false);
                 }
                 super.mountComponent();
             } else {
@@ -101,6 +99,16 @@ class FavoritesController extends IController<FavoritesView, FavoritesModel> {
             const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {
                 router.goToPath(href);
+            }
+
+            const action = (<HTMLElement>(<HTMLElement>e.target).closest('[data-action]'))?.dataset['action'];
+
+            switch (action) {
+                case 'goToMain': {
+                    router.goToPath(paths.main);
+
+                    break;
+                }
             }
         }
     }

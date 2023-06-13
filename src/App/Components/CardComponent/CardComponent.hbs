@@ -8,6 +8,12 @@
                         <picture class="card__picture d-block">
                             <img src="{{ imageSrc }}" class="card__image card__image_position" alt="{{ title }}">
                         </picture>
+
+                        {{#if rating}}
+                            <div class="card__rating card__rating_background card-rating">
+                                <span class="card-rating__number">{{ rating }}</span>
+                            </div>
+                        {{/if}}
                     </div>
                 </div>
 

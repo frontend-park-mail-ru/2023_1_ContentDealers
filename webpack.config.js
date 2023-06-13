@@ -1,12 +1,15 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const srcPath = path.resolve(__dirname, './src/');
 const buildPath = path.resolve(__dirname, './build/');
 const staticPath = path.resolve(__dirname, './static/');
 
 module.exports = {
+    mode: 'production',
     entry: {
         index: path.resolve(srcPath, 'index.ts'),
         // sw: path.resolve(srcPath, 'sw.js'),
@@ -14,9 +17,10 @@ module.exports = {
     output: {
         filename: '[name]_bundle.[contenthash].js',
         path: staticPath,
-        // clean: true,
+        clean: {
+            keep: /img/
+        }
     },
-
     module: {
         rules: [
             {
@@ -34,11 +38,14 @@ module.exports = {
             },
         ],
     },
-
     resolve: {
         extensions: ['.tsx', '.ts', '.js', '.hbs'],
     },
-
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin()],
+        moduleIds: 'deterministic', // Updated option value
+    },
     plugins: [
         new HtmlWebpackPlugin({
             template: 'index.html',
@@ -47,8 +54,15 @@ module.exports = {
             cache: false,
         }),
         new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" }),
+        new CompressionPlugin({
+            algorithm: 'gzip',
+            filename: '[path][base].gz',
+            test: /\.(js|css|html|svg)$/,
+            threshold: 10240,
+            minRatio: 0.8,
+            deleteOriginalAssets: false,
+        }),
     ],
-
     devtool: 'inline-source-map',
     devServer: {
         static: buildPath,

@@ -7,6 +7,8 @@ export default interface CardComponentData {
     figureOrientationClass: FigureOrientationClass;
     imageSrc: string;
 
+    rating?: string;
+
     footer?: {
         title: string;
         description?: string;

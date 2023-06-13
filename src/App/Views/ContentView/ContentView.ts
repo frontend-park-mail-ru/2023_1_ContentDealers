@@ -38,16 +38,24 @@ class ContentView extends IView {
         super(parent, ContentTemplate({}));
     }
 
+    public updateRating(rating: string, count: number): void {
+        const ratingContainer = <HTMLElement>this.element.querySelector('.ts-content-rating');
+        ratingContainer.innerText = rating;
+
+        const countContainer = <HTMLElement>this.element.querySelector('.ts-content-count');
+        countContainer.innerText = count.toString();
+    }
+
     public fillContent(contentData: IContent): void {
         this.parent.innerHTML = ContentTemplate({ content: contentData });
 
         this.element = <HTMLElement>this.parent.firstElementChild;
 
-        this.seriesContainer = <HTMLElement>this.element.querySelector('.ts-series');
+        this.seriesContainer = <HTMLElement>this.element.querySelector('.ts-content__series');
         this.buttonsContainer = <HTMLElement>(
-            this.element.querySelector('.ts-film-content__buttons')
+            this.element.querySelector('.ts-content__buttons')
         );
-        this.aboutContainer = <HTMLElement>this.element.querySelector('.ts-film-about');
+        this.aboutContainer = <HTMLElement>this.element.querySelector('.ts-content__about');
 
         this.renderButtons();
     }
@@ -87,19 +95,15 @@ class ContentView extends IView {
         this.watchButton.show();
     }
 
-    public renderPayButton(): void {
+    public renderPayButton(disable: boolean): void {
         this.watchButton = new ContentData.watchButtonPay.componentType(
             this.buttonsContainer,
             ContentData.watchButtonPay.componentData
         );
 
-        // this.element.replaceChild()
-
-
-
-        // if (disable) {
-        //     this.watchButton.button.setAttribute('disabled', 'true');
-        // }
+        if (disable) {
+            this.watchButton.button.setAttribute('disabled', 'true');
+        }
 
         this.watchButton.show();
     }

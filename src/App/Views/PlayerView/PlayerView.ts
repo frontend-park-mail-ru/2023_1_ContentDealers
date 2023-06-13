@@ -172,7 +172,10 @@ class PlayerView extends IView {
     }
 
     public changeTitle(title: string): void {
-        (<HTMLElement>this.element.querySelector('.ts-title')).innerHTML = title;
+        this.element.querySelectorAll('.ts-title').forEach((element) => {
+            const titleContainer = element as HTMLElement;
+            titleContainer.innerText = title;
+        });
     }
 
     private setOpacityToElements(opacity: string): void {
@@ -285,6 +288,22 @@ class PlayerView extends IView {
             this.isNextButton = false;
             this.nextButton.hide();
         }
+    }
+
+    public show() {
+        const body = document.body;
+        body.classList.remove('overflow-auto');
+        body.classList.add('overflow-hidden');
+
+        super.show();
+    }
+
+    public hide() {
+        const body = document.body;
+        body.classList.remove('overflow-hidden');
+        body.classList.add('overflow-auto');
+
+        super.hide();
     }
 
     // Binds //

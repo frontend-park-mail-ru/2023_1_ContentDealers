@@ -19,11 +19,6 @@ const validValidator: ValidatorResult = {
     errorMsg: '',
 };
 
-// const emptyValidator: ValidatorResult = {
-//     isValid:      false,
-//     errorMsg:     'Пустое поле',
-// }
-
 function validateInput(input: { id: string; value: string }): ValidatorResult {
     if (input.id === 'avatar') {
         return validValidator;
@@ -43,22 +38,10 @@ function validateInput(input: { id: string; value: string }): ValidatorResult {
 }
 
 function validatePasswords(password: string, repeatPassword: string): ValidatorResultPassword {
-    const validatedPassword: ValidatorResult = validateInput({
-        id: 'password',
-        value: password,
-    });
-    if (!validatedPassword.isValid) {
-        return {
-            isValid: false,
-            errorMsg: validatedPassword.errorMsg,
-            passwordErrorMsg: validators.get('repeat-password')?.errorMsg,
-        };
-    }
-
     if (password !== repeatPassword) {
         return {
             isValid: false,
-            errorMsg: validatedPassword.errorMsg,
+            errorMsg: validators.get('repeat-password')?.errorMsg as string,
             passwordErrorMsg: validators.get('repeat-password')?.errorMsg,
         };
     }

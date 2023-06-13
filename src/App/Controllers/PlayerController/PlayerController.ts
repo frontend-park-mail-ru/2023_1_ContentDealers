@@ -1,4 +1,3 @@
-import IModel from '../../Models/IModel/IModel';
 import IController from '../IController/IController';
 
 import type PlayerView from '../../Views/PlayerView/PlayerView';
@@ -12,6 +11,9 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
 
     private lastUpdateTime: number = 0;
 
+    private readonly VideoArrowTimeStep: number = 10;
+    private readonly VideoArrowVolumeStep: number = 0.02;
+
 
     // Bound events //
     private readonly BoundKeyDown = this.onKeyDown.bind(this);
@@ -24,6 +26,8 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
         this.addEventListeners();
 
         this.setSrc(this.model.getSrc());
+
+        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
     }
 
     public mountComponent(): void {
@@ -83,7 +87,7 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
     }
 
     private setVideoVolume(volume: number): void {
-        this.view.video.volume = volume;
+        this.view.video.volume = Math.max(0, Math.min(volume, 1));
     }
 
     // Listeners //
@@ -91,13 +95,21 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
         this.view.video.addEventListener('canplay', this.initVideo.bind(this));
 
         this.view.video.addEventListener('loadedmetadata', () => {
-            this.view.video.currentTime = this.model.getStopView();
+            if (this.model.getIsFilm()) {
+                this.view.video.currentTime = this.model.getStopView();
+            }
 
             this.view.video.addEventListener('timeupdate', () => {
                 this.updateVideoMetadata();
 
                 if (this.model.getIsFilm()) {
-                    this.handleTimeUpdate();
+                    this.handleTimeUpdate(0);
+                    return;
+                }
+
+                if (this.model.getIsSeason()) {
+                    this.handleTimeUpdate(60);
+                    return;
                 }
             });
         });
@@ -139,17 +151,17 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
         return formattedTime;
     }
 
-    private handleTimeUpdate(): void {
+    private handleTimeUpdate(additionalDuration: number): void {
         const currentTime = Date.now();
         const elapsedTime = currentTime - this.lastUpdateTime;
 
-        if (elapsedTime >= 10000) { // 10 seconds
+        if (elapsedTime >= 5000) {
             this.lastUpdateTime = currentTime;
 
             this.model.handleTimeUpdate({
                 content_id: this.model.getId(),
                 stop_view: this.formatTime(this.view.video.currentTime),
-                duration: this.formatTime(this.view.video.duration)
+                duration: this.formatTime(this.view.video.duration + additionalDuration)
             });
         }
     }
@@ -195,7 +207,10 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
 
         this.view.progressBar.updateLoadProgressBar((buffered / duration) * 100);
         this.view.progressBar.setCurrentValueToBar(currentTime);
-        this.view.setCurrentTime(currentTime);
+
+        if (currentTime) {
+            this.view.setCurrentTime(currentTime);
+        }
     }
 
     private onPrevButtonClick(e: Event): void {
@@ -216,8 +231,6 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
     private onNextButtonClick(e: Event): void {
         e.preventDefault();
         e.stopPropagation();
-
-        console.log('onNextButtonClick');
 
         this.model.updateInfo(this.model.getNextIndex())
 
@@ -272,8 +285,38 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
 
         this.onMouseMove(); // TODO: improve??
 
-        if (e.code === 'Space') {
-            this.togglePlayButton(e);
+        const currentTime = this.view.video.currentTime;
+        const currentVolume = this.view.video.volume;
+
+        switch (e.code) {
+            case 'Space':
+                this.togglePlayButton(e);
+                break;
+
+            case 'Escape':
+                this.unmountComponent();
+                break;
+
+            case 'ArrowUp':
+                this.setVideoVolume(currentVolume + this.VideoArrowVolumeStep);
+                this.view.volumeBar.setCurrentValueToBar(currentVolume + this.VideoArrowVolumeStep);
+                break;
+
+            case 'ArrowDown':
+                this.setVideoVolume(currentVolume - this.VideoArrowVolumeStep);
+                this.view.volumeBar.setCurrentValueToBar(currentVolume - this.VideoArrowVolumeStep);
+                break;
+
+            case 'ArrowLeft':
+                this.setVideoProgress(currentTime - this.VideoArrowTimeStep);
+                break;
+
+            case 'ArrowRight':
+                this.setVideoProgress(currentTime + this.VideoArrowTimeStep);
+                break;
+
+            default:
+                break;
         }
     }
 

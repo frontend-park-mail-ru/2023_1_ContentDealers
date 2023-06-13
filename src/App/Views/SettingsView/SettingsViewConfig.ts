@@ -8,6 +8,10 @@ import type LinkComponentData from '../../Components/LinkComponent/LinkComponent
 
 import FormComponent from '../../Components/FormComponent/FormComponent';
 import type FormComponentData from '../../Components/FormComponent/FormComponentData';
+import ButtonComponent from '../../Components/ButtonComponent/ButtonComponent';
+import inputComponent from "../../Components/InputComponent/InputComponent";
+import divComponent from "../../Components/DivComponent/DivComponent";
+import paths from '../../Router/RouterPaths';
 
 interface ISettingsData {
     title?: string;
@@ -17,14 +21,20 @@ interface ISettingsData {
         ListComponent<LinkComponent, LinkComponentData>,
         ListComponentData<LinkComponent, LinkComponentData>
     >;
-    formData: IComponentDataWithType<FormComponent, FormComponentData>;
+    middleMenu: IComponentDataWithType<
+        ListComponent<LinkComponent, LinkComponentData>,
+        ListComponentData<LinkComponent, LinkComponentData>
+    >;
+    formChangeEmailData: IComponentDataWithType<FormComponent, FormComponentData>;
+    formChangePasswordData: IComponentDataWithType<FormComponent, FormComponentData>;
+
+    rightMenu: any;
+
+    leftActiveItem: string;
+    middleActiveItem: string;
 }
 
 const SettingsData: ISettingsData = {
-    title: 'Настройки',
-    // description: 'Оставьте контактные данные для получения уведомлений от сервиса и взаимодействия со службой поддержки.',
-    description: 'Изменение данных.',
-    formTitle: 'Контакты',
     leftMenu: {
         componentData: {
             listClass: 'settings__left-menu',
@@ -75,7 +85,34 @@ const SettingsData: ISettingsData = {
         },
         componentType: ListComponent,
     },
-    formData: {
+    middleMenu: {
+        componentType: ListComponent,
+        componentData: {
+            listClass: 'settings__middle-menu middle-menu-row-direction',
+            itemClass: 'settings-middle-menu__item',
+            items: [
+                {
+                    componentType: LinkComponent,
+                    componentData: {
+                        linkHref: '/settings/change/email',
+                        linkClass: 'settings-middle-menu-item__link',
+                        linkText: 'Изменение почты',
+                        dataAction: 'changeEmail',
+                    }
+                },
+                {
+                    componentType: LinkComponent,
+                    componentData: {
+                        linkHref: '/settings/change/password',
+                        linkClass: 'settings-middle-menu-item__link',
+                        linkText: 'Изменение пароля',
+                        dataAction: 'changePassword',
+                    }
+                }
+            ]
+        }
+    },
+    formChangeEmailData: {
         componentType: FormComponent,
         componentData: {
             formId: 'settings__form',
@@ -89,21 +126,41 @@ const SettingsData: ISettingsData = {
                     placeholder: 'vasiliy.pupkin@mail.ru',
                 },
                 {
-                    type: 'file',
-                    id: 'avatar',
-                    accept: 'image/jpeg',
+                    label: 'Подтвердите пароль',
+                    inputClass: 'input-field__input--dark',
+                    type: 'password',
+                    id: 'password',
+                    placeholder: '********',
+                    checkboxText: 'показать пароль',
                 },
+            ],
+            button: {
+                id: 'save-submit-btn',
+                text: 'Сохранить',
+                className: 'save-button',
+            },
+            links: [],
+        },
+    },
+    formChangePasswordData: {
+        componentType: FormComponent,
+        componentData: {
+            formId: 'settings__form',
+            enctype: true,
+            inputs: [
                 {
-                    type: 'checkbox',
-                    id: 'avatar-checkbox',
-                    checkboxText: 'Удалить аватарку?',
-                    class: 'input-checkbox',
+                    label: 'Введите старый пароль',
+                    inputClass: 'input-field__input--dark',
+                    type: 'password',
+                    id: 'password',
+                    placeholder: '********',
+                    checkboxText: 'показать пароль',
                 },
                 {
                     label: 'Введите новый пароль',
                     inputClass: 'input-field__input--dark',
                     type: 'password',
-                    id: 'password',
+                    id: 'new-password',
                     placeholder: '********',
                     checkboxText: 'показать пароль',
                 },
@@ -124,6 +181,33 @@ const SettingsData: ISettingsData = {
             links: [],
         },
     },
+    rightMenu: {
+        container: {
+            componentType: divComponent,
+            componentData: {
+
+            }
+        },
+        deleteButton: {
+            componentType: ButtonComponent,
+            componentData: {
+                text: 'Удалить аватар',
+                className: 'subscribe-button',
+                dataAction: 'deleteAvatar',
+            }
+        },
+        input: {
+            componentType: inputComponent,
+            componentData: {
+                type: 'file',
+                id: 'input-avatar',
+                accept: 'image/jpeg',
+                class: 'input-avatar',
+            }
+        }
+    },
+    leftActiveItem: paths.settings,
+    middleActiveItem: '/settings/change/email',
 };
 
 export default SettingsData;

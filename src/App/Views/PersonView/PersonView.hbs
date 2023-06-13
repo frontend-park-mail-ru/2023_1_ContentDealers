@@ -65,10 +65,9 @@
 
                             <div class="person-table__row person-table__row--medium">
                                 <div class="person-table-row__title">Жанры</div>
-                                <div class="person-table-row__info">
-                                    {{#comment}} {{#stringItems genres 'name'}}{{/stringItems}} {{/comment}}
+                                <div class="person-table-row__info person__genres">
                                     {{#each genres}}
-                                        {{ name }}{{#unless @last}}, {{/unless}}
+                                        <a href="/genres/{{ id }}" class="person__genre">{{ name }}</a>{{#unless @last}}, {{/unless}}
                                     {{/each}}
                                 </div>
                             </div>
@@ -90,7 +89,7 @@
                             <ul class="person-panel-films__items">
                                 {{#each participatedIn}}
                                     <li class="person-panel-films-item">
-                                        <a href="/films/{{ id }}" class="person-panel-films-item__link">{{ title }}</a>
+                                        <a href="{{ href }}" class="person-panel-films-item__link">{{ title }}</a>
                                     </li>
                                 {{/each}}
                             </ul>

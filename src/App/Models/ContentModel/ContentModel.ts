@@ -62,6 +62,14 @@ class ContentModel extends IModel {
         return this.myRating;
     }
 
+    public getDefaultRating(): string {
+        return this.content.rating as string;
+    }
+
+    public getDefaultCount(): number {
+        return this.content.count as number;
+    }
+
     public isFree(): boolean {
         return <boolean>this.content.isFree;
     }
@@ -143,7 +151,8 @@ class ContentModel extends IModel {
             id: content.id,
             title: content.title,
             description: content.description,
-            rating: content.rating,
+            rating: this.parseRating(content.rating),
+            count: content.count_ratings,
             year: content.year,
             persons: this.parsePersonsForFilm(content.persons_roles),
             isFree: content.is_free,
@@ -156,9 +165,16 @@ class ContentModel extends IModel {
         };
     }
 
-    // private parseContentType(type: string): string {
-    //     return type === 'film' ? `${type}s` : type;
-    // }
+    private parseRating(rating: string): string {
+        let transformedRating: string;
+        if (Number.isInteger(rating)) {
+            transformedRating = parseInt(rating).toFixed(1);
+        } else {
+            transformedRating = rating;
+        }
+
+        return transformedRating;
+    }
 
     private parsePersonsForFilm(personsWithRoles: any): IPerson[] {
         return personsWithRoles.map((personWithRole: any) => {
@@ -239,7 +255,6 @@ class ContentModel extends IModel {
         const response = await Ajax.ajax(conf);
         await Ajax.checkResponseStatus(response, conf);
 
-        // console.log('response', response);
         this.seriesData = this.parseSeries(response.responseBody.body.series);
 
         this.fillContentData(this.seriesData.content);
@@ -312,7 +327,7 @@ class ContentModel extends IModel {
         return Promise.resolve(this.myRating);
     }
 
-    public async addRating(data: { content_id: number,  rating: number }): Promise<number> {
+    public async addRating(data: { content_id: number,  rating: number }): Promise<{ status: number, rating: number, count: number }> {
         const conf = Object.assign({}, config.api.addRating);
 
         const response = await Ajax.ajax(conf, JSON.stringify(data));
@@ -320,7 +335,11 @@ class ContentModel extends IModel {
 
         this.myRating = data.rating;
 
-        return Promise.resolve(response.status);
+        return Promise.resolve({
+            status: response.status,
+            rating: response.responseBody.body.new_rating,
+            count:  response.responseBody.body.count_ratings
+        });
     }
 
     public async deleteRating(data: { content_id: number }): Promise<number> {

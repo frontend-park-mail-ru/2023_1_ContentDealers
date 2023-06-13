@@ -3,14 +3,16 @@ import IController from '../IController/IController';
 import type { ContentType } from '../../Interfaces/Content/IContent';
 import type ContentView from '../../Views/ContentView/ContentView';
 
+import type UserModel from '../../Models/UserModel/UserModel';
 import type ContentModel from '../../Models/ContentModel/ContentModel';
-import CardsModel from '../../Models/CardsModel/CardsModel';
-import PlayerModel from '../../Models/PlayerModel/PlayerModel';
-import HeaderModel from '../../Models/HeaderModel/HeaderModel';
+import type CardsModel from '../../Models/CardsModel/CardsModel';
+import type PlayerModel from '../../Models/PlayerModel/PlayerModel';
+import type PaymentModel from '../../Models/PaymentModel/PaymentModel';
 
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 import router from '../../Router/Router';
+import paths from '../../Router/RouterPaths';
 
 import type IFavoritesAddDelete from '../../Interfaces/FavoritesAddDelete/IFavoritesAddDelete';
 import type IUser from '../../Interfaces/User/IUser';
@@ -22,9 +24,15 @@ interface IId {
 
 class ContentController extends IController<
     ContentView,
-    { content: ContentModel; cards: CardsModel, player: PlayerModel, header: HeaderModel }
+    { user: UserModel, content: ContentModel; cards: CardsModel, player: PlayerModel, payment: PaymentModel }
 > {
-    public constructor(view: ContentView, model: { content: ContentModel; cards: CardsModel, player: PlayerModel, header: HeaderModel }) {
+    public constructor(view: ContentView, model: {
+        user: UserModel,
+        content: ContentModel,
+        cards: CardsModel,
+        player: PlayerModel,
+        payment: PaymentModel
+    }) {
         super(view, model);
 
         EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
@@ -45,28 +53,46 @@ class ContentController extends IController<
                     this.view.fillSeries(this.model.content.getSeriesData());
 
                     // TODO: how improve?
+                    const sources = this.model.content.getSources(1);
+                    const isFree = this.model.content.isFree();
+
                     const cardsData = this.model.cards.seasonsToCards(
                         this.model.content.getSeason(1),
                         'card__v-radius'
                     );
                     cardsData.forEach((cardData, index) => {
-                        cardData.onClick = (e: Event): void => {
+                        cardData.onClick = async (e: Event) => {
                             e.preventDefault();
                             e.stopPropagation();
 
-                            const sources = this.model.content.getSources(1);
 
-                            EventDispatcher.emit('start-player', {
-                                id: this.model.content.getId(),
-                                title: this.model.content.getTitle(),
-                                src: sources[index],
-                                seasonData: {
-                                    sources: sources,
-                                    index: index,
-                                    seasonNum: 1,
-                                    episodeNum: index + 1
+                            try {
+                                await this.model.user.authUserByCookie();
+
+                                if (isFree || this.model.user.getCurrentUser()?.has_sub) {
+                                    EventDispatcher.emit('start-player', {
+                                        id: this.model.content.getId(),
+                                        title: this.model.content.getTitle(),
+                                        src: sources[index],
+                                        seasonData: {
+                                            sources: sources,
+                                            index: index,
+                                            seasonNum: 1,
+                                            episodeNum: index + 1
+                                        }
+                                    });
+                                } else {
+                                    this.model.payment.getPaymentLink()
+                                        .then(data => {
+                                            if (data.link) {
+                                                window.open(data.link, '_self');
+                                            }
+                                        })
+                                        .catch(error => console.error(error));
                                 }
-                            });
+                            } catch {
+                                router.goToPath(paths.signIn);
+                            }
                         };
                     });
 
@@ -105,18 +131,23 @@ class ContentController extends IController<
                 e.stopPropagation();
 
                 const id = this.model.content.getId();
-                const rating = this.model.content.getMyRating();
+                const myRating = this.model.content.getMyRating();
 
-                let status: number;
-                if (rating) {
-                    await this.model.content.deleteRating({ content_id: id });
-                    status = await this.model.content.addRating({ content_id: id, rating: index + 1 });
+                if (myRating) {
+                    await this.model.content.deleteRating({content_id: id});
+                }
+                const { status, rating, count } = await this.model.content.addRating({ content_id: id, rating: index + 1 });
+
+                let transformedRating: string;
+                if (Number.isInteger(rating)) {
+                    transformedRating = rating.toFixed(1);
                 } else {
-                    status = await this.model.content.addRating({ content_id: id, rating: index + 1 });
+                    transformedRating = rating.toString();
                 }
 
                 if (status === 200) {
                     this.view.aboutComponent.changeActiveStar(index);
+                    this.view.updateRating(transformedRating, count);
                 }
             });
         });
@@ -126,39 +157,28 @@ class ContentController extends IController<
         e.preventDefault();
         e.stopPropagation();
 
-        console.log('this.isMounted', this.isMounted)
         if (this.isMounted) {
             await this.model.content.deleteRating({ content_id: this.model.content.getId() });
+            this.view.updateRating(this.model.content.getDefaultRating(), this.model.content.getDefaultCount());
         }
     }
 
     public addWatchButton(user: IUser | null): void {
         if (this.isMounted) {
-            console.log('isFree', this.model.content.isFree())
-            console.log('user?.has_sub', user?.has_sub)
-
-            if (this.model.content.isFree() || user?.has_sub) {
-                this.view.renderWatchButton();
-                this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
-            } else {
-                this.view.renderPayButton();
-                this.view.bindWatchButtonClick(this.onSubscribeButtonClick.bind(this));
+            if (!this.model.content.isSeries()) {
+                if (!user || (user && !user.has_sub)) {
+                    if (this.model.content.isFree()) {
+                        this.view.renderWatchButton();
+                        this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
+                    } else {
+                        this.view.renderPayButton(!user);
+                        this.view.bindWatchButtonClick(this.onSubscribeButtonClick.bind(this));
+                    }
+                } else {
+                    this.view.renderWatchButton();
+                    this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
+                }
             }
-
-            // авторизован, не авторизован, подписан
-
-            if (this.model.content.isFree()) {
-                this.view.renderWatchButton();
-                this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
-            }
-
-            if (user?.has_sub) {
-
-            }
-
-
-            // this.view.renderWatchButton(this.model.content.isFree());
-            // this.view.bindWatchButtonClick(this.onWatchButtonClick.bind(this));
         }
     }
 
@@ -177,7 +197,7 @@ class ContentController extends IController<
     }
 
     public onSubscribeButtonClick(e: Event): void {
-        this.model.header.getPaymentLink()
+        this.model.payment.getPaymentLink()
             .then(data => {
                 if (data.link) {
                     window.open(data.link, '_self');
@@ -211,12 +231,16 @@ class ContentController extends IController<
         e.stopPropagation();
 
         if (this.isMounted) {
-            if (this.model.content.isFree()) {
+
+            try {
+                await this.model.user.authUserByCookie();
+
                 const viewHas = await this.model.content.getViewHas();
                 this.startPlayer(this.model.content.getId(), true, viewHas.view.stopView, this.model.content.getWatchUrl());
-            } else {
-                console.log('Not free'); // TODO
+            } catch {
+                router.goToPath(paths.signIn);
             }
+
         }
     }
 
@@ -257,12 +281,31 @@ class ContentController extends IController<
                     this.model.content.getSeason(id),
                     'card__v-radius'
                 );
+
+                const isFree = this.model.content.isFree();
+
                 cardsData.forEach(cardData => {
-                    cardData.onClick = (e: Event): void => {
+                    cardData.onClick = async (e: Event) => {
                         e.preventDefault();
                         e.stopPropagation();
 
-                        this.startPlayer(this.model.content.getId(), false, 0, cardData.action, `${id} сезон ${cardData.footer?.title}`);
+                        try {
+                            await this.model.user.authUserByCookie();
+
+                            if (isFree || this.model.user.getCurrentUser()?.has_sub) {
+                                this.startPlayer(this.model.content.getId(), false, 0, cardData.action, `${id} сезон ${cardData.footer?.title}`);
+                            } else {
+                                this.model.payment.getPaymentLink()
+                                    .then(data => {
+                                        if (data.link) {
+                                            window.open(data.link, '_self');
+                                        }
+                                    })
+                                    .catch(error => console.error(error));
+                            }
+                        } catch {
+                            router.goToPath(paths.signIn);
+                        }
                     };
                 });
 
@@ -274,8 +317,6 @@ class ContentController extends IController<
 
     private handleClick(e: Event): void {
         e.preventDefault();
-        console.log('handleClick');
-
         if (this.isMounted) {
             const href = (<HTMLElement>e.target).closest('[href]')?.getAttribute('href');
             if (href !== undefined && href !== null) {

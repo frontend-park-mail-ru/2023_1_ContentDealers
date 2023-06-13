@@ -100,8 +100,8 @@ class PlayerModel extends IModel {
 
     public updateInfo(index: number): void {
         if (this.playerData.seasonData) {
-            this.playerData.seasonData.episodeNum = index + 1;
             this.playerData.seasonData.index = index;
+            this.playerData.seasonData.episodeNum = index + 1;
 
             this.playerData.src = this.playerData.seasonData.sources[index];
         }
@@ -156,7 +156,7 @@ class PlayerModel extends IModel {
             // Set the timeout to allow the next call after 10 seconds
             this.throttleTimeout = window.setTimeout(() => {
                 this.throttleTimeout = null;
-            }, 10000); // 10 seconds
+            }, 5000);
         }
     }
 

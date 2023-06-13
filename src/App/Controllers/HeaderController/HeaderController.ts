@@ -8,10 +8,12 @@ import type IUser from '../../Interfaces/User/IUser';
 import EventDispatcher from '../../EventDispatcher/EventDispatcher';
 
 import router from '../../Router/Router';
+import paths from '../../Router/RouterPaths';
 
 import SearchController from '../SearchController/SearchController';
 import SearchModel from '../../Models/SearchModel/SearchModel';
-import HeaderModel from '../../Models/HeaderModel/HeaderModel';
+import PaymentModel from '../../Models/PaymentModel/PaymentModel';
+import UserModel from '../../Models/UserModel/UserModel';
 
 /**
  * Котроллер для хэдера
@@ -19,7 +21,7 @@ import HeaderModel from '../../Models/HeaderModel/HeaderModel';
  * @extends {IController}
  * @param  {HeaderView} view Объект вида компонента хэдер
  */
-class HeaderController extends IController<HeaderView, HeaderModel> {
+class HeaderController extends IController<HeaderView, { user: UserModel, payment: PaymentModel }> {
     private searchController: SearchController;
 
     private isSearch: boolean;
@@ -29,7 +31,7 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
     private readonly timeout: number;
     private readonly body: HTMLElement | null;
 
-    public constructor(view: HeaderView, model: HeaderModel) {
+    public constructor(view: HeaderView, model: { user: UserModel, payment: PaymentModel }) {
         super(view, model);
 
         this.view.bindClickEvent(this.handleClick.bind(this));
@@ -75,11 +77,11 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
         if (this.isSearch) {
             this.searchController.mountComponent();
             this.view.toggleMiddle(true);
-            document.body.style.overflow = 'hidden';
+            document.body.classList.add('overflow-hidden');
         } else {
             this.searchController.unmountComponent();
             this.view.toggleMiddle(false);
-            document.body.style.removeProperty('overflow');
+            document.body.classList.remove('overflow-hidden');
         }
     }
 
@@ -102,7 +104,6 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
 
             switch (action) {
                 case 'search': {
-                    // this.closeSearch();
                     EventDispatcher.emit('toggle-search');
 
                     break;
@@ -110,15 +111,23 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
 
                 case 'subscribe': {
                     if ((e.target as HTMLButtonElement).textContent === 'Подписка активна') {
+                        router.goToPath(paths.settings);
                         return;
                     }
-                    this.model.getPaymentLink()
-                        .then(data => {
-                            if (data.link) {
-                                window.open(data.link, '_self');
-                            }
+
+                    this.model.user.authUserByCookie()
+                        .then(() => {
+                            this.model.payment.getPaymentLink()
+                                .then(data => {
+                                    if (data.link) {
+                                        window.open(data.link, '_self');
+                                    }
+                                })
+                                .catch(error => console.error(error));
                         })
-                        .catch(error => console.error(error));
+                        .catch(() => {
+                            router.goToPath(paths.signIn);
+                        })
 
                     break;
                 }
@@ -155,7 +164,6 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
                     } else {
                         if ((e.target as HTMLInputElement).value !== '') {
                             this.searchController.setResultTitle((e.target as HTMLInputElement).value);
-                            // this.searchController.setTitle('Результаты поиска');
                         } else {
                             this.searchController.setTitle('Часто ищут');
                         }
@@ -169,7 +177,6 @@ class HeaderController extends IController<HeaderView, HeaderModel> {
 
     private handleKeyPress(e: KeyboardEvent): void {
         if (e.key === 'Escape') {
-            // this.closeSearch();
             EventDispatcher.emit('toggle-search');
         }
     }

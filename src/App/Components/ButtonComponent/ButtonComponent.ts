@@ -8,8 +8,8 @@ class ButtonComponent extends IComponent {
     private buttonProps: { [key: string]: { name: string; value: number } } = {
         coordinateX: { name: '--coord-x', value: 0 },
         coordinateY: { name: '--coord-y', value: 0 },
-        sizeSquare: { name: '--size-square', value: 80 },
-        diameterHighlight: { name: '--diameter-highlight', value: 80 },
+        sizeSquare: { name: '--size-square', value: 120 },
+        diameterHighlight: { name: '--diameter-highlight', value: 120 },
     };
 
     public readonly button: HTMLButtonElement;
@@ -42,7 +42,7 @@ class ButtonComponent extends IComponent {
                 this.buttonProps['sizeSquare'].name,
                 `${this.buttonProps['sizeSquare'].value}px`
             );
-        }, 200);
+        }, 600);
     }
 
     private setDiameterHighlight(): void {
@@ -61,7 +61,7 @@ class ButtonComponent extends IComponent {
                 this.buttonProps['diameterHighlight'].name,
                 `${this.buttonProps['diameterHighlight'].value}px`
             );
-        }, 200);
+        }, 600);
     }
 
     public block(): void {

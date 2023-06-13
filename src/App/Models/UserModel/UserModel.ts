@@ -21,9 +21,8 @@ class UserModel extends IModel {
     private parseUser(json: any): IUser {
         return {
             email:             json.email,
-            // birthDate: json.date_birth,
             avatar:            json.avatar_url,
-            has_sub:           json.has_sub,
+            has_sub:           json.hasSub,
             sub_expiration:    json.sub_expiration,
         };
     }
@@ -119,8 +118,8 @@ class UserModel extends IModel {
             await Ajax.checkResponseStatus(profileResponse, config.api.profile);
 
             this.currentUser = this.parseUser(profileResponse.responseBody.body.user);
-        } catch {
-            return Promise.reject();
+        } catch (e: any) {
+            return Promise.reject(e.msg);
         }
 
         EventDispatcher.emit('user-changed', this.currentUser);
@@ -159,6 +158,20 @@ class UserModel extends IModel {
         }
 
         return;
+    }
+
+    public async validatePassword(password: any): Promise<any> {
+        const response = await Ajax.ajax(config.api.passwordValidate, JSON.stringify(password));
+
+        try {
+            await Ajax.checkResponseStatus(response, config.api.passwordValidate);
+        } catch {
+            if (response.status === 400) {
+                const customStatus = response.responseBody.status.toString() as keyof typeof customFailures;
+                return Promise.reject({msg: customFailures[customStatus],});
+            }
+            return Promise.reject();
+        }
     }
 }
 

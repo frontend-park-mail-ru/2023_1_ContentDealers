@@ -23,10 +23,6 @@ const headersWithNoCache: { [index: string]: string } = {
     'Cache-Control': 'no-cache',
 };
 
-// const headersWithEmpty: { [index: string]: string } = {
-//     'Content-Type': ,
-// };
-
 const failureDefaultStatuses: { [index: string]: string } = {
     '400': 'Неверный запрос',
     // '401': 'No Cookie',
@@ -37,7 +33,7 @@ const failureDefaultStatuses: { [index: string]: string } = {
 const customFailures: { [index: string]: string } = {
     '1': 'Пользователь уже существует',
     '2': 'Неверный формат почты',
-    '3': 'Пароль должен быть...',
+    '3': 'Пароль должен содержать минимум 8 символов, обязательно включая цифры и латинские буквы',
     '4': 'Неверная почта или пароль',
     '5': 'Размер файла выше максимально допустимого',
     '6': 'Файл не является картинкой формата jpg',
@@ -65,7 +61,6 @@ function isAuthUrl(url: string): boolean {
 }
 
 const config: IConfig = {
-    // host: 'http://89.208.199.170/',
     host: 'https://filmium.ru/api',
     // host: 'http://89.208.199.170:8100/api',
     api: {
@@ -337,7 +332,7 @@ const config: IConfig = {
             },
         },
         views: {
-            url: '/views',
+            url: '/views?type=part',
             method: REQUEST_METHODS.GET,
             headers: headersWithUnicode,
             statuses: {
@@ -379,7 +374,29 @@ const config: IConfig = {
                 },
                 failure: failureDefaultStatuses,
             },
-        }
+        },
+        rating: {
+            url: '/rating',
+            method: REQUEST_METHODS.GET,
+            headers: headersWithUnicode,
+            statuses: {
+                success: {
+                    '200': 'Рейтинги успешно получен',
+                },
+                failure: failureDefaultStatuses,
+            },
+        },
+        passwordValidate: {
+            url: '/user/password/validate',
+            method: REQUEST_METHODS.POST,
+            headers: headersWithNoCache,
+            statuses: {
+                success: {
+                    '200': 'Пароль прошёл валидацию',
+                },
+                failure: failureDefaultStatuses,
+            }
+        },
     },
     isAuthUrl,
 };

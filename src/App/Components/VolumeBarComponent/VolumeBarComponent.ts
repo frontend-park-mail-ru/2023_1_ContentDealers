@@ -123,6 +123,11 @@ class VolumeBarComponent extends IComponent {
         }
     }
 
+    public setCurrentValueToBar(volume: number): void {
+        this.barComponent.setCurrentPercentage(volume);
+    }
+
+
     // Functions //
     private rerenderMute(isMute: boolean): void {
         if (!isMute) {

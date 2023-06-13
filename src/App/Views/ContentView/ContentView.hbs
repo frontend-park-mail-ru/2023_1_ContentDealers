@@ -1,60 +1,74 @@
-<div>
-    <article class="film">
-        {{#with content}}
-            <div class="film__background">
-                <img class="film-background__image" src="{{ previewURL }}" alt="">
-            </div>
+<div class="flex-column">
+    {{#with content}}
+    <div class="content">
+        <div class="content__background">
+            <div class="content__player"></div>
+            <picture class="d-flex content__picture">
+                <img src="{{ previewURL }}" alt="{{ title }}" class="content__image">
+            </picture>
+        </div>
 
-            <div class="film__content">
-                <div class="film__content-container">
-                    <div class="film-content__title">
-                        <h1 class="film-content-title__text">
-                            {{ title }}
-                        </h1>
+        <div class="content__main content__main_position">
+            <div class="content__info">
+                <div class="content__header content-header">
+                    <h1 class="content-header__title">{{ title }}</h1>
+                </div>
+
+                <div class="content__details">
+                    <div class="content__meta content__meta_text white-56">
+                        <span>Рейтинг:</span>
+                        <div class="content__rating content__rating_background content__rating_position">
+                            <span class="content-rating__number ts-content-rating">{{ rating }}</span>
+<!--                            <div class="content__person-img">-->
+<!--                                <img src="/img/icons/person.svg" alt="Число голосов" class="person-img" title="Число голосов">-->
+<!--                            </div>-->
+<!--                            <span class="content-rating__count ts-content-count">{{ count }}</span>-->
+                        </div>
+                        <span>Оценок:</span>
+                        <div class="content__count content__count_background content__count_position">
+                            <span class="content-count__number ts-content-count">{{ count }}</span>
+                        </div>
+                        <span class="content__year">{{ year }}</span>
+                        <span class="content__age-limit">{{ ageLimit }}+</span>
                     </div>
 
-                    <div class="film-content__info-container">
-                        <div class="film-content__info">
-                            <div class="film-content__rating">
-                                <span class="film-content-rating__text">{{ rating }}</span>
-                            </div>
-                            <span class="film-content__year">{{ year }}</span>
-                            <span class="film-content__country"></span>
-                            <span class="film-content__age-limit">{{ ageLimit }}+</span>
-                        </div>
-                        <p class="film-content__description">{{ description }}</p>
+                    <p class="content__description">{{ description }}</p>
+                </div>
+
+                <div class="content__credits content-credits">
+                    <div class="content-credits__item content-credits__item_position">
+                        <div class="content-credits__label">Режиссёры:</div>
+                        {{#each directors}}
+                        <a href="/persons/{{ id }}" class="content-credits__link">{{ name }}</a>{{#unless @last}}, {{/unless}}
+                        {{/each}}
                     </div>
 
-                    <div class="film-content__authors">
-                        <div class="film-content-authors__director">
-                            <div class="film-content-authors-director__text">Режиссёры:</div>
-                            {{#each directors}}
-                                <a href="/persons/{{ id }}" class="film-content-authors-director__name">{{ name }}</a>{{#unless @last}}, {{/unless}}
-                            {{/each}}
-                        </div>
-                        <div class="film-content-authors__actors">
-                            <div class="film-content-authors-actors__text">Актёры:</div>
-                            {{#each actors}}
-                                <a href="/persons/{{ id }}" class="film-content-authors-actors__name">{{ name }}</a>{{#unless @last}}, {{/unless}}
-                            {{/each}}
-                        </div>
-                        <div class="film-content__genres">
-                            <div class="film-content-genre__text">Жанры:</div>
-                            {{#each genres}}
-                                <a href="/genres/{{ id }}" class="film-content-genre__name">{{ name }}</a>{{#unless @last}}, {{/unless}}
-                            {{/each}}
-                        </div>
+                    <div class="content-credits__item content-credits__item_position">
+                        <div class="content-credits__label">Актёры:</div>
+                        {{#each actors}}
+                            <a href="/persons/{{ id }}" class="content-credits__link">{{ name }}</a>{{#unless @last}}, {{/unless}}
+                        {{/each}}
                     </div>
 
-                    <div class="film-content__buttons ts-film-content__buttons">
-
+                    <div class="content-credits__item content-credits__item_position">
+                        <div class="content-credits__label">Жанры:</div>
+                        {{#each genres}}
+                            <a href="/genres/{{ id }}" class="content-credits__link">{{ name }}</a>{{#unless @last}}, {{/unless}}
+                        {{/each}}
                     </div>
                 </div>
+
+                <div class="content__buttons content__buttons_position ts-content__buttons"></div>
+
+                <div style="--count: 3" class="content__media-buttons content__media-buttons_position">
+
+                </div>
             </div>
-        {{/with}}
-    </article>
+        </div>
+    </div>
+    {{/with}}
 
-    <div class="ts-series"></div>
+    <div class="ts-content__about"></div>
 
-    <div class="ts-film-about"></div>
+    <div class="ts-content__series"></div>
 </div>

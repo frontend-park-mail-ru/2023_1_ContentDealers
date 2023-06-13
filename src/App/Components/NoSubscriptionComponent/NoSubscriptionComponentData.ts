@@ -1,6 +1,7 @@
 interface NoSubscriptionComponentData {
-    title:       string,
-    description: string,
+    title:       string;
+    advantages?: string;
+    description: string;
 }
 
 const NoSubscriptionData: NoSubscriptionComponentData = {

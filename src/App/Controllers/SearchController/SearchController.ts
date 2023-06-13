@@ -85,7 +85,7 @@ class SearchController extends IController<SearchView, SearchModel> {
             if (href !== undefined && href !== null) {
                 this.unmountComponent();
                 EventDispatcher.emit('render-middle-list');
-                document.body.style.removeProperty('overflow');
+                document.body.classList.remove('overflow-hidden');
                 router.goToPath(href);
             }
         }

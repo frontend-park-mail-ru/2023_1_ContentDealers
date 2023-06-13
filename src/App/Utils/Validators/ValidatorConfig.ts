@@ -28,7 +28,7 @@ const validators: Map<string, IValidator> = new Map([
     [
         'repeat-password',
         {
-            regExp: /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$/,
+            regExp: /^.+$/,
             errorMsg: 'Пароли должны совпадать',
         },
     ],

@@ -55,6 +55,7 @@ import router from './Router/Router';
 import paths from './Router/RouterPaths';
 
 import EventDispatcher from './EventDispatcher/EventDispatcher';
+import AlertComponent from './Components/AlertComponent/AlertComponent';
 
 class App {
     // Views
@@ -184,6 +185,8 @@ class App {
      * @return {void}
      */
     private initViews(): void {
+        new AlertComponent(this.root);
+
         this.headerView = new HeaderView(this.header);
         this.mediaHeaderView = new MediaHeaderView(this.header);
 
@@ -375,6 +378,7 @@ class App {
                 // states
                 this.headerView.changeActiveHeaderListItem('#');
                 this.settingsView.changeActiveLeftMenuItem(paths.settings);
+                this.settingsView.changeActiveMiddleMenuItem('/settings/change/email');
 
                 EventDispatcher.emit('user-changed', this.userModel.getCurrentUser());
             })

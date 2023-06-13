@@ -1,0 +1,26 @@
+.alert-msg {
+    position: sticky;
+    top: 0;
+    text-align: center;
+    padding: 14px 0;
+    z-index: 1070;
+}
+
+.alert-msg_bg {
+    background-color: #1b1a1d
+}
+
+.alert-msg__text {
+    color: rgba(255,255,255,.56);
+    font-size: 12px;
+    line-height: 18px;
+    font-family: "SansSerif",sans-serif
+}
+
+@media(min-width: 960px) {
+    .alert-msg__text {
+        font-size:16px;
+        line-height: 24px;
+        font-family: "SansSerif",sans-serif
+    }
+}

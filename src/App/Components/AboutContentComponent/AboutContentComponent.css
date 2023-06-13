@@ -428,7 +428,8 @@
 
 @media(min-width: 1320px) {
     .about-content-grid__right {
-        grid-column:9/17
+        /*grid-column:9/17*/
+        grid-column:1/8
     }
 }
 

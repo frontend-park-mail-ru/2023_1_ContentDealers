@@ -28,7 +28,6 @@ class SettingsView extends IView {
 
     private leftMenu: ListComponent<LinkComponent, LinkComponentData>;
     private middleMenu: ListComponent<LinkComponent, LinkComponentData>;
-    private subscription: NoSubscriptionComponent;
 
     private currentLeftActiveItem: string | null;
     private currentMiddleActiveItem: string | null;
@@ -135,13 +134,13 @@ class SettingsView extends IView {
     public showSubscriptions(isEmailForm: boolean, data?: NoSubscriptionComponentData): void {
         this.middleMenu.hide();
         isEmailForm ? this.changeEmailForm.hide() : this.changePasswordForm.hide();
-        this.subscription = new NoSubscriptionComponent(this.middleMenuContainer, data);
-        this.subscription.show();
+        this.subscriptionComponent = new NoSubscriptionComponent(this.middleMenuContainer, data);
+        this.subscriptionComponent.show();
         this.settingsContent.removeChild(this.rightMenuContainer);
     }
 
     public showMain(isEmailForm: boolean): void {
-        this.subscription.hide();
+        this.subscriptionComponent.hide();
         this.middleMenu.show();
         isEmailForm ? this.changeEmailForm.show() : this.changePasswordForm.show();
         this.settingsContent.appendChild(this.rightMenuContainer);
@@ -161,7 +160,6 @@ class SettingsView extends IView {
     }
 
     public showAvatarError(error: string): void {
-        console.log(this.rightMenuError);
         this.rightMenuError.innerHTML = error;
     }
 

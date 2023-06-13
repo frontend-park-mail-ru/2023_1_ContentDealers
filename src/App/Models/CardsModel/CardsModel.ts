@@ -14,7 +14,7 @@ class CardsModel extends IModel {
     }
 
     public contentToCard(
-        { href, title, previewURL }: IContent,
+        { href, title, previewURL, rating }: IContent,
         orientationClass: FigureOrientationClass
     ): CardComponentData {
         return {
@@ -22,6 +22,7 @@ class CardsModel extends IModel {
             title,
             imageSrc: previewURL as string,
             figureOrientationClass: orientationClass,
+            rating: rating,
             action: '',
             onClick: (): void => {
                 console.log('Nothing');

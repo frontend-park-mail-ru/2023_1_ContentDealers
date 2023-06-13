@@ -38,16 +38,12 @@ class Ajax {
         try {
             responseBody = await response.json();
 
-            console.log('response', response)
-            console.log('responseBody', responseBody)
-
             if (response.status === 400) {
                 const status = responseBody.status.toString();
                 if (status === '10' || status === '11') {
                     this.csrfToken = undefined;
 
                     const newRequest: any = await this.ajax(params, body);
-                    console.log('newRequest', newRequest)
 
                     return {
                         status: newRequest.status,

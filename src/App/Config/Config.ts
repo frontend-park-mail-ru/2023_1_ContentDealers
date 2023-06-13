@@ -61,8 +61,8 @@ function isAuthUrl(url: string): boolean {
 }
 
 const config: IConfig = {
-    host: 'https://filmium.ru/api',
-    // host: 'http://89.208.199.170:8100/api',
+    // host: 'https://filmium.ru/api',
+    host: 'http://89.208.199.170:8100/api',
     api: {
         csrf: {
             url: '/user/csrf',
@@ -332,7 +332,7 @@ const config: IConfig = {
             },
         },
         views: {
-            url: '/views',
+            url: '/views?type=part',
             method: REQUEST_METHODS.GET,
             headers: headersWithUnicode,
             statuses: {

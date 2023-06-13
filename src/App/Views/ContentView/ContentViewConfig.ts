@@ -17,6 +17,7 @@ interface IContentData {
 const ContentData: IContentData = {
     subscribeButton: {
         componentData: {
+            upperClass: 'content__button',
             text: 'Оформить подписку',
             className: 'subscribe-button',
             dataAction: 'subscribe',
@@ -25,6 +26,7 @@ const ContentData: IContentData = {
     },
     trailerButton: {
         componentData: {
+            upperClass: 'content__button',
             text: 'Трейлер',
             colorClass: 'gradient-button--grey',
             className: 'trailer-button',
@@ -33,6 +35,7 @@ const ContentData: IContentData = {
     },
     watchButtonFree: {
         componentData: {
+            upperClass: 'content__button',
             text: 'Смотреть',
             colorClass: 'gradient-button--grey',
             className: 'film-button',
@@ -41,6 +44,7 @@ const ContentData: IContentData = {
     },
     watchButtonPay: {
         componentData: {
+            upperClass: 'content__button',
             text: 'Смотреть по подписке',
             colorClass: 'gradient-button--grey',
             className: 'film-button',

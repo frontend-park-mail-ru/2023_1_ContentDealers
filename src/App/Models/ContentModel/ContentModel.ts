@@ -156,10 +156,6 @@ class ContentModel extends IModel {
         };
     }
 
-    // private parseContentType(type: string): string {
-    //     return type === 'film' ? `${type}s` : type;
-    // }
-
     private parsePersonsForFilm(personsWithRoles: any): IPerson[] {
         return personsWithRoles.map((personWithRole: any) => {
             return this.parsePersonForFilm(personWithRole);

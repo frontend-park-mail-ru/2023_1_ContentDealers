@@ -43,11 +43,11 @@ class ContentView extends IView {
 
         this.element = <HTMLElement>this.parent.firstElementChild;
 
-        this.seriesContainer = <HTMLElement>this.element.querySelector('.ts-series');
+        this.seriesContainer = <HTMLElement>this.element.querySelector('.ts-content__series');
         this.buttonsContainer = <HTMLElement>(
-            this.element.querySelector('.ts-film-content__buttons')
+            this.element.querySelector('.ts-content__buttons')
         );
-        this.aboutContainer = <HTMLElement>this.element.querySelector('.ts-film-about');
+        this.aboutContainer = <HTMLElement>this.element.querySelector('.ts-content__about');
 
         this.renderButtons();
     }

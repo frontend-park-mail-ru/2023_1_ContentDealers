@@ -156,7 +156,7 @@ class PlayerModel extends IModel {
             // Set the timeout to allow the next call after 10 seconds
             this.throttleTimeout = window.setTimeout(() => {
                 this.throttleTimeout = null;
-            }, 10000); // 10 seconds
+            }, 5000);
         }
     }
 

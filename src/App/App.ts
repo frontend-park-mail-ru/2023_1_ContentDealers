@@ -47,11 +47,9 @@ import FavoritesModel from './Models/FavoritesModel/FavoritesModel';
 import GenreModel from './Models/GenreModel/GenreModel';
 import CardsModel from './Models/CardsModel/CardsModel';
 import PlayerModel from './Models/PlayerModel/PlayerModel';
-import headerModel from "./Models/HeaderModel/HeaderModel";
+import PaymentModel from "./Models/PaymentModel/PaymentModel";
 
 import type { IPlayerData } from './Models/PlayerModel/PlayerModel';
-
-import HeaderModel from './Models/HeaderModel/HeaderModel';
 
 import router from './Router/Router';
 import paths from './Router/RouterPaths';
@@ -97,7 +95,7 @@ class App {
     private selectionModel: SelectionModel;
     private favoritesModel: FavoritesModel;
     private genreModel: GenreModel;
-    private headerModel: headerModel;
+    private paymentModel: PaymentModel;
     private cardsModel: CardsModel;
     private playerModel: PlayerModel;
 
@@ -126,7 +124,7 @@ class App {
     private newPlayer(playerData: IPlayerData): void {
         let title = playerData.title;
         if (playerData.seasonData) {
-            title += `${playerData.seasonData.seasonNum} сезон ${playerData.seasonData.episodeNum} серия`;
+            title += ` ${playerData.seasonData.seasonNum} сезон ${playerData.seasonData.episodeNum} серия`;
         }
 
         this.playerView = new PlayerView(this.root, title);
@@ -213,7 +211,7 @@ class App {
         this.selectionModel = new SelectionModel();
         this.favoritesModel = new FavoritesModel();
         this.genreModel = new GenreModel();
-        this.headerModel = new HeaderModel();
+        this.paymentModel = new PaymentModel();
         this.cardsModel = new CardsModel();
         this.playerModel = new PlayerModel();
     }
@@ -224,17 +222,18 @@ class App {
      * @return {void}
      */
     private initControllers(): void {
-        this.headerController = new HeaderController(this.headerView, this.headerModel);
+        this.headerController = new HeaderController(this.headerView, { user: this.userModel, payment: this.paymentModel });
         this.mediaHeaderController = new MediaHeaderController(this.mediaHeaderView);
 
         this.modalRightController = new ModalController(this.modalRightView, this.userModel);
         this.contentController = new ContentController(this.contentView, {
+            user: this.userModel,
             content: this.filmModel,
             cards: this.cardsModel,
             player: this.playerModel,
-            header: this.headerModel
+            payment: this.paymentModel
         });
-        this.settingsController = new SettingsController(this.settingsView, this.userModel);
+        this.settingsController = new SettingsController(this.settingsView, { user: this.userModel, payment: this.paymentModel });
         this.personController = new PersonController(this.personView, this.personModel);
         this.mainController = new MainController(this.mainView, {
             genres: this.genreModel,
@@ -292,12 +291,15 @@ class App {
         this.mainView.clearSelections();
 
         try {
+            await this.userModel.authUserByCookie();
+
             await this.mainController.mountViews();
             await this.mainController.mountRatings();
-            await this.mainController.mountComponent();
         } catch {
 
         }
+
+        await this.mainController.mountComponent();
 
         // states
         this.headerView.changeActiveHeaderListItem('/');
@@ -401,12 +403,23 @@ class App {
         // states
         this.headerView.changeActiveHeaderListItem('#');
 
-        this.userModel.authUserByCookie().then(() => {
-            this.contentController.addFavoritesButton();
-            this.contentController.addAbout();
-        });
 
-        this.contentController.addWatchButton(this.userModel.getCurrentUser());
+        try {
+            await this.userModel.authUserByCookie();
+            this.contentController.addWatchButton(this.userModel.getCurrentUser());
+            await this.contentController.addFavoritesButton();
+
+            await this.contentController.addAbout();
+        } catch {
+            this.contentController.addWatchButton(this.userModel.getCurrentUser());
+        }
+
+        // this.userModel.authUserByCookie().then(() => {
+        //     this.contentController.addFavoritesButton();
+        //     this.contentController.addAbout();
+        // });
+        //
+        // this.contentController.addWatchButton(this.userModel.getCurrentUser());
 
         return;
     }
@@ -457,10 +470,9 @@ class App {
         this.headerView.changeActiveHeaderListItem('#');
     }
 
-    private handleRedirectToLogout(): void {
-        EventDispatcher.emit('redirect', paths.logout);
+    private async handleRedirectToLogout() {
 
-        this.userModel.logoutUser();
+        await this.userModel.logoutUser();
         router.goToPath(paths.main);
     }
 

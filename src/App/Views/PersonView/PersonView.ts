@@ -11,7 +11,10 @@ class PersonView extends IView {
     }
 
     public fillPerson(data: IPerson): void {
-        this.element.innerHTML = PersonTemplate(data);
+        this.parent.innerHTML = '';
+
+        this.parent.innerHTML = PersonTemplate(data);
+        this.element = <HTMLElement>this.parent.firstElementChild;
     }
 
     public bindClickEvent(listener: any): void {

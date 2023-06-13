@@ -29,7 +29,7 @@ class NoSubscriptionComponent extends IComponent {
         this.subscribeButtonComponent.show();
     }
 
-    private bindRepeatSubscribeButtonClick(listener: any): void {
+    public bindRepeatSubscribeButtonClick(listener: any): void {
         this.subscribeButtonComponent.bindClickEvent(listener);
     }
 }

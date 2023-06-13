@@ -80,18 +80,15 @@ class HeaderView extends IView {
         this.searchIcon = <HTMLImageElement>this.navRight.querySelector('.search-img');
 
         this.subscribeButton = this.element.querySelector('.subscribe-button');
-
-        this.subscribeButton?.setAttribute('disabled', 'true'); // TODO: return
     }
 
     public toggleDisabledButton(data?: IUser): void {
         if (data) {
-            this.subscribeButton?.removeAttribute('disabled');
             if (data.has_sub) {
                 this.subscribeButton!.textContent = 'Подписка активна';
             }
         } else {
-            this.subscribeButton?.setAttribute('disabled', 'true');
+            this.subscribeButton!.textContent = 'Купить подписку';
         }
     }
 

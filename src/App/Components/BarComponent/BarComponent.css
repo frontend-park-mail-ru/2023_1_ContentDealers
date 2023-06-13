@@ -1,9 +1,22 @@
+/* Start bar */
+
 .bar {
     position: relative;
     height: 5px;
     cursor: pointer;
-    padding: 5px 0;
+    padding: 5px 0
 }
+
+@media(max-width: 959px) {
+    .bar {
+        height: 3px;
+    }
+}
+
+/* End bar */
+
+
+/* Start bar full */
 
 .bar__full {
     position: absolute;
@@ -12,30 +25,61 @@
     left: 0;
     top: 5px;
     border-radius: 3px;
-    background-color: rgba(255,255,255,.4);
+    background-color: rgba(255,255,255,.4)
 }
+
+@media(max-width: 959px) {
+    .bar__full {
+        height: 3px;
+    }
+}
+
+/* End bar full */
+
+
+/* Start bar load */
 
 .bar__load {
     position: absolute;
     height: 5px;
     width: 100%;
     left: 0;
-    top: 5px;
+    top: 5px
+}
+
+@media(max-width: 959px) {
+    .bar__load {
+        height:3px
+    }
 }
 
 .bar-load__progress {
-    left: 0;
-
     position: absolute;
     height: 100%;
     background-color: rgba(255,255,255,.4);
+    -webkit-transform: translatez(0);
     transform: translatez(0);
-    transition: width.1s;
+    -webkit-transition: width.1s;
+    -o-transition: width.1s;
+    transition: width.1s
+}
+
+.bar-load__progress:first-child {
+    border-radius: 3px 0 0 3px
+}
+
+.bar-load__progress:last-child {
+    border-radius: 0 3px 3px 0
 }
 
 .bar-load__progress:only-child {
     border-radius: 3px
 }
+
+/* End bar load */
+
+
+/* Start bar current */
 
 .bar__current {
     position: absolute;
@@ -44,8 +88,20 @@
     top: 5px;
     border-radius: 3px;
     background: #4f03cd;
-    transform: translatez(0);
+    -webkit-transform: translatez(0);
+    transform: translatez(0)
 }
+
+@media(max-width: 959px) {
+    .bar__current {
+        height:3px
+    }
+}
+
+/* End bar current */
+
+
+/* Start bar helper */
 
 .bar__helper {
     font-size: 14px;
@@ -60,6 +116,11 @@
     transform: translatex(-50%);
 }
 
+/* End bar helper */
+
+
+/* Start bar circle */
+
 .bar__current-circle {
     position: absolute;
     width: 14px;
@@ -67,31 +128,37 @@
     background-color: #f5f4f6;
     border-radius: 50%;
     top: 7px;
-
+    left: 0;
     padding: 0;
     border: none;
-    /*transition: left.15s;*/
+    -webkit-transition: left.15s;
+    -o-transition: left.15s;
+    transition: left.15s;
     cursor: pointer;
+    -webkit-box-shadow: 0 2px 8px 0 rgba(0,0,0,.4);
     box-shadow: 0 2px 8px 0 rgba(0,0,0,.4);
+    -webkit-transform: translatey(-50%)translatex(-50%);
     transform: translatey(-50%)translatex(-50%);
-    touch-action: none;
+    -ms-touch-action: none;
+    touch-action: none
 }
 
+.bar__current-circle--active,
 .bar__current-circle:active,
 .bar__current-circle:hover {
+    -webkit-transition: background-color.15s;
+    -o-transition: background-color.15s;
     transition: background-color.15s;
     background-color: #4f03cd
 }
 
-.bar__current-circle--active {
-    transition: background-color.15s;
-    background-color: #4f03cd
-}
+/* End bar circle */
 
-.panel-transition--width {
+
+.transition-width {
     transition: width.15s;
 }
 
-.panel-transition--left {
+.transition-left {
     transition: left.15s;
 }

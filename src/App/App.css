@@ -128,7 +128,15 @@ h1 {
     font-size: 2em;
 }
 
-/* Общие стили */
+
+/* Common styles */
+
+/* Start colors */
+
+.bg-black {
+    background: #000;
+}
+
 .bg {
     background-color: #16032b;
 }
@@ -146,6 +154,29 @@ h1 {
     color: rgba(255, 255, 255, 0.96);
 }
 
+/* End colors */
+
+
+/* Start position */
+
+.relative-overflow {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+.relative {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+/* End position */
+
+
+/* Start display */
+
 .d-flex {
     display: flex;
 }
@@ -155,6 +186,50 @@ h1 {
     align-items: center;
 }
 
-.ml-100 {
-    margin-bottom: 0 !important;       /* TODO: delete */
+/* End display */
+
+
+/* Start size */
+
+.w-100 {
+    width: 100%;
 }
+
+/* End size */
+
+
+/* Start overflow */
+
+.overflow-hidden {
+    overflow: hidden;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+}
+
+.overflow-auto {
+    overflow: auto;
+}
+
+/* End overflow */
+
+
+/* Start indents */
+
+.ml-100 {
+    margin-bottom: 0!important;       /* TODO: delete */
+}
+
+.ml-5 {
+    margin-left: 5px;
+}
+
+.mr-24 {
+    margin-right: 24px;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+/* End indents */

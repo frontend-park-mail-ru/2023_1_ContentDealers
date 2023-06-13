@@ -21,9 +21,8 @@ class UserModel extends IModel {
     private parseUser(json: any): IUser {
         return {
             email:             json.email,
-            // birthDate: json.date_birth,
             avatar:            json.avatar_url,
-            has_sub:           json.has_sub,
+            has_sub:           json.hasSub,
             sub_expiration:    json.sub_expiration,
         };
     }
@@ -116,6 +115,8 @@ class UserModel extends IModel {
             await Ajax.checkResponseStatus(response, config.api.avatarUpdate);
 
             const profileResponse = await Ajax.ajax(config.api.profile);
+            console.log('profileResponse', profileResponse)
+
             await Ajax.checkResponseStatus(profileResponse, config.api.profile);
 
             this.currentUser = this.parseUser(profileResponse.responseBody.body.user);

@@ -24,6 +24,8 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
         this.addEventListeners();
 
         this.setSrc(this.model.getSrc());
+
+        EventDispatcher.subscribe('unmount-all', this.unmountComponent.bind(this));
     }
 
     public mountComponent(): void {
@@ -91,7 +93,9 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
         this.view.video.addEventListener('canplay', this.initVideo.bind(this));
 
         this.view.video.addEventListener('loadedmetadata', () => {
-            this.view.video.currentTime = this.model.getStopView();
+            if (this.model.getIsFilm()) {
+                this.view.video.currentTime = this.model.getStopView();
+            }
 
             this.view.video.addEventListener('timeupdate', () => {
                 this.updateVideoMetadata();
@@ -143,7 +147,7 @@ class PlayerController extends IController<PlayerView, PlayerModel> {
         const currentTime = Date.now();
         const elapsedTime = currentTime - this.lastUpdateTime;
 
-        if (elapsedTime >= 10000) { // 10 seconds
+        if (elapsedTime >= 5000) {
             this.lastUpdateTime = currentTime;
 
             this.model.handleTimeUpdate({

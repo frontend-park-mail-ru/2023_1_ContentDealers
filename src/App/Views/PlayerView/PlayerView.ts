@@ -287,6 +287,22 @@ class PlayerView extends IView {
         }
     }
 
+    public show() {
+        const body = document.body;
+        body.classList.remove('overflow-auto');
+        body.classList.add('overflow-hidden');
+
+        super.show();
+    }
+
+    public hide() {
+        const body = document.body;
+        body.classList.remove('overflow-hidden');
+        body.classList.add('overflow-auto');
+
+        super.hide();
+    }
+
     // Binds //
     public bindPlayButtonClick(listener: any): void {
         this.playStatusContainer.addEventListener('click', listener);
